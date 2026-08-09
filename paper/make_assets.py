@@ -329,7 +329,15 @@ M["swCostPerAgent"] = f"\\${LLM_TOTAL/30:.2f}"
 M["swCostPerAgentAll"] = f"\\${GRAND/30:.2f}"
 M["swLLMTotal"] = f"\\${LLM_TOTAL:.2f}"
 M["swGrandTotal"] = f"\\${GRAND:.2f}"
-M["swCostPerAgentList"] = f"\\${(_ti/1e6*0.20 + _to/1e6*1.20)/30:.2f}"
+M["swCostPerAgentListLo"] = f"\\${(_ti/1e6*0.20 + _to/1e6*1.20)/30:.2f}"
+M["swCostPerAgentListHi"] = f"\\${(_ti/1e6*2.00 + _to/1e6*12.00)/30:.2f}"
+M["swCostPerAgentList"] = M["swCostPerAgentListLo"]
+_opt_calls = (sum((_b(os.path.basename(f)).get("calls", 0) or 0)
+               for f in glob.glob(os.path.join(ROOT, "_state*.json")))
+              + (_b("_run_state.json").get("calls", 0) or 0))
+M["swCallsOpt"] = f"{_opt_calls:,}"
+M["swCallsOptPerAgent"] = f"{_opt_calls/30:.0f}"
+M["swCallsValidation"] = f"{budget['calls']-_opt_calls:,}"
 M["swCostPerVersion"] = f"\\${LLM_TOTAL/1140:.3f}"
 M["swCostPerPatch"] = f"\\${LLM_TOTAL/547:.3f}"
 M["swTerraCalls"] = "200"
@@ -585,7 +593,7 @@ wtab("spend.tex", _rows, "lr", "Stage (each within its cap) & Nominal")
 wtab("costs.tex", [
     f"Cost per agent, all LLM passes (accounting rate) & {M['swCostPerAgent']} \\\\",
     f"Cost per agent incl.\\ execution micro-arm & {M['swCostPerAgentAll']} \\\\",
-    f"Cost per agent at verified list prices (all-luna bound) & $\\le$ {M['swCostPerAgentList']} \\\\",
+    f"Cost per agent at list prices & {M['swCostPerAgentListLo']} (all-Luna lower bound) to {M['swCostPerAgentListHi']} (all-Terra upper bound) \\\\",
     f"Cost per scored candidate version & {M['swCostPerVersion']} \\\\",
     f"Cost per applied, syntax-clean committed patch & {M['swCostPerPatch']} \\\\",
     f"Judge calls: \\texttt{{gpt-5.6-luna}} / \\texttt{{gpt-5.6-terra}} & {M['swLunaCalls']} / {M['swTerraCalls']} \\\\",
@@ -794,7 +802,8 @@ for r in A:
     out.append(f"Submission & \\texttt{{{esc(ob.get('submission_folder', ''))}}} ({ob['split']}) \\\\")
     out.append(f"Official resolve rate & {ob['resolve_rate']:.2f}\\% ({ob['resolved']} instances) \\\\")
     out.append(f"Repository & \\href{{{ob['repo_url']}}}{{\\texttt{{{esc(ob['repo_url'].split('github.com/')[-1], 40)}}}}} @ \\texttt{{{ob['repo_sha'][:10]}}} \\\\")
-    out.append(f"Recorded trajectories readable & {ob.get('recorded_trajectories_available', 0)} (archive assets are credentialed) \\\\")
+    out.append(f"Trajectories used during the original optimization run & 0 \\\\")
+    out.append(f"Trajectories retrieved in the post-hoc validation pass & {ob.get('trajectories_retrieved_posthoc', 0)} \\\\")
     out.append(f"Prompt-surface files found & {ob.get('n_prompt_surface_files', 0)} \\\\")
     out.append(f"Runnability & {esc(res['runnability']['reason'], 70)} \\\\")
     bd = base["dimensions"]

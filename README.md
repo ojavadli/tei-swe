@@ -10,15 +10,20 @@ Headline (canonical convention): Pre-repair confirmatory result: 24/26 patched a
 Automated optimization of LLM agents is typically demonstrated on a handful
 of the authors' own tasks, with candidates selected by judges that inherit the
 optimizer's biases. TEI is a self-improving loop built on sequential decision
-gating, applied to an entire leaderboard population at ~$0.47/agent
-(accounting rate; whole-study list-price equivalent bounded $1.52-$15.20).
+gating -- sequential paired evaluation with exact futility bounds and Jeffreys
+Beta-Binomial posterior early kills over discordant pairs, Wilson-LCB Pareto
+selection, and a final Bayesian do-no-harm confirmation -- applied to an
+entire leaderboard population at ~$0.47/agent (accounting rate; whole-study
+list-price equivalent bounded $1.78 all-Luna to $17.79 all-Terra).
 Contemporary optimizers -- GEPA, MIPROv2, Maestro, ACE, HiveMind -- report
 hundreds to thousands of executed rollouts per single benchmark where counts
 are reported, and our review of their papers found no comparable
 placebo-plus-blinded validation of the selection signal; TEI audits all 30
-systems in 1,271 model calls, shipping placebo, blinded A/B, and
+systems in 1,271 model calls (1,071 Luna + 200 Terra: 538 core optimization
++ 733 validation/replication), shipping placebo, blinded A/B, and
 budget-matched random controls (evidence:
-`datasets/comparison_qualification.md`).
+`datasets/comparison_qualification.md`). A six-instance execution micro-arm
+observed no paired regression (baseline 1/6; patched 1/6).
 
 Cost ledger (accounting rate): optimization $10.23 + validation passes $3.89
 = LLM subtotal $14.12; execution-arm rollouts $2.49; grand total $16.61.

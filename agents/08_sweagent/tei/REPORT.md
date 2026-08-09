@@ -73,4 +73,4 @@ Paraphrase noise floor: `{"paraphrase_aggregates": [0.7075, 0.7075, 0.7075], "no
 
 ## Trajectory availability
 
-SWE-bench/experiments ships aggregate results only; logs/ and trajs/ are in a credentialed S3 bucket (archive README). No AWS access per owner directive, so 0 recorded trajectories were read.
+Trajectories were not used during the original optimization run. The archive's logs/ and trajs/ are retrievable for frozen submissions with its own unsigned downloader (analysis/download_logs.py); the post-hoc validation pass retrieved and, where sampled, scored them (see validation_passes.json).

@@ -21,11 +21,9 @@ ARCHIVE = os.path.join(ROOT, "archive")
 AGENTS = os.path.join(ROOT, "agents")
 TOTALS = {"lite": 300, "verified": 500}
 
-TRAJ_NOTE = ("SWE-bench/experiments ships aggregate results only; logs/ and trajs/ are in a "
-             "credentialed S3 bucket (archive README). No AWS access per owner directive, so "
-             "0 recorded trajectories were read.")
+TRAJ_NOTE = ("SWE-bench/experiments ships aggregate results only; not used during the optimization run; retrievable via the archive's unsigned downloader.")
 IN_REPO_NOTE = ("Trajectories committed to the agent's OWN repository (distinct from the archive's "
-                "credentialed S3 assets). Not used for scoring in this run: the study applies one "
+                "retrievable-unsigned S3 assets). Not used for scoring in this run: the study applies one "
                 "uniform PROXY substrate to all 30 agents.")
 
 

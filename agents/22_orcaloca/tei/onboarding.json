@@ -20,9 +20,9 @@
   "archive_has_logs": false,
   "archive_has_trajs": false,
   "recorded_trajectories_available": 0,
-  "trajectory_note": "SWE-bench/experiments ships aggregate results only; logs/ and trajs/ are in a credentialed S3 bucket (archive README). No AWS access per owner directive, so 0 recorded trajectories were read.",
+  "trajectory_note": "Trajectories were not used during the original optimization run. The archive's logs/ and trajs/ are retrievable for frozen submissions with its own unsigned downloader (analysis/download_logs.py); the post-hoc validation pass retrieved and, where sampled, scored them (see validation_passes.json).",
   "in_repo_trajectory_files": 0,
-  "in_repo_trajectory_note": "Trajectories committed to the agent's OWN repository (distinct from the archive's credentialed S3 assets). Not used for scoring in this run: the study applies one uniform PROXY substrate to all 30 agents.",
+  "in_repo_trajectory_note": "Trajectories committed to the agent's OWN repository (distinct from the archive's S3-hosted submission assets, which are retrievable with the archive's unsigned downloader). Not used for scoring in the optimization run; the post-hoc TRAJ pass scored sampled traces.",
   "resolved_instance_ids": [
     "astropy__astropy-14995",
     "astropy__astropy-6938",
@@ -176,5 +176,7 @@
     }
   ],
   "n_prompt_surface_files": 4,
-  "prompt_surface_method": "content-marker scan"
+  "prompt_surface_method": "content-marker scan",
+  "trajectories_used_in_optimization_run": 0,
+  "trajectories_retrieved_posthoc": 300
 }

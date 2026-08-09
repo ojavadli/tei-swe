@@ -23,7 +23,9 @@ def total_budget():
                     glob.glob(os.path.join(ROOT, "_run_state.json")) +
                     glob.glob(os.path.join(ROOT, "_post_pass_budget.json")) +
                     glob.glob(os.path.join(ROOT, "blind_reval.json")) +
-                    glob.glob(os.path.join(ROOT, "validation_passes.json"))):
+                    glob.glob(os.path.join(ROOT, "validation_passes.json")) +
+                    glob.glob(os.path.join(ROOT, "sham_arm.json")) +
+                    glob.glob(os.path.join(ROOT, "random_arm.json"))):
         try:
             d = json.load(open(f))
         except (OSError, json.JSONDecodeError):
@@ -36,6 +38,12 @@ def total_budget():
         for k in ("cost_nominal_usd", "cost_conservative_usd"):
             tot[k] += b.get(k, 0) or 0
         tot["scale_downs"] += b.get("scale_downs") or []
+        if os.path.basename(f) == "validation_passes.json":
+            for xb in (d.get("budgets_extra") or []):
+                for k in ("calls", "input_tokens", "output_tokens"):
+                    tot[k] += xb.get(k, 0) or 0
+                for k in ("cost_nominal_usd", "cost_conservative_usd"):
+                    tot[k] += xb.get(k, 0) or 0
     extra = None
     try:
         extra = json.load(open(os.path.join(ROOT, "extra_budgets.json")))

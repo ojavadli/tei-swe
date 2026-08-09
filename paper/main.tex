@@ -45,9 +45,10 @@ handful of the authors' own tasks, with candidates selected by judges that
 inherit the optimizer's biases. We introduce TEI (Target--Evaluate--Improve),
 a self-improving loop for agentic systems built on sequential decision
 gating: candidates face sequential paired evaluation with exact futility
-bounds and posterior early kills, ending in a Bayesian do-no-harm
-confirmation, so expensive evaluation is spent only on candidates that
-survive cheap evaluation. Applied to thirty real systems frozen from the
+bounds and Jeffreys Beta--Binomial posterior early kills over discordant
+pairs, survivors enter Wilson lower-confidence-bound Pareto selection, and a
+final Bayesian do-no-harm confirmation decides shipment---so expensive
+evaluation is spent only on candidates that survive cheap evaluation. Applied to thirty real systems frozen from the
 SWE-bench leaderboard (TEI-SWE-30), TEI produced \swVersions{} audited
 candidate versions and \swApplied{} committed patches; rubric scores
 increased across all \swN{} optimization trajectories, and 26 systems
@@ -59,8 +60,9 @@ shows 26/26 strict majorities, 24 unanimous (128/130 votes). A
 pre-registered sham placebo draws \swShamShare{} of votes against
 \swBlindShare{} for real patches, rejecting the changed-code / style
 explanation; diagnosis-guided proposals beat budget-matched unguided
-generation on \swRandTeiWins/\swRandN{} agents; and do-no-harm holds at the
-execution rung. Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
+generation on \swRandTeiWins/\swRandN{} agents; and a six-instance
+execution micro-arm observed no paired regression (baseline 1/6; patched
+1/6). Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
 HiveMind---report hundreds to thousands of executed rollouts per single
 benchmark where counts are reported, and our review of their papers found no
 comparable placebo-plus-blinded validation of the selection signal; TEI
@@ -85,7 +87,15 @@ survive a skeptical reviewer?
 
 This paper answers that question with TEI (Target--Evaluate--Improve), a
 self-improving loop built on \emph{sequential decision gating}
-(\S\ref{sec:method}), applied to \swN{} real systems frozen at recorded SHAs
+(\S\ref{sec:method}): candidates face sequential paired evaluation with an
+exact futility bound (stop when a win is arithmetically impossible) and
+Jeffreys Beta--Binomial posterior early kills computed over discordant
+pairs (the McNemar view of paired outcomes); a minimum-detectable-effect
+(MDE) power preflight is computed before any verdict is read; survivors
+enter certified Pareto selection over Wilson lower confidence bounds; and
+the final do-no-harm confirmation reports exact sign tests with Hoeffding
+distribution-free margins, with agent-level results carried as exact
+Clopper--Pearson intervals. The loop is applied to \swN{} real systems frozen at recorded SHAs
 from the SWE-bench leaderboard
 archive~\citep{swebench2024,swebenchverified2024,swebenchexperiments},
 spanning \swRateMin--\swRateMax{} official resolve rates. Each system ran up
@@ -127,7 +137,8 @@ splicing strings or landing at the wrong indentation in 6 files across 5
 agents) that was repaired, re-confirmed under blinding, and permanently closed
 by a zero-cost \texttt{ast.parse} pre-gate this study contributes back to the
 methodology's decision layer. Post-repair, all \swN{} branches are
-compile-clean and the blinded margin is unanimous-or-near-unanimous on every
+syntax-parse-clean (\texttt{ast.parse}) and the blinded margin is
+unanimous-or-near-unanimous on every
 patched agent.
 
 \paragraph{Research questions.}
@@ -153,8 +164,8 @@ from public artifacts by a hostile reviewer?
   cross-provider check replicated the placebo separation but not the overall
   patch-preference effect (Appendix~\ref{app:ext})---with executed do-no-harm
   on the one harness-runnable system, at
-  \swCostPerAgent{} per agent all-in (accounting rate; \swCostPerAgentList{} at
-  verified list prices).
+  \swCostPerAgent{} per agent all-in (accounting rate; list-price equivalent
+  bounded \swCostPerAgentListLo--\swCostPerAgentListHi{} per agent).
   \item \textbf{The validation ladder and released \texttt{tei-audit} tooling}
   --- rubric $<$ blinded A/B $<$ syntax pre-gate $<$ execution, every claim at
   its rung, with the two cheapest rungs packaged as one command
@@ -244,9 +255,11 @@ executes; Trace~\citep{trace2024} optimizes one workflow's computational graph
 from execution traces. TEI-SWE occupies the complementary cell no prior system
 reports: \emph{population-scale improvement of thirty third-party systems it
 does not control}, with certified selection (placebo-controlled blinded
-preference, pre-gated patches, gated do-no-harm) at two to three orders of
-magnitude lower cost per system---capability those self-referential loops do
-not claim, on evidence rungs they do not report.
+preference, pre-gated patches, gated do-no-harm) at substantially lower
+reported optimization/evaluation call volume---noting that model calls and
+executed agent rollouts are not equivalent computational units---capability
+those self-referential loops do not claim, on evidence rungs they do not
+report.
 
 \paragraph{Selection-consistent evaluation.}
 Our gate-and-floor machinery joins a 2025--26 line of work on making
@@ -363,9 +376,15 @@ patches are applied and committed. \textbf{(3)~Select} the best; \textbf{(4)
 Phase B} (up to 30 iterations): prompt-surface optimization on top.
 \textbf{(5)~Sequential decision gating} (the v7 decision layer,
 unchanged)---our name for the gate machinery: sequential paired evaluation
-with an exact futility bound and posterior early kills, culminating in a
-Jeffreys Beta--Binomial do-no-harm confirmation. Concretely: a sequential
-paired gate
+with an exact futility bound (a candidate is killed the moment a win is
+arithmetically impossible) and Jeffreys Beta--Binomial posterior early kills
+over discordant pairs (the McNemar view: only probes where candidate and
+incumbent disagree carry evidence); an MDE power preflight computed before
+verdicts; certified Pareto selection over Wilson lower confidence bounds;
+and a final Bayesian do-no-harm confirmation whose verdict reports the exact
+sign test and a Hoeffding distribution-free margin
+(\texttt{verify\_candidate}), with agent-level outcomes reported as exact
+Clopper--Pearson intervals. Concretely: a sequential paired gate
 (exact-futility and Jeffreys-posterior kills), an MDE power preflight printed
 \emph{before} verdicts, a paraphrase noise-floor orbit under
 candidate-identical calibration, why-records for every candidate, a certified
@@ -522,17 +541,23 @@ $p\swHolmSB$). Weakest-dimension diagnoses are uniform---execution accuracy,
 (Table~\ref{tab:dims}).
 
 \subparagraph{(c) Efficiency.}
-\swCallsPerAgent{} LLM calls per agent covers everything: diagnosis, 60
-candidate versions, gating, blinded validation, audits. Candidate scoring is
-batched six-per-call; the syntax pre-gate rejects parse-breaking candidates at
-zero LLM cost; and the do-no-harm confirmation reuses the probe scores already
-paid for.
+The canonical call accounting: the core TEI optimization loop used
+\swCallsOpt{} calls in total (\swCallsOptPerAgent{} per agent for diagnosis
+plus up to 60 candidate versions, scored six per call); the validation and
+replication passes added \swCallsValidation{} calls globally (blinded,
+placebo, random-arm, measured-noise, trajectory, and same-family
+replication); the study total is \swCalls{} (\swLunaCalls{} Luna +
+\swTerraCalls{} Terra). The syntax pre-gate rejects parse-breaking
+candidates at zero LLM cost, and the do-no-harm confirmation reuses probe
+scores already paid for.
 
 \subparagraph{(d) Cost-efficiency.}
 Table~\ref{tab:costs}: \swCostPerVersion{} per scored candidate version and
 \swCostPerPatch{} per applied clean patch at the accounting rate---and the
 accounting rate itself is $\approx$6$\times$ the primary model's verified list
-price, under which the whole study is \swCostListLo. \S\ref{sec:compare} puts
+price; at list prices the whole study is bounded between \swCostListLo{}
+(all-Luna lower bound) and \swCostListHi{} (all-Terra upper bound).
+\S\ref{sec:compare} puts
 these numbers against 2026 optimizers' hundreds of executed rollouts per task.
 
 \begin{figure}[t]\centering
@@ -680,7 +705,7 @@ qualification evidence with verbatim quotes: \texttt{comparison\_qualification.m
 \toprule
  & \textbf{TEI-SWE (this work)} & GEPA & MIPROv2 & Maestro & ACE & HiveMind \\
 \midrule
-Systems optimized & \textbf{30, third-party, heterogeneous} & 6 tasks, own scaffold & 7 programs, own & 2 benchmarks + 2 apps & agents + finance suites & 1 scenario, own \\
+Reported optimization/evaluation scope & \textbf{30 third-party systems} & 6 tasks & 7 LM programs & 2 benchmarks + 2 applications & agent + finance benchmarks & 1 multi-agent trading scenario \\
 Total optimizer cost & \textbf{\swLLMTotal{} (\swCalls{} calls, all passes)} & rollout counts n.r.\ (\$ n.r.) & n.r. & ``far fewer than GEPA'' (n.r.) & n.r. & n.r. \\
 Improvement evidence & 24/26 pre-repair blinded (118/130); 26/26 after repair (128/130) & +10\%+ vs MIPROv2; +6\% avg vs GRPO & up to +13\% & +4.9\% vs GEPA & +10.6\% agents & ``superior'' vs static \\
 \quad substrate & \textbf{blinded-proxy + static} (exec: \S\ref{sec:gap}) & executed & executed & executed & executed & executed \\

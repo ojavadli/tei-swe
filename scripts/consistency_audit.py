@@ -21,7 +21,12 @@ CANON = ("Pre-repair confirmatory result: 24/26 patched agents (118/130 votes); 
 
 def pdf_text(p):
     import fitz
-    return "\n".join(pg.get_text() for pg in fitz.open(p))
+    t = "\n".join(pg.get_text() for pg in fitz.open(p))
+    for lig, rep_ in (("\ufb00", "ff"), ("\ufb01", "fi"), ("\ufb02", "fl"),
+                      ("\ufb03", "ffi"), ("\ufb04", "ffl"), ("\ufb05", "ft"),
+                      ("\ufb06", "st")):
+        t = t.replace(lig, rep_)
+    return t
 
 
 def check(name, text):
@@ -30,7 +35,7 @@ def check(name, text):
     # windowed co-occurrence checks (120-char windows around each vote count)
     for m in re.finditer(r"118/130", flat):
         w = flat[max(0, m.start() - 200):m.end() + 120]
-        if re.search(r"26/26|26 of 26", w) and "after" not in w.lower():
+        if re.search(r"26/26|26 of 26", w) and not any(k in w.lower() for k in ("after", "repair")):
             errs.append(f"{name}: 118/130 paired with 26/26 without repair context: ...{w[:160]}...")
     for m in re.finditer(r"128/130", flat):
         w = flat[max(0, m.start() - 200):m.end() + 120]
@@ -40,9 +45,12 @@ def check(name, text):
     # banned phrases (style-and-consistency pass) — live claim surfaces only;
     # REVISION_LOG files legitimately quote superseded wordings as history
     BANNED = [] if name.startswith("REVISION_LOG") else ["reproduced by an external judge", "second judge family",
-              "second family (", "credentialed storage", "anonymous listing returns 403",
+              "second family (", "credentialed", "anonymous listing returns 403",
               "price of a sandwich", "for less than a single executed",
-              "$14.64", "$26.80", "\\$14.64", "\\$26.80"]
+              "$14.64", "$26.80", "\\$14.64", "\\$26.80",
+              "968 calls", "32 LLM calls", "orders of magnitude",
+              "compile-clean", "$0.05 at", "whole study is $1.52",
+              "whole study is \\$1.52"]
     for b in BANNED:
         if b in text:
             errs.append(f"{name}: banned phrase present: {b!r}")

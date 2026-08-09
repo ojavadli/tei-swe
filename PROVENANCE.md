@@ -55,7 +55,7 @@ dedupe rule and are kept as such.
 ## Recorded trajectories: retrievable (claim corrected)
 
 **Correction (2026-08-09):** the original run recorded these assets as
-credential-gated after an anonymous S3 ListBucket returned 403. That reading was
+access-gated (misread) after an anonymous S3 ListBucket returned 403. That reading was
 wrong: the archive's own downloader (`python -m analysis.download_logs <path>`,
 boto3) retrieves `logs/` and `trajs/` **without credentials** (unsigned GetObject).
 The optimization run itself did not use recorded trajectories

@@ -114,7 +114,7 @@ See PROVENANCE.md § Reproduction.
 
 _Generated 2026-08-08._
 
-## Addendum (post-run): blinded A/B validation + compile audit
+## Addendum (post-run): blinded A/B validation + syntax-parse audit (ast.parse)
 
 Two follow-up measurements sharpen the PROXY verdict (`blind_reval.json`, `syntax_audit.json`):
 
@@ -129,7 +129,7 @@ All 6 syntax-broken files were repaired as recorded `tei-v7 repair:` commits (in
 original patches preserved); the full `ast.parse` audit is now **0 errors across 41 changed
 files (30/30 agents clean)**, and the blinded A/B was re-run for the 5 affected agents — each
 flipped to 5/0 for the patched state. **Post-repair blinded record: 26/26 patched agents,
-128/130 votes.** A zero-cost compile pre-gate (`tei_loop.gate.static_pregate`, also inline in
+128/130 votes.** A zero-cost syntax pre-gate (`tei_loop.gate.static_pregate`, also inline in
 `tei_pipeline.py`) now rejects parse-breaking candidates before any judge call, closing this
 failure mode permanently. Additional validation: measured judge test-retest noise sd=0.037 →
 measured MDE₈₀=0.074 (n=4), which 2/30 rubric deltas clear individually (per-agent statistical
