@@ -52,15 +52,22 @@ Two systems in the set (`codeshellagent`, `codeshelltester`) share one repositor
 (WisdomShell/codeshell); they are distinct leaderboard entries under the name-based
 dedupe rule and are kept as such.
 
-## Recorded trajectories: not available
+## Recorded trajectories: retrievable (claim corrected)
 
-`SWE-bench/experiments` ships aggregate `results/` only. There are **zero** `logs/`
-and **zero** `trajs/` directories in the archive at this commit. The archive README
-states those assets live in an S3 bucket requiring an AWS account; anonymous listing
-returns HTTP 403. Per owner directive no AWS access was used, so **no recorded
-trajectory was read for any agent**, and `recorded_trajectories_available = 0` in
-every `tei/onboarding.json`. What *is* available and was used: the archive's
-per-instance resolved/unresolved outcomes for each system.
+**Correction (2026-08-09):** the original run recorded these assets as
+credential-gated after an anonymous S3 ListBucket returned 403. That reading was
+wrong: the archive's own downloader (`python -m analysis.download_logs <path>`,
+boto3) retrieves `logs/` and `trajs/` **without credentials** (unsigned GetObject).
+The optimization run itself did not use recorded trajectories
+(`recorded_trajectories_available = 0` in each `tei/onboarding.json` reflects the
+run-time state); the revision retrieved and scored them for the TRAJ rung.
+Objects retrieved at the frozen commit: submission trajectories for
+`20240402_sweagent_gpt4` (300, downloader verification), `20251215_livesweagent_claude-opus-4-5`
+(500), `20250928_trae_doubao_seed_code` (500), `20250611_moatless_claude-4-sonnet-20250514`
+(273, partial), `20250205_dars_agent_claude_3.5_sonnet_deepseek_r1` (300),
+`20250113_OrcaLoca` (300), `20250625_ExpeRepair-v1_claude-4-sonnet-20250514` (1);
+three submissions (`swe-rizzo`, `aider`, `rag`) uploaded no trajectories. Also
+used: the archive's per-instance resolved/unresolved outcomes for every system.
 
 ## TEI v7 application
 
@@ -81,8 +88,10 @@ the winner, with the paraphrase noise floor and MDE recorded.
 - **PROXY** — `gpt-5.6-luna` rubric scores of a version against the diagnosed failure
   modes and fixed probe instances.
 
-Every score in this study is **PROXY**. No agent in the set could be executed
-end-to-end. Deciding whether a patch *resolves* an instance requires SWE-bench's
+Scores from the optimization run are **PROXY** (judge substrate). One system
+(**SWE-agent**) was subsequently executed end-to-end in both arms via the official
+harness (execution micro-arm: baseline 1/6 = patched 1/6 resolved, 0 wins / 0
+losses; do-no-harm confirmed at the VERIFIED rung). No other agent was executed. Deciding whether a patch *resolves* an instance requires SWE-bench's
 evaluation harness, which imports `docker_build` / `docker_utils` / `dockerfiles`;
 **Docker is not installed on this machine** (`which docker` → not found), so there is
 no ground-truth resolved/unresolved signal to score against. Independently, the
@@ -96,8 +105,13 @@ Every shipped delta in this study is **below the MDE** reported by the gate's ow
 paraphrase noise floor (rewordings scored +0.000 to +0.0075), but "clears the floor and
 does no harm" is the strongest claim the evidence supports.
 
-All experiment LLM calls used OpenAI `gpt-5.6-luna` exclusively (judge, structural-fix
-generation, prompt optimization). No fallback model was used at any point.
+Models actually used across the study: `gpt-5.6-luna` (primary judge, structural-fix
+generation, prompt optimization — all optimization-run calls); `gpt-5.6-terra`
+(same-family replication passes: 200 judging calls); `claude-sonnet-5`
+(supplementary cross-provider judging only, 115 calls, recorded in
+`external_judge.json` and reported in the paper's appendix); `gpt-4o-mini`
+(execution micro-arm agent-under-test rollouts). No silent substitution occurred
+anywhere; every pass's model is recorded in its output file.
 
 ### Budget and scale-down
 

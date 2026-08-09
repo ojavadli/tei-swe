@@ -181,10 +181,10 @@ if sham:
         f"blinded protocol, fresh seed. Result: sham draws {p['sham_votes']}/{p['all_votes']} "
         f"votes ({share:.1f}\\%), with {p['agents_majority_sham']}/{p['n_agents']} strict "
         f"majorities---against \\swBlindVotesP/\\swBlindVotesN{{}} (\\swBlindShare) for the "
-        f"real patches. The pre-registered certification branch (share $\\le$ 60\\%) fired: "
-        f"the blinded preference tracks the \\emph{{substance}} of the changes, not the "
-        f"presence of change. This is the control that converts a strong preference into a "
-        f"certified one.")
+        f"real patches. The pre-registered $\\le$60\\% branch fired; per the pre-registered "
+        f"reading, this rejects the generic changed-code / style explanation for the primary "
+        f"judge's preference: length-matched null change draws a quarter of the votes that "
+        f"substantive change draws.")
 else:
     cmd("SHAMEXTRA", ""); cmd("SHAMpara", "\\textbf{[SHAM PENDING]}")
 

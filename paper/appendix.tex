@@ -10,6 +10,9 @@ exact commit cloned. The archive snapshot is
 \caption{The frozen set: every system, its submission split, official resolve
 rate, source repository, and the commit SHA at which it was cloned and patched.}
 \label{tab:frozen}\scriptsize
+$^{\dagger}$resolves to \texttt{ozyyshr/RepoGraph} (scaffold repo). $^{\ddagger}$resolves to
+\texttt{SWE-bench/SWE-bench} (the benchmark repo, not an agent scaffold). $^{\S}$shared
+repository; the 30 systems map to \swDistinctRepos{} distinct repositories (\S3.1).\\[3pt]
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{rlcrlc}
 \toprule
@@ -31,7 +34,7 @@ rate, source repository, and the commit SHA at which it was cloned and patched.}
 14 & Agentless-1.5 & veri & 50.8 & \href{https://github.com/OpenAutoCoder/Agentless}{\texttt{OpenAutoCoder/Agentless}} & \texttt{5ce5888b} \\
 15 & Composio SWE-Kit & veri & 48.6 & \href{https://github.com/ComposioHQ/composio}{\texttt{ComposioHQ/composio}} & \texttt{13cba53b} \\
 16 & DARS Agent & lite & 47.0 & \href{https://github.com/darsagent/DARS-Agent}{\texttt{darsagent/DARS-Agent}} & \texttt{eab35168} \\
-17 & CodeShellAgent & veri & 44.2 & \href{https://github.com/WisdomShell/codeshell}{\texttt{WisdomShell/codeshell}} & \texttt{09d1adc8} \\
+17$^{\S}$ & CodeShellAgent & veri & 44.2 & \href{https://github.com/WisdomShell/codeshell}{\texttt{WisdomShell/codeshell}} & \texttt{09d1adc8} \\
 18 & CodeFuse-CGM & lite & 44.0 & \href{https://github.com/codefuse-ai/CodeFuse-CGM}{\texttt{codefuse-ai/CodeFuse-CGM}} & \texttt{2c12754a} \\
 19 & Agentless Lite & veri & 42.4 & \href{https://github.com/sorendunn/Agentless-Lite}{\texttt{sorendunn/Agentless-Lite}} & \texttt{01900cec} \\
 20 & SWE-Exp & veri & 42.0 & \href{https://github.com/YerbaPage/SWE-Exp}{\texttt{YerbaPage/SWE-Exp}} & \texttt{6b5c92ed} \\
@@ -39,15 +42,61 @@ rate, source repository, and the commit SHA at which it was cloned and patched.}
 22 & OrcaLoca & lite & 41.0 & \href{https://github.com/fishmingyu/OrcarLLM}{\texttt{fishmingyu/OrcarLLM}} & \texttt{341de753} \\
 23 & Patched.Codes Patchwork & lite & 37.0 & \href{https://github.com/patched-codes/patchwork}{\texttt{patched-codes/patchwork}} & \texttt{21948cbe} \\
 24 & SWE-Fixer & veri & 32.8 & \href{https://github.com/InternLM/SWE-Fixer}{\texttt{InternLM/SWE-Fixer}} & \texttt{78716936} \\
-25 & CodeShellTester & lite & 31.3 & \href{https://github.com/WisdomShell/codeshell}{\texttt{WisdomShell/codeshell}} & \texttt{09d1adc8} \\
+25$^{\S}$ & CodeShellTester & lite & 31.3 & \href{https://github.com/WisdomShell/codeshell}{\texttt{WisdomShell/codeshell}} & \texttt{09d1adc8} \\
 26 & Aegis - o3-mini\_1.0 & lite & 30.3 & \href{https://github.com/evandiewald/aegis}{\texttt{evandiewald/aegis}} & \texttt{cd81da38} \\
-27 & Agentless & lite & 29.7 & \href{https://github.com/ozyyshr/RepoGraph}{\texttt{ozyyshr/RepoGraph}} & \texttt{6c3977d8} \\
+27$^{\dagger}$ & Agentless & lite & 29.7 & \href{https://github.com/ozyyshr/RepoGraph}{\texttt{ozyyshr/RepoGraph}} & \texttt{6c3977d8} \\
 28 & CodeR & lite & 28.3 & \href{https://github.com/NL2Code/CodeR}{\texttt{NL2Code/CodeR}} & \texttt{d6346834} \\
 29 & Aider & lite & 26.3 & \href{https://github.com/paul-gauthier/aider}{\texttt{paul-gauthier/aider}} & \texttt{5dc9490b} \\
-30 & RAG & veri & 7.0 & \href{https://github.com/SWE-bench/SWE-bench}{\texttt{SWE-bench/SWE-bench}} & \texttt{cd37836f} \\
+30$^{\ddagger}$ & RAG & veri & 7.0 & \href{https://github.com/SWE-bench/SWE-bench}{\texttt{SWE-bench/SWE-bench}} & \texttt{cd37836f} \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\clearpage
+\section{Proposal Technique Frequencies}
+\label{app:tech}
+Table~\ref{tab:techniques} lists the most frequent normalized proposal
+techniques; frequencies are small (maximum 4 of \swVersions{} versions), so
+per-technique mean deltas are descriptive only and carry no inferential weight.
+
+\begin{table}[h]\centering
+\caption{Most frequent proposal techniques (top 12 of \swVersions{}
+why-records); $n$ is the Versions column --- means on $n\le4$ are noise-level.}
+\label{tab:techniques}\footnotesize
+\setlength{\tabcolsep}{4pt}
+\input{tables/techniques}
+\end{table}
+
+\clearpage
+\section{Supplementary Cross-Provider Check}
+\label{app:ext}
+A supplementary pass ran the identical blinded protocol with a judge from a
+different provider (\texttt{claude-sonnet-5}; judging only; recorded in
+\texttt{external\_judge.json}). Reported exactly as landed: the \emph{placebo
+separation replicated} --- shams drew 0 of 40 votes, 0 majorities --- and the
+\emph{patch preference replicated partially}: 3 of 10 subsampled agents showed
+strict patched majorities, 6 showed baseline majorities (4 of them unanimous),
+and 1 had no strict majority (2 patched / 3 tie). A fresh-seed re-check of the
+five repaired agents landed 3/5 (15/25 votes). The external judge is markedly
+more conservative where it takes a side; the study's evaluation stands on
+TEI's own instruments, with this check recorded for completeness
+(Table~\ref{tab:ext}).
+
+\begin{table}[h]\centering
+\caption{Supplementary cross-provider blinded votes (claude-sonnet-5, $k{=}5$, seed 11).}
+\label{tab:ext}\footnotesize
+\begin{tabular}{lccc}\toprule Agent & Patched & Baseline & Tie \\ \midrule
+joycode & 1 & 4 & 0 \\
+lingxi & 5 & 0 & 0 \\
+moatlesstools & 2 & 0 & 3 \\
+agentscope & 1 & 4 & 0 \\
+experepair & 3 & 2 & 0 \\
+composioswekit & 0 & 5 & 0 \\
+codefusecgm & 0 & 5 & 0 \\
+agentlesslite & 0 & 5 & 0 \\
+orcaloca & 0 & 5 & 0 \\
+swefixer & 5 & 0 & 0 \\
+\bottomrule\end{tabular}\end{table}
 
 \clearpage
 \section{Per-Agent Records}
@@ -55,10 +104,7 @@ rate, source repository, and the commit SHA at which it was cloned and patched.}
 For each agent: the archive submission it was frozen from, the baseline
 Evaluation-dimension scores with the judge's rationale, the diagnosed failure
 modes with their probe-instance evidence, the score trajectory, the do-no-harm
-confirmation verdict, and the three highest-scoring why-records verbatim. The
-complete per-version record (every candidate, its scores, its decision, and its
-why-record) is in each clone's \texttt{tei/candidates.jsonl}; the tables here
-list every version's identity, phase, score, and decision.
+confirmation verdict, and the three highest-scoring why-records verbatim.
 
 \subsection{live-SWE-agent + Claude 4.5 Opus medium (20251101)}
 \label{app:agent1}

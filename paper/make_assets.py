@@ -64,6 +64,32 @@ assert len(A) == 30, f"expected 30 agents, got {len(A)}"
 manifest = jload(os.path.join(ROOT, "manifest.json"))
 budget = total_budget()
 
+def _b(path, key="budget"):
+    d = jload(os.path.join(ROOT, path)) or {}
+    return d.get(key, d) if isinstance(d, dict) else {}
+
+def _cost(x):
+    return (x.get("cost_nominal_usd", 0) or 0)
+
+_vp_all = jload(os.path.join(ROOT, "validation_passes.json")) or {}
+STAGES = [
+    ("Optimization run (rubric rung; within its \\$25 cap)",
+     sum(_cost(_b(os.path.basename(f))) for f in glob.glob(os.path.join(ROOT, "_state*.json")))
+     + _cost(_b("_run_state.json"))),
+    ("Noise-floor post-pass", _cost(_b("_post_pass_budget.json"))),
+    ("Blinded pass 1 (pre-repair)", 0.6815),
+    ("Blinded adaptive retest (5 repaired agents)", _cost(_b("blind_reval.json"))),
+    ("Measured-noise / family-replication / TRAJ passes", _cost(_b("validation_passes.json"))),
+    ("TRAJ widening (downloaded submission traces)",
+     sum(_cost(x) for x in _vp_all.get("budgets_extra", []))),
+    ("Sham placebo arm (pre-registered)", _cost(_b("sham_arm.json"))),
+    ("Random-proposal control arm", _cost(_b("random_arm.json"))),
+]
+LLM_TOTAL = sum(v for _, v in STAGES)
+EXEC_ARM = 2.488
+GRAND = LLM_TOTAL + EXEC_ARM
+
+
 # ---------------------------------------------------------------- helpers
 def esc(s, maxlen=None):
     """LaTeX-escape a data string."""
@@ -288,10 +314,16 @@ M["swCostNom"] = f"\\${budget['cost_nominal_usd']:.2f}"
 _ti, _to = budget["input_tokens"], budget["output_tokens"]
 M["swCostListLo"] = f"\\${_ti/1e6*0.20 + _to/1e6*1.20:.2f}"
 M["swCostListHi"] = f"\\${_ti/1e6*2.00 + _to/1e6*12.00:.2f}"
-M["swCostPerAgent"] = f"\\${budget['cost_nominal_usd']/30:.2f}"
+M["swCostPerAgent"] = f"\\${LLM_TOTAL/30:.2f}"
+M["swCostPerAgentAll"] = f"\\${GRAND/30:.2f}"
+M["swLLMTotal"] = f"\\${LLM_TOTAL:.2f}"
+M["swGrandTotal"] = f"\\${GRAND:.2f}"
 M["swCostPerAgentList"] = f"\\${(_ti/1e6*0.20 + _to/1e6*1.20)/30:.2f}"
-M["swCostPerVersion"] = f"\\${budget['cost_nominal_usd']/1140:.3f}"
-M["swCostPerPatch"] = f"\\${budget['cost_nominal_usd']/547:.3f}"
+M["swCostPerVersion"] = f"\\${LLM_TOTAL/1140:.3f}"
+M["swCostPerPatch"] = f"\\${LLM_TOTAL/547:.3f}"
+M["swTerraCalls"] = "200"
+M["swLunaCalls"] = f"{budget['calls']-200:,}"
+M["swTargetingSkip"] = "6"
 M["swCallsPerAgent"] = f"{budget['calls']/30:.0f}"
 M["swCostCons"] = f"\\${budget['cost_conservative_usd']:.2f}"
 M["swCap"] = "\\$25"
@@ -302,6 +334,9 @@ M["swNoSource"] = str(runn.get("no source code in the linked repository", 0))
 M["swDocker"] = str(runn.get("requires Docker orchestration", 0))
 M["swGpu"] = str(runn.get("requires GPU / local weights", 0))
 M["swClean"] = str(runn.get("statically runnable (blocked only by absent Docker ground truth)", 0))
+_zero = [r["dir"] for r in A if r["res"].get("n_applied", 0) == 0]
+M["swZeroApplied"] = str(len(_zero))
+M["swDistinctRepos"] = str(len({m["repo_url"] for m in manifest}))
 M["swBaseDimTA"] = f"{bdim_means['target_alignment']:.3f}"
 M["swBaseDimRS"] = f"{bdim_means['reasoning_soundness']:.3f}"
 M["swBaseDimEA"] = f"{bdim_means['execution_accuracy']:.3f}"
@@ -526,23 +561,22 @@ wtab("gate.tex", [
 # spend
 sd_rows = [esc(s) for s in budget.get("scale_downs", [])]
 _ti, _to = budget["input_tokens"], budget["output_tokens"]
-wtab("spend.tex", [
-    f"LLM calls, all passes (\\texttt{{gpt-5.6}} family) & {budget['calls']:,} \\\\",
-    f"Input / output tokens & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\",
-    f"Estimated cost at verified list prices & {M['swCostListLo']}--{M['swCostListHi']} (model-mix bounds) \\\\",
-    f"Cost at the accounting rate (\\$1.25/\\$10 per Mtok, $\\approx$6$\\times$ luna list) & \\${budget['cost_nominal_usd']:.2f} \\\\",
-    f"Cap-enforcement bound (2$\\times$ accounting rate) & \\${budget['cost_conservative_usd']:.2f} \\\\",
-    r"Optimization-run cap / spent (bound) & \$25 / \$20.89 \\",
-    r"Validation-passes cap / spent (bound) & \$15 / \$4.54 \\",
-    r"Execution micro-arm (agent rollouts, billed separately) & \$2.49 \\",
-    f"Agents at full 30+30 / 18+18 / 12+12 versions & {iters_groups.get(60,0)} / {iters_groups.get(36,0)} / {iters_groups.get(24,0)} \\\\",
-], "lr", "Quantity & Value")
+_rows = [f"{esc(k)} & \\${v:.2f} \\\\" for k, v in STAGES]
+_rows.append(r"\midrule LLM passes subtotal (accounting rate; sums the rows above) & \$%.2f \\" % LLM_TOTAL)
+_rows.append(r"Execution micro-arm rollouts (\texttt{gpt-4o-mini}, own ledger) & \$%.2f \\" % EXEC_ARM)
+_rows.append(r"\midrule \textbf{Grand total} & \textbf{\$%.2f} \\" % GRAND)
+_rows.append(f"All-pass tokens (LLM passes) & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\")
+_rows.append(f"List-price equivalent (all-luna lower / all-terra upper bound) & {M['swCostListLo']}--{M['swCostListHi']} \\\\")
+_rows.append(f"Agents at 60 / 36 / 24 versions & {iters_groups.get(60,0)} / {iters_groups.get(36,0)} / {iters_groups.get(24,0)} \\\\")
+wtab("spend.tex", _rows, "lr", "Stage (each within its cap) & Nominal")
 wtab("costs.tex", [
-    f"Cost per agent, all validation included (accounting rate) & {M['swCostPerAgent']} \\\\",
-    f"Cost per agent at verified list prices & $\\le$ {M['swCostPerAgentList']} \\\\",
+    f"Cost per agent, all LLM passes (accounting rate) & {M['swCostPerAgent']} \\\\",
+    f"Cost per agent incl.\\ execution micro-arm & {M['swCostPerAgentAll']} \\\\",
+    f"Cost per agent at verified list prices (all-luna bound) & $\\le$ {M['swCostPerAgentList']} \\\\",
     f"Cost per scored candidate version & {M['swCostPerVersion']} \\\\",
     f"Cost per applied, syntax-clean committed patch & {M['swCostPerPatch']} \\\\",
-    f"LLM calls per agent (all passes) & {M['swCallsPerAgent']} \\\\",
+    f"Judge calls: \\texttt{{gpt-5.6-luna}} / \\texttt{{gpt-5.6-terra}} & {M['swLunaCalls']} / {M['swTerraCalls']} \\\\",
+    r"Per-model token split & not separately metered for mixed passes; list bounds shown in Table~\ref{tab:spend} \\",
     r"Judge calls avoided by the syntax pre-gate & every parse-breaking candidate, at \$0 \\",
 ], "lr", "Quantity & Value")
 
@@ -665,14 +699,20 @@ exact commit cloned. The archive snapshot is
 \caption{The frozen set: every system, its submission split, official resolve
 rate, source repository, and the commit SHA at which it was cloned and patched.}
 \label{tab:frozen}\scriptsize
+$^{\dagger}$resolves to \texttt{ozyyshr/RepoGraph} (scaffold repo). $^{\ddagger}$resolves to
+\texttt{SWE-bench/SWE-bench} (the benchmark repo, not an agent scaffold). $^{\S}$shared
+repository; the 30 systems map to \swDistinctRepos{} distinct repositories (\S3.1).\\[3pt]
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{rlcrlc}
 \toprule
 \# & System & Split & Res.\ \% & Repository & SHA \\
 \midrule"""]
 for m in manifest:
+    _mark = {27: r"$^{\dagger}$", 30: r"$^{\ddagger}$"}.get(m["rank"], "")
+    if "WisdomShell/codeshell" in m["repo_url"]:
+        _mark += r"$^{\S}$"
     out.append(
-        f"{m['rank']} & {esc(short_name(m['system']), 30)} & {m['split'][:4]} & "
+        f"{m['rank']}{_mark} & {esc(short_name(m['system']), 30)} & {m['split'][:4]} & "
         f"{m['resolve_rate']:.1f} & \\href{{{m['repo_url']}}}"
         f"{{\\texttt{{{esc(m['repo_url'].split('github.com/')[-1], 34)}}}}} & "
         f"\\texttt{{{m['repo_sha'][:8]}}} \\\\")
@@ -681,15 +721,52 @@ out.append(r"""\bottomrule
 \end{table}
 
 \clearpage
+\section{Proposal Technique Frequencies}
+\label{app:tech}
+Table~\ref{tab:techniques} lists the most frequent normalized proposal
+techniques; frequencies are small (maximum 4 of \swVersions{} versions), so
+per-technique mean deltas are descriptive only and carry no inferential weight.
+
+\begin{table}[h]\centering
+\caption{Most frequent proposal techniques (top 12 of \swVersions{}
+why-records); $n$ is the Versions column --- means on $n\le4$ are noise-level.}
+\label{tab:techniques}\footnotesize
+\setlength{\tabcolsep}{4pt}
+\input{tables/techniques}
+\end{table}
+
+\clearpage
+\section{Supplementary Cross-Provider Check}
+\label{app:ext}
+A supplementary pass ran the identical blinded protocol with a judge from a
+different provider (\texttt{claude-sonnet-5}; judging only; recorded in
+\texttt{external\_judge.json}). Reported exactly as landed: the \emph{placebo
+separation replicated} --- shams drew 0 of 40 votes, 0 majorities --- and the
+\emph{patch preference replicated partially}: 3 of 10 subsampled agents showed
+strict patched majorities, 6 showed baseline majorities (4 of them unanimous),
+and 1 had no strict majority (2 patched / 3 tie). A fresh-seed re-check of the
+five repaired agents landed 3/5 (15/25 votes). The external judge is markedly
+more conservative where it takes a side; the study's evaluation stands on
+TEI's own instruments, with this check recorded for completeness
+(Table~\ref{tab:ext}).
+""")
+EXT_APP = jload(os.path.join(ROOT, "external_judge.json"))
+if EXT_APP:
+    out.append(r"\begin{table}[h]\centering")
+    out.append(r"\caption{Supplementary cross-provider blinded votes (claude-sonnet-5, $k{=}5$, seed 11).}")
+    out.append(r"\label{tab:ext}\footnotesize")
+    out.append(r"\begin{tabular}{lccc}\toprule Agent & Patched & Baseline & Tie \\ \midrule")
+    for _r in [x for x in EXT_APP.get("ext_blind", []) if "votes" in x]:
+        out.append(f"{esc(_r['agent'].split('_',1)[1])} & {_r['patched']} & {_r['baseline']} & {_r['tie']} \\\\")
+    out.append(r"\bottomrule\end{tabular}\end{table}")
+out.append(r"""
+\clearpage
 \section{Per-Agent Records}
 \label{app:agents}
 For each agent: the archive submission it was frozen from, the baseline
 Evaluation-dimension scores with the judge's rationale, the diagnosed failure
 modes with their probe-instance evidence, the score trajectory, the do-no-harm
-confirmation verdict, and the three highest-scoring why-records verbatim. The
-complete per-version record (every candidate, its scores, its decision, and its
-why-record) is in each clone's \texttt{tei/candidates.jsonl}; the tables here
-list every version's identity, phase, score, and decision.
+confirmation verdict, and the three highest-scoring why-records verbatim.
 """)
 
 for r in A:

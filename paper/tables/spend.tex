@@ -1,15 +1,20 @@
 \begin{tabular}{lr}
 \toprule
-Quantity & Value \\
+Stage (each within its cap) & Nominal \\
 \midrule
-LLM calls, all passes (\texttt{gpt-5.6} family) & 968 \\
-Input / output tokens & 1,219,964 / 1,063,009 \\
-Estimated cost at verified list prices & \$1.52--\$15.20 (model-mix bounds) \\
-Cost at the accounting rate (\$1.25/\$10 per Mtok, $\approx$6$\times$ luna list) & \$14.64 \\
-Cap-enforcement bound (2$\times$ accounting rate) & \$26.80 \\
-Optimization-run cap / spent (bound) & \$25 / \$20.89 \\
-Validation-passes cap / spent (bound) & \$15 / \$4.54 \\
-Execution micro-arm (agent rollouts, billed separately) & \$2.49 \\
-Agents at full 30+30 / 18+18 / 12+12 versions & 9 / 8 / 13 \\
+Optimization run (rubric rung; within its \textbackslash\{\}\$25 cap) & \$10.23 \\
+Noise-floor post-pass & \$0.22 \\
+Blinded pass 1 (pre-repair) & \$0.68 \\
+Blinded adaptive retest (5 repaired agents) & \$0.11 \\
+Measured-noise / family-replication / TRAJ passes & \$0.91 \\
+TRAJ widening (downloaded submission traces) & \$0.73 \\
+Sham placebo arm (pre-registered) & \$0.47 \\
+Random-proposal control arm & \$0.77 \\
+\midrule LLM passes subtotal (accounting rate; sums the rows above) & \$14.12 \\
+Execution micro-arm rollouts (\texttt{gpt-4o-mini}, own ledger) & \$2.49 \\
+\midrule \textbf{Grand total} & \textbf{\$16.61} \\
+All-pass tokens (LLM passes) & 1,219,964 / 1,063,009 \\
+List-price equivalent (all-luna lower / all-terra upper bound) & \$1.52--\$15.20 \\
+Agents at 60 / 36 / 24 versions & 9 / 8 / 13 \\
 \bottomrule
 \end{tabular}

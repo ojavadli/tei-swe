@@ -1,0 +1,12 @@
+{
+  "title": "TEI: Target-Evaluate-Improve - A Cost-Efficient Self-Improving Loop for Agentic Systems via Sequential Decision Gating (TEI-SWE)",
+  "description": "Artifacts for TEI-SWE: the frozen TEI-SWE-30 SWE-bench agent set, 1,140 candidate why-records, blinded A/B votes (pre-repair confirmatory 24/26 agents, 118/130 votes; post-repair adaptive retest 26/26 strict majorities, 24 unanimous, 128/130 votes), pre-registered sham-placebo arm, budget-matched random-proposal arm, supplementary cross-provider check, execution micro-arm, audits, and the complete pipeline.",
+  "creators": [
+    {"name": "Javadli, Orkhan", "affiliation": "Massachusetts Institute of Technology"},
+    {"name": "Zimina, Anni", "affiliation": "Stanford University"}
+  ],
+  "upload_type": "dataset",
+  "access_right": "open",
+  "license": "MIT",
+  "keywords": ["SWE-bench", "LLM agents", "prompt optimization", "blinded evaluation", "sequential decision gating", "validation ladder"]
+}
