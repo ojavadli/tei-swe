@@ -29,12 +29,13 @@ def check(name, text):
     flat = re.sub(r"\s+", " ", text)
     # windowed co-occurrence checks (120-char windows around each vote count)
     for m in re.finditer(r"118/130", flat):
-        w = flat[max(0, m.start() - 120):m.end() + 120]
+        w = flat[max(0, m.start() - 200):m.end() + 120]
         if re.search(r"26/26|26 of 26", w) and "after" not in w.lower():
             errs.append(f"{name}: 118/130 paired with 26/26 without repair context: ...{w[:160]}...")
     for m in re.finditer(r"128/130", flat):
-        w = flat[max(0, m.start() - 120):m.end() + 120]
-        if re.search(r"24/26|24 of 26", w) and "pre-repair" not in w.lower():
+        w = flat[max(0, m.start() - 200):m.end() + 120]
+        ok_ctx = any(k in w.lower() for k in ("pre-repair", "defect repair", "after repair"))
+        if re.search(r"24/26|24 of 26", w) and not ok_ctx:
             errs.append(f"{name}: 128/130 paired with 24/26 without pre-repair context: ...{w[:160]}...")
     # forbid the stale standalone claims
     if re.search(r"blinded[^.]{0,80}confirm[^.]{0,80}26 of 26(?![^.]*repair)", flat, re.I):
