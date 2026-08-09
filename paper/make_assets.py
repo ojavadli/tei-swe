@@ -86,6 +86,17 @@ STAGES = [
     ("Random-proposal control arm", _cost(_b("random_arm.json"))),
 ]
 LLM_TOTAL = sum(v for _, v in STAGES)
+_sham_b = _b("sham_arm.json"); _rand_b = _b("random_arm.json")
+_extra_calls = sum((x.get("calls", 0) or 0) for x in _vp_all.get("budgets_extra", []))
+CALLS_ALL = ((_b("_run_state.json").get("calls", 0) or 0)
+             + sum((_b(os.path.basename(f)).get("calls", 0) or 0)
+                   for f in glob.glob(os.path.join(ROOT, "_state*.json")))
+             + (_b("_post_pass_budget.json").get("calls", 0) or 0)
+             + 131  # blinded pass 1 (extra ledger)
+             + (_b("blind_reval.json").get("calls", 0) or 0)
+             + (_b("validation_passes.json").get("calls", 0) or 0)
+             + _extra_calls
+             + (_sham_b.get("calls", 0) or 0) + (_rand_b.get("calls", 0) or 0))
 EXEC_ARM = 2.488
 GRAND = LLM_TOTAL + EXEC_ARM
 
@@ -322,7 +333,9 @@ M["swCostPerAgentList"] = f"\\${(_ti/1e6*0.20 + _to/1e6*1.20)/30:.2f}"
 M["swCostPerVersion"] = f"\\${LLM_TOTAL/1140:.3f}"
 M["swCostPerPatch"] = f"\\${LLM_TOTAL/547:.3f}"
 M["swTerraCalls"] = "200"
-M["swLunaCalls"] = f"{budget['calls']-200:,}"
+M["swCallsAll"] = f"{CALLS_ALL:,}"
+M["swLunaCalls"] = f"{CALLS_ALL-200:,}"
+M["swLLMTotalCons"] = f"\\${2*LLM_TOTAL:.2f}"
 M["swTargetingSkip"] = "6"
 M["swCallsPerAgent"] = f"{budget['calls']/30:.0f}"
 M["swCostCons"] = f"\\${budget['cost_conservative_usd']:.2f}"

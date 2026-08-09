@@ -40,50 +40,62 @@ Loop for Agentic Systems via Sequential Decision Gating (TEI-SWE)}
 \maketitle
 
 \begin{abstract}
-\noindent TEI (Target--Evaluate--Improve) is a self-improving loop for agentic
-systems built on sequential decision gating, delivered here at
-\swCostPerAgent{} per agent across all evaluation passes at our conservative
-accounting rate---about \swCostPerAgentList{} at current list prices. Its
-deliverables stack: \swN{} real SWE-bench leaderboard systems, frozen and
-reproducible as TEI-SWE-30~\citep{swebench2024,swebenchexperiments};
-\swVersions{} audited candidate versions, each carrying a per-candidate
-why-record; \swApplied{} syntax-clean committed patches; and rubric scores
-raised on all \swN. The evidence: pre-repair confirmatory result: 24/26
+\noindent Automated optimization of LLM agents is typically demonstrated on a
+handful of the authors' own tasks, with candidates selected by judges that
+inherit the optimizer's biases. We introduce TEI (Target--Evaluate--Improve),
+a self-improving loop for agentic systems built on sequential decision
+gating: candidates face sequential paired evaluation with exact futility
+bounds and posterior early kills, ending in a Bayesian do-no-harm
+confirmation, so expensive evaluation is spent only on candidates that
+survive cheap evaluation. Applied to thirty real systems frozen from the
+SWE-bench leaderboard (TEI-SWE-30), TEI produced \swVersions{} audited
+candidate versions and \swApplied{} committed patches; rubric scores
+increased across all \swN{} optimization trajectories, and 26 systems
+received shipped changes, at \swCostPerAgent{} per agent under a conservative
+accounting rate (whole-study list-price equivalent bounded between
+\swCostListLo{} and \swCostListHi). Pre-repair confirmatory result: 24/26
 patched agents (118/130 votes); after defect repair, the adaptive retest
 shows 26/26 strict majorities, 24 unanimous (128/130 votes). A
-pre-registered sham placebo draws \swShamShare{} of votes, rejecting the
-changed-code / style explanation for that preference; diagnosis-guided
-proposals beat budget-matched unguided generation on
-\swRandTeiWins/\swRandN{} agents; and the execution micro-arm confirms
-do-no-harm at the \textsc{verified} rung (0 losses on 6 paired instances).
-None of the strongest verified 2026 optimizers---GEPA~\citep{gepa2025},
-MIPROv2~\citep{mipro2024}, Maestro~\citep{maestro2025}, ACE~\citep{ace2026},
-HiveMind~\citep{hivemind2026}---reports this coverage (30 heterogeneous
-third-party systems versus single-digit own-scaffold task counts), this
-cost profile (a whole-population audit for less than a single executed
-optimization run elsewhere, where rollout counts are reported), or
-\emph{any} bias-controlled validation of its selection signal; TEI ships
-all three controls---placebo, blinded A/B, budget-matched random---with
-rubric magnitudes and outcome claims scoped to their validation-ladder
-rungs, and closes the loop's one observed failure mode with a contributed
-zero-cost syntax pre-gate. Released: TEI-SWE-30, the why-record and
-blinded-vote datasets, and the one-command audit tool
-(\texttt{python tei\_audit.py --repo R --base SHA --cand HEAD}).
+pre-registered sham placebo draws \swShamShare{} of votes against
+\swBlindShare{} for real patches, rejecting the changed-code / style
+explanation; diagnosis-guided proposals beat budget-matched unguided
+generation on \swRandTeiWins/\swRandN{} agents; and do-no-harm holds at the
+execution rung. Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
+HiveMind---report hundreds to thousands of executed rollouts per single
+benchmark where counts are reported, and our review of their papers found no
+comparable placebo-plus-blinded validation of the selection signal; TEI
+audits an entire leaderboard population in \swCallsAll{} model calls. We
+release TEI-SWE-30, the why-record and blinded-vote datasets, a contributed
+syntax pre-gate, and a one-command audit tool.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
-This paper reports, to our knowledge, the broadest and cheapest controlled
-application of an automated improvement loop to real software-engineering
-agents to date: \swN{} systems spanning \swRateMin--\swRateMax{} official
-resolve rates, frozen at recorded SHAs from the SWE-bench leaderboard
-archive~\citep{swebench2024,swebenchverified2024,swebenchexperiments}, each run
-through up to 30 structural-fix and 30 prompt-optimization iterations of the
-gated TEI~v7 loop (budget scaling fixed a priori: \swItersFull/\swItersMid/\swItersLow{} agents at 60/36/24 versions) for roughly the price of a sandwich per agent. The loop produced
-\swVersions{} scored candidate versions carrying auditable why-records,
-applied \swApplied{} of them as real commits, and raised every agent's
-four-dimension judged quality, $\swBase\to\swStruct\to\swFinal$ on average
-(Fig.~\ref{fig:slope}).
+The prevailing practice in automated agent optimization is to demonstrate a
+new optimizer on a small set of tasks chosen and scaffolded by its authors,
+to drive selection with executed rollouts numbering in the hundreds to
+thousands per benchmark where counts are reported, and to score candidates
+with judges or metrics that inherit the optimizer's own
+framing~\citep{gepa2025,mipro2024,maestro2025,ace2026,hivemind2026}. What
+this practice cannot answer is the question a population owner actually
+faces: can an optimization loop improve---and, just as important,
+\emph{validate} its claimed improvements to---many heterogeneous systems it
+did not build, at a cost that scales to all of them, with controls that
+survive a skeptical reviewer?
+
+This paper answers that question with TEI (Target--Evaluate--Improve), a
+self-improving loop built on \emph{sequential decision gating}
+(\S\ref{sec:method}), applied to \swN{} real systems frozen at recorded SHAs
+from the SWE-bench leaderboard
+archive~\citep{swebench2024,swebenchverified2024,swebenchexperiments},
+spanning \swRateMin--\swRateMax{} official resolve rates. Each system ran up
+to 30 structural-fix and 30 prompt-optimization gated iterations (budget
+scaling fixed a priori: \swItersFull/\swItersMid/\swItersLow{} agents at
+60/36/24 versions), at \swCostPerAgent{} per agent across every evaluation
+pass. The loop produced \swVersions{} scored candidate versions carrying
+auditable why-records, applied \swApplied{} of them as syntax-clean commits,
+and rubric scores increased across all \swN{} optimization trajectories,
+$\swBase\to\swStruct\to\swFinal$ on average (Fig.~\ref{fig:slope}).
 
 The result that makes those numbers citable, rather than merely encouraging,
 is the \textbf{blinded confirmation}. Judge-scored optimization is rightly
@@ -101,9 +113,9 @@ Whatever the loop is producing, it is code that bias-controlled evaluation
 consistently prefers---at \$0.35 per agent for the rubric-rung optimization
 run, plus \$0.03 per agent for the blinded confirmation itself.
 
-Working at this scale without execution access (the archive's traces are
-credentialed; SWE-bench's ground-truth harness needs infrastructure the study
-host lacked; \swNoSource{} linked repositories ship no runnable source at all)
+Working at this scale largely without execution access (SWE-bench's
+ground-truth harness needs per-instance containers the study host initially
+lacked, and \swNoSource{} linked repositories ship no runnable source at all)
 forced a discipline that we found to be the paper's second contribution: the
 \textbf{validation ladder}. Every claim is stated at the rung of evidence that
 supports it---narrative rubric, blinded A/B, deterministic static checks,
@@ -137,8 +149,10 @@ from public artifacts by a hostile reviewer?
   patches, blinded-confirmed preference on \swBlindPreMajP/\swBlindAgents{}
   patched agents (post-repair adaptive retest: \swBlindMajP/\swBlindAgents),
   certified against a pre-registered sham placebo (\swShamShare{} vs
-  \swBlindShare) and budget-matched random proposals, reproduced by an external
-  judge, with executed do-no-harm on the one harness-runnable system---at
+  \swBlindShare) and budget-matched random proposals---a supplementary
+  cross-provider check replicated the placebo separation but not the overall
+  patch-preference effect (Appendix~\ref{app:ext})---with executed do-no-harm
+  on the one harness-runnable system, at
   \swCostPerAgent{} per agent all-in (accounting rate; \swCostPerAgentList{} at
   verified list prices).
   \item \textbf{The validation ladder and released \texttt{tei-audit} tooling}
@@ -303,12 +317,17 @@ than an Agentless fork. Two entries share one repository
 hoc: the rule is what a reviewer can re-run, defects included.
 
 \paragraph{The execution boundary (stated once).}
-Three facts of the public record shaped the run, one of which our revision
-corrected: the archive ships aggregate results only (its
-\texttt{logs/}/\texttt{trajs/} live behind credentialed storage; anonymous
-listing returns 403); deciding ``resolved'' requires SWE-bench's
-container-based harness; and \swNoSource{} linked repositories contain no
-runnable source (README/report only). A static screen found 3 systems
+Three facts of the public record shaped the run. The archive's in-repo
+payload is aggregate results; per the recorded download logs, its
+\texttt{logs/} and \texttt{trajs/} are retrievable for frozen submissions
+with the archive's own unsigned downloader
+(\texttt{analysis/download\_logs.py}: 1{,}874 trajectory files across six of
+nine attempted submissions, plus 300 in the initial downloader verification;
+three submissions uploaded none)---the
+optimization run predates this retrieval and used the recorded per-instance
+outcomes only. Deciding ``resolved'' requires SWE-bench's container-based
+harness. And \swNoSource{} linked repositories contain no runnable source
+(README/report only). A static screen found 3 systems
 runnable-in-principle (\texttt{SWE-agent}, \texttt{KGCompass}, \texttt{aider});
 Table~\ref{tab:runnability} gives the taxonomy, \S\ref{sec:gap} the execution
 plan and its result. Four repositories \emph{do} ship their own recorded
@@ -368,7 +387,7 @@ traces), \textsc{verified} (executed outcomes only). Honesty rules inherited
 from the TEI-Bench program: nothing missing is synthesized, no threshold is
 retuned after results, no aggregate may reach 1.000 (max observed: 0.890), and
 a fixed single-model design constraint routes all pipeline calls through one
-judge/optimizer model (\texttt{gpt-5.6-luna}), with a second family
+judge/optimizer model (\texttt{gpt-5.6-luna}), with a second model within the same GPT-5.6 family
 (\texttt{gpt-5.6-terra}) used purely for replication.
 
 \begin{algorithm}[t]
@@ -638,12 +657,13 @@ optimizers on the axes this study measures on both sides; quality numbers
 carry a mandatory substrate column, and substrate-mismatched quality
 comparisons are not made. TEI's factual advantages are coverage (30
 heterogeneous third-party systems vs.\ single-digit own-scaffold task counts),
-cost (\swCalls{} calls; \swCostListLo{} at verified list prices, \swCostNom{} at our
+cost (\swCallsAll{} calls; list-price equivalent bounded \swCostListLo--\swCostListHi, \swLLMTotal{} at our
 conservative accounting rate, \emph{total}---versus hundreds of executed rollouts
 \emph{per task}), and shipped validation depth (blinded
 A/B, static pre-gate, measured noise floors, MDE preflights, do-no-harm gate,
-full why-record audit trail---none of the compared systems reports any
-bias-controlled validation of its selection signal). Their advantage is the
+full why-record audit trail---our review of the compared systems' papers
+found no comparable placebo-plus-blinded validation of the selection
+signal). Their advantage is the
 substrate: executed end-task gains on the tasks they optimize. The rows state
 both without conversion.
 
@@ -702,9 +722,11 @@ repeats; every test's scope is stated next to it.
 
 \section{Discussion}
 \label{sec:discussion}
-Three findings are firm. \emph{First}, a gated two-phase loop improves real
-third-party agents at a cost and coverage no contemporary optimizer reports,
-and the improvement is a property of the code: blinding removes the
+Three findings are firm. \emph{First}, sequential decision gating optimizes
+and validates third-party agents at a population scale and cost no
+contemporary optimizer reports,
+and the blinded preference for its patches is a property of the changed
+code rather than of its narrative: blinding removes the
 narrative, and the preference survives on every patched agent, replicated by a second
 model within the same GPT-5.6 family. \emph{Second}, validation is a ladder, not a binary:
 each rung this study climbed either strengthened the claim (blinded,
@@ -745,8 +767,11 @@ URLs and SHAs, \texttt{PROVENANCE.md} (rule, funnel, the rejected
 replication, trajectory), the audit and asset scripts, and the paper source
 whose every number is emitted by \texttt{make\_assets.py}. The pipeline
 sequence is documented in the release README; total spend, all passes
-included: \swCalls{} calls, \swTokIn/\swTokOut{} tokens, \swCostNom{} nominal
-/ \swCostCons{} conservative against the caps. The release bundle (public
+included: \swCallsAll{} model calls, \swTokIn/\swTokOut{} tokens (tracked LLM
+passes), \swLLMTotal{} at the accounting rate (\swLLMTotalCons{} at its
+$2\times$ cap-enforcement bound; list-price equivalent bounded
+\swCostListLo--\swCostListHi), plus \$2.49 execution-arm rollouts
+(Table~\ref{tab:spend}). The release bundle (public
 repository; datasets \texttt{tei-swe-30-why-records} and
 \texttt{tei-swe-30-blinded-votes}) is pointed to from the repository page of
 this paper; a ``use this to audit your own loop'' section shows how to run
@@ -768,7 +793,8 @@ protocol design, and review. Both authors approved the final manuscript.
 \section{Conclusion}
 \label{sec:conclusion}
 For about half a dollar per agent, a gated Target--Evaluate--Improve loop
-improved all \swN{} systems of a frozen, reviewer-reproducible slice of the
+drove rubric-score increases across all \swN{} optimization trajectories of
+a frozen, reviewer-reproducible slice of the
 SWE-bench leaderboard---\swApplied{} committed patches, every agent's judged
 quality up, and, decisively, the blinded record: \textbf{pre-repair confirmatory result:
 24/26 patched agents (118/130 votes); after defect repair, the adaptive

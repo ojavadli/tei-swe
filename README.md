@@ -7,13 +7,21 @@ zimina@stanford.edu).
 
 Headline (canonical convention): Pre-repair confirmatory result: 24/26 patched agents (118/130 votes); after defect repair, the adaptive retest shows 26/26 strict majorities, 24 unanimous (128/130 votes).
 
-TEI delivers population-scale improvement at ~$0.47/agent (accounting rate;
-~$0.05 at current list prices). None of the strongest verified 2026 optimizers
--- GEPA, MIPROv2, Maestro, ACE, HiveMind -- reports this coverage (30
-heterogeneous third-party systems vs single-digit own-scaffold tasks), this
-cost profile, or any bias-controlled validation of its selection signal; TEI
-ships placebo, blinded A/B, and budget-matched random controls
-(evidence: `datasets/comparison_qualification.md`).
+Automated optimization of LLM agents is typically demonstrated on a handful
+of the authors' own tasks, with candidates selected by judges that inherit the
+optimizer's biases. TEI is a self-improving loop built on sequential decision
+gating, applied to an entire leaderboard population at ~$0.47/agent
+(accounting rate; whole-study list-price equivalent bounded $1.52-$15.20).
+Contemporary optimizers -- GEPA, MIPROv2, Maestro, ACE, HiveMind -- report
+hundreds to thousands of executed rollouts per single benchmark where counts
+are reported, and our review of their papers found no comparable
+placebo-plus-blinded validation of the selection signal; TEI audits all 30
+systems in 1,271 model calls, shipping placebo, blinded A/B, and
+budget-matched random controls (evidence:
+`datasets/comparison_qualification.md`).
+
+Cost ledger (accounting rate): optimization $10.23 + validation passes $3.89
+= LLM subtotal $14.12; execution-arm rollouts $2.49; grand total $16.61.
 
 Certification: pre-registered sham placebo (tag `prereg-sham`) draws 26.9% of
 votes, rejecting the generic changed-code/style explanation for the primary

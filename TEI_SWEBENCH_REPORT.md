@@ -133,7 +133,7 @@ flipped to 5/0 for the patched state. **Post-repair blinded record: 26/26 patche
 `tei_pipeline.py`) now rejects parse-breaking candidates before any judge call, closing this
 failure mode permanently. Additional validation: measured judge test-retest noise sd=0.037 →
 measured MDE₈₀=0.074 (n=4), which 2/30 rubric deltas clear individually (per-agent statistical
-weight therefore rests on the blinded votes); second judge family (gpt-5.6-terra): 87.3% sign
+weight therefore rests on the blinded votes); second model within the same GPT-5.6 family (gpt-5.6-terra): 87.3% sign
 agreement, ρ=0.50, optimism 88.7% (family-general), blinded subsample 8/10 agents / 40/50
 votes; TRAJ rung: 19 real recorded trajectories across 4 systems, mean |TRAJ−PROXY| baseline
 difference 0.024 (max 0.132). See `validation_passes.json`, `blind_reval.json`,

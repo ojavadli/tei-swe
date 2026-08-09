@@ -37,6 +37,15 @@ def check(name, text):
         ok_ctx = any(k in w.lower() for k in ("pre-repair", "defect repair", "after repair"))
         if re.search(r"24/26|24 of 26", w) and not ok_ctx:
             errs.append(f"{name}: 128/130 paired with 24/26 without pre-repair context: ...{w[:160]}...")
+    # banned phrases (style-and-consistency pass) — live claim surfaces only;
+    # REVISION_LOG files legitimately quote superseded wordings as history
+    BANNED = [] if name.startswith("REVISION_LOG") else ["reproduced by an external judge", "second judge family",
+              "second family (", "credentialed storage", "anonymous listing returns 403",
+              "price of a sandwich", "for less than a single executed",
+              "$14.64", "$26.80", "\\$14.64", "\\$26.80"]
+    for b in BANNED:
+        if b in text:
+            errs.append(f"{name}: banned phrase present: {b!r}")
     # forbid the stale standalone claims
     if re.search(r"blinded[^.]{0,80}confirm[^.]{0,80}26 of 26(?![^.]*repair)", flat, re.I):
         errs.append(f"{name}: '26 of 26 blinded-confirmed' without repair qualifier")
