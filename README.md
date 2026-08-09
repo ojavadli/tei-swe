@@ -6,6 +6,15 @@ Orkhan Javadli (MIT, ojavadli@mit.edu) and Anni Zimina (Stanford,
 zimina@stanford.edu).
 
 Headline (canonical convention): Pre-repair confirmatory result: 24/26 patched agents (118/130 votes); after defect repair, the adaptive retest shows 26/26 strict majorities, 24 unanimous (128/130 votes).
+
+TEI delivers population-scale improvement at ~$0.47/agent (accounting rate;
+~$0.05 at current list prices). None of the strongest verified 2026 optimizers
+-- GEPA, MIPROv2, Maestro, ACE, HiveMind -- reports this coverage (30
+heterogeneous third-party systems vs single-digit own-scaffold tasks), this
+cost profile, or any bias-controlled validation of its selection signal; TEI
+ships placebo, blinded A/B, and budget-matched random controls
+(evidence: `datasets/comparison_qualification.md`).
+
 Certification: pre-registered sham placebo (tag `prereg-sham`) draws 26.9% of
 votes, rejecting the generic changed-code/style explanation for the primary
 judge's preference; TEI beats budget-matched unguided generation on 10/10
