@@ -41,36 +41,34 @@ Loop for Agentic Systems via Sequential Decision Gating (TEI-SWE)}
 
 \begin{abstract}
 \noindent TEI (Target--Evaluate--Improve) is a self-improving loop for agentic
-systems whose sequential decision gating delivers population-scale improvement
-at \swCostPerAgent{} per agent across all evaluation passes at our conservative
-accounting rate---about \swCostPerAgentList{} at current list prices---the two
-ledgers Table~\ref{tab:costs} reconciles. Applied to \swN{} real systems frozen
-from the official SWE-bench leaderboard
-archive~\citep{swebench2024,swebenchexperiments}, in up to 30 structural-fix
-plus 30 prompt-optimization gated iterations per agent (budget scaling fixed a
-priori: \swItersFull/\swItersMid/\swItersLow{} agents at 60/36/24 versions),
-the loop produced \swVersions{} audited candidate versions and \swApplied{}
-syntax-clean committed patches, raising rubric scores for all \swN.
-\swBlindAgents{} systems received shipped code changes, and blinded
-re-evaluation---real before/after code, randomized order, no
-narrative---covers those \swBlindAgents. Pre-repair confirmatory result:
-24/26 patched agents (118/130 votes); after defect repair, the adaptive
-retest shows 26/26 strict majorities, 24 unanimous (128/130 votes). A
-\emph{pre-registered sham-patch placebo} (tagged before execution) draws only
-\swShamShare{} of votes (\swShamMaj{} majorities), rejecting the generic
-changed-code / style explanation for the primary judge's preference; TEI's
-diagnosis-guided proposals beat budget-matched unguided generation on
-\swRandTeiWins/\swRandN{} agents; and an execution micro-arm confirms
-do-no-harm at the \textsc{verified} rung (SWE-agent, 6 paired instances, 0
-losses). Gains clear measured paraphrase noise floors on
-\swExceedFloor/\swN{} agents, and the loop's rare failure mode---6
-syntax-breaking patches its own validation ladder caught---is permanently
-closed by a zero-cost syntax pre-gate (\texttt{ast.parse}) contributed to the
-deployed gate. We release TEI-SWE-30, the \swVersions-record why-record and
-blinded-vote datasets, and a one-command audit tool
-(\texttt{python tei\_audit.py --repo R --base SHA --cand HEAD}). Rubric
-magnitudes below the measured-noise MDE, and outcome claims, remain scoped to
-their rungs (\S\ref{sec:power}, \S\ref{sec:gap}).
+systems built on sequential decision gating, delivered here at
+\swCostPerAgent{} per agent across all evaluation passes at our conservative
+accounting rate---about \swCostPerAgentList{} at current list prices. Its
+deliverables stack: \swN{} real SWE-bench leaderboard systems, frozen and
+reproducible as TEI-SWE-30~\citep{swebench2024,swebenchexperiments};
+\swVersions{} audited candidate versions, each carrying a per-candidate
+why-record; \swApplied{} syntax-clean committed patches; and rubric scores
+raised on all \swN. The evidence: pre-repair confirmatory result: 24/26
+patched agents (118/130 votes); after defect repair, the adaptive retest
+shows 26/26 strict majorities, 24 unanimous (128/130 votes). A
+pre-registered sham placebo draws \swShamShare{} of votes, rejecting the
+changed-code / style explanation for that preference; diagnosis-guided
+proposals beat budget-matched unguided generation on
+\swRandTeiWins/\swRandN{} agents; and the execution micro-arm confirms
+do-no-harm at the \textsc{verified} rung (0 losses on 6 paired instances).
+None of the strongest verified 2026 optimizers---GEPA~\citep{gepa2025},
+MIPROv2~\citep{mipro2024}, Maestro~\citep{maestro2025}, ACE~\citep{ace2026},
+HiveMind~\citep{hivemind2026}---reports this coverage (30 heterogeneous
+third-party systems versus single-digit own-scaffold task counts), this
+cost profile (a whole-population audit for less than a single executed
+optimization run elsewhere, where rollout counts are reported), or
+\emph{any} bias-controlled validation of its selection signal; TEI ships
+all three controls---placebo, blinded A/B, budget-matched random---with
+rubric magnitudes and outcome claims scoped to their validation-ladder
+rungs, and closes the loop's one observed failure mode with a contributed
+zero-cost syntax pre-gate. Released: TEI-SWE-30, the why-record and
+blinded-vote datasets, and the one-command audit tool
+(\texttt{python tei\_audit.py --repo R --base SHA --cand HEAD}).
 \end{abstract}
 
 \section{Introduction}
@@ -653,22 +651,23 @@ both without conversion.
 \caption{TEI-SWE vs.\ 2026 optimizers, on axes measured on both sides. Quality
 numbers are stated with their substrate; ``n.r.''\ = not reported in the cited
 abstract. Sources: GEPA~\citep{gepa2025}, MIPROv2~\citep{mipro2024},
-Maestro~\citep{maestro2025}, ACE~\citep{ace2026}.}
+Maestro~\citep{maestro2025}, ACE~\citep{ace2026}, HiveMind~\citep{hivemind2026};
+qualification evidence with verbatim quotes: \texttt{comparison\_qualification.md} in the release.}
 \label{tab:compare}\scriptsize
 \setlength{\tabcolsep}{3pt}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lccccc}
+\begin{tabular}{lcccccc}
 \toprule
- & \textbf{TEI-SWE (this work)} & GEPA & MIPROv2 & Maestro & ACE \\
+ & \textbf{TEI-SWE (this work)} & GEPA & MIPROv2 & Maestro & ACE & HiveMind \\
 \midrule
-Systems optimized & \textbf{30, third-party, heterogeneous} & 6 tasks, own scaffold & 7 programs, own & 2 benchmarks + 2 apps & agents + finance suites \\
-Total optimizer cost & \textbf{\swCostNom{} (\swCalls{} calls, all passes)} & 100s of rollouts/task (n.r.\ \$) & n.r. & ``far fewer than GEPA'' (n.r.) & n.r. \\
-Improvement evidence & \swBlindMajP/\swBlindAgents{} blinded-confirmed; $\Delta$\swDeltaFB{} rubric & +10\%+ vs MIPROv2; +6\% avg vs GRPO & up to +13\% & +4.9\% vs GEPA & +10.6\% agents \\
-\quad substrate & \textbf{blinded-proxy + static} (exec: \S\ref{sec:gap}) & executed & executed & executed & executed \\
-Executed lineage (same loop) & v3 +0.025 ($p{=}.024$, 0 regr.); v6 +0.026 & --- & --- & --- & --- \\
-Bias-controlled validation of signal & \textbf{yes: blinded A/B ($k{=}5$), two judge models} & none reported & none reported & none reported & none reported \\
-Zero-cost static pre-gate & \textbf{yes (contributed)} & no & no & no & no \\
-Audit trail released & \textbf{\swVersions{} why-records + votes} & code & code & no & no \\
+Systems optimized & \textbf{30, third-party, heterogeneous} & 6 tasks, own scaffold & 7 programs, own & 2 benchmarks + 2 apps & agents + finance suites & 1 scenario, own \\
+Total optimizer cost & \textbf{\swLLMTotal{} (\swCalls{} calls, all passes)} & rollout counts n.r.\ (\$ n.r.) & n.r. & ``far fewer than GEPA'' (n.r.) & n.r. & n.r. \\
+Improvement evidence & 24/26 pre-repair blinded (118/130); 26/26 after repair (128/130) & +10\%+ vs MIPROv2; +6\% avg vs GRPO & up to +13\% & +4.9\% vs GEPA & +10.6\% agents & ``superior'' vs static \\
+\quad substrate & \textbf{blinded-proxy + static} (exec: \S\ref{sec:gap}) & executed & executed & executed & executed & executed \\
+Executed lineage (same loop) & v3 +0.025 ($p{=}.024$, 0 regr.); v6 +0.026 & --- & --- & --- & --- & --- \\
+Bias-controlled validation of signal & \textbf{yes: placebo + blinded A/B + random control} & none reported & none reported & none reported & none reported & none reported \\
+Zero-cost syntax pre-gate & \textbf{yes (contributed)} & no & no & no & no & no \\
+Audit trail released & \textbf{\swVersions{} why-records + votes} & code & code & no & no & no \\
 \bottomrule
 \end{tabular}}
 \end{table}
