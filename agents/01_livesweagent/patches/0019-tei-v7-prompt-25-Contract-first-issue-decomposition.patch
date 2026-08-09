@@ -1,7 +1,7 @@
 From 68437171bd10db38e58336bf4aee73cc4ea9f5e8 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:34:11 -0700
-Subject: [PATCH 19/24] tei-v7 prompt-25: Contract-first issue decomposition
+Subject: [PATCH 19/25] tei-v7 prompt-25: Contract-first issue decomposition
 
 ---
  config/livesweagent_swebench_pro.yaml | 2 +-

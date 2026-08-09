@@ -1,7 +1,7 @@
 From eacba8e19fa4de86427cf680ee1bcf59d5d327dd Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 21:45:55 -0700
-Subject: [PATCH 11/11] tei-v7 repair: fix nested-quote f-string from
+Subject: [PATCH 11/12] tei-v7 repair: fix nested-quote f-string from
  struct-08/12 patch (parse-guided, 1 site)
 
 ---

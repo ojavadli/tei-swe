@@ -1,7 +1,7 @@
 From 8deb5a3de65473af39f71371704ca05d999f581b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:41:47 -0700
-Subject: [PATCH 14/39] tei-v7 struct-18: Issue-to-diff semantic traceability
+Subject: [PATCH 14/40] tei-v7 struct-18: Issue-to-diff semantic traceability
  gate
 
 ---

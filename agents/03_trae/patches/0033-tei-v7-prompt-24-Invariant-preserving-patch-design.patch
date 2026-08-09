@@ -1,7 +1,7 @@
 From 00cc08cfa54d0cac2710201a4eced8ee36eda04c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:33 -0700
-Subject: [PATCH 33/39] tei-v7 prompt-24: Invariant-preserving patch design
+Subject: [PATCH 33/40] tei-v7 prompt-24: Invariant-preserving patch design
 
 ---
  tei/candidates.jsonl           | 1 +

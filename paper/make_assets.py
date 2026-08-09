@@ -283,6 +283,16 @@ M["swCalls"] = f"{budget['calls']:,}"
 M["swTokIn"] = f"{budget['input_tokens']/1e3:.0f}k"
 M["swTokOut"] = f"{budget['output_tokens']/1e3:.0f}k"
 M["swCostNom"] = f"\\${budget['cost_nominal_usd']:.2f}"
+# verified list prices (developers.openai.com/api/docs/pricing, accessed 2026-08-09):
+# gpt-5.6-luna $0.20/$1.20 per Mtok; gpt-5.6-terra $2.00/$12.00
+_ti, _to = budget["input_tokens"], budget["output_tokens"]
+M["swCostListLo"] = f"\\${_ti/1e6*0.20 + _to/1e6*1.20:.2f}"
+M["swCostListHi"] = f"\\${_ti/1e6*2.00 + _to/1e6*12.00:.2f}"
+M["swCostPerAgent"] = f"\\${budget['cost_nominal_usd']/30:.2f}"
+M["swCostPerAgentList"] = f"\\${(_ti/1e6*0.20 + _to/1e6*1.20)/30:.2f}"
+M["swCostPerVersion"] = f"\\${budget['cost_nominal_usd']/1140:.3f}"
+M["swCostPerPatch"] = f"\\${budget['cost_nominal_usd']/547:.3f}"
+M["swCallsPerAgent"] = f"{budget['calls']/30:.0f}"
 M["swCostCons"] = f"\\${budget['cost_conservative_usd']:.2f}"
 M["swCap"] = "\\$25"
 M["swItersFull"] = str(iters_groups.get(60, 0))
@@ -336,9 +346,48 @@ if br:
     M["swBlindShare"] = f"{100*vp/(vp+vb+vt):.1f}\\%"
     M["swBlindShareCI"] = f"[{100*lo:.1f}\\%,{100*hi:.1f}\\%]"
     M["swBlindPerfect"] = str(sum(1 for r in done_b if r["patched"] == br.get("k", 5)))
-    # pre-repair snapshot (the ladder-discovery narrative)
+    # pre-repair snapshot (the ladder-discovery narrative + the confirmatory unit)
     M["swBlindPreMajP"] = "24"; M["swBlindPreMajB"] = "2"
     M["swBlindPreVotesP"] = "118"; M["swBlindPreVotesB"] = "12"
+    _pl = _beta.ppf(0.025, 24, 26 - 24 + 1); _ph = _beta.ppf(0.975, 24 + 1, 26 - 24)
+    M["swBlindPreCI"] = f"[{100*_pl:.0f}\\%,{100*_ph:.0f}\\%]"
+    _sb = _beta.ppf(0.025, 26, 1)  # post-repair 26/26 lower bound
+    M["swBlindPostCIlo"] = f"{100*_sb:.0f}\\%"
+sham = jload(os.path.join(ROOT, "sham_arm.json"))
+if sham:
+    p = sham["pooled"]
+    M["swShamShare"] = f"{100*p['share']:.1f}\\%"
+    M["swShamVotes"] = f"{p['sham_votes']}/{p['all_votes']}"
+    M["swShamMaj"] = f"{p['agents_majority_sham']}/{p['n_agents']}"
+rnd = jload(os.path.join(ROOT, "random_arm.json"))
+if rnd:
+    ok = [r for r in rnd["results"] if r.get("rubric_best_delta") is not None]
+    if ok:
+        M["swRandN"] = str(len(ok))
+        M["swRandTeiWins"] = str(sum(1 for r in ok if r["tei_rubric_delta"] > r["rubric_best_delta"]))
+        M["swRandMean"] = f"{np.mean([r['rubric_best_delta'] for r in ok]):+.4f}"
+        M["swRandTeiMean"] = f"{np.mean([r['tei_rubric_delta'] for r in ok]):+.4f}"
+        M["swRandBlindMaj"] = str(sum(1 for r in ok if r["blind_random"] > r["blind_baseline"] + r["blind_tie"]))
+        M["swRandApplied"] = str(sum(r["n_applied"] for r in ok))
+        M["swRandProps"] = str(sum(r["n_proposals"] for r in ok))
+ext = jload(os.path.join(ROOT, "external_judge.json"))
+if ext:
+    def _m(key, lab):
+        rows = [r for r in ext.get(key, []) if "votes" in r]
+        if not rows:
+            return None
+        return (sum(1 for r in rows if r[lab] > r["baseline"] + r["tie"]), len(rows),
+                sum(r[lab] for r in rows),
+                sum(r[lab] + r["baseline"] + r["tie"] for r in rows))
+    b = _m("ext_blind", "patched")
+    sh_ = _m("ext_sham", "sham")
+    rp = _m("ext_repair", "patched")
+    if b:
+        M["swExtBlindMaj"] = f"{b[0]}/{b[1]}"; M["swExtBlindVotes"] = f"{b[2]}/{b[3]}"
+    if sh_:
+        M["swExtShamMaj"] = f"{sh_[0]}/{sh_[1]}"; M["swExtShamVotes"] = f"{sh_[2]}/{sh_[3]}"
+    if rp:
+        M["swExtRepMaj"] = f"{rp[0]}/{rp[1]}"; M["swExtRepVotes"] = f"{rp[2]}/{rp[3]}"
 sy_pre = jload(os.path.join(ROOT, "syntax_audit_prerepair.json")) or []
 M["swSynFiles"] = str(len(sy_pre))
 M["swSynAgents"] = str(len({r["agent"] for r in sy_pre}))
@@ -476,15 +525,25 @@ wtab("gate.tex", [
 
 # spend
 sd_rows = [esc(s) for s in budget.get("scale_downs", [])]
+_ti, _to = budget["input_tokens"], budget["output_tokens"]
 wtab("spend.tex", [
-    f"\\texttt{{gpt-5.6-luna}} calls & {budget['calls']:,} \\\\",
+    f"LLM calls, all passes (\\texttt{{gpt-5.6}} family) & {budget['calls']:,} \\\\",
     f"Input / output tokens & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\",
-    f"Cost under nominal pricing assumption (\\$1.25/\\$10 per Mtok) & \\${budget['cost_nominal_usd']:.2f} \\\\",
-    f"Cost under conservative bound (2$\\times$; enforces the cap) & \\${budget['cost_conservative_usd']:.2f} \\\\",
-    r"Hard cap & \$25.00 \\",
-    f"Agents at full 30+30 iterations & {iters_groups.get(60,0)} \\\\",
-    f"Agents scaled to 18+18 & {iters_groups.get(36,0)} \\\\",
-    f"Agents scaled to 12+12 & {iters_groups.get(24,0)} \\\\",
+    f"Estimated cost at verified list prices & {M['swCostListLo']}--{M['swCostListHi']} (model-mix bounds) \\\\",
+    f"Cost at the accounting rate (\\$1.25/\\$10 per Mtok, $\\approx$6$\\times$ luna list) & \\${budget['cost_nominal_usd']:.2f} \\\\",
+    f"Cap-enforcement bound (2$\\times$ accounting rate) & \\${budget['cost_conservative_usd']:.2f} \\\\",
+    r"Optimization-run cap / spent (bound) & \$25 / \$20.89 \\",
+    r"Validation-passes cap / spent (bound) & \$15 / \$4.54 \\",
+    r"Execution micro-arm (agent rollouts, billed separately) & \$2.49 \\",
+    f"Agents at full 30+30 / 18+18 / 12+12 versions & {iters_groups.get(60,0)} / {iters_groups.get(36,0)} / {iters_groups.get(24,0)} \\\\",
+], "lr", "Quantity & Value")
+wtab("costs.tex", [
+    f"Cost per agent, all validation included (accounting rate) & {M['swCostPerAgent']} \\\\",
+    f"Cost per agent at verified list prices & $\\le$ {M['swCostPerAgentList']} \\\\",
+    f"Cost per scored candidate version & {M['swCostPerVersion']} \\\\",
+    f"Cost per applied, syntax-clean committed patch & {M['swCostPerPatch']} \\\\",
+    f"LLM calls per agent (all passes) & {M['swCallsPerAgent']} \\\\",
+    r"Judge calls avoided by the syntax pre-gate & every parse-breaking candidate, at \$0 \\",
 ], "lr", "Quantity & Value")
 
 # apply taxonomy

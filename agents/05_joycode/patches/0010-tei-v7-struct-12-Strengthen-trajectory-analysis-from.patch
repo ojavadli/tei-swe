@@ -1,7 +1,7 @@
 From e4eff235265fbbfd0ac1c17147dbd8cdadb4dd94 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:44 -0700
-Subject: [PATCH 10/47] tei-v7 struct-12: Strengthen trajectory analysis from
+Subject: [PATCH 10/48] tei-v7 struct-12: Strengthen trajectory analysis from
  free-form extraction int
 
 ---

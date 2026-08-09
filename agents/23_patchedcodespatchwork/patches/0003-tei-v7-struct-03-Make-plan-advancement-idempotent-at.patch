@@ -1,7 +1,7 @@
 From 9e0f3b6dcee3cacce348b45a4528018134d2eb1e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:34 -0700
-Subject: [PATCH 03/27] tei-v7 struct-03: Make plan advancement idempotent at
+Subject: [PATCH 03/28] tei-v7 struct-03: Make plan advancement idempotent at
  the end of the plan
 
 ---

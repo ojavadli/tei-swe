@@ -1,7 +1,7 @@
 From 670fa9d7191d4294cf90fb76287804101d2840e4 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:14 -0700
-Subject: [PATCH 13/50] tei-v7 struct-16: Require multi-layer and
+Subject: [PATCH 13/51] tei-v7 struct-16: Require multi-layer and
  invariant-based reproduction obligat
 
 ---

@@ -1,7 +1,7 @@
 From 9621145da4fd40cb67d85a220b38682c7bad5889 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:57 -0700
-Subject: [PATCH 36/39] tei-v7 prompt-27: Layered test-gated iteration
+Subject: [PATCH 36/40] tei-v7 prompt-27: Layered test-gated iteration
 
 ---
  tei/candidates.jsonl           | 1 +

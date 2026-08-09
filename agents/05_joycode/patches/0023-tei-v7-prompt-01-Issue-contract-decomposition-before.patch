@@ -1,7 +1,7 @@
 From 55c58fb51d4e3fcc154703afd2f4507e70438624 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:59:45 -0700
-Subject: [PATCH 23/47] tei-v7 prompt-01: Issue-contract decomposition before
+Subject: [PATCH 23/48] tei-v7 prompt-01: Issue-contract decomposition before
  editing
 
 ---

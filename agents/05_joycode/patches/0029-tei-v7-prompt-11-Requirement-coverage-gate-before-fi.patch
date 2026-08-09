@@ -1,7 +1,7 @@
 From a9ab7e629d39d7c47b4d7eefc031bb3481d57419 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:10 -0700
-Subject: [PATCH 29/47] tei-v7 prompt-11: Requirement coverage gate before
+Subject: [PATCH 29/48] tei-v7 prompt-11: Requirement coverage gate before
  finalization
 
 ---

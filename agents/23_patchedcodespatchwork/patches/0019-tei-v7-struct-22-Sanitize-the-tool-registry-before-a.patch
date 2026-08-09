@@ -1,7 +1,7 @@
 From cbdac111c5d69d2523e47516f3de696538f193fe Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:41:38 -0700
-Subject: [PATCH 19/27] tei-v7 struct-22: Sanitize the tool registry before
+Subject: [PATCH 19/28] tei-v7 struct-22: Sanitize the tool registry before
  agent execution
 
 ---

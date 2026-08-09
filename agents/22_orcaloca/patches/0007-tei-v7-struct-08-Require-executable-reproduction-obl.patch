@@ -1,7 +1,7 @@
 From 04533b2790cb4efbd0d3786309c95c89a29a971c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:43 -0700
-Subject: [PATCH 07/50] tei-v7 struct-08: Require executable reproduction
+Subject: [PATCH 07/51] tei-v7 struct-08: Require executable reproduction
  obligations and semantic inv
 
 ---

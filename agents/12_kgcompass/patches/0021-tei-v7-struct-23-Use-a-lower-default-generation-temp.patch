@@ -1,7 +1,7 @@
 From 359e437cdfefec11a9afc00891cff98218616919 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:01 -0700
-Subject: [PATCH 21/28] tei-v7 struct-23: Use a lower default generation
+Subject: [PATCH 21/29] tei-v7 struct-23: Use a lower default generation
  temperature for deterministic
 
 ---

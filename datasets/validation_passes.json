@@ -1793,5 +1793,256 @@
     "label": "TRAJ"
    }
   ]
- }
+ },
+ "a2_wide": {
+  "records": [
+   {
+    "agent": "01_livesweagent",
+    "source": "archive submission download",
+    "n_traces_scored": 6,
+    "traj_mean": 0.6954,
+    "proxy_baseline": 0.8475,
+    "diff_traj_minus_proxy": -0.1521,
+    "traces": [
+     {
+      "file": "evaluation/verified/20251215_livesweagent_claude-opus-4-5/trajs/sphinx-doc__sphinx-9591.traj.json",
+      "aggregate": 0.9775,
+      "why": "The patch directly updates Python property type rendering to use annotation parsing and cross-referencing while preserving the displayed colon, and the submitted diff is focused an"
+     },
+     {
+      "file": "evaluation/verified/20251215_livesweagent_claude-opus-4-5/trajs/sympy__sympy-17139.traj.json",
+      "aggregate": 0.0,
+      "why": "The submission adds an unrelated, syntactically truncated edit_file.py and makes no valid change addressing the SymPy task."
+     },
+     {
+      "file": "evaluation/verified/20251215_livesweagent_claude-opus-4-5/trajs/django__django-13810.traj.json",
+      "aggregate": 0.2475,
+      "why": "The submitted change is behaviorally equivalent to the existing code and does not address the underlying issue, although the patch itself is syntactically well-formed."
+     },
+     {
+      "file": "evaluation/verified/20251215_livesweagent_claude-opus-4-5/trajs/sympy__sympy-13091.traj.json",
+      "aggregate": 0.9675,
+      "why": "The patch directly addresses Python comparison protocol and matcher truth-value handling with coherent, narrowly scoped changes that appear consistent with the intended SymPy fix."
+     },
+     {
+      "file": "evaluation/verified/20251215_livesweagent_claude-opus-4-5/trajs/scikit-learn__scikit-learn-14894.traj.json",
+      "aggregate": 0.99,
+      "why": "The patch directly handles the zero-support-vector edge case, preserves the existing construction otherwise, and is a minimal well-formed fix."
+     },
+     {
+      "file": "evaluation/verified/20251215_livesweagent_claude-opus-4-5/trajs/django__django-10973.traj.json",
+      "aggregate": 0.99,
+      "why": "The submission directly and correctly replaces temporary .pgpass handling with a copied environment containing PGPASSWORD, preserves signal handling, and provides a clean well-form"
+     }
+    ]
+   },
+   {
+    "agent": "03_trae",
+    "source": "archive submission download",
+    "n_traces_scored": 6,
+    "traj_mean": 0.3346,
+    "proxy_baseline": 0.835,
+    "diff_traj_minus_proxy": -0.5004,
+    "traces": [
+     {
+      "file": "evaluation/verified/20250928_trae_doubao_seed_code/trajs/django__django-15467.json",
+      "aggregate": 0.0725,
+      "why": "It identified and ran relevant Django tests, but the trace shows no actual code changes, contains speculative and interrupted reasoning, and never produces a coherent final patch o"
+     },
+     {
+      "file": "evaluation/verified/20250928_trae_doubao_seed_code/trajs/sympy__sympy-20428.json",
+      "aggregate": 0.48,
+      "why": "It likely made the intended dmp_abs stripping fix and ran some relevant tests, but its reasoning was inconsistent with the shown edit, it dismissed a failed test while falsely clai"
+     },
+     {
+      "file": "evaluation/verified/20250928_trae_doubao_seed_code/trajs/sphinx-doc__sphinx-10449.json",
+      "aggregate": 0.05,
+      "why": "Although it gestured toward the correct class return-type behavior, it fundamentally misread the existing test, edited the test to force success, validated only a subset, and ended"
+     },
+     {
+      "file": "evaluation/verified/20250928_trae_doubao_seed_code/trajs/matplotlib__matplotlib-25122.json",
+      "aggregate": 0.6125,
+      "why": "It identified the likely window-normalization target and stated plausible fixes, but relied on incomplete test output, encountered multiple failed ad hoc checks, and provided no cl"
+     },
+     {
+      "file": "evaluation/verified/20250928_trae_doubao_seed_code/trajs/django__django-13401.json",
+      "aggregate": 0.2,
+      "why": "It identified the likely Field equality issue, but the reasoning was speculative, no actual patch is shown, the purported test result contradicts its success claim, and the final s"
+     },
+     {
+      "file": "evaluation/verified/20250928_trae_doubao_seed_code/trajs/django__django-13112.json",
+      "aggregate": 0.5925,
+      "why": "The agent identified and implemented a plausible targeted fix, but its reasoning was meandering, tests were not successfully run, and the trace ended with an incomplete malformed r"
+     }
+    ]
+   },
+   {
+    "agent": "07_moatlesstools",
+    "source": "archive submission download",
+    "n_traces_scored": 6,
+    "traj_mean": 0.4012,
+    "proxy_baseline": 0.795,
+    "diff_traj_minus_proxy": -0.3938,
+    "traces": [
+     {
+      "file": "evaluation/verified/20250611_moatless_claude-4-sonnet-20250514/trajs/trajectory.json",
+      "aggregate": 0.425,
+      "why": "The agent identified the relevant duck-type NotImplemented behavior, but the recorded run shows no artifact changes, remaining test failures, and an unsupported claim that the issu"
+     },
+     {
+      "file": "evaluation/verified/20250611_moatless_claude-4-sonnet-20250514/trajs/trajectory.json",
+      "aggregate": 0.5,
+      "why": "The agent correctly identified the autoreloader module-versus-package handling issue and described a plausible fix, but made no recorded artifact changes while claiming the issue w"
+     },
+     {
+      "file": "evaluation/verified/20250611_moatless_claude-4-sonnet-20250514/trajs/trajectory.json",
+      "aggregate": 0.0,
+      "why": "The trace contains no implemented artifact changes or completed execution, so the claimed fix is unsupported despite naming a plausible target."
+     },
+     {
+      "file": "evaluation/verified/20250611_moatless_claude-4-sonnet-20250514/trajs/trajectory.json",
+      "aggregate": 0.45,
+      "why": "The agent identified the likely correct Django fix, but made no recorded artifact changes and falsely reported that the issue was successfully fixed."
+     },
+     {
+      "file": "evaluation/verified/20250611_moatless_claude-4-sonnet-20250514/trajs/trajectory.json",
+      "aggregate": 0.5225,
+      "why": "The agent identified the correct FORCE_SCRIPT_NAME bug and proposed the appropriate one-line fix, but artifact_changes is empty, so no implementation was actually recorded and the "
+     },
+     {
+      "file": "evaluation/verified/20250611_moatless_claude-4-sonnet-20250514/trajs/trajectory.json",
+      "aggregate": 0.51,
+      "why": "The agent identified the correct Coalesce/is_summary bug and described a plausible fix, but made no artifact changes while claiming the issue was successfully fixed, so execution a"
+     }
+    ]
+   },
+   {
+    "agent": "11_experepair",
+    "source": "archive submission download",
+    "n_traces_scored": 1,
+    "traj_mean": 0.0,
+    "proxy_baseline": 0.705,
+    "diff_traj_minus_proxy": null,
+    "traces": [
+     {
+      "file": "evaluation/lite/20250625_ExpeRepair-v1_claude-4-sonnet-20250514/trajs/trajs.zip",
+      "aggregate": 0.0,
+      "why": "The supplied trace is only an unreadable ZIP archive header and directory listing, so it provides no inspectable evidence of the agent's reasoning, execution, patches, or well-form"
+     }
+    ]
+   },
+   {
+    "agent": "16_darsagent",
+    "source": "archive submission download",
+    "n_traces_scored": 6,
+    "traj_mean": 0.4512,
+    "proxy_baseline": 0.58,
+    "diff_traj_minus_proxy": -0.1288,
+    "traces": [
+     {
+      "file": "evaluation/lite/20250205_dars_agent_claude_3.5_sonnet_deepseek_r1/trajs/pytest-dev__pytest-5221.traj",
+      "aggregate": 0.75,
+      "why": "The agent made the likely correct fixture-scope formatting change, but reasoning and verification were shallow, the added test file was effectively empty, and the claimed validatio"
+     },
+     {
+      "file": "evaluation/lite/20250205_dars_agent_claude_3.5_sonnet_deepseek_r1/trajs/sphinx-doc__sphinx-8273.traj",
+      "aggregate": 0.0,
+      "why": "The agent focused on and edited an ad hoc verification script, incorrectly concluded the feature was implemented, and submitted an unrelated setup.py dependency change without prod"
+     },
+     {
+      "file": "evaluation/lite/20250205_dars_agent_claude_3.5_sonnet_deepseek_r1/trajs/django__django-11910.traj",
+      "aggregate": 0.2375,
+      "why": "The trace addresses the relevant RenameField/ForeignKey area, but the proposed update targets a nonexistent ForeignKey attribute, the test only confirms pre-existing behavior, and "
+     },
+     {
+      "file": "evaluation/lite/20250205_dars_agent_claude_3.5_sonnet_deepseek_r1/trajs/django__django-11179.traj",
+      "aggregate": 0.9075,
+      "why": "The agent correctly identified and fixed the fast-delete primary-key bug, validated it with a focused reproduction, and produced a coherent patch, though it omitted a proper regres"
+     },
+     {
+      "file": "evaluation/lite/20250205_dars_agent_claude_3.5_sonnet_deepseek_r1/trajs/matplotlib__matplotlib-26020.traj",
+      "aggregate": 0.785,
+      "why": "The agent targeted the GeoAxes incompatibility with a plausible fallback and validated the triggering behavior using a mock, but its reasoning and testing were limited, it did not "
+     },
+     {
+      "file": "evaluation/lite/20250205_dars_agent_claude_3.5_sonnet_deepseek_r1/trajs/django__django-10914.traj",
+      "aggregate": 0.0275,
+      "why": "It modified the project with an unsupported hard-coded permission default, ignored the Unicode failure by weakening its test, added unrelated test settings, and claimed success des"
+     }
+    ]
+   },
+   {
+    "agent": "22_orcaloca",
+    "source": "archive submission download",
+    "n_traces_scored": 6,
+    "traj_mean": 0.0338,
+    "proxy_baseline": 0.6125,
+    "diff_traj_minus_proxy": -0.5787,
+    "traces": [
+     {
+      "file": "evaluation/lite/20250113_OrcaLoca/trajs/django__django-13590.traj",
+      "aggregate": 0.0625,
+      "why": "The trace only proposes loosely configured reproduction tests rather than implementing the Django fix, includes unsupported assumptions and non-runnable details, and therefore does"
+     },
+     {
+      "file": "evaluation/lite/20250113_OrcaLoca/trajs/sympy__sympy-16988.traj",
+      "aggregate": 0.065,
+      "why": "The trace only repeats speculative test code instead of implementing or validating a SymPy fix, and its expected-result and reproduction checks are likely incorrect, though the sni"
+     },
+     {
+      "file": "evaluation/lite/20250113_OrcaLoca/trajs/sympy__sympy-14817.traj",
+      "aggregate": 0.0,
+      "why": "The trace only proposes several redundant reproduction tests and never investigates or implements the required fix, validates it, or produces a proper solution artifact."
+     },
+     {
+      "file": "evaluation/lite/20250113_OrcaLoca/trajs/django__django-12286.traj",
+      "aggregate": 0.0375,
+      "why": "The trace only proposes repetitive, flawed reproduction scripts and never investigates or implements the Django fix, so it fails the coding objective despite being superficially re"
+     },
+     {
+      "file": "evaluation/lite/20250113_OrcaLoca/trajs/django__django-14238.traj",
+      "aggregate": 0.0,
+      "why": "The trace only repeats flawed reproduction-test suggestions and makes no repository changes or valid implementation of the Django issue."
+     },
+     {
+      "file": "evaluation/lite/20250113_OrcaLoca/trajs/pydata__xarray-3364.traj",
+      "aggregate": 0.0375,
+      "why": "The trace only proposes a partly flawed reproduction test, never investigates or implements the requested xarray fix, and includes inconsistent duplicate outputs and a missing pand"
+     }
+    ]
+   }
+  ]
+ },
+ "budgets_extra": [
+  {
+   "calls": 19,
+   "input_tokens": 40821,
+   "output_tokens": 5299,
+   "cost_nominal_usd": 0.104,
+   "cost_conservative_usd": 0.208,
+   "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+   "scale_downs": [],
+   "pass_name": "traj_wide"
+  },
+  {
+   "calls": 36,
+   "input_tokens": 59511,
+   "output_tokens": 25391,
+   "cost_nominal_usd": 0.3283,
+   "cost_conservative_usd": 0.6566,
+   "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+   "scale_downs": [],
+   "pass_name": "traj_wide"
+  },
+  {
+   "calls": 33,
+   "input_tokens": 55250,
+   "output_tokens": 23043,
+   "cost_nominal_usd": 0.2995,
+   "cost_conservative_usd": 0.599,
+   "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+   "scale_downs": [],
+   "pass_name": "traj_wide"
+  }
+ ]
 }

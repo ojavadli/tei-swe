@@ -1,8 +1,11 @@
-# TEI-SWE: Improving 26/26 Patched SWE-bench Agents for ~$0.50 Each
+# TEI-SWE: Blinded-Confirmed Improvements to 24/26 Patched SWE-bench Agents at ~$0.50 Each
 
-Artifacts for **"Improving 26 of 26 Patched SWE-bench Agents at About Half a
-Dollar Each: Blinded-Confirmed Gains from a Gated Target-Evaluate-Improve
-Loop, and a Validation Ladder for Optimization Without Execution (TEI-SWE)"**.
+Artifacts for **"Blinded-Confirmed Improvements to 24 of 26 Patched SWE-bench
+Agents at About Half a Dollar Each: A Gated Target-Evaluate-Improve Loop with
+a Validation Ladder (TEI-SWE)"**. Certification controls: pre-registered sham
+placebo (tag `prereg-sham`; CERTIFIED branch fired at 26.9% sham share vs 98.5%
+real), budget-matched random-proposal arm (TEI 10/10), external-provider judge
+(0/40 sham votes), executed do-no-harm micro-arm.
 
 ## What is here
 

@@ -1,7 +1,7 @@
 From 3a64466ae4e7f4c8ccf61a6d530c22ed2848b701 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:34 -0700
-Subject: [PATCH 06/27] tei-v7 struct-06: Reject malformed structured execution
+Subject: [PATCH 06/28] tei-v7 struct-06: Reject malformed structured execution
  payloads at the result
 
 ---

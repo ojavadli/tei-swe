@@ -1,7 +1,7 @@
 From c6211020dc80b99a1792450e03e38409d9978f63 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:10 -0700
-Subject: [PATCH 23/39] tei-v7 prompt-13: Evidence-chain localization with
+Subject: [PATCH 23/40] tei-v7 prompt-13: Evidence-chain localization with
  explicit hypothesis testing
 
 ---

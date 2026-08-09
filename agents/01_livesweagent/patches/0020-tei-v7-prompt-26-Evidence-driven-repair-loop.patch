@@ -1,7 +1,7 @@
 From 9755d5e2254946df61b78380540f2db64123595d Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:34:11 -0700
-Subject: [PATCH 20/24] tei-v7 prompt-26: Evidence-driven repair loop
+Subject: [PATCH 20/25] tei-v7 prompt-26: Evidence-driven repair loop
 
 ---
  config/livesweagent_swebench_pro.yaml | 2 +-

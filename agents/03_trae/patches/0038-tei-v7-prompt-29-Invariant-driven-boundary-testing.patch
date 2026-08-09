@@ -1,7 +1,7 @@
 From a2fa9ae4636916668054b89a456a10cfd281ed19 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:57 -0700
-Subject: [PATCH 38/39] tei-v7 prompt-29: Invariant-driven boundary testing
+Subject: [PATCH 38/40] tei-v7 prompt-29: Invariant-driven boundary testing
 
 ---
  tei/candidates.jsonl           | 1 +

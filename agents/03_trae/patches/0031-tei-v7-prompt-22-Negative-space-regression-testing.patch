@@ -1,7 +1,7 @@
 From 3c104a9c3907e5043423ab4094d149b8875fc948 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:33 -0700
-Subject: [PATCH 31/39] tei-v7 prompt-22: Negative-space regression testing
+Subject: [PATCH 31/40] tei-v7 prompt-22: Negative-space regression testing
 
 ---
  tei/candidates.jsonl           | 2 ++

@@ -1,7 +1,7 @@
 From a784a9558037f30af4e50822c315f0425c67bd01 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:38:24 -0700
-Subject: [PATCH 16/28] tei-v7 struct-18: Make non-selected API clients
+Subject: [PATCH 16/29] tei-v7 struct-18: Make non-selected API clients
  optional at module import time
 
 ---

@@ -1,0 +1,145 @@
+From 6369aa2c598c877c38cb8af3c089943dcc1450e6 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sun, 9 Aug 2026 01:21:50 -0700
+Subject: [PATCH 51/51] sham-v1: semantically-null length-matched annotations
+ (placebo arm)
+
+---
+ .DS_Store            | Bin 8196 -> 8196 bytes
+ Orcar/code_scorer.py |  19 ++++++++++
+ Orcar/prompts.py     |  84 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 103 insertions(+)
+
+diff --git a/.DS_Store b/.DS_Store
+index 912669c7e1018e5c332dfa7cb9f514503fec6806..735fb283e8e9cfad75a94844cc74986d7daa8176 100644
+GIT binary patch
+delta 106
+zcmZp1XmQw}CJ-Ct%fP_E!l1{H&XCDalAG`1l9ZF51Qg?_?SFqzPUM6ms(cDw`GO3?
+U;N<+=0-zoS25W}R%>s@50Ka4#6#xJL
+
+delta 106
+zcmZp1XmQw}CJ?Ljh=GBDg+Y%YogtH<Bsbs1B`GIA2`I*4%X>Nfq3{VuRQVLV@&y@&
+V!O8i#1wcIv3|131Hw!fK0|2tL8yx@u
+
+diff --git a/Orcar/code_scorer.py b/Orcar/code_scorer.py
+index cd8eab5..f72ee41 100644
+--- a/Orcar/code_scorer.py
++++ b/Orcar/code_scorer.py
+@@ -154,3 +154,22 @@ class CodeScorer:
+                 f"out {sum_cnt.out_token_cnt:>6} tokens"
+             )
+         )
++
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
++# NOTE: routine maintenance annotation (rev 8); no functional change.
++# NOTE: routine maintenance annotation (rev 9); no functional change.
++# NOTE: routine maintenance annotation (rev 10); no functional change.
++# NOTE: routine maintenance annotation (rev 11); no functional change.
++# NOTE: routine maintenance annotation (rev 12); no functional change.
++# NOTE: routine maintenance annotation (rev 13); no functional change.
++# NOTE: routine maintenance annotation (rev 14); no functional change.
++# NOTE: routine maintenance annotation (rev 15); no functional change.
++# NOTE: routine maintenance annotation (rev 16); no functional change.
++# NOTE: routine maintenance annotation (rev 17); no functional change.
++# NOTE: routine maintenance annotation (rev 18); no functional change.
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 7ada026..cf45cfe 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -537,3 +537,87 @@ Your output should strictly follow the format below.
+ {output_format}
+ DO NOT SPEAK ANY REDUNDANT WORDS (like 'json', 'output', etc.)
+ """
++
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
++# NOTE: routine maintenance annotation (rev 8); no functional change.
++# NOTE: routine maintenance annotation (rev 9); no functional change.
++# NOTE: routine maintenance annotation (rev 10); no functional change.
++# NOTE: routine maintenance annotation (rev 11); no functional change.
++# NOTE: routine maintenance annotation (rev 12); no functional change.
++# NOTE: routine maintenance annotation (rev 13); no functional change.
++# NOTE: routine maintenance annotation (rev 14); no functional change.
++# NOTE: routine maintenance annotation (rev 15); no functional change.
++# NOTE: routine maintenance annotation (rev 16); no functional change.
++# NOTE: routine maintenance annotation (rev 17); no functional change.
++# NOTE: routine maintenance annotation (rev 18); no functional change.
++# NOTE: routine maintenance annotation (rev 19); no functional change.
++# NOTE: routine maintenance annotation (rev 20); no functional change.
++# NOTE: routine maintenance annotation (rev 21); no functional change.
++# NOTE: routine maintenance annotation (rev 22); no functional change.
++# NOTE: routine maintenance annotation (rev 23); no functional change.
++# NOTE: routine maintenance annotation (rev 24); no functional change.
++# NOTE: routine maintenance annotation (rev 25); no functional change.
++# NOTE: routine maintenance annotation (rev 26); no functional change.
++# NOTE: routine maintenance annotation (rev 27); no functional change.
++# NOTE: routine maintenance annotation (rev 28); no functional change.
++# NOTE: routine maintenance annotation (rev 29); no functional change.
++# NOTE: routine maintenance annotation (rev 30); no functional change.
++# NOTE: routine maintenance annotation (rev 31); no functional change.
++# NOTE: routine maintenance annotation (rev 32); no functional change.
++# NOTE: routine maintenance annotation (rev 33); no functional change.
++# NOTE: routine maintenance annotation (rev 34); no functional change.
++# NOTE: routine maintenance annotation (rev 35); no functional change.
++# NOTE: routine maintenance annotation (rev 36); no functional change.
++# NOTE: routine maintenance annotation (rev 37); no functional change.
++# NOTE: routine maintenance annotation (rev 38); no functional change.
++# NOTE: routine maintenance annotation (rev 39); no functional change.
++# NOTE: routine maintenance annotation (rev 40); no functional change.
++# NOTE: routine maintenance annotation (rev 41); no functional change.
++# NOTE: routine maintenance annotation (rev 42); no functional change.
++# NOTE: routine maintenance annotation (rev 43); no functional change.
++# NOTE: routine maintenance annotation (rev 44); no functional change.
++# NOTE: routine maintenance annotation (rev 45); no functional change.
++# NOTE: routine maintenance annotation (rev 46); no functional change.
++# NOTE: routine maintenance annotation (rev 47); no functional change.
++# NOTE: routine maintenance annotation (rev 48); no functional change.
++# NOTE: routine maintenance annotation (rev 49); no functional change.
++# NOTE: routine maintenance annotation (rev 50); no functional change.
++# NOTE: routine maintenance annotation (rev 51); no functional change.
++# NOTE: routine maintenance annotation (rev 52); no functional change.
++# NOTE: routine maintenance annotation (rev 53); no functional change.
++# NOTE: routine maintenance annotation (rev 54); no functional change.
++# NOTE: routine maintenance annotation (rev 55); no functional change.
++# NOTE: routine maintenance annotation (rev 56); no functional change.
++# NOTE: routine maintenance annotation (rev 57); no functional change.
++# NOTE: routine maintenance annotation (rev 58); no functional change.
++# NOTE: routine maintenance annotation (rev 59); no functional change.
++# NOTE: routine maintenance annotation (rev 60); no functional change.
++# NOTE: routine maintenance annotation (rev 61); no functional change.
++# NOTE: routine maintenance annotation (rev 62); no functional change.
++# NOTE: routine maintenance annotation (rev 63); no functional change.
++# NOTE: routine maintenance annotation (rev 64); no functional change.
++# NOTE: routine maintenance annotation (rev 65); no functional change.
++# NOTE: routine maintenance annotation (rev 66); no functional change.
++# NOTE: routine maintenance annotation (rev 67); no functional change.
++# NOTE: routine maintenance annotation (rev 68); no functional change.
++# NOTE: routine maintenance annotation (rev 69); no functional change.
++# NOTE: routine maintenance annotation (rev 70); no functional change.
++# NOTE: routine maintenance annotation (rev 71); no functional change.
++# NOTE: routine maintenance annotation (rev 72); no functional change.
++# NOTE: routine maintenance annotation (rev 73); no functional change.
++# NOTE: routine maintenance annotation (rev 74); no functional change.
++# NOTE: routine maintenance annotation (rev 75); no functional change.
++# NOTE: routine maintenance annotation (rev 76); no functional change.
++# NOTE: routine maintenance annotation (rev 77); no functional change.
++# NOTE: routine maintenance annotation (rev 78); no functional change.
++# NOTE: routine maintenance annotation (rev 79); no functional change.
++# NOTE: routine maintenance annotation (rev 80); no functional change.
++# NOTE: routine maintenance annotation (rev 81); no functional change.
++# NOTE: routine maintenance annotation (rev 82); no functional change.
++# NOTE: routine maintenance annotation (rev 83); no functional change.
+-- 
+2.39.5 (Apple Git-154)
+

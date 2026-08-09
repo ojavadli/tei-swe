@@ -1,7 +1,7 @@
 From 10bc76f1a14cda9b8c621b09ca6f2e748f542360 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:57 -0700
-Subject: [PATCH 34/39] tei-v7 prompt-25: Evidence-first call-chain
+Subject: [PATCH 34/40] tei-v7 prompt-25: Evidence-first call-chain
  localization
 
 ---

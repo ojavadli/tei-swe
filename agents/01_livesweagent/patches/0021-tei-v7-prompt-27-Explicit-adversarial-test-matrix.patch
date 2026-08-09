@@ -1,7 +1,7 @@
 From e69f7bcea2b5b12d85da9c8df7ed303ea1804557 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:34:11 -0700
-Subject: [PATCH 21/24] tei-v7 prompt-27: Explicit adversarial test matrix
+Subject: [PATCH 21/25] tei-v7 prompt-27: Explicit adversarial test matrix
 
 ---
  config/livesweagent_swebench_pro.yaml | 2 +-

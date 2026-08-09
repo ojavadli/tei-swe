@@ -1,7 +1,7 @@
 From 91c011e16b3b69aff64bbf5f5cc21ccef8c59758 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:34 -0700
-Subject: [PATCH 02/27] tei-v7 struct-02: Prepend an explicit reconnaissance
+Subject: [PATCH 02/28] tei-v7 struct-02: Prepend an explicit reconnaissance
  step to every generated p
 
 ---

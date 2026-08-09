@@ -1,7 +1,7 @@
 From 29557c3f83e8e01efc25a4d172a2709cb8117bd0 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:44 -0700
-Subject: [PATCH 08/47] tei-v7 struct-10: Add a typed failure taxonomy and
+Subject: [PATCH 08/48] tei-v7 struct-10: Add a typed failure taxonomy and
  require retry strategy sele
 
 ---

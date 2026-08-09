@@ -1,7 +1,7 @@
 From bca393f51ba3d36764a65dd9720c24f931aeb5ea Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:35 -0700
-Subject: [PATCH 32/47] tei-v7 prompt-15: Failure-signature-driven recovery
+Subject: [PATCH 32/48] tei-v7 prompt-15: Failure-signature-driven recovery
  loop
 
 ---

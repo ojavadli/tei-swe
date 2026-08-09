@@ -1,7 +1,7 @@
 From 6b99baa27256e5d5e1d8493ea1d0cf714230bc31 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:38:24 -0700
-Subject: [PATCH 14/28] tei-v7 struct-16: Validate changed Python files for
+Subject: [PATCH 14/29] tei-v7 struct-16: Validate changed Python files for
  syntax immediately after p
 
 ---

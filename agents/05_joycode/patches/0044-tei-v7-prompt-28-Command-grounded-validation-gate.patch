@@ -1,7 +1,7 @@
 From 4a6a6e3270e84b3709cff492f0d760283941907a Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:28 -0700
-Subject: [PATCH 44/47] tei-v7 prompt-28: Command-grounded validation gate
+Subject: [PATCH 44/48] tei-v7 prompt-28: Command-grounded validation gate
 
 ---
  search_zip/zip_traj.py | 2 +-

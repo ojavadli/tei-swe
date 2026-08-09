@@ -1,7 +1,7 @@
 From 0abaee91c57a452209a595095d47b5b7c74ab4f8 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:26 -0700
-Subject: [PATCH 02/39] tei-v7 struct-02: Inject a bounded reproduce-test-debug
+Subject: [PATCH 02/40] tei-v7 struct-02: Inject a bounded reproduce-test-debug
  loop into the agent's
 
 ---

@@ -1,7 +1,7 @@
 From 66e314f38f9b3b20336bdda8070938acc490393c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:31:56 -0700
-Subject: [PATCH 05/24] tei-v7 prompt-05: Repository-native reconnaissance
+Subject: [PATCH 05/25] tei-v7 prompt-05: Repository-native reconnaissance
 
 ---
  config/livesweagent_swebench.yaml | 2 +-

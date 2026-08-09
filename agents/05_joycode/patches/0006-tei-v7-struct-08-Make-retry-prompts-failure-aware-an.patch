@@ -1,7 +1,7 @@
 From 32e86917478eb270d94a894f1fb622588f98d0ce Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:44 -0700
-Subject: [PATCH 06/47] tei-v7 struct-08: Make retry prompts failure-aware and
+Subject: [PATCH 06/48] tei-v7 struct-08: Make retry prompts failure-aware and
  stateful. Pass the fail
 
 ---

@@ -1,7 +1,7 @@
 From 386d56386c27a946dae468cd900309ac16d91eb8 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:31:56 -0700
-Subject: [PATCH 03/24] tei-v7 prompt-03: Boundary-and-compatibility test
+Subject: [PATCH 03/25] tei-v7 prompt-03: Boundary-and-compatibility test
  matrix
 
 ---

@@ -1,7 +1,7 @@
 From 7dc99e0bfb61ce9121ab5b7e8d28396095532c30 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:54 -0700
-Subject: [PATCH 13/27] tei-v7 struct-16: Strict execution-result serialization
+Subject: [PATCH 13/28] tei-v7 struct-16: Strict execution-result serialization
 
 ---
  patchwork/common/multiturn_strategy/planning_strategy.py | 8 +++++++-

@@ -1,7 +1,7 @@
 From ba7a7876f43dc105bcc52256511e18072af369bb Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:08 -0700
-Subject: [PATCH 03/50] tei-v7 struct-03: Replace raw relevance scoring with a
+Subject: [PATCH 03/51] tei-v7 struct-03: Replace raw relevance scoring with a
  repairability-aware rub
 
 ---

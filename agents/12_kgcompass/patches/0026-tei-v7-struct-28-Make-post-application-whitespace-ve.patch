@@ -1,7 +1,7 @@
 From 8b7407bd84e9be2fc9b59125ed1d30ff90ad01bc Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:51 -0700
-Subject: [PATCH 26/28] tei-v7 struct-28: Make post-application whitespace
+Subject: [PATCH 26/29] tei-v7 struct-28: Make post-application whitespace
  verification failure-safe
 
 ---

@@ -1,7 +1,7 @@
 From 76b34964855cb3962aa8158dc6c3a4aea4814a3b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:10 -0700
-Subject: [PATCH 25/39] tei-v7 prompt-15: Failing-test-first execution loop
+Subject: [PATCH 25/40] tei-v7 prompt-15: Failing-test-first execution loop
 
 ---
  tei/candidates.jsonl           | 1 +

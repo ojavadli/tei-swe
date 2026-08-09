@@ -1,7 +1,7 @@
 From e671ebdc3367ae01ccbe40cee91fbe7fc69570f6 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:57 -0700
-Subject: [PATCH 41/47] tei-v7 prompt-24: Two-phase validation with
+Subject: [PATCH 41/48] tei-v7 prompt-24: Two-phase validation with
  minimal-patch fallback
 
 ---

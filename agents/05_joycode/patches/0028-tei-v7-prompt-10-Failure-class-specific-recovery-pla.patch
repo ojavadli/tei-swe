@@ -1,7 +1,7 @@
 From 7d02f6c34beb8a3651393b1e8d7686d1a854a88e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:10 -0700
-Subject: [PATCH 28/47] tei-v7 prompt-10: Failure-class-specific recovery
+Subject: [PATCH 28/48] tei-v7 prompt-10: Failure-class-specific recovery
  playbook
 
 ---

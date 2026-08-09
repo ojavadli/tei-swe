@@ -1,7 +1,7 @@
 From 7cdacbd6a8e8a6da8da4b07b57526046f10764f8 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:31:56 -0700
-Subject: [PATCH 02/24] tei-v7 prompt-02: Hypothesis-driven implementation and
+Subject: [PATCH 02/25] tei-v7 prompt-02: Hypothesis-driven implementation and
  recovery loop
 
 ---

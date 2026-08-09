@@ -1,7 +1,7 @@
 From 9319f3abbb0213cbe697cda1ea1d5f2e75ef4f8e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:32 -0700
-Subject: [PATCH 28/50] tei-v7 prompt-02: Competing-hypothesis recovery loop
+Subject: [PATCH 28/51] tei-v7 prompt-02: Competing-hypothesis recovery loop
 
 ---
  Orcar/prompts.py | 2 +-

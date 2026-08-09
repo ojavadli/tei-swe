@@ -1,7 +1,7 @@
 From 18a3182d71c116b448dee45b44d56b3063c96aeb Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:02:23 -0700
-Subject: [PATCH 49/50] tei-v7 prompt-30: Causal-path and context-boundary
+Subject: [PATCH 49/51] tei-v7 prompt-30: Causal-path and context-boundary
  selection
 
 ---

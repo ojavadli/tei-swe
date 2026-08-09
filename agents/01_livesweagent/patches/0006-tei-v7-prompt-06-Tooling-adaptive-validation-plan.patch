@@ -1,7 +1,7 @@
 From 2ea31d899838bbc0f35424ff4512dedf55602a3f Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:31:56 -0700
-Subject: [PATCH 06/24] tei-v7 prompt-06: Tooling-adaptive validation plan
+Subject: [PATCH 06/25] tei-v7 prompt-06: Tooling-adaptive validation plan
 
 ---
  config/livesweagent_swebench_pro.yaml | 2 +-

@@ -1,7 +1,7 @@
 From f5b682af4f9ff32cd0f0fd13c676693d61df1895 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:32 -0700
-Subject: [PATCH 30/50] tei-v7 prompt-05: Layered context packet
+Subject: [PATCH 30/51] tei-v7 prompt-05: Layered context packet
 
 ---
  Orcar/prompts.py | 2 +-

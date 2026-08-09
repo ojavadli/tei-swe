@@ -1,7 +1,7 @@
 From 3625cee48a6c42fc2ce657018dc260f7823d0f9e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:24 -0700
-Subject: [PATCH 36/50] tei-v7 prompt-15: Competing-hypothesis falsification
+Subject: [PATCH 36/51] tei-v7 prompt-15: Competing-hypothesis falsification
 
 ---
  Orcar/code_scorer.py | 2 +-

@@ -1,7 +1,7 @@
 From 368ee6bbadbda147364d57a93c66263b190186b7 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:57 -0700
-Subject: [PATCH 39/47] tei-v7 prompt-22: Verified-path execution contract
+Subject: [PATCH 39/48] tei-v7 prompt-22: Verified-path execution contract
 
 ---
  search_zip/zip_traj.py | 2 +-

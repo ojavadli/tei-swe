@@ -1,0 +1,210 @@
+From 2572c8d385c65a12476b6dcdac0ed2f531ea68c3 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sun, 9 Aug 2026 01:17:50 -0700
+Subject: [PATCH 40/40] sham-v1: semantically-null length-matched annotations
+ (placebo arm)
+
+---
+ .../trae_selector/selector_agent.py           | 18 ++++
+ tei/REPORT.md                                 | 97 +++++++++++++++++--
+ tei/candidates.jsonl                          |  1 +
+ trae_agent/agent/trae_agent.py                | 18 ++++
+ 4 files changed, 124 insertions(+), 10 deletions(-)
+
+diff --git a/evaluation/patch_selection/trae_selector/selector_agent.py b/evaluation/patch_selection/trae_selector/selector_agent.py
+index 862e039..5c8128f 100755
+--- a/evaluation/patch_selection/trae_selector/selector_agent.py
++++ b/evaluation/patch_selection/trae_selector/selector_agent.py
+@@ -252,3 +252,21 @@ class SelectorAgent:
+         self.sandbox_session.close()
+ 
+         return final_id, final_patch
++
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
++# NOTE: routine maintenance annotation (rev 8); no functional change.
++# NOTE: routine maintenance annotation (rev 9); no functional change.
++# NOTE: routine maintenance annotation (rev 10); no functional change.
++# NOTE: routine maintenance annotation (rev 11); no functional change.
++# NOTE: routine maintenance annotation (rev 12); no functional change.
++# NOTE: routine maintenance annotation (rev 13); no functional change.
++# NOTE: routine maintenance annotation (rev 14); no functional change.
++# NOTE: routine maintenance annotation (rev 15); no functional change.
++# NOTE: routine maintenance annotation (rev 16); no functional change.
++# NOTE: routine maintenance annotation (rev 17); no functional change.
+diff --git a/tei/REPORT.md b/tei/REPORT.md
+index aa7e69b..304c523 100644
+--- a/tei/REPORT.md
++++ b/tei/REPORT.md
+@@ -5,7 +5,7 @@
+ 
+ > **All scores below are PROXY** — `gpt-5.6-luna` rubric scores against diagnosed
+ > failure modes and fixed probe instances. This agent was not executed
+-> (n/a). PROXY scores are not
++> (cli entry point plausible; execution still requires SWE-bench task infra). PROXY scores are not
+ > resolve-rate gains and must not be reported as such.
+ 
+ ## Score trajectory
+@@ -13,9 +13,9 @@
+ | Stage | Aggregate |
+ |---|---|
+ | Baseline (default agent) | **0.835** |
+-| Best structural version (None) | **None** |
+-| Best final version (None) | **None** |
+-| Shipped | **None** |
++| Best structural version (struct-06) | **0.885** |
++| Best final version (prompt-03) | **0.89** |
++| Shipped | **prompt-03** |
+ 
+ Baseline dimensions: `{"target_alignment": 0.86, "reasoning_soundness": 0.82, "execution_accuracy": 0.79, "output_integrity": 0.87}`
+ Weakest dimension: **execution_accuracy**
+@@ -31,19 +31,33 @@ Weakest dimension: **execution_accuracy**
+ | Phase | Versions | Applied as real commits |
+ |---|---|---|
+ | A — structural | 30 | 17 |
+-| B — prompt | 24 | 16 |
+-| **total** | **54** | **33** |
++| B — prompt | 30 | 22 |
++| **total** | **60** | **39** |
+ 
+-All 54 versions with their scores and why-records are in `tei/candidates.jsonl`.
++All 60 versions with their scores and why-records are in `tei/candidates.jsonl`.
+ 
+ ## Do-no-harm confirmation (tei_loop.gate.verify_candidate)
+ 
+ ```json
+-{}
++{
++  "n_queries": 4,
++  "cand_mean": 0.6475,
++  "ref_mean": 0.575,
++  "delta": 0.0725,
++  "wins": 4,
++  "losses": 0,
++  "sign_p": 0.125,
++  "margin_hoeffding": 0.679,
++  "mde": 0.297,
++  "insufficient_n": false,
++  "accept": true,
++  "reason": "mean not below reference; 4W/0L paired (sign p=0.125)",
++  "preflight": "Power check: with 4 eval queries, only mean-score changes >= ~0.30 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
++}
+ ```
+ 
+-Paraphrase noise floor: `{}`
+-
++Paraphrase noise floor: `{"paraphrase_aggregates": [0.835, 0.84, 0.84], "noise_floor": 0.005}`
++The best shipped gain is ABOVE the paraphrase noise floor.
+ 
+ ## Top 3 why-records
+ 
+@@ -60,3 +74,66 @@ Paraphrase noise floor: `{}`
+ ## Trajectory availability
+ 
+ SWE-bench/experiments ships aggregate results only; logs/ and trajs/ are in a credentialed S3 bucket (archive README). No AWS access per owner directive, so 0 recorded trajectories were read.
++
++<!-- routine maintenance annotation (rev 1); no functional change. -->
++<!-- routine maintenance annotation (rev 2); no functional change. -->
++<!-- routine maintenance annotation (rev 3); no functional change. -->
++<!-- routine maintenance annotation (rev 4); no functional change. -->
++<!-- routine maintenance annotation (rev 5); no functional change. -->
++<!-- routine maintenance annotation (rev 6); no functional change. -->
++<!-- routine maintenance annotation (rev 7); no functional change. -->
++<!-- routine maintenance annotation (rev 8); no functional change. -->
++<!-- routine maintenance annotation (rev 9); no functional change. -->
++<!-- routine maintenance annotation (rev 10); no functional change. -->
++<!-- routine maintenance annotation (rev 11); no functional change. -->
++<!-- routine maintenance annotation (rev 12); no functional change. -->
++<!-- routine maintenance annotation (rev 13); no functional change. -->
++<!-- routine maintenance annotation (rev 14); no functional change. -->
++<!-- routine maintenance annotation (rev 15); no functional change. -->
++<!-- routine maintenance annotation (rev 16); no functional change. -->
++<!-- routine maintenance annotation (rev 17); no functional change. -->
++<!-- routine maintenance annotation (rev 18); no functional change. -->
++<!-- routine maintenance annotation (rev 19); no functional change. -->
++<!-- routine maintenance annotation (rev 20); no functional change. -->
++<!-- routine maintenance annotation (rev 21); no functional change. -->
++<!-- routine maintenance annotation (rev 22); no functional change. -->
++<!-- routine maintenance annotation (rev 23); no functional change. -->
++<!-- routine maintenance annotation (rev 24); no functional change. -->
++<!-- routine maintenance annotation (rev 25); no functional change. -->
++<!-- routine maintenance annotation (rev 26); no functional change. -->
++<!-- routine maintenance annotation (rev 27); no functional change. -->
++<!-- routine maintenance annotation (rev 28); no functional change. -->
++<!-- routine maintenance annotation (rev 29); no functional change. -->
++<!-- routine maintenance annotation (rev 30); no functional change. -->
++<!-- routine maintenance annotation (rev 31); no functional change. -->
++<!-- routine maintenance annotation (rev 32); no functional change. -->
++<!-- routine maintenance annotation (rev 33); no functional change. -->
++<!-- routine maintenance annotation (rev 34); no functional change. -->
++<!-- routine maintenance annotation (rev 35); no functional change. -->
++<!-- routine maintenance annotation (rev 36); no functional change. -->
++<!-- routine maintenance annotation (rev 37); no functional change. -->
++<!-- routine maintenance annotation (rev 38); no functional change. -->
++<!-- routine maintenance annotation (rev 39); no functional change. -->
++<!-- routine maintenance annotation (rev 40); no functional change. -->
++<!-- routine maintenance annotation (rev 41); no functional change. -->
++<!-- routine maintenance annotation (rev 42); no functional change. -->
++<!-- routine maintenance annotation (rev 43); no functional change. -->
++<!-- routine maintenance annotation (rev 44); no functional change. -->
++<!-- routine maintenance annotation (rev 45); no functional change. -->
++<!-- routine maintenance annotation (rev 46); no functional change. -->
++<!-- routine maintenance annotation (rev 47); no functional change. -->
++<!-- routine maintenance annotation (rev 48); no functional change. -->
++<!-- routine maintenance annotation (rev 49); no functional change. -->
++<!-- routine maintenance annotation (rev 50); no functional change. -->
++<!-- routine maintenance annotation (rev 51); no functional change. -->
++<!-- routine maintenance annotation (rev 52); no functional change. -->
++<!-- routine maintenance annotation (rev 53); no functional change. -->
++<!-- routine maintenance annotation (rev 54); no functional change. -->
++<!-- routine maintenance annotation (rev 55); no functional change. -->
++<!-- routine maintenance annotation (rev 56); no functional change. -->
++<!-- routine maintenance annotation (rev 57); no functional change. -->
++<!-- routine maintenance annotation (rev 58); no functional change. -->
++<!-- routine maintenance annotation (rev 59); no functional change. -->
++<!-- routine maintenance annotation (rev 60); no functional change. -->
++<!-- routine maintenance annotation (rev 61); no functional change. -->
++<!-- routine maintenance annotation (rev 62); no functional change. -->
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index aa49cd7..fb52663 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -57,3 +57,4 @@
+ {"version_id": "prompt-27", "phase": "prompt", "technique": "Layered test-gated iteration", "target_failure_mode": "Insufficient validation and iterative debugging", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "then trace that exact input through the concrete call chain", "replace": "then trace that exact input through the concrete call chain, implement the smallest patch, and immediately run the narrowest relevant test; after every failure, classify it as a test-selection, environment, assertion, or implementation failure and revise the patch or test plan before proceeding"}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.85, "execution_accuracy": 0.85, "output_integrity": 0.89}, "aggregate": 0.865, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.97}, {"instance_id": "django__django-16938", "score": 0.31}, {"instance_id": "astropy__astropy-13033", "score": 0.3}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.03, "why": "Tracing the exact input through the concrete call chain and running the narrowest test after each patch directly addresses insufficient validation and iterative debugging. Failure classification makes revisions more disciplined, producing the strongest execution improvement, while coverage of compatibility and edge cases remains incomplete."}
+ {"version_id": "prompt-28", "phase": "prompt", "technique": "Differential regression validation", "target_failure_mode": "Insufficient validation and iterative debugging", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "Record the exact files, symbols, and conditions", "replace": "Record the exact files, symbols, and conditions, then validate in three stages: reproduce the original failure, run focused tests for the changed behavior, and run adjacent regression tests or the relevant package subset; do not finalize until failures are explained or fixed"}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.84, "execution_accuracy": 0.86, "output_integrity": 0.91}, "aggregate": 0.87, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.97}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.97}, {"instance_id": "django__django-16938", "score": 0.3}, {"instance_id": "astropy__astropy-13033", "score": 0.28}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.035, "why": "Three-stage differential validation gives strong protection against declaring success after only a narrow test passes and improves regression detection and final-result integrity. It is less helpful than call-chain or hypothesis methods for discovering the correct implementation in an unfamiliar repository."}
+ {"version_id": "prompt-29", "phase": "prompt", "technique": "Invariant-driven boundary testing", "target_failure_mode": "Edge-case and regression handling", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "covering the reported case, the normal case", "replace": "covering the reported case, the normal case, and explicit invariants for shape, type, units, ordering, mutability, idempotence, and error behavior"}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.85, "execution_accuracy": 0.83, "output_integrity": 0.92}, "aggregate": 0.8675, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.96}, {"instance_id": "django__django-16938", "score": 0.27}, {"instance_id": "astropy__astropy-13033", "score": 0.31}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0325, "why": "Explicit tests for shape, type, units, ordering, mutability, idempotence, and errors are particularly valuable for scientific-library and framework edge cases. The broad invariant list improves regression resistance and output integrity but does not ensure correct repository localization or implementation strategy."}
++{"version_id": "prompt-30", "phase": "prompt", "technique": "Compatibility-preserving behavior partitioning", "target_failure_mode": "Edge-case and regression handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "compatibility-sensitive legacy behavior", "replace": "compatibility-sensitive legacy behavior, including old return types, exception classes and messages, default values, ordering, mutation or aliasing semantics, and backend-specific behavior"}, "dimensions": {"target_alignment": 0.85, "reasoning_soundness": 0.84, "execution_accuracy": 0.82, "output_integrity": 0.93}, "aggregate": 0.86, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.95}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.96}, {"instance_id": "django__django-16938", "score": 0.26}, {"instance_id": "astropy__astropy-13033", "score": 0.28}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.025, "why": "Partitioning legacy compatibility behavior substantially improves preservation of return types, exception behavior, defaults, ordering, aliasing, and backend differences. It can over-constrain a fix around historical behavior and does not materially improve diagnosis or iterative debugging, causing target alignment and execution to fall slightly below baseline."}
+diff --git a/trae_agent/agent/trae_agent.py b/trae_agent/agent/trae_agent.py
+index 53aacad..2beb2f3 100644
+--- a/trae_agent/agent/trae_agent.py
++++ b/trae_agent/agent/trae_agent.py
+@@ -273,3 +273,21 @@ class TraeAgent(BaseAgent):
+                 # Use a generic server name for cleanup since we don't track which server each client is for
+                 await client.cleanup("cleanup")
+         self.mcp_clients.clear()
++
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
++# NOTE: routine maintenance annotation (rev 8); no functional change.
++# NOTE: routine maintenance annotation (rev 9); no functional change.
++# NOTE: routine maintenance annotation (rev 10); no functional change.
++# NOTE: routine maintenance annotation (rev 11); no functional change.
++# NOTE: routine maintenance annotation (rev 12); no functional change.
++# NOTE: routine maintenance annotation (rev 13); no functional change.
++# NOTE: routine maintenance annotation (rev 14); no functional change.
++# NOTE: routine maintenance annotation (rev 15); no functional change.
++# NOTE: routine maintenance annotation (rev 16); no functional change.
++# NOTE: routine maintenance annotation (rev 17); no functional change.
+-- 
+2.39.5 (Apple Git-154)
+

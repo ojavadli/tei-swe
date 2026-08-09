@@ -1,7 +1,7 @@
 From da7c6ceddeee3c926d2b2f60de3b2db45efa9633 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:10 -0700
-Subject: [PATCH 02/47] tei-v7 struct-03: Evidence-based trajectory diagnosis
+Subject: [PATCH 02/48] tei-v7 struct-03: Evidence-based trajectory diagnosis
 
 ---
  search_zip/zip_traj.py | 2 +-

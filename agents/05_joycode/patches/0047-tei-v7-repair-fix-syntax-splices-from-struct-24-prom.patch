@@ -1,7 +1,7 @@
 From 68c68b1e2fa3ed54a8c4a01d2e9be34148443c53 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 21:45:55 -0700
-Subject: [PATCH 47/47] tei-v7 repair: fix syntax splices from
+Subject: [PATCH 47/48] tei-v7 repair: fix syntax splices from
  struct-24/prompt-30 (stray enum dup; spliced paren fragment)
 
 ---

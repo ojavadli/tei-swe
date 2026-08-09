@@ -1,7 +1,7 @@
 From b60a3fb3f6e7bf1d7428ec3c72242438d5465bb4 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:10 -0700
-Subject: [PATCH 04/47] tei-v7 struct-06: Configurable retry budget and backoff
+Subject: [PATCH 04/48] tei-v7 struct-06: Configurable retry budget and backoff
  policy
 
 ---

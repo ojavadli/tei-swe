@@ -1,7 +1,7 @@
 From 8d8bbc792f8992d970508fdd3f15ef7e8f32238b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:14 -0700
-Subject: [PATCH 14/50] tei-v7 struct-17: Make code scores conditional on
+Subject: [PATCH 14/51] tei-v7 struct-17: Make code scores conditional on
  execution-path and test cons
 
 ---

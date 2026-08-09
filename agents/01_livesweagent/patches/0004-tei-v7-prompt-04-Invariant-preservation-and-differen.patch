@@ -1,7 +1,7 @@
 From 852e26461ca7b110a3042fdb496b8d06837eadb8 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:31:56 -0700
-Subject: [PATCH 04/24] tei-v7 prompt-04: Invariant preservation and
+Subject: [PATCH 04/25] tei-v7 prompt-04: Invariant preservation and
  differential inspection
 
 ---

@@ -1,7 +1,7 @@
 From 9d6f5147d385674489d34f67b962a0d497007178 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:42:18 -0700
-Subject: [PATCH 25/27] tei-v7 struct-28: Credibility threshold for planned
+Subject: [PATCH 25/28] tei-v7 struct-28: Credibility threshold for planned
  steps
 
 ---

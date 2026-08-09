@@ -1,7 +1,7 @@
 From 9b96ba17fd9e13cb3f6231f98c64bc4e3afa0983 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:14 -0700
-Subject: [PATCH 11/50] tei-v7 struct-14: Expand the step state into a typed
+Subject: [PATCH 11/51] tei-v7 struct-14: Expand the step state into a typed
  failure contract and patc
 
 ---

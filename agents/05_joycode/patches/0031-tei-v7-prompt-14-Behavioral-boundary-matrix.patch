@@ -1,7 +1,7 @@
 From 964890e0c472382f93ef38a2a57bca8bd429dd92 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:35 -0700
-Subject: [PATCH 31/47] tei-v7 prompt-14: Behavioral boundary matrix
+Subject: [PATCH 31/48] tei-v7 prompt-14: Behavioral boundary matrix
 
 ---
  utils/dynamic_agent.py | 2 +-

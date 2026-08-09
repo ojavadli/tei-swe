@@ -1,7 +1,7 @@
 From 31f1f95284ed7404d3ba9f0429efd133c0c0b087 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:01 -0700
-Subject: [PATCH 22/28] tei-v7 struct-24: Make the OpenAI dependency optional
+Subject: [PATCH 22/29] tei-v7 struct-24: Make the OpenAI dependency optional
  at module import time
 
 ---

@@ -1,7 +1,7 @@
 From 4b51861ea38feb80452450458099c9a5b7548de5 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:59:09 -0700
-Subject: [PATCH 21/50] tei-v7 struct-25: Require a recorded baseline before
+Subject: [PATCH 21/51] tei-v7 struct-25: Require a recorded baseline before
  accepting any localizatio
 
 ---

@@ -1,7 +1,7 @@
 From 883277b73e742cba4a5a2019d7dd023532660b39 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:33 -0700
-Subject: [PATCH 30/39] tei-v7 prompt-20: Change-surface and contract inventory
+Subject: [PATCH 30/40] tei-v7 prompt-20: Change-surface and contract inventory
 
 ---
  tei/candidates.jsonl           | 1 +

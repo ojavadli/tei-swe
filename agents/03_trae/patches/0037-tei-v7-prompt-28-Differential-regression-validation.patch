@@ -1,7 +1,7 @@
 From 31929bc10fe7757de81269b130cc8d89533c811b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:57 -0700
-Subject: [PATCH 37/39] tei-v7 prompt-28: Differential regression validation
+Subject: [PATCH 37/40] tei-v7 prompt-28: Differential regression validation
 
 ---
  tei/candidates.jsonl           | 1 +

@@ -1,7 +1,7 @@
 From 41cc1de7c2a61928e870f8b15239cfe1b632a737 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:57 -0700
-Subject: [PATCH 35/39] tei-v7 prompt-26: Hypothesis competition and minimal
+Subject: [PATCH 35/40] tei-v7 prompt-26: Hypothesis competition and minimal
  design selection
 
 ---

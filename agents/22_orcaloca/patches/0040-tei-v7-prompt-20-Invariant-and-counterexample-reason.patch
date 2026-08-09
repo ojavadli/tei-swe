@@ -1,7 +1,7 @@
 From 2bc318c7771a62a9032251b8005fe1d68ecbf5f5 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:56 -0700
-Subject: [PATCH 40/50] tei-v7 prompt-20: Invariant-and-counterexample
+Subject: [PATCH 40/51] tei-v7 prompt-20: Invariant-and-counterexample
  reasoning for difficult cases
 
 ---

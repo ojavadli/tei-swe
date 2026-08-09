@@ -1,0 +1,148 @@
+From db54c5473a23d76244897891962426728ba94883 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sun, 9 Aug 2026 01:18:09 -0700
+Subject: [PATCH 48/48] sham-v1: semantically-null length-matched annotations
+ (placebo arm)
+
+---
+ .DS_Store                    | Bin 14340 -> 14340 bytes
+ llm_server/client_manager.py |  57 +++++++++++++++++++++++++++++++++++
+ search_zip/zip_traj.py       |   8 +++++
+ utils/dynamic_agent.py       |  32 ++++++++++++++++++++
+ 4 files changed, 97 insertions(+)
+
+diff --git a/.DS_Store b/.DS_Store
+index ad0420a6009f8cd10953f641cfb00069eacaf1a7..4598b7f618e86eb2d449ce9af6262416862dd5ce 100644
+GIT binary patch
+delta 126
+zcmZoEXepR*fTdF7=E02@&DbYC;N8s5Aukc@c9emEfrUYjA)O(Up(Hoo#U&{xKM5$t
+o0a7X_a>5Z+J_WCQL55*)a(-?BP!9ux-Gs?I6{I)MQ%DmB0ESZ|=l}o!
+
+delta 125
+zcmZoEXepR*fW?+O!)N0~GxmuOcsH|i$V<d<*E29MurTN`q%&kPl;q~SxFqG|CjrGc
+mKuRA9pKwH#Pr)l+kYN~{oS$0&)Wg7FH+hGG%;tFtY2pB49w40n
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index 2b5aa8d..41312fd 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -549,3 +549,60 @@ def list_all_configs() -> Dict[str, Dict[str, Any]]:
+             "timeout": config.timeout
+         }
+     return configs
++
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
++# NOTE: routine maintenance annotation (rev 8); no functional change.
++# NOTE: routine maintenance annotation (rev 9); no functional change.
++# NOTE: routine maintenance annotation (rev 10); no functional change.
++# NOTE: routine maintenance annotation (rev 11); no functional change.
++# NOTE: routine maintenance annotation (rev 12); no functional change.
++# NOTE: routine maintenance annotation (rev 13); no functional change.
++# NOTE: routine maintenance annotation (rev 14); no functional change.
++# NOTE: routine maintenance annotation (rev 15); no functional change.
++# NOTE: routine maintenance annotation (rev 16); no functional change.
++# NOTE: routine maintenance annotation (rev 17); no functional change.
++# NOTE: routine maintenance annotation (rev 18); no functional change.
++# NOTE: routine maintenance annotation (rev 19); no functional change.
++# NOTE: routine maintenance annotation (rev 20); no functional change.
++# NOTE: routine maintenance annotation (rev 21); no functional change.
++# NOTE: routine maintenance annotation (rev 22); no functional change.
++# NOTE: routine maintenance annotation (rev 23); no functional change.
++# NOTE: routine maintenance annotation (rev 24); no functional change.
++# NOTE: routine maintenance annotation (rev 25); no functional change.
++# NOTE: routine maintenance annotation (rev 26); no functional change.
++# NOTE: routine maintenance annotation (rev 27); no functional change.
++# NOTE: routine maintenance annotation (rev 28); no functional change.
++# NOTE: routine maintenance annotation (rev 29); no functional change.
++# NOTE: routine maintenance annotation (rev 30); no functional change.
++# NOTE: routine maintenance annotation (rev 31); no functional change.
++# NOTE: routine maintenance annotation (rev 32); no functional change.
++# NOTE: routine maintenance annotation (rev 33); no functional change.
++# NOTE: routine maintenance annotation (rev 34); no functional change.
++# NOTE: routine maintenance annotation (rev 35); no functional change.
++# NOTE: routine maintenance annotation (rev 36); no functional change.
++# NOTE: routine maintenance annotation (rev 37); no functional change.
++# NOTE: routine maintenance annotation (rev 38); no functional change.
++# NOTE: routine maintenance annotation (rev 39); no functional change.
++# NOTE: routine maintenance annotation (rev 40); no functional change.
++# NOTE: routine maintenance annotation (rev 41); no functional change.
++# NOTE: routine maintenance annotation (rev 42); no functional change.
++# NOTE: routine maintenance annotation (rev 43); no functional change.
++# NOTE: routine maintenance annotation (rev 44); no functional change.
++# NOTE: routine maintenance annotation (rev 45); no functional change.
++# NOTE: routine maintenance annotation (rev 46); no functional change.
++# NOTE: routine maintenance annotation (rev 47); no functional change.
++# NOTE: routine maintenance annotation (rev 48); no functional change.
++# NOTE: routine maintenance annotation (rev 49); no functional change.
++# NOTE: routine maintenance annotation (rev 50); no functional change.
++# NOTE: routine maintenance annotation (rev 51); no functional change.
++# NOTE: routine maintenance annotation (rev 52); no functional change.
++# NOTE: routine maintenance annotation (rev 53); no functional change.
++# NOTE: routine maintenance annotation (rev 54); no functional change.
++# NOTE: routine maintenance annotation (rev 55); no functional change.
++# NOTE: routine maintenance annotation (rev 56); no functional change.
+diff --git a/search_zip/zip_traj.py b/search_zip/zip_traj.py
+index e7720f3..d90b329 100644
+--- a/search_zip/zip_traj.py
++++ b/search_zip/zip_traj.py
+@@ -103,3 +103,11 @@ def zip_traj(data):
+     # Return result list (preserving input order)
+     result_lst = [result_dict[instance_id] for instance_id in instance_lst]
+     return result_lst
++
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index e0bcc07..65985ff 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -242,3 +242,35 @@ def execute_experience_retry_agent(instance_id: str, problem_statement: str,
+         'similar_case': similar_case
+     }
+     return executor.execute_agent("experience_retry", problem_statement, extra_data)
++
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
++# NOTE: routine maintenance annotation (rev 8); no functional change.
++# NOTE: routine maintenance annotation (rev 9); no functional change.
++# NOTE: routine maintenance annotation (rev 10); no functional change.
++# NOTE: routine maintenance annotation (rev 11); no functional change.
++# NOTE: routine maintenance annotation (rev 12); no functional change.
++# NOTE: routine maintenance annotation (rev 13); no functional change.
++# NOTE: routine maintenance annotation (rev 14); no functional change.
++# NOTE: routine maintenance annotation (rev 15); no functional change.
++# NOTE: routine maintenance annotation (rev 16); no functional change.
++# NOTE: routine maintenance annotation (rev 17); no functional change.
++# NOTE: routine maintenance annotation (rev 18); no functional change.
++# NOTE: routine maintenance annotation (rev 19); no functional change.
++# NOTE: routine maintenance annotation (rev 20); no functional change.
++# NOTE: routine maintenance annotation (rev 21); no functional change.
++# NOTE: routine maintenance annotation (rev 22); no functional change.
++# NOTE: routine maintenance annotation (rev 23); no functional change.
++# NOTE: routine maintenance annotation (rev 24); no functional change.
++# NOTE: routine maintenance annotation (rev 25); no functional change.
++# NOTE: routine maintenance annotation (rev 26); no functional change.
++# NOTE: routine maintenance annotation (rev 27); no functional change.
++# NOTE: routine maintenance annotation (rev 28); no functional change.
++# NOTE: routine maintenance annotation (rev 29); no functional change.
++# NOTE: routine maintenance annotation (rev 30); no functional change.
++# NOTE: routine maintenance annotation (rev 31); no functional change.
+-- 
+2.39.5 (Apple Git-154)
+

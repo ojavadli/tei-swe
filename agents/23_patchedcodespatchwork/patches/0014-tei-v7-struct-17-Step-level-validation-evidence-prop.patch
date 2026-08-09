@@ -1,7 +1,7 @@
 From b373efda9cc52a67e8e96db73937d9207c8047a6 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:54 -0700
-Subject: [PATCH 14/27] tei-v7 struct-17: Step-level validation evidence
+Subject: [PATCH 14/28] tei-v7 struct-17: Step-level validation evidence
  propagation
 
 ---

@@ -1,7 +1,7 @@
 From d2b62fb9ceb72e084036d8af7d17f65da8ed3fad Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:42:18 -0700
-Subject: [PATCH 26/27] tei-v7 struct-29: Portable prompt-template path
+Subject: [PATCH 26/28] tei-v7 struct-29: Portable prompt-template path
  resolution
 
 ---

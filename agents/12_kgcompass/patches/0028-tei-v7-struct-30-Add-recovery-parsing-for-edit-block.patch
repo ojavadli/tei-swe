@@ -1,7 +1,7 @@
 From b15c502465cd621384326acb665e4d6bd109bd3e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:51 -0700
-Subject: [PATCH 28/28] tei-v7 struct-30: Add recovery parsing for edit blocks
+Subject: [PATCH 28/29] tei-v7 struct-30: Add recovery parsing for edit blocks
  after strict diff-comma
 
 ---

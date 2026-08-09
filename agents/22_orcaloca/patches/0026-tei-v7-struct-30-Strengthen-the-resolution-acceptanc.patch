@@ -1,7 +1,7 @@
 From 33ea36d383ef8461965682668bf4ae6b4dc774c4 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:59:09 -0700
-Subject: [PATCH 26/50] tei-v7 struct-30: Strengthen the resolution acceptance
+Subject: [PATCH 26/51] tei-v7 struct-30: Strengthen the resolution acceptance
  rule with an exact orac
 
 ---

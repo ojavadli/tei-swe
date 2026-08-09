@@ -1,7 +1,7 @@
 From f81f96047913602e0f52550ec445d3d0456f474e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:33:39 -0700
-Subject: [PATCH 13/24] tei-v7 prompt-19: Acceptance-contract and
+Subject: [PATCH 13/25] tei-v7 prompt-19: Acceptance-contract and
  failing-reproduction gate
 
 ---

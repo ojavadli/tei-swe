@@ -1,7 +1,7 @@
 From c7abd5876b97fb31d0b4a0754646463cabfb0af1 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:38:24 -0700
-Subject: [PATCH 11/28] tei-v7 struct-13: Make localization JSON extraction
+Subject: [PATCH 11/29] tei-v7 struct-13: Make localization JSON extraction
  executable by importing it
 
 ---

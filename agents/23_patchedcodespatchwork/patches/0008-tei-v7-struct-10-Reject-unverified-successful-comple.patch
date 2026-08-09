@@ -1,7 +1,7 @@
 From c95472bb247c71314c7c35c70ae849fbf9bdd995 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:14 -0700
-Subject: [PATCH 08/27] tei-v7 struct-10: Reject unverified successful
+Subject: [PATCH 08/28] tei-v7 struct-10: Reject unverified successful
  completions
 
 ---

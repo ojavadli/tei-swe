@@ -1,7 +1,7 @@
 From 62d5debd55cf2e7b8cccb8b6ceca550f3ef2cc9e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:59:09 -0700
-Subject: [PATCH 25/50] tei-v7 struct-29: Make the patch contract reject
+Subject: [PATCH 25/51] tei-v7 struct-29: Make the patch contract reject
  speculative multi-site edits
 
 ---

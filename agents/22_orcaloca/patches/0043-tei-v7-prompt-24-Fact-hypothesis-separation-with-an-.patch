@@ -1,7 +1,7 @@
 From f8e4d826c4a9aa611e80eae29b9bbdd3afb962ee Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:56 -0700
-Subject: [PATCH 43/50] tei-v7 prompt-24: Fact-hypothesis separation with an
+Subject: [PATCH 43/51] tei-v7 prompt-24: Fact-hypothesis separation with an
  actionable uncertainty le
 
 ---

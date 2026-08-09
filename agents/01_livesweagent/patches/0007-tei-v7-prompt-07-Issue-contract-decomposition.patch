@@ -1,7 +1,7 @@
 From 1e9e517c72b8ffef05a8b74ccef01f914d9f6cc6 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:32:32 -0700
-Subject: [PATCH 07/24] tei-v7 prompt-07: Issue-contract decomposition
+Subject: [PATCH 07/25] tei-v7 prompt-07: Issue-contract decomposition
 
 ---
  config/livesweagent_swebench_pro.yaml | 2 +-

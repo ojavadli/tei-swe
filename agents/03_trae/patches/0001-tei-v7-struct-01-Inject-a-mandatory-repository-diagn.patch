@@ -1,7 +1,7 @@
 From e3788af16663e012437124b758c55d21b3d1f48a Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:25 -0700
-Subject: [PATCH 01/39] tei-v7 struct-01: Inject a mandatory
+Subject: [PATCH 01/40] tei-v7 struct-01: Inject a mandatory
  repository-diagnosis phase into the agent
 
 ---

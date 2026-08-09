@@ -1,7 +1,7 @@
 From 78ac6ab0509b49a733538bc8a09da8da25343f51 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:42:18 -0700
-Subject: [PATCH 23/27] tei-v7 struct-26: Deterministic tool-schema ordering
+Subject: [PATCH 23/28] tei-v7 struct-26: Deterministic tool-schema ordering
 
 ---
  patchwork/common/multiturn_strategy/agentic_strategy.py | 5 ++++-

@@ -1,7 +1,7 @@
 From 17eacd6bf5e2a4d4e7ad38a5a65bcd9ead20f27d Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:10 -0700
-Subject: [PATCH 27/47] tei-v7 prompt-09: Stateful recovery with new-hypothesis
+Subject: [PATCH 27/48] tei-v7 prompt-09: Stateful recovery with new-hypothesis
  requirements
 
 ---

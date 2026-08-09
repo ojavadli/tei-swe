@@ -1,7 +1,7 @@
 From 480ad8481da841fa5e6cbd0d178cfcada9023c22 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:33:39 -0700
-Subject: [PATCH 14/24] tei-v7 prompt-20: Invariant-first implementation
+Subject: [PATCH 14/25] tei-v7 prompt-20: Invariant-first implementation
  planning
 
 ---

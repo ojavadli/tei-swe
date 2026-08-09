@@ -1,7 +1,7 @@
 From 380ec0c7fe7dd6d3c1b589dfd6b579a620359753 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:28 -0700
-Subject: [PATCH 42/47] tei-v7 prompt-25: Acceptance-trace matrix
+Subject: [PATCH 42/48] tei-v7 prompt-25: Acceptance-trace matrix
 
 ---
  utils/dynamic_agent.py | 2 +-

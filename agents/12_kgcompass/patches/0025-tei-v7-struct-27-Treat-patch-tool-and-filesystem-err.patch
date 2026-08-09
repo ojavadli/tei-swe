@@ -1,7 +1,7 @@
 From 5459a53bf491055df974fefb0a72a73ebd6b7ad5 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:51 -0700
-Subject: [PATCH 25/28] tei-v7 struct-27: Treat patch-tool and filesystem
+Subject: [PATCH 25/29] tei-v7 struct-27: Treat patch-tool and filesystem
  errors as failed attempts ra
 
 ---

@@ -1,7 +1,7 @@
 From dffd551dce6c7812ed790a3d663efb38996e84ec Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:34 -0700
-Subject: [PATCH 01/27] tei-v7 struct-01: Inject a repository-aware execution
+Subject: [PATCH 01/28] tei-v7 struct-01: Inject a repository-aware execution
  contract into every agen
 
 ---

@@ -1,7 +1,7 @@
 From c5c4ea64f42ad9ab476de8d7b57e5212481fbb92 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:59:45 -0700
-Subject: [PATCH 24/47] tei-v7 prompt-03: Repository-specific convention
+Subject: [PATCH 24/48] tei-v7 prompt-03: Repository-specific convention
  matching
 
 ---

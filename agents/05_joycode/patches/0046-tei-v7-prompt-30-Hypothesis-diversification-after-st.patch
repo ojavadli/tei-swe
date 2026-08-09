@@ -1,7 +1,7 @@
 From bed6b362f5489ded70424c2a38090b38836c3f3a Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:28 -0700
-Subject: [PATCH 46/47] tei-v7 prompt-30: Hypothesis diversification after
+Subject: [PATCH 46/48] tei-v7 prompt-30: Hypothesis diversification after
  stagnation
 
 ---

@@ -1,7 +1,7 @@
 From 6eefe892d5d5d23559886b37fc504a296ad20fe1 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:37:41 -0700
-Subject: [PATCH 09/28] tei-v7 struct-11: Optional provider imports for
+Subject: [PATCH 09/29] tei-v7 struct-11: Optional provider imports for
  single-provider execution
 
 ---

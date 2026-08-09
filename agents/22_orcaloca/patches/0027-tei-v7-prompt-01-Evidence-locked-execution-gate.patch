@@ -1,7 +1,7 @@
 From 5a99c449b121bbea907be76bd6d86849603b5153 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:32 -0700
-Subject: [PATCH 27/50] tei-v7 prompt-01: Evidence-locked execution gate
+Subject: [PATCH 27/51] tei-v7 prompt-01: Evidence-locked execution gate
 
 ---
  Orcar/prompts.py | 2 +-

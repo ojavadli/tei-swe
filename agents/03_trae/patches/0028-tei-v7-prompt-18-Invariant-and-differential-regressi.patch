@@ -1,7 +1,7 @@
 From 5d81e43c096fbb3f47dfb4bf7abd5650efb864ea Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:10 -0700
-Subject: [PATCH 28/39] tei-v7 prompt-18: Invariant and differential regression
+Subject: [PATCH 28/40] tei-v7 prompt-18: Invariant and differential regression
  checking
 
 ---

@@ -1,7 +1,7 @@
 From 7b87c60a23dc7c32eaae2e1a56ab8020ff371c50 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:55 -0700
-Subject: [PATCH 17/47] tei-v7 struct-19: Make repository preflight produce an
+Subject: [PATCH 17/48] tei-v7 struct-19: Make repository preflight produce an
  executable repair contr
 
 ---

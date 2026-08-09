@@ -1,7 +1,7 @@
 From e97b863ba2495028e965127accdea710b3b025ea Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:15:40 -0700
-Subject: [PATCH 06/11] tei-v7 struct-06: Fallback JSON extraction around
+Subject: [PATCH 06/12] tei-v7 struct-06: Fallback JSON extraction around
  repaired model output
 
 ---

@@ -1,7 +1,7 @@
 From d402dc71849791936ddb9975c76901dd3f7307c4 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:41:09 -0700
-Subject: [PATCH 09/39] tei-v7 struct-11: Normalize candidate patch metadata at
+Subject: [PATCH 09/40] tei-v7 struct-11: Normalize candidate patch metadata at
  construction time and
 
 ---

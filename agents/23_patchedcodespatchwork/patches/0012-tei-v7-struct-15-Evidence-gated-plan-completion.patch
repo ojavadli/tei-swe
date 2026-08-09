@@ -1,7 +1,7 @@
 From c79b941cee64bf8b561d6ff70f36eb6878164af4 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:54 -0700
-Subject: [PATCH 12/27] tei-v7 struct-15: Evidence-gated plan completion
+Subject: [PATCH 12/28] tei-v7 struct-15: Evidence-gated plan completion
 
 ---
  patchwork/common/multiturn_strategy/planning_strategy.py | 6 +++++-

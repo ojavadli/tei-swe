@@ -1,7 +1,7 @@
 From b34fbdd229b49dbee3709f2d78859a1213d503a1 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:16:14 -0700
-Subject: [PATCH 09/11] tei-v7 struct-10: Ensure the dotenv file explicitly
+Subject: [PATCH 09/12] tei-v7 struct-10: Ensure the dotenv file explicitly
  overrides stale process-le
 
 ---

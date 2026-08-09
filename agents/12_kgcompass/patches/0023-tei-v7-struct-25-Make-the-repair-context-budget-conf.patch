@@ -1,7 +1,7 @@
 From 70b16951fe6c70c0215e04c22fb79c4d2b40eaf6 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:50 -0700
-Subject: [PATCH 23/28] tei-v7 struct-25: Make the repair-context budget
+Subject: [PATCH 23/29] tei-v7 struct-25: Make the repair-context budget
  configurable with a larger sa
 
 ---

@@ -1,7 +1,7 @@
 From 9f94683335aeed403ae11b51dec966ec6e5618bf Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:50 -0700
-Subject: [PATCH 24/28] tei-v7 struct-26: Replace first-match JSON extraction
+Subject: [PATCH 24/29] tei-v7 struct-26: Replace first-match JSON extraction
  with balanced JSONDecode
 
 ---

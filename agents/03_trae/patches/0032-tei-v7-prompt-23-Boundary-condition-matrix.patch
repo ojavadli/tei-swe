@@ -1,7 +1,7 @@
 From 1c89bd61071899b844cb1c362a057b2648ef1313 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:33 -0700
-Subject: [PATCH 32/39] tei-v7 prompt-23: Boundary-condition matrix
+Subject: [PATCH 32/40] tei-v7 prompt-23: Boundary-condition matrix
 
 ---
  tei/candidates.jsonl           | 1 +

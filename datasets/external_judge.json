@@ -1,0 +1,668 @@
+{
+ "model": "claude-sonnet-5",
+ "seed": 11,
+ "ext_blind": [
+  {
+   "agent": "05_joycode",
+   "patched": 1,
+   "baseline": 4,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts and code are clean, coherent, and functional, while Version 1 contains garbled, truncated prompt text (e.g., mid-sentenc"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts show signs of corrupted/truncated text (garbled sentences, cut-off words) and excessive prompt bloat that likely degrade"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts are bloated with repetitive, garbled, run-on instructions (even cut off mid-word) that likely confuse the model, while v"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 embeds a rigorous requirement-to-diff traceability, verification, and failure-classification discipline that better guards against"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts are bloated with garbled, truncated, repetitive meta-instructions (e.g., cut-off sentences like 'write one falsifiable h"
+    }
+   ]
+  },
+  {
+   "agent": "06_lingxi",
+   "patched": 5,
+   "baseline": 0,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "patched",
+     "reason": "Version 2 adds summarizer tools, a reviewer prompt import, and more rigorous contract/verification-driven prompts that likely improve ground"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 includes richer prompt augmentations (explicit behavioral contracts, evidence citation, reproducer verification) and retains the r"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 adds summarizer tools to context-gathering agents, reviewer prompt wiring, and richer evidence-based/behavioral-contract prompting"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 adds structured behavioral-contract, evidence-tracing, and verification-gate guidance plus summarizer tools to earlier agents, whi"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 adds richer tooling (summarizer access, reviewer prompt) and more rigorous, evidence-based prompting for hypothesis verification a"
+    }
+   ]
+  },
+  {
+   "agent": "07_moatlesstools",
+   "patched": 2,
+   "baseline": 0,
+   "tie": 3,
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "This is a minor completion-logging parser utility unrelated to the agent's core issue-resolution logic, so the difference in field-precedenc"
+    },
+    {
+     "vote": "tie",
+     "reason": "This is a completion-logging/parsing utility unrelated to the agent's core issue-resolution logic, so the minor differences in fallback orde"
+    },
+    {
+     "vote": "tie",
+     "reason": "This is a minor difference in a completion-parsing utility (likely for logging/debugging) that doesn't affect the core issue-resolution logi"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 uses more robust None-checking and prioritizes the original_response_obj field with a safer JSON fallback, but this parsing utilit"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 correctly prioritizes the parsed response object and uses is-None checks instead of truthy checks, avoiding mis-parsing when origi"
+    }
+   ]
+  },
+  {
+   "agent": "09_agentscope",
+   "patched": 1,
+   "baseline": 4,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "patched",
+     "reason": "Version 1's system prompt provides detailed, concrete guidance on repository fingerprinting, testing, and validation before completion, whic"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 bloats the system prompt with excessive repetitive meta-instructions that likely dilute focus and waste context/tokens without add"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's bloated, repetitive prompt injected into every sub-agent's system prompt is likely to confuse the model, waste context, and appe"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's bloated, repetitive prompt likely dilutes instruction-following and wastes context, while version 1's concise prompt is more lik"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's bloated, generic, repetitive prompt likely dilutes instruction-following and wastes context compared to Version 1's concise, foc"
+    }
+   ]
+  },
+  {
+   "agent": "11_experepair",
+   "patched": 3,
+   "baseline": 2,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "patched",
+     "reason": "Version 1's prompts enforce rigorous, evidence-based localization and validation with explicit falsification/skepticism criteria, reducing f"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1's prompts enforce evidence-based localization and rigorous multi-gate patch validation, reducing false positives from superficial "
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1's prompts are concise and actionable, whereas Version 2's are bloated, run-on, and likely to confuse the model or truncate awkward"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1's prompts enforce more rigorous, evidence-based localization and validation gates (tracing behavior ownership, requiring reachabil"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's concise, structured prompts are more likely to produce reliably parseable outputs and consistent evaluations, whereas Version 1'"
+    }
+   ]
+  },
+  {
+   "agent": "15_composioswekit",
+   "patched": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains extraneous prompt-injection-like comments and messy, redundant urlopen monkey-patching logic, while version 2 keeps the h"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains injected meta-commentary text and redundant/duplicated monkey-patch logic cluttering the code, while version 2 is cleaner"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains suspicious injected meta-comments and needlessly complex, duplicated logic (e.g., double urlopen monkey-patching, odd _IN"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 injects suspicious, irrelevant prompt-like comments and duplicated/monkey-patched urllib logic that adds risk and complexity, whil"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 injects stray meta-instructional comments that corrupt the README text and duplicates/breaks urlopen patching logic and is truncat"
+    }
+   ]
+  },
+  {
+   "agent": "18_codefusecgm",
+   "patched": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 2's qwen_api.py retry logic is a reasonable robustness improvement, but the reranker.py prompt in version 2 is bloated, truncated mi"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's reranker system prompt is bloated, rambling, and appears truncated mid-sentence without the structured output format instruction"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 has a clear, well-structured, task-appropriate prompt and simpler/more standard sampling settings and error handling, while versio"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's stage_1_system_prompt is a garbled, run-on, seemingly truncated wall of text (cut off mid-sentence at 'before final'), which lik"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 has a clear, well-structured prompt and standard sampling parameters/no silent retry-swallowing, whereas version 1's bloated, jarg"
+    }
+   ]
+  },
+  {
+   "agent": "19_agentlesslite",
+   "patched": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 2 gives concise, concrete tool-usage instructions (exact match rules for str_replace) that directly aid correct patch application, w"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's bloated, over-engineered prompt likely confuses the model or dilutes focus with excessive meta-instructions, while version 1's c"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's bloated, over-engineered tool description risks confusing the model or exceeding context/prompt limits without clear evidence it"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's bloated, overly verbose tool description risks confusing the model or consuming context/attention without clear benefit, whereas"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's bloated, overly verbose tool description risks confusing the model or exceeding effective context/attention limits without clear"
+    }
+   ]
+  },
+  {
+   "agent": "22_orcaloca",
+   "patched": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 1's prompts are bloated, run-on, and overly complex, which risks confusing the LLM and degrading structured output reliability, whil"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1's prompts are bloated, run-on, and overly complex, which likely confuses the model and degrades structured output reliability comp"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1's bloated, run-on prompts appear overengineered and likely to confuse the model or exceed practical clarity, while version 2's con"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1's prompts are bloated, run-on, and structurally broken (e.g., garbled STEP_EXAMPLE mixing unrelated text), which risks confusing t"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts are bloated, repetitive, run-on walls of text with duplicated/garbled instructions (e.g., truncated sentences, redundant"
+    }
+   ]
+  },
+  {
+   "agent": "24_swefixer",
+   "patched": 5,
+   "baseline": 0,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "patched",
+     "reason": "Version 1 adds retry logic, longer timeout, smarter model selection favoring larger/editor models, and prompt guidance encouraging repositor"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 adds retry logic, longer timeout, editor-model selection, and prompts that encourage grounded tracing and minimal diffs, all likel"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 adds retry logic, longer timeout, smarter model selection favoring larger/coder models, and stronger prompt guidance to ground fix"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 adds model selection favoring larger/coder models, retry logic, longer timeout, and prompts that encourage grounded repository tra"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 adds robust model selection (preferring larger/editor-capable models), retry logic, longer timeout, and prompt engineering that en"
+    }
+   ]
+  }
+ ],
+ "ext_sham": [
+  {
+   "agent": "05_joycode",
+   "skipped": "no ref sham-v1"
+  },
+  {
+   "agent": "06_lingxi",
+   "sham": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 2 removes accumulated no-op comment clutter and trailing whitespace issues, indicating cleaner, more maintained code without functio"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 removes the accumulated no-op maintenance comments (and a stray line-order issue in dev_knowledge.py), indicating cleaner, less cl"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's dev_knowledge.py shows the print statement relocated after the no-newline-at-EOF marker, suggesting a corrupted/misplaced line t"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 is functionally identical but free of accumulated no-op maintenance comments, indicating cleaner code without risk of clutter or a"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 shows a corrupted line ordering in dev_knowledge.py (print statement misplaced relative to file-ending marker), suggesting a slopp"
+    }
+   ]
+  },
+  {
+   "agent": "07_moatlesstools",
+   "sham": 0,
+   "baseline": 3,
+   "tie": 2,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains meaningless accumulated comment clutter suggesting messy/uncontrolled edits, while version 2 is clean, though the differe"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 omits the pointless repeated maintenance comments, which don't affect functionality but suggest version 1 may result from noisy or"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only difference is trailing no-op comments with no functional impact on behavior."
+    },
+    {
+     "vote": "tie",
+     "reason": "The only difference is trailing no-op comments with no functional impact on behavior."
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains meaningless accumulated comment clutter suggesting sloppy or automated edits, while version 2 is clean, though functional"
+    }
+   ]
+  },
+  {
+   "agent": "09_agentscope",
+   "sham": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains dozens of redundant no-op comment lines cluttering the file, suggesting noisy or careless edits, while version 2 is clean"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 has accumulated meaningless repeated comment clutter, suggesting a degraded or noisier codebase state, while version 2 is clean wi"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 adds only meaningless repeated comment clutter with no functional benefit, so version 1 is cleaner and equally functional."
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 adds only meaningless repeated comment clutter with no functional benefit, and bloats the file without improving issue-resolving c"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1's file is cluttered with dozens of meaningless repeated comment lines, suggesting a degraded or corrupted edit history, while vers"
+    }
+   ]
+  },
+  {
+   "agent": "11_experepair",
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5,
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The only differences are inert comment annotations with no functional impact on the code's behavior."
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are trailing no-op comment annotations with no functional impact on the code's logic."
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are trailing no-op comment annotations that don't affect functionality."
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are identical no-op comment annotations in both files, with no functional code changes."
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are trailing no-op comment annotations that don't affect functionality."
+    }
+   ]
+  },
+  {
+   "agent": "15_composioswekit",
+   "sham": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 2 adds dozens of pointless repeated comment lines with no functional value, suggesting noisy or degraded edits, while version 1 stay"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains hundreds of repeated junk comment lines cluttering the file, suggesting corrupted or degraded code generation, while vers"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's file is free of the massive accumulating block of repetitive no-op maintenance comments, indicating a cleaner, less noise-prone "
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 adds dozens of repetitive junk comments that bloat the file and could indicate an unstable or degenerate editing process, while fu"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains a massive accumulation of repeated maintenance annotation comments (likely truncated/runaway) bloating the file, indicati"
+    }
+   ]
+  },
+  {
+   "agent": "18_codefusecgm",
+   "sham": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 2's diff shows the final call line displaced after the no-newline marker, indicating a sloppy/corrupted edit, while version 1's file"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 is functionally identical but cleaner, lacking the accumulated no-op comment cruft in version 1, which suggests version 2 is the m"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 is functionally identical but cleaner, without the clutter of accumulated no-op maintenance comments seen in version 1, which sugg"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 is functionally identical but cleaner, without the accumulated no-op comment clutter present in version 1, suggesting less noisy/u"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 is functionally identical but cleaner, lacking the accumulated no-op comment clutter present in version 1, suggesting it's the mor"
+    }
+   ]
+  },
+  {
+   "agent": "19_agentlesslite",
+   "sham": 0,
+   "baseline": 2,
+   "tie": 3,
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The only difference is trailing comment annotations with no functional code change."
+    },
+    {
+     "vote": "tie",
+     "reason": "The only difference is trailing no-op comments with no functional effect on the code."
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1's repeated no-op comment clutter suggests noisy, low-quality edits, though functionally both are identical so the difference is tr"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only difference is trailing no-op comments with no functional effect on the code."
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 only differs by adding meaningless repeated comment clutter with no functional benefit, so version 2's cleaner file is marginally "
+    }
+   ]
+  },
+  {
+   "agent": "22_orcaloca",
+   "skipped": "no ref sham-v1"
+  },
+  {
+   "agent": "24_swefixer",
+   "sham": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains dozens of pointless repeated comment lines cluttering the file, indicating an unclean or corrupted edit, while version 2 "
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 introduces a syntax error (return statement placed after a 'No newline at end of file' artifact/misplacement) and adds meaningless"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 introduces a stray 'No newline at end of file' text literally inserted into the code before the return statement plus dozens of me"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 contains dozens of accumulated no-op comment lines cluttering the file, indicating uncontrolled/erroneous edits, while version 2 i"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2 introduces a malformed file (misplaced 'No newline at end of file' text before code and an unbounded, meaningless comment spam), w"
+    }
+   ]
+  }
+ ],
+ "ext_repair": [
+  {
+   "agent": "05_joycode",
+   "patched": 3,
+   "baseline": 2,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts and code are clean, coherent, and functional, whereas Version 1 shows corrupted/truncated prompt text (garbled mid-sente"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1's prompts and structures enforce explicit requirement-to-diff mapping and verification discipline, which better guards against inc"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts are bloated with repetitive, run-on, and even truncated/garbled instructions (e.g., mid-sentence cutoffs) that suggest b"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 encodes structured requirement-to-diff mapping, failure-kind classification, and verification discipline that better guards agains"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 encodes stricter requirement-to-diff mapping, failure classification, and verification discipline, which better guards against inc"
+    }
+   ]
+  },
+  {
+   "agent": "07_moatlesstools",
+   "patched": 2,
+   "baseline": 0,
+   "tie": 3,
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "This code only affects completion-log parsing/display, not the agent's core issue-resolution logic, so differences are unlikely to impact en"
+    },
+    {
+     "vote": "tie",
+     "reason": "This is a minor internal completion-parsing utility difference unrelated to the agent's core issue-resolution logic, so it likely has neglig"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 uses safer None-checks and correctly prioritizes original_response_obj, making completion parsing more robust and less likely to s"
+    },
+    {
+     "vote": "tie",
+     "reason": "Both versions implement nearly identical completion-parsing logic that only affects logging/tracing metadata, not the agent's core issue-res"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 correctly prioritizes the parsed 'original_response_obj' over raw 'original_response' and uses safer None checks, making completio"
+    }
+   ]
+  },
+  {
+   "agent": "20_sweexp",
+   "patched": 5,
+   "baseline": 0,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "patched",
+     "reason": "Version 2 contains a Python syntax error (nested single quotes in an f-string) that would crash select_agent.py, while version 1 also adds m"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 contains a likely syntax-breaking f-string with nested identical quotes (exp[type]['experience'][i]) and lacks version 1's more de"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 fixes a Python syntax error (nested identical quotes in an f-string) present in version 1 and adds more robust JSON parsing, retry"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 fixes syntax-breaking nested-quote f-strings (e.g. exp[type]['experience'][i] inside a single-quoted f-string) and adds more robus"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 contains an f-string with nested unescaped single quotes (exp[type]['experience'][i]) that is a syntax error in most Python versio"
+    }
+   ]
+  },
+  {
+   "agent": "22_orcaloca",
+   "patched": 0,
+   "baseline": 5,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts are bloated, run-on, and appear truncated/malformed, which likely degrades LLM instruction-following compared to Version"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1's prompts are bloated, run-on, and overly convoluted, which risks confusing the LLM and degrading output quality compared to Versi"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1's prompts are bloated, run-on, and overengineered with excessive requirements that likely confuse the model or exceed practical co"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts are bloated, incoherent, and appear truncated/corrupted with run-on instructions, which would likely confuse the LLM and"
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 2's prompts are bloated, repetitive, run-on walls of text (with garbled fragments like 'For each candidate table' and mid-sentence c"
+    }
+   ]
+  },
+  {
+   "agent": "27_agentless",
+   "patched": 5,
+   "baseline": 0,
+   "tie": 0,
+   "votes": [
+    {
+     "vote": "patched",
+     "reason": "Version 1 has a more robust, accurate token-counting function and a resilient API client (timeout/retries), plus a much more detailed repair"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 fixes token counting to account for the full message list and adds request timeout/retries, improving reliability of API calls des"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 adds sensible API robustness (timeouts/retries, correct multi-message token counting) though its verbose repair prompt is riskier "
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 2 fixes a real token-counting bug (summing all messages instead of only the first) and adds API timeout/retry robustness, outweighin"
+    },
+    {
+     "vote": "patched",
+     "reason": "Version 1 has a more accurate token-counting implementation and a more robust OpenAI client (with retries/timeout), while version 2's token "
+    }
+   ]
+  }
+ ],
+ "usage": {
+  "calls": 115,
+  "in": 293680,
+  "out": 20273,
+  "cost_usd": 1.185
+ }
+}

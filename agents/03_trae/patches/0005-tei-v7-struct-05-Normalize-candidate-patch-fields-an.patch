@@ -1,7 +1,7 @@
 From 1674e88fd7fb4a21e1626d084599751083c3b863 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:26 -0700
-Subject: [PATCH 05/39] tei-v7 struct-05: Normalize candidate patch fields and
+Subject: [PATCH 05/40] tei-v7 struct-05: Normalize candidate patch fields and
  provide safe fallbacks
 
 ---

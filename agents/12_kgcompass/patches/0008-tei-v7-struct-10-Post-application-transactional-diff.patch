@@ -1,7 +1,7 @@
 From a66c222a5f02221adb572317134e5a6581cf91b3 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:37:41 -0700
-Subject: [PATCH 08/28] tei-v7 struct-10: Post-application transactional diff
+Subject: [PATCH 08/29] tei-v7 struct-10: Post-application transactional diff
  validation
 
 ---

@@ -1,7 +1,7 @@
 From d5d236871afb369972fcf0422f038c2ca8ad2002 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:42:56 -0700
-Subject: [PATCH 17/39] tei-v7 struct-30: Strengthen the success gate against
+Subject: [PATCH 17/40] tei-v7 struct-30: Strengthen the success gate against
  placeholder or non-patch
 
 ---

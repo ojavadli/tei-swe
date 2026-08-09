@@ -1,7 +1,7 @@
 From 7a8a44eb683a8359c1ce90ba8bda7235d4e12aa7 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:02:23 -0700
-Subject: [PATCH 48/50] tei-v7 prompt-29: Assumption-and-evaluation-state
+Subject: [PATCH 48/51] tei-v7 prompt-29: Assumption-and-evaluation-state
  checklist for SymPy edits
 
 ---

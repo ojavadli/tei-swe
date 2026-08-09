@@ -1,7 +1,7 @@
 From a3fdb6c6614319c275ff2d9836543798cbdd7877 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:43 -0700
-Subject: [PATCH 10/50] tei-v7 struct-11: Require explicit rejection evidence
+Subject: [PATCH 10/51] tei-v7 struct-11: Require explicit rejection evidence
  for competing locations
 
 ---

@@ -1,7 +1,7 @@
 From bd1ddec43a0e5536c95279f7fec276b42f9798ac Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:34:11 -0700
-Subject: [PATCH 23/24] tei-v7 prompt-29: Repository-convention reconnaissance
+Subject: [PATCH 23/25] tei-v7 prompt-29: Repository-convention reconnaissance
 
 ---
  config/livesweagent_swebench_pro.yaml | 2 +-

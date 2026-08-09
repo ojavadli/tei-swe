@@ -1,7 +1,7 @@
 From 2ea33c10083ae4fda02fac6c76857f740a40c66e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:10 -0700
-Subject: [PATCH 27/39] tei-v7 prompt-17: Contract-preserving edge-case matrix
+Subject: [PATCH 27/40] tei-v7 prompt-17: Contract-preserving edge-case matrix
 
 ---
  tei/candidates.jsonl           | 1 +

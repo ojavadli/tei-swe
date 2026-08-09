@@ -1,7 +1,7 @@
 From fa9cb4dcb582d129cd69d236bf5421c2b66cccfa Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:23 -0700
-Subject: [PATCH 35/50] tei-v7 prompt-13: Reproducer-first execution gate
+Subject: [PATCH 35/51] tei-v7 prompt-13: Reproducer-first execution gate
 
 ---
  Orcar/prompts.py | 2 +-

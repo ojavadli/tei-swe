@@ -1,7 +1,7 @@
 From 0039ce116fda3e83e92cabc4e00abd701ae17be5 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:33:39 -0700
-Subject: [PATCH 15/24] tei-v7 prompt-21: Repository-specific edge-case test
+Subject: [PATCH 15/25] tei-v7 prompt-21: Repository-specific edge-case test
  matrix
 
 ---

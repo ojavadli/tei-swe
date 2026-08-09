@@ -1,7 +1,7 @@
 From 70f1875aa3effa88417879a1277e9853c7155d1f Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:28 -0700
-Subject: [PATCH 43/47] tei-v7 prompt-26: Failure-state recovery loop
+Subject: [PATCH 43/48] tei-v7 prompt-26: Failure-state recovery loop
 
 ---
  utils/dynamic_agent.py | 2 +-

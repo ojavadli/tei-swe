@@ -1,7 +1,7 @@
 From 4858bf4238c15478f62ac08a4c2bdc8bfe38196c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:44:33 -0700
-Subject: [PATCH 29/39] tei-v7 prompt-19: Evidence-traced call-chain
+Subject: [PATCH 29/40] tei-v7 prompt-19: Evidence-traced call-chain
  localization
 
 ---

@@ -1,7 +1,7 @@
 From d16fb32a708aa9d7f44a4f8eebf999c768da7137 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:49 -0700
-Subject: [PATCH 20/50] tei-v7 struct-24: SymPy semantic-boundary regression
+Subject: [PATCH 20/51] tei-v7 struct-24: SymPy semantic-boundary regression
  matrix
 
 ---

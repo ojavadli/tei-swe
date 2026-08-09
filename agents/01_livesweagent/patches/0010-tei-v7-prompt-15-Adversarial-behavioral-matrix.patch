@@ -1,7 +1,7 @@
 From a7aa452ede15b503f54f141bbb2c112d9672c5e5 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:33:00 -0700
-Subject: [PATCH 10/24] tei-v7 prompt-15: Adversarial behavioral matrix
+Subject: [PATCH 10/25] tei-v7 prompt-15: Adversarial behavioral matrix
 
 ---
  config/livesweagent_swebench.yaml | 2 +-

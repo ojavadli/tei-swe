@@ -1,7 +1,7 @@
 From 98ff838b55115eb3611b8ee84fd1ed1aa0ef4403 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:08 -0700
-Subject: [PATCH 01/50] tei-v7 struct-01: Add an explicit issue-modeling state
+Subject: [PATCH 01/51] tei-v7 struct-01: Add an explicit issue-modeling state
  to every search step
 
 ---

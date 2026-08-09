@@ -1,7 +1,7 @@
 From d0f4ec1f047940c26941be903d960370c29c30fe Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:35 -0700
-Subject: [PATCH 34/47] tei-v7 prompt-17: Repository-adaptation preflight
+Subject: [PATCH 34/48] tei-v7 prompt-17: Repository-adaptation preflight
 
 ---
  utils/dynamic_agent.py | 2 +-

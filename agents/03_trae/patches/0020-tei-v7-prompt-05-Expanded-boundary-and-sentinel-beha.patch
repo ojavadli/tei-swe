@@ -1,7 +1,7 @@
 From 3b7cab9a29b58e45ec70d4a758c88f2a95c1bcc6 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:43:21 -0700
-Subject: [PATCH 20/39] tei-v7 prompt-05: Expanded boundary and sentinel
+Subject: [PATCH 20/40] tei-v7 prompt-05: Expanded boundary and sentinel
  behavior matrix
 
 ---

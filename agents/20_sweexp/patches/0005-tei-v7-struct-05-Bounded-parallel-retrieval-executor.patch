@@ -1,7 +1,7 @@
 From 6ec5425fad8c5b3758fd348d6040f0624dcc2d24 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:15:40 -0700
-Subject: [PATCH 05/11] tei-v7 struct-05: Bounded parallel retrieval executor
+Subject: [PATCH 05/12] tei-v7 struct-05: Bounded parallel retrieval executor
 
 ---
  moatless/experience/exp_agent/select_agent.py | 6 +++++-

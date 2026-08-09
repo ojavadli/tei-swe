@@ -1,7 +1,7 @@
 From 3d196100a6e910677386866d368e4bbc96d14d7b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:24 -0700
-Subject: [PATCH 38/50] tei-v7 prompt-17: Nearby-case and boundary preservation
+Subject: [PATCH 38/51] tei-v7 prompt-17: Nearby-case and boundary preservation
 
 ---
  Orcar/prompts.py | 2 +-

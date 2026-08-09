@@ -1,7 +1,7 @@
 From 101a3d9cd23f0ed94c29ee6fc4909782c280dfa0 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:49 -0700
-Subject: [PATCH 17/50] tei-v7 struct-21: Execution-gate schema with staged
+Subject: [PATCH 17/51] tei-v7 struct-21: Execution-gate schema with staged
  validation checkpoints
 
 ---

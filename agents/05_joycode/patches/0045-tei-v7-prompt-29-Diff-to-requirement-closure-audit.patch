@@ -1,7 +1,7 @@
 From 479a992ca8dd0f6af7ae614ceccbf7307c602534 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:28 -0700
-Subject: [PATCH 45/47] tei-v7 prompt-29: Diff-to-requirement closure audit
+Subject: [PATCH 45/48] tei-v7 prompt-29: Diff-to-requirement closure audit
 
 ---
  search_zip/zip_traj.py | 2 +-

@@ -1,7 +1,7 @@
 From 8a8bf4ad28588511a40af4dfc82a6579ca68149d Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:54 -0700
-Subject: [PATCH 11/27] tei-v7 struct-13: Repository-adaptive reconnaissance
+Subject: [PATCH 11/28] tei-v7 struct-13: Repository-adaptive reconnaissance
  contract
 
 ---

@@ -1,7 +1,7 @@
 From b996c0b1aceb21970c44f554228c786c77cad548 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:44 -0700
-Subject: [PATCH 07/47] tei-v7 struct-09: Introduce a repository-specific
+Subject: [PATCH 07/48] tei-v7 struct-09: Introduce a repository-specific
  preflight phase before patch
 
 ---

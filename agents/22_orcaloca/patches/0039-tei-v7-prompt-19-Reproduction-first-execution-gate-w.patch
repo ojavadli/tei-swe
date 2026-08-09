@@ -1,7 +1,7 @@
 From 4706d4f538a825039437f56d64cedc9094da646c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:56 -0700
-Subject: [PATCH 39/50] tei-v7 prompt-19: Reproduction-first execution gate
+Subject: [PATCH 39/51] tei-v7 prompt-19: Reproduction-first execution gate
  with explicit fallback
 
 ---

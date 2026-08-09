@@ -1,7 +1,7 @@
 From 7d481ffefda77b79dcfb1a8b1dd78f207596daed Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:57 -0700
-Subject: [PATCH 37/47] tei-v7 prompt-20: Failure-signature-directed recovery
+Subject: [PATCH 37/48] tei-v7 prompt-20: Failure-signature-directed recovery
  loop
 
 ---

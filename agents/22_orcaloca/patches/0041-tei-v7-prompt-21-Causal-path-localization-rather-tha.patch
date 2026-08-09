@@ -1,7 +1,7 @@
 From 8f1d881791b3fb8c5241dec81cec81cc21ff871a Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:56 -0700
-Subject: [PATCH 41/50] tei-v7 prompt-21: Causal-path localization rather than
+Subject: [PATCH 41/51] tei-v7 prompt-21: Causal-path localization rather than
  symbol relevance rankin
 
 ---

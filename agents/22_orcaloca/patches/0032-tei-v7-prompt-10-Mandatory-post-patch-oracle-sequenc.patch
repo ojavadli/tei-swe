@@ -1,7 +1,7 @@
 From b7ac82d8e4cd559fc5893d46f13b855dfad0b510 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:01 -0700
-Subject: [PATCH 32/50] tei-v7 prompt-10: Mandatory post-patch oracle sequence
+Subject: [PATCH 32/51] tei-v7 prompt-10: Mandatory post-patch oracle sequence
 
 ---
  Orcar/prompts.py | 2 +-

@@ -1,7 +1,7 @@
 From 54aa49a2a0502a83584e77e0b70b550d040fce37 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:42:18 -0700
-Subject: [PATCH 27/27] tei-v7 struct-30: Normalized prompt identifier handling
+Subject: [PATCH 27/28] tei-v7 struct-30: Normalized prompt identifier handling
 
 ---
  patchwork/steps/PreparePrompt/PreparePrompt.py | 2 +-

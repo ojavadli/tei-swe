@@ -1,7 +1,7 @@
 From f7c216127ccc620b0b6f6aea16d2e6bec5b35277 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:32 -0700
-Subject: [PATCH 31/50] tei-v7 prompt-06: SymPy-specific semantic adversarial
+Subject: [PATCH 31/51] tei-v7 prompt-06: SymPy-specific semantic adversarial
  checks
 
 ---

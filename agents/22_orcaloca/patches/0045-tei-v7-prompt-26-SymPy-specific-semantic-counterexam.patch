@@ -1,7 +1,7 @@
 From a57fd075587f00bf3d041037d536c185eec141b2 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:02:23 -0700
-Subject: [PATCH 45/50] tei-v7 prompt-26: SymPy-specific semantic
+Subject: [PATCH 45/51] tei-v7 prompt-26: SymPy-specific semantic
  counterexample protocol
 
 ---

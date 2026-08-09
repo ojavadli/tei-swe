@@ -1,7 +1,7 @@
 From 0b8dfb8a71b4b761d8a8084aab2bfbc701a52c19 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:44 -0700
-Subject: [PATCH 05/47] tei-v7 struct-07: Add purpose-specific model fallback
+Subject: [PATCH 05/48] tei-v7 struct-07: Add purpose-specific model fallback
  routing with circuit bre
 
 ---

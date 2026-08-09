@@ -1,7 +1,7 @@
 From 1fec714c8f950e5b856360f6b96d443183e1aada Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:10 -0700
-Subject: [PATCH 01/47] tei-v7 struct-02: Dedicated failure-analysis model
+Subject: [PATCH 01/48] tei-v7 struct-02: Dedicated failure-analysis model
  purpose
 
 ---

@@ -1,7 +1,7 @@
 From 8491d7b77e8491d53c624afdca74211867a9433d Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:32 -0700
-Subject: [PATCH 29/50] tei-v7 prompt-03: Invariant-first patch contract
+Subject: [PATCH 29/51] tei-v7 prompt-03: Invariant-first patch contract
 
 ---
  Orcar/prompts.py | 2 +-

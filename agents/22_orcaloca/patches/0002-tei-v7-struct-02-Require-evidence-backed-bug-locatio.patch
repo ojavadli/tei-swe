@@ -1,7 +1,7 @@
 From 872fe1d585228385d2235ae5b5a95e828c784b16 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:08 -0700
-Subject: [PATCH 02/50] tei-v7 struct-02: Require evidence-backed bug locations
+Subject: [PATCH 02/51] tei-v7 struct-02: Require evidence-backed bug locations
  with confidence and ca
 
 ---

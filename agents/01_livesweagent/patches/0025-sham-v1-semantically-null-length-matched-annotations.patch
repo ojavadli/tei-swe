@@ -1,0 +1,71 @@
+From bd113598ff05bd78c4b1d878a4c67f8e1457ba2c Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sun, 9 Aug 2026 01:17:25 -0700
+Subject: [PATCH 25/25] sham-v1: semantically-null length-matched annotations
+ (placebo arm)
+
+---
+ config/livesweagent_swebench.yaml     | 7 ++++++-
+ config/livesweagent_swebench_pro.yaml | 7 ++++++-
+ tei/candidates.jsonl                  | 1 +
+ tei/onboarding.json                   | 4 +++-
+ 4 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/config/livesweagent_swebench.yaml b/config/livesweagent_swebench.yaml
+index 2a79b1c..b86701c 100644
+--- a/config/livesweagent_swebench.yaml
++++ b/config/livesweagent_swebench.yaml
+@@ -248,4 +248,9 @@ environment:
+ model:
+   model_name: ""
+   model_kwargs:
+-    temperature: 0.
+\ No newline at end of file
++    temperature: 0.
++# note: routine maintenance annotation (rev 1); no functional change.
++# note: routine maintenance annotation (rev 2); no functional change.
++# note: routine maintenance annotation (rev 3); no functional change.
++# note: routine maintenance annotation (rev 4); no functional change.
++# note: routine maintenance annotation (rev 5); no functional change.
+diff --git a/config/livesweagent_swebench_pro.yaml b/config/livesweagent_swebench_pro.yaml
+index 7ecea1a..53dee55 100644
+--- a/config/livesweagent_swebench_pro.yaml
++++ b/config/livesweagent_swebench_pro.yaml
+@@ -251,4 +251,9 @@ environment:
+ model:
+   model_name: ""
+   model_kwargs:
+-    temperature: 0.
+\ No newline at end of file
++    temperature: 0.
++# note: routine maintenance annotation (rev 1); no functional change.
++# note: routine maintenance annotation (rev 2); no functional change.
++# note: routine maintenance annotation (rev 3); no functional change.
++# note: routine maintenance annotation (rev 4); no functional change.
++# note: routine maintenance annotation (rev 5); no functional change.
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 44d86e6..adc710c 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -57,3 +57,4 @@
+ {"version_id": "prompt-27", "phase": "prompt", "technique": "Explicit adversarial test matrix", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": "config/livesweagent_swebench_pro.yaml", "find": "Before reporting completion, confirm that the final diff is limited to the issue, that the selected checks actually exercise the changed path, and that no generated, unrelated, or environment-specific files were included.", "replace": "Before finalizing, build and execute a compact test matrix covering the reported example, the established normal path, empty or missing values, singleton and boundary values, malformed inputs and the project's expected exception types, repeated or stateful use, ordering and mutation behavior, and every relevant alternate backend or configuration. For each case, state the expected result and distin"}, "dimensions": {"target_alignment": 0.86, "reasoning_soundness": 0.85, "execution_accuracy": 0.83, "output_integrity": 0.91}, "aggregate": 0.8625, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.43}, {"instance_id": "sympy__sympy-15875", "score": 0.4}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.42}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.015, "why": "The matrix materially improves robustness on boundary-heavy and stateful probes, especially seaborn, SymPy, and Sphinx. Its broad checklist can encourage shallow or overly literal testing and does not itself ensure that the implementation follows the correct underlying contract."}
+ {"version_id": "prompt-28", "phase": "prompt", "technique": "Invariant and interaction checking", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": "config/livesweagent_swebench_pro.yaml", "find": "Before reporting completion, confirm that the final diff is limited to the issue, that the selected checks actually exercise the changed path, and that no generated, unrelated, or environment-specific files were included.", "replace": "Reason explicitly about invariants and interactions, not only the reported example: identify what must remain unchanged for valid inputs, error handling, ordering, mutability, caching or state, serialization, and repeated calls. Check combinations of the new behavior with nearby options and alternate code paths, and prefer tests that would fail if the implementation merely special-cased the exampl"}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.9, "execution_accuracy": 0.78, "output_integrity": 0.91}, "aggregate": 0.865, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.94}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.4}, {"instance_id": "sympy__sympy-15875", "score": 0.38}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.4}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0175, "why": "Explicit invariant and interaction reasoning improves conceptual soundness and catches several subtle regressions. Because it is less operational than reproduction and completion gates, it can consume effort without translating into a correct patch, lowering execution accuracy below baseline."}
+ {"version_id": "prompt-29", "phase": "prompt", "technique": "Repository-convention reconnaissance", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": "config/livesweagent_swebench_pro.yaml", "find": "Before reporting completion, confirm that the final diff is limited to the issue, that the selected checks actually exercise the changed path, and that no generated, unrelated, or environment-specific files were included.", "replace": "Treat repository conventions as part of the specification. Before editing, inspect neighboring implementations, call sites, public exports, tests, fixtures, supported-version declarations, formatting and typing rules, and any backend or feature-flag abstractions used by the affected module. Match the project's existing error semantics, API compatibility policy, naming, test style, and dependency c"}, "dimensions": {"target_alignment": 0.9, "reasoning_soundness": 0.87, "execution_accuracy": 0.78, "output_integrity": 0.92}, "aggregate": 0.8675, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.37}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.38}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "Repository reconnaissance improves alignment with project-specific APIs, conventions, and cross-repository expectations, but it is costly and can lead to premature analogy with neighboring code. Without a tight validation loop, the extra context does not reliably improve implementation accuracy."}
++{"version_id": "prompt-30", "phase": "prompt", "technique": "Failure triage and completion gate", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": "config/livesweagent_swebench_pro.yaml", "find": "Before reporting completion, confirm that the final diff is limited to the issue, that the selected checks actually exercise the changed path, and that no generated, unrelated, or environment-specific files were included.", "replace": "Validate in repository-native layers: run the smallest direct regression check first, then the relevant module or integration tests, then broader checks justified by the change. When a command fails, inspect the failure and classify it as an implementation defect, an incorrect expectation, or an environment/dependency problem; repair implementation defects and adapt commands only when repository e"}, "dimensions": {"target_alignment": 0.86, "reasoning_soundness": 0.83, "execution_accuracy": 0.85, "output_integrity": 0.95}, "aggregate": 0.8725, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.41}, {"instance_id": "sympy__sympy-15875", "score": 0.39}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.42}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.025, "why": "The completion gate substantially improves validation discipline, failure classification, and final output reliability, producing strong execution gains on difficult repositories. Its reasoning score is slightly below baseline because classification of environment versus implementation failures can become a source of misdiagnosis, and the technique does not improve initial issue interpretation."}
+diff --git a/tei/onboarding.json b/tei/onboarding.json
+index 622c3e6..095f414 100644
+--- a/tei/onboarding.json
++++ b/tei/onboarding.json
+@@ -441,5 +441,7 @@
+     }
+   ],
+   "n_prompt_surface_files": 3,
+-  "prompt_surface_method": "content-marker scan (system_template/system_prompt/'You are a'/...)"
++  "prompt_surface_method": "content-marker scan (system_template/system_prompt/'You are a'/...)",
++  "in_repo_trajectory_files": 0,
++  "in_repo_trajectory_note": "Trajectories committed to the agent's OWN repository (distinct from the archive's credentialed S3 assets). Not used for scoring in this run: the study applies one uniform PROXY substrate to all 30 agents, and grounding 4 of them in real traces while the rest are ungrounded would break cross-agent comparability. Available for a follow-up trajectory-grounded pass."
+ }
+\ No newline at end of file
+-- 
+2.39.5 (Apple Git-154)
+

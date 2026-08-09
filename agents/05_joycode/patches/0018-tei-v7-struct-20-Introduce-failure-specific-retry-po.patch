@@ -1,7 +1,7 @@
 From de766321ea048299a068daa8c72074af7fbe3049 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:55 -0700
-Subject: [PATCH 18/47] tei-v7 struct-20: Introduce failure-specific retry
+Subject: [PATCH 18/48] tei-v7 struct-20: Introduce failure-specific retry
  policies instead of generic
 
 ---

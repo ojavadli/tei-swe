@@ -1,7 +1,7 @@
 From ec34b3071d9a300a0cefacfd15f483800a57c2c4 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:41:09 -0700
-Subject: [PATCH 10/39] tei-v7 struct-12: Make success metadata conservative by
+Subject: [PATCH 10/40] tei-v7 struct-12: Make success metadata conservative by
  requiring both the rep
 
 ---

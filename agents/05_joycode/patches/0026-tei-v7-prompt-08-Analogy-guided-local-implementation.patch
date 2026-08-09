@@ -1,7 +1,7 @@
 From 6027f4610d03fffa38bf60bbfc37400c043c67d8 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:10 -0700
-Subject: [PATCH 26/47] tei-v7 prompt-08: Analogy-guided local implementation
+Subject: [PATCH 26/48] tei-v7 prompt-08: Analogy-guided local implementation
  search
 
 ---

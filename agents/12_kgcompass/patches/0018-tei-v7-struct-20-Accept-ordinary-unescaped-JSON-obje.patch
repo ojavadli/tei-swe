@@ -1,7 +1,7 @@
 From b36e34adfeccc0a417f935c52b2d2f2848ef5faa Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:01 -0700
-Subject: [PATCH 18/28] tei-v7 struct-20: Accept ordinary unescaped JSON
+Subject: [PATCH 18/29] tei-v7 struct-20: Accept ordinary unescaped JSON
  objects during localization-r
 
 ---

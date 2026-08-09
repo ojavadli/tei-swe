@@ -1,7 +1,7 @@
 From 7dc3d41c536873466f96afb74a0d97956aca5972 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:43:21 -0700
-Subject: [PATCH 21/39] tei-v7 prompt-06: Compatibility-preserving differential
+Subject: [PATCH 21/40] tei-v7 prompt-06: Compatibility-preserving differential
  review
 
 ---

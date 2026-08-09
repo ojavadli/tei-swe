@@ -1,7 +1,7 @@
 From d3096d4c7c0944119b4b10c01b71a140bc761800 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:41:47 -0700
-Subject: [PATCH 12/39] tei-v7 struct-15: Failure-classification and reproducer
+Subject: [PATCH 12/40] tei-v7 struct-15: Failure-classification and reproducer
  escalation
 
 ---

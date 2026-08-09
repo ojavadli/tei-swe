@@ -1,7 +1,7 @@
 From b24cefdffbe075feaf05635475e028ef85fc3ab9 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:14 -0700
-Subject: [PATCH 10/27] tei-v7 struct-12: Non-empty structured execution output
+Subject: [PATCH 10/28] tei-v7 struct-12: Non-empty structured execution output
 
 ---
  patchwork/common/multiturn_strategy/planning_strategy.py | 7 +++++++

@@ -1,7 +1,7 @@
 From ef0fef586e58ea2207afadb7f23c1a299eee36da Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:21 -0700
-Subject: [PATCH 12/47] tei-v7 struct-14: Typed failure taxonomy for recovery
+Subject: [PATCH 12/48] tei-v7 struct-14: Typed failure taxonomy for recovery
  routing
 
 ---

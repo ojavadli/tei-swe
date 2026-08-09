@@ -1,7 +1,7 @@
 From 8c037671eb19c9d92dcdf6b9ad274465d6362107 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:42:56 -0700
-Subject: [PATCH 15/39] tei-v7 struct-28: Make patch-selection judgments
+Subject: [PATCH 15/40] tei-v7 struct-28: Make patch-selection judgments
  evidence-first and failure-ty
 
 ---

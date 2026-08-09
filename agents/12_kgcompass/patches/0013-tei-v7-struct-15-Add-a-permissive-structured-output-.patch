@@ -1,7 +1,7 @@
 From 8c1408ba74b180f17481b63cfc47a8d3e911812c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:38:24 -0700
-Subject: [PATCH 13/28] tei-v7 struct-15: Add a permissive structured-output
+Subject: [PATCH 13/29] tei-v7 struct-15: Add a permissive structured-output
  fallback around strict ed
 
 ---

@@ -1,7 +1,7 @@
 From a35c3e67160c4e3442b10780eac7f61755290e4b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:36:59 -0700
-Subject: [PATCH 01/28] tei-v7 struct-01: Search all KG-location layouts
+Subject: [PATCH 01/29] tei-v7 struct-01: Search all KG-location layouts
  instead of assuming one exact
 
 ---

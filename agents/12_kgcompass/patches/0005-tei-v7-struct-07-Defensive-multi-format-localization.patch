@@ -1,7 +1,7 @@
 From 749ebf29e792fad59e0afd78e0156b9256d64028 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:37:41 -0700
-Subject: [PATCH 05/28] tei-v7 struct-07: Defensive multi-format
+Subject: [PATCH 05/29] tei-v7 struct-07: Defensive multi-format
  localization-result decoding
 
 ---

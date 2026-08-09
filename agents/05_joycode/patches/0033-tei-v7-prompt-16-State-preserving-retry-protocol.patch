@@ -1,7 +1,7 @@
 From 4451d18bf84fb554ec185bb15da6a725267775d2 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:35 -0700
-Subject: [PATCH 33/47] tei-v7 prompt-16: State-preserving retry protocol
+Subject: [PATCH 33/48] tei-v7 prompt-16: State-preserving retry protocol
 
 ---
  search_zip/zip_traj.py | 2 +-

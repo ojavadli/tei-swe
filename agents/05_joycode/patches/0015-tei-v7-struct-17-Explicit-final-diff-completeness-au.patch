@@ -1,7 +1,7 @@
 From 5b4ff310bf2d7dbdd7cbe543c48be7d5df062a3c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:22 -0700
-Subject: [PATCH 15/47] tei-v7 struct-17: Explicit final-diff completeness
+Subject: [PATCH 15/48] tei-v7 struct-17: Explicit final-diff completeness
  audit
 
 ---

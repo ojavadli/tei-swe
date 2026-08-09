@@ -1,7 +1,7 @@
 From a6184cb7009703e234be01cdaeaa852a62e30f94 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:21 -0700
-Subject: [PATCH 13/47] tei-v7 struct-15: Dedicated triage and independent
+Subject: [PATCH 13/48] tei-v7 struct-15: Dedicated triage and independent
  verification model roles
 
 ---

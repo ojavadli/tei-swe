@@ -1,7 +1,7 @@
 From a0cc15445dd89b894ee40892b001a1aed6ac114b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:42:18 -0700
-Subject: [PATCH 22/27] tei-v7 struct-25: Repository-aware bootstrap
+Subject: [PATCH 22/28] tei-v7 struct-25: Repository-aware bootstrap
  instruction
 
 ---

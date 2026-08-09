@@ -1,7 +1,7 @@
 From 2a587e1f034146f2fabb56fd0a6756d10eb5d05b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:10 -0700
-Subject: [PATCH 25/47] tei-v7 prompt-07: Requirement-to-symbol execution
+Subject: [PATCH 25/48] tei-v7 prompt-07: Requirement-to-symbol execution
  contract
 
 ---

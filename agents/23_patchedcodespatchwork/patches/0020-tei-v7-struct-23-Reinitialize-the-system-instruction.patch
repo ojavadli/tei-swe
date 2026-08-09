@@ -1,7 +1,7 @@
 From a3188dc0b746a0d4695b1034d23039f38b41d3e0 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:41:38 -0700
-Subject: [PATCH 20/27] tei-v7 struct-23: Reinitialize the system instruction
+Subject: [PATCH 20/28] tei-v7 struct-23: Reinitialize the system instruction
  when conversation state
 
 ---

@@ -1,7 +1,7 @@
 From 11b13ca3a71917701102b850a1c0fc3a3ead319f Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:58:22 -0700
-Subject: [PATCH 16/47] tei-v7 struct-18: Bounded, structured retry policy
+Subject: [PATCH 16/48] tei-v7 struct-18: Bounded, structured retry policy
  state
 
 ---

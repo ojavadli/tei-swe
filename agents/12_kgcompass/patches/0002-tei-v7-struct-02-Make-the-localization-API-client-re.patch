@@ -1,7 +1,7 @@
 From 46022891fb6c6ba275c23a70f36c993bc6ef3e0e Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:36:59 -0700
-Subject: [PATCH 02/28] tei-v7 struct-02: Make the localization API client
+Subject: [PATCH 02/29] tei-v7 struct-02: Make the localization API client
  retry transient failures an
 
 ---

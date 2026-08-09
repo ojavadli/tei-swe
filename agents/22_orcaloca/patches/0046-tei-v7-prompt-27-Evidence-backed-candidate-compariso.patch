@@ -1,7 +1,7 @@
 From afe8b90282ee8d24335abbe54da0b80db8e55c7c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:02:23 -0700
-Subject: [PATCH 46/50] tei-v7 prompt-27: Evidence-backed candidate comparison
+Subject: [PATCH 46/51] tei-v7 prompt-27: Evidence-backed candidate comparison
  table
 
 ---

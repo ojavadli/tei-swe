@@ -1,7 +1,7 @@
 From c53674f7db1f38f51a58eef14d8ef75f0751c970 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:42:56 -0700
-Subject: [PATCH 16/39] tei-v7 struct-29: Normalize candidate patch text before
+Subject: [PATCH 16/40] tei-v7 struct-29: Normalize candidate patch text before
  judging it
 
 ---

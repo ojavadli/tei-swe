@@ -1,7 +1,7 @@
 From e5b5f9412888783ec13bfffe946f7f051c6c407a Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:08 -0700
-Subject: [PATCH 05/50] tei-v7 struct-06: Use a calibrated scoring rubric with
+Subject: [PATCH 05/51] tei-v7 struct-06: Use a calibrated scoring rubric with
  competing hypotheses an
 
 ---

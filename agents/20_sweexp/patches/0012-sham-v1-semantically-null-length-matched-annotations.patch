@@ -1,0 +1,86 @@
+From 2b2b7aae7accf48d8b71799693d51ceb5366d4c7 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sun, 9 Aug 2026 01:21:16 -0700
+Subject: [PATCH 12/12] sham-v1: semantically-null length-matched annotations
+ (placebo arm)
+
+---
+ .DS_Store                                     | Bin 6148 -> 6148 bytes
+ moatless/experience/exp_agent/exp_agent.py    |  30 +++++++++++++++++-
+ moatless/experience/exp_agent/select_agent.py |  13 ++++++++
+ 3 files changed, 42 insertions(+), 1 deletion(-)
+
+diff --git a/.DS_Store b/.DS_Store
+index 2c8e212c0f8f31ef833483e326993e24fd7a5fe2..85a5f9822631f2720ef03baf3317d103a6781a5e 100644
+GIT binary patch
+delta 106
+zcmZoMXffEJ#u6K~n1O+Tg+Y%YogtH<Bsbs1B`GIA2`I+lTKwXmoX81BRQVLV@&y@&
+V!O8i#1wcIv43Qr;H?uSf0|2cc8;<}0
+
+delta 106
+zcmZoMXffEJ#u97l!oa}5!l1{H&XCDalAG`1l9ZF51Qg?7^4Dj7EPTQdRXzo;d_jg`
+UaB_Zb0Z<PELuA3`W|l@_0ROTWUjP6A
+
+diff --git a/moatless/experience/exp_agent/exp_agent.py b/moatless/experience/exp_agent/exp_agent.py
+index 9312d3b..430657e 100644
+--- a/moatless/experience/exp_agent/exp_agent.py
++++ b/moatless/experience/exp_agent/exp_agent.py
+@@ -441,4 +441,32 @@ if __name__ == '__main__':
+         print(json.dumps(exp_tree[instance_id][0], indent=4))
+         exp_tree[instance_id][0]['issue'] = issue
+         print('-' * 100)
+-        save2json(exp_tree, 'SWE-Exp/tmp/verified_experience_tree.json')
+\ No newline at end of file
++        save2json(exp_tree, 'SWE-Exp/tmp/verified_experience_tree.json')
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
++# NOTE: routine maintenance annotation (rev 8); no functional change.
++# NOTE: routine maintenance annotation (rev 9); no functional change.
++# NOTE: routine maintenance annotation (rev 10); no functional change.
++# NOTE: routine maintenance annotation (rev 11); no functional change.
++# NOTE: routine maintenance annotation (rev 12); no functional change.
++# NOTE: routine maintenance annotation (rev 13); no functional change.
++# NOTE: routine maintenance annotation (rev 14); no functional change.
++# NOTE: routine maintenance annotation (rev 15); no functional change.
++# NOTE: routine maintenance annotation (rev 16); no functional change.
++# NOTE: routine maintenance annotation (rev 17); no functional change.
++# NOTE: routine maintenance annotation (rev 18); no functional change.
++# NOTE: routine maintenance annotation (rev 19); no functional change.
++# NOTE: routine maintenance annotation (rev 20); no functional change.
++# NOTE: routine maintenance annotation (rev 21); no functional change.
++# NOTE: routine maintenance annotation (rev 22); no functional change.
++# NOTE: routine maintenance annotation (rev 23); no functional change.
++# NOTE: routine maintenance annotation (rev 24); no functional change.
++# NOTE: routine maintenance annotation (rev 25); no functional change.
++# NOTE: routine maintenance annotation (rev 26); no functional change.
++# NOTE: routine maintenance annotation (rev 27); no functional change.
++# NOTE: routine maintenance annotation (rev 28); no functional change.
+diff --git a/moatless/experience/exp_agent/select_agent.py b/moatless/experience/exp_agent/select_agent.py
+index 5884ded..8eb6214 100644
+--- a/moatless/experience/exp_agent/select_agent.py
++++ b/moatless/experience/exp_agent/select_agent.py
+@@ -483,3 +483,16 @@ if __name__ == '__main__':
+             print(f'problem_statement:\n{instance["problem_statement"]}')
+             print(f'The coressponding experiences that may be helpful:\n{new_experiences}')
+             print('=' * 100)
++
++# NOTE: routine maintenance annotation (rev 1); no functional change.
++# NOTE: routine maintenance annotation (rev 2); no functional change.
++# NOTE: routine maintenance annotation (rev 3); no functional change.
++# NOTE: routine maintenance annotation (rev 4); no functional change.
++# NOTE: routine maintenance annotation (rev 5); no functional change.
++# NOTE: routine maintenance annotation (rev 6); no functional change.
++# NOTE: routine maintenance annotation (rev 7); no functional change.
++# NOTE: routine maintenance annotation (rev 8); no functional change.
++# NOTE: routine maintenance annotation (rev 9); no functional change.
++# NOTE: routine maintenance annotation (rev 10); no functional change.
++# NOTE: routine maintenance annotation (rev 11); no functional change.
++# NOTE: routine maintenance annotation (rev 12); no functional change.
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,7 +1,7 @@
 From 122e464baa1a72ef9e9fbff9af762e9572d146b4 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:40:54 -0700
-Subject: [PATCH 15/27] tei-v7 struct-18: Prompt-template format normalization
+Subject: [PATCH 15/28] tei-v7 struct-18: Prompt-template format normalization
 
 ---
  patchwork/steps/PreparePrompt/PreparePrompt.py | 12 +++++++++---

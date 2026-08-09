@@ -1,7 +1,7 @@
 From 5f5d6b9b781f989d7115e6ed099368ba65770c0c Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 21:45:55 -0700
-Subject: [PATCH 50/50] tei-v7 repair: close bug_locations list, drop
+Subject: [PATCH 50/51] tei-v7 repair: close bug_locations list, drop
  duplicated legacy block (prompt-29/30)
 
 ---

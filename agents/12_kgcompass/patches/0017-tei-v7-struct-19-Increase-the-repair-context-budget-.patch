@@ -1,7 +1,7 @@
 From 9f5597a468da7b43003f42a735c702b7da1417b7 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:39:01 -0700
-Subject: [PATCH 17/28] tei-v7 struct-19: Increase the repair-context budget
+Subject: [PATCH 17/29] tei-v7 struct-19: Increase the repair-context budget
  when no explicit configur
 
 ---

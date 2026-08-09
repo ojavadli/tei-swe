@@ -1,7 +1,7 @@
 From b4a8707fabc3f12cafd72dfea25e7379d7289c0f Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:41:47 -0700
-Subject: [PATCH 11/39] tei-v7 struct-14: Persistent hypothesis-and-evidence
+Subject: [PATCH 11/40] tei-v7 struct-14: Persistent hypothesis-and-evidence
  ledger
 
 ---

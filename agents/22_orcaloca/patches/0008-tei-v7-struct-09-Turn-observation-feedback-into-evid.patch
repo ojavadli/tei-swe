@@ -1,7 +1,7 @@
 From 4563371e51846335a8de521a8548cb6485e6b2cc Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:57:43 -0700
-Subject: [PATCH 08/50] tei-v7 struct-09: Turn observation feedback into
+Subject: [PATCH 08/51] tei-v7 struct-09: Turn observation feedback into
  evidence-delta guidance for i
 
 ---

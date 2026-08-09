@@ -1,7 +1,7 @@
 From c7f651aa104a4ab2303f587547fae6df4d8d4dd4 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:34:11 -0700
-Subject: [PATCH 24/24] tei-v7 prompt-30: Failure triage and completion gate
+Subject: [PATCH 24/25] tei-v7 prompt-30: Failure triage and completion gate
 
 ---
  config/livesweagent_swebench_pro.yaml | 2 +-

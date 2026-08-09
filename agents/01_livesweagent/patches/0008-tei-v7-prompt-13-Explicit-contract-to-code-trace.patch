@@ -1,7 +1,7 @@
 From 0ba6358f0c1ce16c032a8d8e9f3ae94e1e5fe2b6 Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 12:33:00 -0700
-Subject: [PATCH 08/24] tei-v7 prompt-13: Explicit contract-to-code trace
+Subject: [PATCH 08/25] tei-v7 prompt-13: Explicit contract-to-code trace
 
 ---
  config/livesweagent_swebench_pro.yaml | 2 +-

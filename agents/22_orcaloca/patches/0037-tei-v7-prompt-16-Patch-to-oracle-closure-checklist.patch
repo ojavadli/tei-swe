@@ -1,7 +1,7 @@
 From e385f8fa731e2c742cfab8f51e6c827830d77f7b Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:01:24 -0700
-Subject: [PATCH 37/50] tei-v7 prompt-16: Patch-to-oracle closure checklist
+Subject: [PATCH 37/51] tei-v7 prompt-16: Patch-to-oracle closure checklist
 
 ---
  Orcar/prompts.py | 2 +-

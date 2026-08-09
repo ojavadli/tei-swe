@@ -1,7 +1,7 @@
 From b41742cfadb72629cfc21132a9c13cbfa577067f Mon Sep 17 00:00:00 2001
 From: Orkhan Javadli <ojavadli@gmail.com>
 Date: Sat, 8 Aug 2026 13:00:57 -0700
-Subject: [PATCH 40/47] tei-v7 prompt-23: Negative-scope and compatibility
+Subject: [PATCH 40/48] tei-v7 prompt-23: Negative-scope and compatibility
  audit
 
 ---
