@@ -1,0 +1,26 @@
+From 802e2368772b59db9b32eb72fe992397be92d8c1 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:56:56 -0700
+Subject: [PATCH 02/51] tei-v7 struct-02: Increase the reasoning budget for
+ relevance and edit plannin
+
+---
+ codemonkeys/stages/context/relevance.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/stages/context/relevance.py b/codemonkeys/stages/context/relevance.py
+index a238aa8..cbdee69 100644
+--- a/codemonkeys/stages/context/relevance.py
++++ b/codemonkeys/stages/context/relevance.py
+@@ -19,7 +19,7 @@ class RelevanceConfig(CodeMonkeysConfigWithLLM):
+         super().__init__()
+ 
+         self.max_workers = 256
+-        self.max_tokens = 4096
++        self.max_tokens = 8192
+         self.timeout = 1800.0
+ 
+         # max problem statement is ~10k tokens, so we'll be under context length limit
+-- 
+2.39.5 (Apple Git-154)
+

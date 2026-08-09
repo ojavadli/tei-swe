@@ -1,0 +1,31 @@
+From 8fa382b87b21a503f3373abc83087dfd02b928c1 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:19 -0700
+Subject: [PATCH 01/24] tei-v7 struct-01: Add evidence summarization to the
+ initial localization agent
+
+---
+ src/agent/supervisor_graph_demo.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/supervisor_graph_demo.py b/src/agent/supervisor_graph_demo.py
+index 0294975..855cede 100644
+--- a/src/agent/supervisor_graph_demo.py
++++ b/src/agent/supervisor_graph_demo.py
+@@ -31,7 +31,12 @@ from agent.utils import stage_message_processor
+ 
+ rc = RuntimeConfig()
+ 
+-problem_decoder_tools = [view_directory, search_relevant_files, view_file_content]
++problem_decoder_tools = [
++    view_directory,
++    search_relevant_files,
++    view_file_content,
++    summarizer,
++]
+ solution_mapper_tools = [view_directory, search_relevant_files, view_file_content]
+ problem_solver_tools = [view_directory, search_relevant_files, str_replace_editor]
+ reviewer_tools = [view_directory, search_relevant_files, view_file_content]
+-- 
+2.39.5 (Apple Git-154)
+

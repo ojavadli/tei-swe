@@ -1,0 +1,37 @@
+From f5482fdf6cd48a2c31b6418fe73d0aad95747e5d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:54 -0700
+Subject: [PATCH 06/22] tei-v7 struct-06: Retry transient inference failures
+ and empty generations bef
+
+---
+ reranker/qwen_api.py | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/reranker/qwen_api.py b/reranker/qwen_api.py
+index 45d93f1..5010cda 100644
+--- a/reranker/qwen_api.py
++++ b/reranker/qwen_api.py
+@@ -31,9 +31,16 @@ class QwenAPI:
+         "content": user_prompt
+       }
+     ]
+-    outputs = self.llm.chat(conversation, sampling_params=self.sampling_params, use_tqdm=False)
+-    response = outputs[0].outputs[0].text
+-    return response
++    for attempt in range(3):
++      try:
++        outputs = self.llm.chat(conversation, sampling_params=self.sampling_params, use_tqdm=False)
++        response = outputs[0].outputs[0].text
++        if response.strip():
++          return response
++      except Exception:
++        if attempt == 2:
++          raise
++    raise RuntimeError("Model returned an empty response after retries")
+ 
+ 
+ if __name__ == "__main__":
+-- 
+2.39.5 (Apple Git-154)
+

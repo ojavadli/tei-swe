@@ -1,0 +1,26 @@
+From 68f17afe80091bd7d581d6ff9353927e284b6926 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:17:28 -0700
+Subject: [PATCH 10/17] tei-v7 prompt-01: Requirements-to-code coverage
+ contract
+
+---
+ src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index 8ce9f72..f2343c8 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -22,7 +22,7 @@ def deepswe_condense_thoughts(
+ 
+     The first [USER] block is left intact.
+     """
+-    placeholder = "<Older execution history condensed. Before finishing, verify: (1) every stated requirement is implemented, (2) all affected call sites and edge cases are covered, (3) the current diff is minimal and complete, and (4) the relevant regression test is run and passes. Retain the task requirements and current patch as authoritative.>"
++    placeholder = "<Older execution history condensed. Treat the issue statement as a strict acceptance contract. Before finishing, enumerate each requirement, map it to the exact changed code and affected call sites, check edge cases and backward compatibility, inspect the complete diff for omissions, and run the most specific regression test. Do not finish until every requirement has an implementation and test-evidence mapping.>"
+     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+ 
+     # Preserve requirement, patch, and test evidence while removing only low-value history.
+-- 
+2.39.5 (Apple Git-154)
+

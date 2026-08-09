@@ -1,0 +1,27 @@
+From 5d2ed4c2780eb4919060171b21016cc4259bcd38 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:49 -0700
+Subject: [PATCH 03/18] tei-v7 struct-03: Make request identifiers externally
+ controllable so retries
+
+---
+ .../src/workbench/python-helpers/composio_helper.py            | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index 5fbd0d9..a987fe6 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -45,6 +45,9 @@ def _require_value(value, label):
+ 
+ 
+ def _request_id():
++    configured = os.environ.get("COMPOSIO_REQUEST_ID")
++    if configured is not None and configured.strip():
++        return configured.strip()
+     return str(uuid.uuid4())
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

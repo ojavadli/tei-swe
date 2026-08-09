@@ -1,0 +1,31 @@
+From 1d4ae9bfa71c42dab365f7b71840ff49cda8dc92 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:21 -0700
+Subject: [PATCH 05/12] tei-v7 struct-05: Make dataset loading tolerant of
+ repository-specific dataset
+
+---
+ swebench/inference/run_api.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/swebench/inference/run_api.py b/swebench/inference/run_api.py
+index 888a27b..9b10b5d 100755
+--- a/swebench/inference/run_api.py
++++ b/swebench/inference/run_api.py
+@@ -25,7 +25,12 @@ def retry(*args, **kwargs):
+     kwargs.setdefault("stop", stop_after_attempt(5))
+     kwargs.setdefault("wait", wait_random_exponential(multiplier=1, max=30))
+     return _retry(*args, **kwargs)
+-from datasets import load_dataset, load_from_disk
++from datasets import load_dataset as _load_dataset, load_from_disk
++
++
++def load_dataset(*args, **kwargs):
++    kwargs.setdefault("trust_remote_code", True)
++    return _load_dataset(*args, **kwargs)
+ from swebench.inference.make_datasets.utils import extract_diff as _extract_diff
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,36 @@
+From 359e437cdfefec11a9afc00891cff98218616919 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:39:01 -0700
+Subject: [PATCH 21/28] tei-v7 struct-23: Use a lower default generation
+ temperature for deterministic
+
+---
+ kgcompass/repair.py  | 2 +-
+ tei/candidates.jsonl | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/kgcompass/repair.py b/kgcompass/repair.py
+index 7cabfc0..409b5ad 100644
+--- a/kgcompass/repair.py
++++ b/kgcompass/repair.py
+@@ -13,7 +13,7 @@ except ImportError:
+     BAILIAN_API_KEY = os.getenv('BAILIAN_API_KEY', '')
+     MODEL_NAME = os.getenv('MODEL_NAME', 'deepseek-chat')
+     MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '24000'))
+-    TEMPERATURE = float(os.getenv('TEMPERATURE', '0.2'))
++    TEMPERATURE = float(os.getenv('TEMPERATURE', '0.1'))
+     TOP_P = float(os.getenv('TOP_P', '1.0'))
+     DEEPSEEK_BASE_URL = os.getenv('DEEPSEEK_BASE_URL', '')
+ import argparse
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 8f7ccd3..bf19d73 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -19,3 +19,4 @@
+ {"version_id": "struct-19", "phase": "structural", "technique": "Increase the repair-context budget when no explicit configuration is supplied", "target_failure_mode": "Fault-localization or context-selection misses", "expected_dimension": "target_alignment", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '12000'))", "replace": "MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '24000'))"}, "dimensions": {"target_alignment": 0.72, "reasoning_soundness": 0.64, "execution_accuracy": 0.59, "output_integrity": 0.65}, "aggregate": 0.65, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.28}, {"instance_id": "django__django-11964", "score": 0.26}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0225, "why": "Increasing the default repair context directly addresses missed fault localization and should help the two difficult probes, but the larger context does not materially improve patch application or output handling."}
+ {"version_id": "struct-20", "phase": "structural", "technique": "Accept ordinary unescaped JSON objects during localization-result recovery", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "for match in re.finditer(r\"\\\\{.*?\\\\}\", candidate, flags=re.S):", "replace": "for match in re.finditer(r\"\\{.*?\\}\", candidate, flags=re.S):"}, "dimensions": {"target_alignment": 0.69, "reasoning_soundness": 0.62, "execution_accuracy": 0.58, "output_integrity": 0.68}, "aggregate": 0.6425, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.22}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.015, "why": "Recovery of ordinary JSON objects improves orchestration robustness and can preserve valid localization results, but the non-greedy regex remains brittle for nested objects and only modestly improves difficult repairs."}
+ {"version_id": "struct-21", "phase": "structural", "technique": "Make localization JSON recovery tolerate non-JSON decoding exceptions", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "            except json.JSONDecodeError:\n                continue", "replace": "            except (json.JSONDecodeError, TypeError, ValueError):\n                continue"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.58, "output_integrity": 0.66}, "aggregate": 0.635, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.21}, {"instance_id": "django__django-11964", "score": 0.21}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0075, "why": "Catching TypeError and other decoding-related failures prevents localization recovery from aborting, but JSONDecodeError already covers the principal decoding path, so the practical gain is small."}
++{"version_id": "struct-22", "phase": "structural", "technique": "Convert patch-application exceptions into a controlled failed attempt", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "    result = _applable_patch(*args, **kwargs)", "replace": "    try:\n        result = _applable_patch(*args, **kwargs)\n    except (OSError, subprocess.CalledProcessError, ValueError):\n        result = False"}, "dimensions": {"target_alignment": 0.67, "reasoning_soundness": 0.61, "execution_accuracy": 0.56, "output_integrity": 0.65}, "aggregate": 0.6225, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.89}, {"instance_id": "django__django-12747", "score": 0.89}, {"instance_id": "django__django-13768", "score": 0.2}, {"instance_id": "django__django-11964", "score": 0.2}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": -0.005, "why": "Converting application exceptions into False avoids orchestration crashes, but silently swallowing patch failures does not produce a repair and can hide actionable errors, reducing execution reliability relative to baseline."}
+-- 
+2.39.5 (Apple Git-154)
+

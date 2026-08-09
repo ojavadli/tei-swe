@@ -1,0 +1,26 @@
+From 33dd5021af9080071b7f096bd2c8a1cff741142f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:08:39 -0700
+Subject: [PATCH 02/22] tei-v7 struct-02: Require the agent to trace behavior
+ across callers, subclass
+
+---
+ config/benchmarks/250212_sweagent_heavy_sbl.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/benchmarks/250212_sweagent_heavy_sbl.yaml b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+index 47f3368..ddd1139 100644
+--- a/config/benchmarks/250212_sweagent_heavy_sbl.yaml
++++ b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+@@ -24,7 +24,7 @@ agent:
+           <uploaded_files>
+           {{working_dir}}
+           </uploaded_files>
+-          I've uploaded a python code repository in the directory {{working_dir}}. Consider the following PR description:
++          I've uploaded a python code repository in the directory {{working_dir}}. Before changing code, trace the affected behavior through its callers, subclasses, public APIs, serializers, and error paths. Check repository conventions and identify boundary, empty-value, type, compatibility, and regression-test edge cases before deciding on the patch. Consider the following PR description:
+ 
+           <pr_description>
+           {{problem_statement}}
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,50 @@
+From 6b99baa27256e5d5e1d8493ea1d0cf714230bc31 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:38:24 -0700
+Subject: [PATCH 14/28] tei-v7 struct-16: Validate changed Python files for
+ syntax immediately after p
+
+---
+ kgcompass/repair.py  | 14 +++++++++++---
+ tei/candidates.jsonl |  1 +
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/kgcompass/repair.py b/kgcompass/repair.py
+index df1f4a6..df79e86 100644
+--- a/kgcompass/repair.py
++++ b/kgcompass/repair.py
+@@ -25,11 +25,19 @@ from utils import (
+ def applable_patch(*args, **kwargs):
+     result = _applable_patch(*args, **kwargs)
+     if not result:
+-        return result
+-    verified = subprocess.run(
++        return False
++    whitespace = subprocess.run(
+         ['git', 'diff', '--check'], capture_output=True, text=True
+     )
+-    return result if verified.returncode == 0 else False
++    if whitespace.returncode != 0:
++        return False
++    changed = subprocess.run(
++        ['git', 'diff', '--name-only'], capture_output=True, text=True
++    )
++    for path in changed.stdout.splitlines():
++        if path.endswith('.py') and subprocess.run(['python', '-m', 'py_compile', path]).returncode != 0:
++            return False
++    return True
+ 
+ def parse_diff_edit_commands_strict(*args, **kwargs):
+     try:
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 938f130..712b04f 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -12,3 +12,4 @@
+ {"version_id": "struct-12", "phase": "structural", "technique": "Configuration fallback with typed environment parsing", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair_claude.py", "find": "from config import (\n    BAILIAN_API_KEY,\n    MODEL_NAME,\n    MAX_INPUT_LENGTH,\n    TEMPERATURE,\n    TOP_P,\n    DEEPSEEK_BASE_URL,\n)", "replace": "try:\n    from config import (\n        BAILIAN_API_KEY, MODEL_NAME, MAX_INPUT_LENGTH,\n        TEMPERATURE, TOP_P, DEEPSEEK_BASE_URL,\n    )\nexcept (ImportError, AttributeError):\n    BAILIAN_API_KEY = os.getenv('BAILIAN_API_KEY', '')\n    MODEL_NAME = os.getenv('MODEL_NAME', 'claude-sonnet-4-20250514')\n    MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '12000'))\n    TEMPERATURE = float(os.getenv"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.59, "output_integrity": 0.67}, "aggregate": 0.64, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.22}, {"instance_id": "django__django-11964", "score": 0.22}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0125, "why": "Environment-based configuration fallback improves startup reliability when the configuration module is incomplete or absent, with a small execution and output-integrity gain. It does not improve target selection or patch reasoning, and fallback defaults can conceal configuration errors."}
+ {"version_id": "struct-13", "phase": "structural", "technique": "Make localization JSON extraction executable by importing its regex dependency", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "import json\nimport os\nimport argparse", "replace": "import json\nimport os\nimport re\nimport argparse"}, "dimensions": {"target_alignment": 0.69, "reasoning_soundness": 0.62, "execution_accuracy": 0.59, "output_integrity": 0.69}, "aggregate": 0.6475, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.22}, {"instance_id": "django__django-11964", "score": 0.23}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "Importing the missing regex dependency directly addresses a concrete JSON-localization crash, modestly improving execution and output integrity. It does not materially improve reasoning or target selection, and the limited extraction fix only slightly raises the two failing probes."}
+ {"version_id": "struct-14", "phase": "structural", "technique": "Correct fenced-JSON and object-boundary extraction patterns", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "    candidates.extend(re.findall(r\"```(?:json)?\\\\s*(.*?)```\", text, flags=re.S | re.I))\n    for candidate in candidates:", "replace": "    candidates.extend(re.findall(r\"```(?:json)?\\s*(.*?)```\", text, flags=re.S | re.I))\n    for candidate in candidates:"}, "dimensions": {"target_alignment": 0.69, "reasoning_soundness": 0.63, "execution_accuracy": 0.6, "output_integrity": 0.72}, "aggregate": 0.66, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.25}, {"instance_id": "django__django-11964", "score": 0.3}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0325, "why": "The fenced-JSON and object-boundary patterns are more complete than candidate 0 and directly improve recovery of structured model output. This is the strongest brittle-output fix, though it cannot repair localization or patch logic by itself."}
++{"version_id": "struct-15", "phase": "structural", "technique": "Add a permissive structured-output fallback around strict edit-command parsing", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "def parse_diff_edit_commands_strict(*args, **kwargs):\n    try:\n        parsed = _parse_diff_edit_commands_strict(*args, **kwargs)\n    except Exception:\n        return []\n    if parsed is None:\n        return []\n    if isinstance(parsed, dict):\n        parsed = [parsed]\n    if not isinstance(parsed, list):\n        return []\n    return [item for item in parsed if isinstance(item, dict) and item]", "replace": "def parse_diff_edit_commands_strict(*args, **kwargs):\n    try:\n        parsed = _parse_diff_edit_commands_strict(*args, **kwargs)\n    except Exception:\n        parsed = None\n    if isinstance(parsed, dict):\n        return [parsed]\n    if isinstance(parsed, list):\n        return [item for item in parsed if isinstance(item, dict) and item]\n    for value in args:\n        if not isinstance(value, str)"}, "dimensions": {"target_alignment": 0.69, "reasoning_soundness": 0.6, "execution_accuracy": 0.64, "output_integrity": 0.66}, "aggregate": 0.6475, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.31}, {"instance_id": "django__django-11964", "score": 0.34}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "Fallback normalization can turn otherwise recoverable dict or list outputs into edit commands, substantially helping patch execution on the failing probes. However, broad exception swallowing and permissive acceptance reduce reasoning soundness and leave output validation weaker than candidate 1."}
+-- 
+2.39.5 (Apple Git-154)
+

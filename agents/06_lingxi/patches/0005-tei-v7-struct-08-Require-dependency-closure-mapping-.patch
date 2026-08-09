@@ -1,0 +1,31 @@
+From 891c7d65f7997456f5901ff5e7a85f03762111f5 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:54 -0700
+Subject: [PATCH 05/24] tei-v7 struct-08: Require dependency-closure mapping
+ before selecting an imple
+
+---
+ src/agent/prompt/__init__.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index 16d89d2..6d78a95 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -16,8 +16,12 @@ from .reviewer import (
+     ISSUE_RESOLVE_REVIEWER_SYSTEM_PROMPT,
+ )
+ from .solution_mapper import (
+-    ISSUE_RESOLVE_SOLUTION_MAPPER_SYSTEM_PROMPT,
++    ISSUE_RESOLVE_SOLUTION_MAPPER_SYSTEM_PROMPT as _BASE_SOLUTION_MAPPER_PROMPT,
+ )
++ISSUE_RESOLVE_SOLUTION_MAPPER_SYSTEM_PROMPT = _BASE_SOLUTION_MAPPER_PROMPT + """
++
++Construct a dependency-closure map for the proposed change before editing: entry points, data-flow or control-flow edges, subclasses/overrides, public APIs, compatibility branches, and affected tests. Mark each candidate file as in-scope or explicitly out-of-scope with evidence, and reject a patch plan that leaves an unexplained edge in the closure.
++"""
+ from .supervisor import (
+     ISSUE_RESOLVE_SUPERVISOR_SYSTEM_PROMPT,
+ )
+-- 
+2.39.5 (Apple Git-154)
+

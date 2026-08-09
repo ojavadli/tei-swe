@@ -1,0 +1,26 @@
+From 55c58fb51d4e3fcc154703afd2f4507e70438624 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:45 -0700
+Subject: [PATCH 23/47] tei-v7 prompt-01: Issue-contract decomposition before
+ editing
+
+---
+ utils/dynamic_agent.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index 2363587..fb94951 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -22,7 +22,7 @@ class PromptTemplate:
+     """Prompt templates with an explicit repository preflight contract."""
+ 
+     PREFLIGHT_REQUIREMENTS = (
+-        "Before editing, perform a repository-local triage: read CONTRIBUTING, README, "
++        "Before editing, convert the issue into an explicit implementation contract: enumerate every requested behavior, affected public API or internal invariant, edge case, backward-compatibility constraint, and acceptance criterion. For each item, identify the exact repository file, symbol, and test that should change or verify it. Then perform repository-local triage by reading CONTRIBUTING, README, "
+         "pyproject/setup configuration, ownership boundaries, supported runtimes, and "
+         "the issue's nearest implementation and test files. Identify the failing behavior, "
+         "the repository's authoritative test runner, collection syntax, required working "
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,30 @@
+From 65d1deaf807474c219a4dd278e1a8a68a4b14981 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:14 -0700
+Subject: [PATCH 02/18] tei-v7 struct-05: Make search_repo return-oriented by
+ requiring definitions, r
+
+---
+ dars-agent/config/default_dars.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index 03c40a4..b207afd 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -5,10 +5,10 @@ system_template: |-
+   <command_docs>
+   {command_docs}
+   search_repo:
+-    docstring: searches in the current repository with a specific function or class, and returns the def and ref relations for the search term.
++    docstring: searches the repository for a symbol and returns definitions, references, related tests, and nearby implementations; use the results to identify the true behavior boundary before editing.
+     signature: search_repo <search_term>
+     arguments:
+-      - search_term (string) [required]: function or class to look for in the repository.
++      - search_term (string) [required]: function, class, API, or domain concept to trace through implementation and tests.
+   </command_docs>
+ 
+   General Guidelines:
+-- 
+2.39.5 (Apple Git-154)
+

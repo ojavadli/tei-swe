@@ -1,0 +1,26 @@
+From c523dd669936abc0dd1b73f856a96030d6343af5 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:18:05 -0700
+Subject: [PATCH 03/10] tei-v7 struct-04: Normalize model-produced path
+ separators before matching gen
+
+---
+ src/swerl/agentless_mini/repair.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/swerl/agentless_mini/repair.py b/src/swerl/agentless_mini/repair.py
+index 6a204b6..2efad5c 100644
+--- a/src/swerl/agentless_mini/repair.py
++++ b/src/swerl/agentless_mini/repair.py
+@@ -63,7 +63,7 @@ def _post_process_multifile_repair(
+         edited_file = ""
+         new_content = ""
+         edit_commands = file_to_commands[edited_file_key]
+-        edited_file = edited_file_key
++        edited_file = edited_file_key.strip().replace("\\\\", "/")
+         if edited_file not in file_contents:
+             continue
+ 
+-- 
+2.39.5 (Apple Git-154)
+

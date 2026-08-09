@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.68,
+    "reasoning_soundness": 0.56,
+    "execution_accuracy": 0.49,
+    "output_integrity": 0.64
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-15814",
+      "score": 0.92
+    },
+    {
+      "instance_id": "django__django-11049",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-15738",
+      "score": 0.2
+    },
+    {
+      "instance_id": "sympy__sympy-16503",
+      "score": 0.16
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Repository localization or retrieval misses",
+      "description": "The graph-based retrieval and reranking pipeline does not consistently identify the files needed for the issue, as indicated by unresolved Django and SymPy probes.",
+      "evidence_instance_ids": [
+        "django__django-15738",
+        "sympy__sympy-16503"
+      ]
+    },
+    {
+      "name": "Issue-specific diagnosis is insufficiently reliable",
+      "description": "The system's general repository-level prompting and model reasoning do not reliably translate issue descriptions into a correct implementation diagnosis on harder instances.",
+      "evidence_instance_ids": [
+        "django__django-15738",
+        "sympy__sympy-16503"
+      ]
+    },
+    {
+      "name": "End-to-end patch execution or validation failure",
+      "description": "Despite an architecture aimed at repository-level code changes, the default system fails to produce an accepted solution on two of the four recorded probes, reflecting weak execution reliability.",
+      "evidence_instance_ids": [
+        "django__django-15738",
+        "sympy__sympy-16503"
+      ]
+    }
+  ],
+  "why": "The system is clearly aligned with SWE-bench repository-level repair and resolved both recorded Django probes, but its official 44.0% resolve rate and two unresolved probes show that successful reasoning does not generalize reliably. The strongest evidence of weakness is end-to-end execution accuracy, while the structured reranker prompts support only moderate output integrity rather than near-perfect reliability.",
+  "aggregate": 0.5925,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-15814",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-11049",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-15738",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sympy__sympy-16503",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

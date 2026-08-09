@@ -1,0 +1,59 @@
+{
+  "agent": "01_livesweagent",
+  "system": "live-SWE-agent + Claude 4.5 Opus medium (20251101)",
+  "rank": 1,
+  "resolve_rate": 79.2,
+  "score_label": "PROXY",
+  "runnability": {
+    "has_code": false,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "no source code in linked repo"
+  },
+  "baseline": 0.8475,
+  "best_structural": 0.885,
+  "best_structural_id": "struct-15",
+  "best_final": 0.89,
+  "best_final_id": "prompt-04",
+  "shipped": "prompt-04",
+  "confirmation": {
+    "n_queries": 6,
+    "cand_mean": 0.6883,
+    "ref_mean": 0.615,
+    "delta": 0.0733,
+    "wins": 6,
+    "losses": 0,
+    "sign_p": 0.031,
+    "margin_hoeffding": 0.554,
+    "mde": 0.242,
+    "insufficient_n": false,
+    "accept": true,
+    "reason": "mean not below reference; 6W/0L paired (sign p=0.031)",
+    "preflight": "Power check: with 6 eval queries, only mean-score changes >= ~0.24 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
+  },
+  "noise_floor": {
+    "paraphrase_aggregates": [
+      0.8475,
+      0.8475,
+      0.8475
+    ],
+    "noise_floor": 0.0
+  },
+  "n_versions": 60,
+  "n_applied": 24,
+  "budget_after": {
+    "calls": 22,
+    "input_tokens": 31743,
+    "output_tokens": 40127,
+    "cost_nominal_usd": 0.4409,
+    "cost_conservative_usd": 0.8819,
+    "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+    "scale_downs": []
+  },
+  "noise_floor_method": "baseline-anchored orbit; identical calibration to candidate scoring",
+  "shipped_delta": 0.0425,
+  "gain_vs_noise_floor": "exceeds_noise_floor",
+  "below_mde": true,
+  "mde_note": "shipped delta 0.0425 vs MDE 0.242 at n=6: BELOW the minimum detectable effect - not statistically meaningful at this n"
+}

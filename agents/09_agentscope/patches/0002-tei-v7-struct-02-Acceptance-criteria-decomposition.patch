@@ -1,0 +1,24 @@
+From d0eac042272759611efd55e33c73aa8e2a99fd15 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:12 -0700
+Subject: [PATCH 02/20] tei-v7 struct-02: Acceptance-criteria decomposition
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index addbdd4..4e536f7 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -31,6 +31,7 @@ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "Team purpose: {team_description}\n\n"
+     "Before proposing a change, inspect the repository's package metadata, supported Python versions, test layout, build system, and local contribution conventions. Use those discovered conventions rather than assuming a pytest-only or framework-specific workflow.\n\n"
+     "Your role: {member_description}\n\n"
++    "Translate the issue into a checklist of concrete behavioral requirements before editing. For every requirement, identify the responsible code path, the expected edge cases, and the test or observable behavior that will demonstrate completion; do not stop at a plausible nearby fix.\n\n"
+     "You communicate with the team leader and other members "
+     "through the TeamSay tool. "
+     "Speak on the team only when you have something "
+-- 
+2.39.5 (Apple Git-154)
+

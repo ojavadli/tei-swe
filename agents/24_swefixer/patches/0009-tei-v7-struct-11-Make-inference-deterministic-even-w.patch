@@ -1,0 +1,25 @@
+From 691cba0afc8a0274a1ce393e9afe8f98b906b3f2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:43 -0700
+Subject: [PATCH 09/13] tei-v7 struct-11: Make inference deterministic even
+ when a nonzero temperature
+
+---
+ utils/oai.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index c4db271..36a0d38 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -13,6 +13,7 @@ def load_openai_client(api_key, base_url):
+ 
+ def get_model_prediction(client, input_text, system_prompt=None, timeout=300, temp=0):
+     def make_request(result_queue):
++        temp = 0
+         if temp != 0:
+             print("temp: ", temp)
+         try:
+-- 
+2.39.5 (Apple Git-154)
+

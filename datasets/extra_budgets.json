@@ -1,0 +1,21 @@
+{
+ "note": "per-pass budgets whose files were later overwritten by merges; values copied verbatim from the recorded run output at execution time",
+ "passes": [
+  {
+   "pass": "blinded A/B pass 1 (pre-repair, 26 agents)",
+   "calls": 131,
+   "input_tokens": 241733,
+   "output_tokens": 37935,
+   "cost_nominal_usd": 0.6815,
+   "cost_conservative_usd": 1.363
+  },
+  {
+   "pass": "A1 micro-arm agent rollouts (gpt-4o-mini, both arms, from run_batch ledgers)",
+   "calls": 0,
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cost_nominal_usd": 2.4879,
+   "cost_conservative_usd": 2.4879
+  }
+ ]
+}

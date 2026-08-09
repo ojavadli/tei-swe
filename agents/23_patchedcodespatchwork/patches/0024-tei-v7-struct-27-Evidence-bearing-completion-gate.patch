@@ -1,0 +1,41 @@
+From af1e2da29e4b15717c96b9f7fa19118b0b8a7d2d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:42:18 -0700
+Subject: [PATCH 24/27] tei-v7 struct-27: Evidence-bearing completion gate
+
+---
+ patchwork/common/multiturn_strategy/planning_strategy.py | 8 ++++++--
+ tei/candidates.jsonl                                     | 1 +
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/patchwork/common/multiturn_strategy/planning_strategy.py b/patchwork/common/multiturn_strategy/planning_strategy.py
+index 6c6ab74..302cc5f 100644
+--- a/patchwork/common/multiturn_strategy/planning_strategy.py
++++ b/patchwork/common/multiturn_strategy/planning_strategy.py
+@@ -18,8 +18,12 @@ class StepCompletedResult(BaseModel):
+     @field_validator("validation_evidence")
+     @classmethod
+     def require_evidence_for_completed_step(cls, value, info):
+-        if info.data.get("is_step_completed") and not value.strip():
+-            raise ValueError("Completed steps must include validation evidence")
++        if info.data.get("is_step_completed"):
++            evidence = value.strip()
++            if not evidence:
++                raise ValueError("Completed steps must include validation evidence")
++            if not any(token in evidence.lower() for token in ("test", "pytest", "assert", "verified")):
++                raise ValueError("Completed steps must cite a concrete validation action")
+         return value
+ 
+     @property
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 95541c6..e4c20b6 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -23,3 +23,4 @@
+ {"version_id": "struct-23", "phase": "structural", "technique": "Reinitialize the system instruction when conversation state is malformed", "target_failure_mode": "Unreliable multi-step patch execution", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "        if not self.history:", "replace": "        if not self.history or self.history[0].get(\"role\") != \"system\":"}, "dimensions": {"target_alignment": 0.6, "reasoning_soundness": 0.55, "execution_accuracy": 0.5, "output_integrity": 0.53}, "aggregate": 0.545, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.78}, {"instance_id": "sympy__sympy-15011", "score": 0.76}, {"instance_id": "django__django-11001", "score": 0.2}, {"instance_id": "django__django-11910", "score": 0.18}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": -0.0025, "why": "Restoring a missing system message can recover malformed conversations and slightly improve execution robustness, but reinitializing state risks discarding useful context, lowering reasoning and output reliability."}
+ {"version_id": "struct-24", "phase": "structural", "technique": "Normalize prompt identifiers before template lookup", "target_failure_mode": "Repository- and issue-type generalization failure", "expected_dimension": "target_alignment", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/steps/PreparePrompt/PreparePrompt.py", "find": "    if prompt_template_file is None or prompt_id is None:\n        return None", "replace": "    if prompt_template_file is None or prompt_id is None:\n        return None\n    prompt_id = prompt_id.strip()\n    if not prompt_id:\n        logger.warning(\"PromptId is empty after normalization\")\n        return None"}, "dimensions": {"target_alignment": 0.67, "reasoning_soundness": 0.59, "execution_accuracy": 0.47, "output_integrity": 0.54}, "aggregate": 0.5675, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.2}, {"instance_id": "django__django-11910", "score": 0.18}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "Normalization improves robustness across prompt identifier formatting and directly addresses generalization, especially for heterogeneous repositories, but it only fixes lookup hygiene and does not improve patch execution or completion validation."}
+ {"version_id": "struct-25", "phase": "structural", "technique": "Repository-aware bootstrap instruction", "target_failure_mode": "Repository- and issue-type generalization failure", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "        self.history: list[ChatCompletionMessageParam] = []", "replace": "        self.history: list[ChatCompletionMessageParam] = [{\n            \"role\": \"system\",\n            \"content\": (\n                \"First identify the repository, framework and version, issue type, relevant \"\n                \"conventions, and expected behavior. Inspect analogous code and tests before \"\n                \"editing. Make the smallest compatible patch, then run focused tests and \"\n     "}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.49, "output_integrity": 0.55}, "aggregate": 0.585, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.8}, {"instance_id": "sympy__sympy-15011", "score": 0.79}, {"instance_id": "django__django-11001", "score": 0.24}, {"instance_id": "django__django-11910", "score": 0.22}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0375, "why": "The repository-aware bootstrap directly addresses cross-repository and issue-type confusion, improving target selection and initial reasoning, especially on the Django probes. It does not materially solve patch execution or final validation."}
++{"version_id": "struct-26", "phase": "structural", "technique": "Deterministic tool-schema ordering", "target_failure_mode": "Unreliable multi-step patch execution", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "        self.tool_set = {\n            name: tool\n            for name, tool in tool_set.items()\n            if tool is not None\n        }", "replace": "        self.tool_set = {\n            name: tool\n            for name, tool in sorted(\n                tool_set.items(),\n                key=lambda item: (item[0] == \"end\", item[0]),\n            )\n            if tool is not None\n        }"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.58, "execution_accuracy": 0.5, "output_integrity": 0.54}, "aggregate": 0.56, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.18}, {"instance_id": "django__django-11910", "score": 0.17}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0125, "why": "Stable tool ordering modestly improves reproducibility during multi-step execution, but it has little effect on repository understanding or validation. The gain is small because ordering alone does not ensure correct tool use or patch content."}
+-- 
+2.39.5 (Apple Git-154)
+

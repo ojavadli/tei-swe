@@ -1,0 +1,28 @@
+From 9a1e7add3177c5e860a14ec8fae33a66ee6e5811 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:56 -0700
+Subject: [PATCH 08/12] tei-v7 struct-12: Increase transient API retry budget
+ and cap backoff at a lon
+
+---
+ swebench/inference/run_api.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/swebench/inference/run_api.py b/swebench/inference/run_api.py
+index 59f5270..a879d85 100755
+--- a/swebench/inference/run_api.py
++++ b/swebench/inference/run_api.py
+@@ -22,8 +22,8 @@ from tenacity import retry as _retry, stop_after_attempt, wait_random_exponentia
+ 
+ 
+ def retry(*args, **kwargs):
+-    kwargs.setdefault("stop", stop_after_attempt(5))
+-    kwargs.setdefault("wait", wait_random_exponential(multiplier=1, max=30))
++    kwargs.setdefault("stop", stop_after_attempt(8))
++    kwargs.setdefault("wait", wait_random_exponential(multiplier=1, max=60))
+     return _retry(*args, **kwargs)
+ from datasets import load_dataset as _load_dataset, load_from_disk
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,25 @@
+From 73da6559833e0c1c24ddcd963939dfa82e3f2ca3 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:40 -0700
+Subject: [PATCH 03/17] tei-v7 struct-08: Semantic call-chain and test-trace
+ requirement
+
+---
+ agentless_lite/util/backends.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/agentless_lite/util/backends.py b/agentless_lite/util/backends.py
+index 974bcdc..aae1225 100644
+--- a/agentless_lite/util/backends.py
++++ b/agentless_lite/util/backends.py
+@@ -18,6 +18,7 @@ STR_REPLACE_EDITOR_DESCRIPTION = """Custom editing tool for editing files
+ 
+ Before making any edit, build a repository boundary map containing the issue-facing entry point, defining implementation, direct callers, configuration or compatibility boundaries, and the nearest relevant tests. Select the edit location from this map, not from a first textual match.
+ * State is persistent across command calls and discussions with the user
++* Trace the reported behavior from its public API through the relevant call chain to the state or branch that violates the requirement, and connect that path to at least one existing or expected test before editing
+ 
+ Before editing, first locate the defining implementation, inspect its callers and nearby tests, and identify configuration or compatibility boundaries. Do not patch the first text match that resembles the issue.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

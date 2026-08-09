@@ -1,0 +1,34 @@
+From 898f73c7aa3abc4e6ed68089c6b8087540699178 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:05:38 -0700
+Subject: [PATCH 08/18] tei-v7 struct-08: Default network timeout enforcement
+
+---
+ .../src/workbench/python-helpers/composio_helper.py   | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index 8d0c794..348ad28 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -11,6 +11,17 @@ from typing import Any, Dict, Literal, Optional
+ _ORIGINAL_URLOPEN = urllib.request.urlopen
+ 
+ 
++def _urlopen_with_timeout(*args, **kwargs):
++    if len(args) < 3 and "timeout" not in kwargs:
++        kwargs["timeout"] = float(os.environ.get("COMPOSIO_HTTP_TIMEOUT", "45"))
++    return _ORIGINAL_URLOPEN(*args, **kwargs)
++
++
++urllib.request.urlopen = _urlopen_with_timeout
++
++_ORIGINAL_URLOPEN = urllib.request.urlopen
++
++
+ def _urlopen_with_retry(*args, **kwargs):
+     attempts = max(1, int(os.environ.get("COMPOSIO_HTTP_RETRIES", "3")))
+     for attempt in range(attempts):
+-- 
+2.39.5 (Apple Git-154)
+

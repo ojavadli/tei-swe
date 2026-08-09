@@ -1,0 +1,30 @@
+From 7fbd0a96c1b6d0cc409858c53b197aaf07c53d7a Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:22 -0700
+Subject: [PATCH 04/17] tei-v7 struct-09: Add a deterministic token-bounded
+ fallback when the trajecto
+
+---
+ src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index 3605cba..c266b58 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -31,7 +31,11 @@ def deepswe_condense_thoughts(
+     pattern = re.compile(r"(\[USER\])(.*?)(\[/USER\])", re.DOTALL)
+     blocks = list(pattern.finditer(input_str))
+     if not blocks:
+-        return input_str
++        token_ids = tokenizer.encode(input_str, add_special_tokens=False)
++        if len(token_ids) <= max_tokens:
++            return input_str
++        kept = tokenizer.decode(token_ids[-max_tokens:], skip_special_tokens=False)
++        return "<Leading history condensed because no USER blocks were detected>\n" + kept
+     priority = re.compile(r"(test|pytest|traceback|failure|error|patch|diff|requirement)", re.I)
+     removable = [m for m in blocks[1:] if not priority.search(m.group(2))]
+     for match in removable:
+-- 
+2.39.5 (Apple Git-154)
+

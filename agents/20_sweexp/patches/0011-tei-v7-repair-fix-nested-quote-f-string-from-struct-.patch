@@ -1,0 +1,55 @@
+From eacba8e19fa4de86427cf680ee1bcf59d5d327dd Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 21:45:55 -0700
+Subject: [PATCH 11/11] tei-v7 repair: fix nested-quote f-string from
+ struct-08/12 patch (parse-guided, 1 site)
+
+---
+ .DS_Store                                     | Bin 0 -> 6148 bytes
+ moatless/experience/exp_agent/select_agent.py |   4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ create mode 100644 .DS_Store
+
+diff --git a/.DS_Store b/.DS_Store
+new file mode 100644
+index 0000000000000000000000000000000000000000..2c8e212c0f8f31ef833483e326993e24fd7a5fe2
+GIT binary patch
+literal 6148
+zcmeHKJx>Bb5S@jK5^XRxmfKiqG!*nFIcpP%g`FY<Nw^#d5F3kY{2vzn4_iwMV`XP7
+zZ7eN}Z*~{i^?=eCogusLn2()zkK8UtM5-}v*NCb_RKZ}3Rxr&lj`Jv3$$7X~@f!VZ
+zt$CKEgF>b_L;+FYH!5HreA=Nd^=K44zen{1gri9;&61?m&sy+RN(Z~k&+B)4VZ6OC
+zJ~;RGhGVluEYT?q@#)ZrhC%PGw>7LC#Qpvs7nj$Mw*R-BDTjGE0gr9IeQa(iW#BTR
+zKDdC9&qX~QKFrGT`P9c(6F!Bt(rn6UQJ&9Bz1%aeG8lEJ=d&Sty`4sU4ma=hP4}C)
+zI=^!<>h~k1v8dQTQvhc+TV>Uv%%XrOAPRgb!25&7V2mB+7R}ay$-DvpBe;#>+MKCC
+z%?@DfFt-Q~OxaSPEmiInL)mipwabeg<`!)^DbpG2xX#MGp(xWGer?i8#TI221w?^R
+zfwKKt<@0}k{`-GeB;P~<QQ%K0prWLiG;mAqY%SazpS2p}1cQz9a*L(}lRJ*h1s}y5
+b7{(COd;yFd<`&_B$sYkDgG{2pk1Fs9j}?cq
+
+literal 0
+HcmV?d00001
+
+diff --git a/moatless/experience/exp_agent/select_agent.py b/moatless/experience/exp_agent/select_agent.py
+index d1a773c..5884ded 100644
+--- a/moatless/experience/exp_agent/select_agent.py
++++ b/moatless/experience/exp_agent/select_agent.py
+@@ -299,7 +299,7 @@ Your output must strictly follow the JSON format below:
+             if isinstance(exp[type], dict):
+                 tmp = ''
+                 for i in range(len(exp[type]['experience'])):
+-                    tmp += f'***Experience {str(i + 1)}***: {exp[type]['experience'][i]}\n'
++                    tmp += f'***Experience {str(i + 1)}***: {exp[type]["experience"][i]}\n'
+                 return tmp
+             elif isinstance(exp[type], list):
+                 tmp = ''
+@@ -369,7 +369,7 @@ Output only the following JSON structure:
+ '''
+         enhanced_instruction = instruction
+         for id, exp in old_experiences.items():
+-            experiences = f'***Past Issue***: {issue_type[id]['issue']}\n'
++            experiences = f'***Past Issue***: {issue_type[id]["issue"]}\n'
+             if type == 'perspective':
+                 experiences += self.load_experience(exp, type)
+                 experiences += '\n'
+-- 
+2.39.5 (Apple Git-154)
+

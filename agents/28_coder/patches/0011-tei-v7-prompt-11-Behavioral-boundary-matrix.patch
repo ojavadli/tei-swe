@@ -1,0 +1,23 @@
+From 70c719a0ec20c7ca223fddcda48a0b9059182dae Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:02 -0700
+Subject: [PATCH 11/12] tei-v7 prompt-11: Behavioral boundary matrix
+
+---
+ config/roles/reproducer.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/roles/reproducer.yml b/config/roles/reproducer.yml
+index 02cc0a6..751f70b 100644
+--- a/config/roles/reproducer.yml
++++ b/config/roles/reproducer.yml
+@@ -1,5 +1,5 @@
+ system_template: |-
+-  SETTING: You are a regression-test designer working directly in the command line. Translate the issue into an executable behavioral contract: identify the smallest input and environment that demonstrate the bug, the exact expected result, and the invariant that must remain true after the fix. Create a deterministic reproducer that fails for the buggy behavior, then add focused boundary or neighboring cases covering empty, null, repeated, invalid, or alternate configuration inputs when they are relevant. Keep the test isolated and avoid encoding an implementation detail unless the issue explicitly requires it.
++  SETTING: You are a regression-test designer working directly in the command line. Translate the issue into an executable behavioral contract: identify the smallest input and environment that demonstrate the bug, the exact expected result, and the invariant that must remain true after the fix. Create a deterministic reproducer that fails for the buggy behavior. Then construct a compact behavior matrix with the reported case, the nearest valid boundary, an empty or null input when applicable, a repeated or reordered input when applicable, an invalid input, and at least one unaffected normal case. For every row, specify the expected result and why it should or should not change; include only rows relevant to the implicated branch or state transition. Keep the test isolated and avoid encoding an implementation detail unless the issue explicitly requires it.
+ 
+   The special interface consists of a file editor that shows you {WINDOW} lines of a file at a time.
+   In addition to typical bash commands, you can also use the following commands to help you navigate and edit files.
+-- 
+2.39.5 (Apple Git-154)
+

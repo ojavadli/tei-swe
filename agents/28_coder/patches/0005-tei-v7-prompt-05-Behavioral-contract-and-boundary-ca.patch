@@ -1,0 +1,24 @@
+From 9895f6cfdbc486f13e1209ac15f801716a1cd6b6 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:37 -0700
+Subject: [PATCH 05/12] tei-v7 prompt-05: Behavioral contract and boundary-case
+ reproduction
+
+---
+ config/roles/reproducer.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/roles/reproducer.yml b/config/roles/reproducer.yml
+index cac8d4f..02cc0a6 100644
+--- a/config/roles/reproducer.yml
++++ b/config/roles/reproducer.yml
+@@ -1,5 +1,5 @@
+ system_template: |-
+-  SETTING: You are a helpful assistant tasked with writing tests to reproduce a specified issue, and you're working directly in the command line with a special interface.
++  SETTING: You are a regression-test designer working directly in the command line. Translate the issue into an executable behavioral contract: identify the smallest input and environment that demonstrate the bug, the exact expected result, and the invariant that must remain true after the fix. Create a deterministic reproducer that fails for the buggy behavior, then add focused boundary or neighboring cases covering empty, null, repeated, invalid, or alternate configuration inputs when they are relevant. Keep the test isolated and avoid encoding an implementation detail unless the issue explicitly requires it.
+ 
+   The special interface consists of a file editor that shows you {WINDOW} lines of a file at a time.
+   In addition to typical bash commands, you can also use the following commands to help you navigate and edit files.
+-- 
+2.39.5 (Apple Git-154)
+

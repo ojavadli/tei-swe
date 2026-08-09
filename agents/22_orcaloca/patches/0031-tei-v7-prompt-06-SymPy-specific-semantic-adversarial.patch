@@ -1,0 +1,26 @@
+From f7c216127ccc620b0b6f6aea16d2e6bec5b35277 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:00:32 -0700
+Subject: [PATCH 31/50] tei-v7 prompt-06: SymPy-specific semantic adversarial
+ checks
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 7c63c83..6717e22 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -2,7 +2,7 @@ STEP_EXAMPLE = {
+     "execution_gate": {
+         "before_patch": "Build a compact context packet before localization: record the exact failing command, exit status, exception, relevant output, repository revision, and independently confirmed minimal reproducer; extract the issue's explicit behavioral predicates and constraints; identify the first project-owned frame and the nearest caller/callee; list relevant definitions, tests, and configuration or version gates; separate confirmed facts from hypotheses; and state which missing artifact would most strongly discriminate competing targets.",
+         "after_patch": "run the smallest regression oracle first",
+-        "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test", "alternate representation or assumption", "interaction with the nearest caller"],
++        "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test", "alternate representation or assumption", "interaction with the nearest caller", "symbolic versus numeric or concrete evaluation", "unevaluated versus automatically evaluated form", "commutative versus noncommutative symbols when relevant", "assumptions, domains, and type-dependent behavior", "repeated application or simplification/idempotence", "order, shape, and dimensionality preservation", "serialization or pretty-printing if representation is part of the issue"],
+         "acceptance_rule": "A patch is resolved only when: (1) the pre-patch failure is reproduced with a recorded command, input, exception or output, and exit status; (2) the patch is applied to the intended symbol and the diff is inspected; (3) the exact original command is rerun and now produces the stated expected output or exception; (4) a focused regression test passes; (5) at least one nearby valid case and one boundary or nested case pass; and (6) the final diff contains no unrelated changes. If any item is missing or fails, report unresolved, preserve the failing evidence, and do not claim success.",
+         "recovery_rule": "If any check fails, do not widen the patch. Record the exact failing oracle and classify the failure as wrong target, wrong invariant, incomplete call path, or incompatible behavior. Then generate at least two materially different causal hypotheses, each naming a distinct target symbol and predicted observable behavior; use repository search and the failed evidence to rank them; inspect the highest-ranked caller and callee; and test the cheapest discriminating hypothesis before editing. Revert rejected hypotheses and retain only the smallest patch whose prediction is confirmed."
+     },
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From bc25bbe766d5a59d727ddbfc5f042ecd9d4af965 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:09 -0700
+Subject: [PATCH 23/50] tei-v7 struct-27: Turn the execution gate into a
+ falsification-and-recovery lo
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index c890f82..09aa9be 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -4,7 +4,7 @@ STEP_EXAMPLE = {
+         "after_patch": "run the smallest regression oracle first",
+         "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test"],
+         "acceptance_rule": "do not report resolved unless the original failure is fixed and compatibility checks pass",
+-        "recovery_rule": "if a check fails, revert the hypothesis and localize again rather than widening the patch"
++        "recovery_rule": "if any check fails, record the failing oracle and revert the hypothesis; generate at least one competing causal hypothesis, rerun localization with the failed evidence, and apply a new minimal patch rather than widening the original patch"
+     },
+     "patch_contract": {
+         "target_file": "repository-relative path",
+-- 
+2.39.5 (Apple Git-154)
+

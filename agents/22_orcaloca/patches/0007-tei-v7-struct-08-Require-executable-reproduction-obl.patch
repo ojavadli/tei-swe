@@ -1,0 +1,31 @@
+From 04533b2790cb4efbd0d3786309c95c89a29a971c Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:43 -0700
+Subject: [PATCH 07/50] tei-v7 struct-08: Require executable reproduction
+ obligations and semantic inv
+
+---
+ Orcar/prompts.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 3b00df7..fbb26ff 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -3,7 +3,12 @@ STEP_EXAMPLE = {
+         "observed_behavior": "",
+         "expected_behavior": "",
+         "constraints": [],
+-        "likely_execution_path": []
++        "likely_execution_path": [],
++        "reproduction_obligations": [
++            "minimal input that triggers the bug",
++            "expected versus actual result or exception",
++            "semantic invariants that must remain true after the fix"
++        ]
+     },
+     "observation_feedback": "observation",
+     "potential_bug_locations": [
+-- 
+2.39.5 (Apple Git-154)
+

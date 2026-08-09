@@ -1,0 +1,36 @@
+From 5459a53bf491055df974fefb0a72a73ebd6b7ad5 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:39:51 -0700
+Subject: [PATCH 25/28] tei-v7 struct-27: Treat patch-tool and filesystem
+ errors as failed attempts ra
+
+---
+ kgcompass/repair.py  | 2 +-
+ tei/candidates.jsonl | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/kgcompass/repair.py b/kgcompass/repair.py
+index 55fa7bf..8b773c5 100644
+--- a/kgcompass/repair.py
++++ b/kgcompass/repair.py
+@@ -29,7 +29,7 @@ from utils import (
+ def applable_patch(*args, **kwargs):
+     try:
+         result = _applable_patch(*args, **kwargs)
+-    except (OSError, subprocess.CalledProcessError, ValueError):
++    except Exception:
+         result = False
+     if not result:
+         return False
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 89bc2e0..972c3dc 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -23,3 +23,4 @@
+ {"version_id": "struct-23", "phase": "structural", "technique": "Use a lower default generation temperature for deterministic code edits", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "TEMPERATURE = float(os.getenv('TEMPERATURE', '0.2'))", "replace": "TEMPERATURE = float(os.getenv('TEMPERATURE', '0.1'))"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.63, "execution_accuracy": 0.6, "output_integrity": 0.64}, "aggregate": 0.6375, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.24}, {"instance_id": "django__django-11964", "score": 0.23}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.01, "why": "A low temperature should make edits more consistent and slightly improve application accuracy, especially on repeatable repairs, though it can reduce useful variation when the first repair strategy is wrong."}
+ {"version_id": "struct-24", "phase": "structural", "technique": "Make the OpenAI dependency optional at module import time", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "import openai", "replace": "try:\n    import openai\nexcept ImportError:\n    openai = None"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.56, "output_integrity": 0.67}, "aggregate": 0.6325, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.2}, {"instance_id": "django__django-11964", "score": 0.2}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.005, "why": "Optional import improves module-load resilience when OpenAI is unavailable, but leaving openai as None can defer failure until use and does not improve localization or patch quality; execution is slightly worse because dependency errors become less explicit."}
+ {"version_id": "struct-25", "phase": "structural", "technique": "Make the repair-context budget configurable with a larger safe default", "target_failure_mode": "Fault-localization or context-selection misses", "expected_dimension": "target_alignment", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "    MODEL_NAME = os.getenv('MODEL_NAME', 'deepseek-chat')\n    MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '24000'))\n    TEMPERATURE = float(os.getenv('TEMPERATURE', '0.1'))", "replace": "    MODEL_NAME = os.getenv('MODEL_NAME', 'deepseek-chat')\n    MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '48000'))\n    TEMPERATURE = float(os.getenv('TEMPERATURE', '0.1'))"}, "dimensions": {"target_alignment": 0.72, "reasoning_soundness": 0.64, "execution_accuracy": 0.58, "output_integrity": 0.65}, "aggregate": 0.6475, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.25}, {"instance_id": "django__django-11964", "score": 0.23}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "A larger configurable context budget directly addresses missed repair context and modestly improves the difficult probes. The gain is limited because larger inputs can increase noise or approach model context limits, while execution and output handling are largely unchanged."}
++{"version_id": "struct-26", "phase": "structural", "technique": "Replace first-match JSON extraction with balanced JSONDecoder scanning", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "def extract_json_code(text):\n    if not isinstance(text, str):\n        return {}", "replace": "def extract_json_code(text):\n    if not isinstance(text, str):\n        return {}\n    decoder = json.JSONDecoder()\n    for start, char in enumerate(text):\n        if char != '{':\n            continue\n        try:\n            parsed, _ = decoder.raw_decode(text[start:])\n            if isinstance(parsed, dict) and parsed:\n                return parsed\n        except (ValueError, TypeError, json.JSOND"}, "dimensions": {"target_alignment": 0.7, "reasoning_soundness": 0.63, "execution_accuracy": 0.59, "output_integrity": 0.71}, "aggregate": 0.6575, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.3}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.03, "why": "Balanced JSONDecoder scanning is a meaningful improvement for malformed or prefixed model output and raises output integrity. It does not materially improve diagnosis or patch generation, and scanning arbitrary opening braces can still select an unintended valid object."}
+-- 
+2.39.5 (Apple Git-154)
+

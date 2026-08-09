@@ -1,0 +1,83 @@
+{
+  "dimensions": {
+    "target_alignment": 0.62,
+    "reasoning_soundness": 0.55,
+    "execution_accuracy": 0.51,
+    "output_integrity": 0.68
+  },
+  "probe_scores": [
+    {
+      "instance_id": "astropy__astropy-13453",
+      "score": 0.78
+    },
+    {
+      "instance_id": "django__django-15104",
+      "score": 0.78
+    },
+    {
+      "instance_id": "pytest-dev__pytest-6197",
+      "score": 0.22
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3069",
+      "score": 0.22
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Localization and repair failure on repository-specific behavior",
+      "description": "The system can complete some fixes, but its unresolved outcomes on pytest and seaborn indicate recurring difficulty mapping issue descriptions to the correct implementation and producing a behaviorally correct patch.",
+      "evidence_instance_ids": [
+        "pytest-dev__pytest-6197",
+        "mwaskom__seaborn-3069"
+      ]
+    },
+    {
+      "name": "Insufficient regression-test or reproduction-test guidance",
+      "description": "The explicit test-selection and reproduction-generation stages do not reliably prevent incorrect or incomplete fixes, particularly for the unresolved pytest and seaborn issues.",
+      "evidence_instance_ids": [
+        "pytest-dev__pytest-6197",
+        "mwaskom__seaborn-3069"
+      ]
+    },
+    {
+      "name": "Brittle end-to-end patch validation across projects",
+      "description": "The pipeline's validation can succeed on selected instances but does not generalize reliably across the benchmark's varied repositories, as shown by two unresolved probes despite the successful astropy and django cases.",
+      "evidence_instance_ids": [
+        "pytest-dev__pytest-6197",
+        "mwaskom__seaborn-3069",
+        "astropy__astropy-13453",
+        "django__django-15104"
+      ]
+    }
+  ],
+  "why": "The two resolved probes show that the default Agentless-1.5 system can align with an issue and execute a valid repair, but the two unresolved probes demonstrate substantial failures in localization, reasoning, or patch validation. The dimensions are therefore kept near\u2014but not above\u2014the system's reported 50.8% verified resolve rate, with execution accuracy weakest and output integrity somewhat higher because the pipeline generally produces structured patch artifacts even when they are incorrect.",
+  "aggregate": 0.59,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "astropy__astropy-13453",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-15104",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-6197",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3069",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  }
+}

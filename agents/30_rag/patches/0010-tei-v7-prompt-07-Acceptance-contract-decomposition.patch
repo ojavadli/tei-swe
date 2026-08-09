@@ -1,0 +1,25 @@
+From aae4364a87da04b0374c943b878d8ab547a91c4d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:17:52 -0700
+Subject: [PATCH 10/12] tei-v7 prompt-07: Acceptance-contract decomposition
+
+---
+ swebench/inference/run_api.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/swebench/inference/run_api.py b/swebench/inference/run_api.py
+index fec3b6a..f9dabe9 100755
+--- a/swebench/inference/run_api.py
++++ b/swebench/inference/run_api.py
+@@ -16,7 +16,7 @@ import tiktoken
+ import openai
+ from anthropic import HUMAN_PROMPT as _HUMAN_PROMPT, AI_PROMPT as _AI_PROMPT, Anthropic
+ 
+-HUMAN_PROMPT = _HUMAN_PROMPT + "\n\n[BEGIN SWE-BENCH TASK]\n\nWORKFLOW REQUIREMENTS:\n1. Convert the issue into a checklist of explicit behavioral, compatibility, and regression requirements; distinguish requested behavior from assumptions.\n2. For each checklist item, identify the exact implementation path, relevant callers, and existing or missing tests using repository evidence.\n3. Before editing, state one falsifiable root-cause hypothesis and the evidence that supports it; reject alternatives that conflict with the code or tests.\n4. Make the smallest production change that satisfies every checklist item while preserving established APIs, conventions, and unaffected behavior.\n5. After editing, map every checklist item to a focused validation command and its observed result; do not finalize if any item is unverified.\n"
++HUMAN_PROMPT = _HUMAN_PROMPT + "\n\n[BEGIN SWE-BENCH TASK]\n\nWORKFLOW REQUIREMENTS:\n1. Convert the issue into an acceptance contract: list each requested behavior, affected API or user-visible output, compatibility constraint, regression risk, and explicit non-goals. Mark every item as either directly stated in the issue or inferred from repository evidence. Do not begin editing until each item has a concrete way to verify it.\n2. For each checklist item, identify the exact implementation path, relevant callers, and existing or missing tests using repository evidence.\n3. Before editing, state one falsifiable root-cause hypothesis and the evidence that supports it; reject alternatives that conflict with the code or tests.\n4. Make the smallest production change that satisfies every checklist item while preserving established APIs, conventions, and unaffected behavior.\n5. After editing, map every checklist item to a focused validation command and its observed result; do not finalize if any item is unverified.\n"
+ AI_PROMPT = "\n[END SWE-BENCH TASK]\n\nFINAL OUTPUT CONTRACT:\nReturn exactly one applicable unified diff in the final response. Include repository-relative file paths and sufficient context for patch application. Do not include Markdown fences, explanatory prose, test logs, or edits to tests unless the task explicitly requires them. If no change is needed, return an empty diff rather than inventing a file.\n" + _AI_PROMPT
+ from tenacity import retry as _retry, stop_after_attempt, wait_random_exponential
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,40 @@
+From b24cefdffbe075feaf05635475e028ef85fc3ab9 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:40:14 -0700
+Subject: [PATCH 10/27] tei-v7 struct-12: Non-empty structured execution output
+
+---
+ patchwork/common/multiturn_strategy/planning_strategy.py | 7 +++++++
+ tei/candidates.jsonl                                     | 1 +
+ 2 files changed, 8 insertions(+)
+
+diff --git a/patchwork/common/multiturn_strategy/planning_strategy.py b/patchwork/common/multiturn_strategy/planning_strategy.py
+index ec6d13f..5bf5041 100644
+--- a/patchwork/common/multiturn_strategy/planning_strategy.py
++++ b/patchwork/common/multiturn_strategy/planning_strategy.py
+@@ -30,6 +30,13 @@ class ExecutionResult(BaseModel):
+     is_completed: bool
+     validation_evidence: str = ""
+ 
++    @field_validator("json_data")
++    @classmethod
++    def json_data_must_not_be_blank(cls, value: str) -> str:
++        if not value.strip():
++            raise ValueError("json_data must contain the execution result")
++        return value
++
+     @property
+     def completion_is_credible(self) -> bool:
+         return (not self.is_completed) or bool(self.validation_evidence.strip())
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index f0976c2..4afddde 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -8,3 +8,4 @@
+ {"version_id": "struct-08", "phase": "structural", "technique": "Issue-reproduction reconnaissance step", "target_failure_mode": "Repository- and issue-type generalization failure", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "        reconnaissance = \"Inspect repository structure, relevant symbols, neighboring implementations, and existing tests\"", "replace": "        reconnaissance = \"Inspect repository structure, identify the framework and supported versions, classify the issue type, locate relevant symbols and neighboring implementations, reproduce the reported behavior, and find the narrowest applicable tests\""}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.49, "output_integrity": 0.55}, "aggregate": 0.585, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.81}, {"instance_id": "sympy__sympy-15011", "score": 0.79}, {"instance_id": "django__django-11001", "score": 0.23}, {"instance_id": "django__django-11910", "score": 0.21}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0375, "why": "Explicit repository classification, reproduction, symbol discovery, and narrow-test selection improve target alignment more than candidate 0. It does not itself enforce patch execution or validation, limiting gains on completion and execution."}
+ {"version_id": "struct-09", "phase": "structural", "technique": "Explicit edit-test-completion protocol", "target_failure_mode": "Unreliable multi-step patch execution", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "                \"Work repository-first: inspect the target repository's conventions, neighboring implementations, tests, and supported versions before editing. Prefer the smallest compatible patch and verify it with focused tests.\"\n", "replace": "                \"Execute in phases: inspect and reproduce the issue, state a minimal patch plan, edit the code, inspect the resulting diff, run focused regression tests, fix any failures, and only then finish. Do not skip a phase or claim completion while an edit, test, or corrective iteration remains.\"\n"}, "dimensions": {"target_alignment": 0.63, "reasoning_soundness": 0.62, "execution_accuracy": 0.54, "output_integrity": 0.58}, "aggregate": 0.5925, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.83}, {"instance_id": "sympy__sympy-15011", "score": 0.81}, {"instance_id": "django__django-11001", "score": 0.27}, {"instance_id": "django__django-11910", "score": 0.25}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "find-block matched 0x (need exactly 1)", "delta_vs_baseline": 0.045, "why": "The phased inspect-reproduce-plan-edit-diff-test-correct protocol directly addresses unreliable multi-step execution and incomplete validation. It is the strongest overall candidate, though it does not substantially improve repository targeting beyond baseline."}
+ {"version_id": "struct-10", "phase": "structural", "technique": "Reject unverified successful completions", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "    @property\n    def completion_is_credible(self) -> bool:\n        return not self.is_completed or bool(self.validation_evidence.strip())", "replace": "    @property\n    def completion_is_credible(self) -> bool:\n        return (not self.is_completed) or bool(self.validation_evidence.strip())\n"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.57, "execution_accuracy": 0.45, "output_integrity": 0.57}, "aggregate": 0.5525, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.77}, {"instance_id": "sympy__sympy-15011", "score": 0.75}, {"instance_id": "django__django-11001", "score": 0.16}, {"instance_id": "django__django-11910", "score": 0.14}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.005, "why": "Requiring validation evidence for a completed result improves output credibility if the property is actually checked. However, it does not ensure meaningful evidence, and an evidence gate without a corresponding generation workflow can block otherwise usable completions, reducing execution performance below baseline."}
++{"version_id": "struct-11", "phase": "structural", "technique": "Validation evidence on plan completion", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "output_integrity", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "class PlanCompletedResult(BaseModel):\n    is_plan_completed: bool", "replace": "class PlanCompletedResult(BaseModel):\n    is_plan_completed: bool\n    validation_evidence: str = \"\"\n\n    @property\n    def completion_is_credible(self) -> bool:\n        return not self.is_plan_completed or bool(self.validation_evidence.strip())"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.58, "execution_accuracy": 0.47, "output_integrity": 0.58}, "aggregate": 0.5625, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.18}, {"instance_id": "django__django-11910", "score": 0.17}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.015, "why": "Plan-level validation evidence is somewhat better scoped than candidate 3 and modestly improves reasoning and output integrity. It still provides no test-generation or validation-quality requirement, so its execution gains are small and remain below candidate 2."}
+-- 
+2.39.5 (Apple Git-154)
+

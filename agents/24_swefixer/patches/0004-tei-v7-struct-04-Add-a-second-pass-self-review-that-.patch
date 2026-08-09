@@ -1,0 +1,34 @@
+From 1859b43f312bd51afdf02ee1b505c988fc66b8b5 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:07 -0700
+Subject: [PATCH 04/13] tei-v7 struct-04: Add a second-pass self-review that
+ returns a corrected final
+
+---
+ utils/oai.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index 7b2ea39..76e8d11 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -51,7 +51,15 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=300, te
+                 temperature=temp,
+                 top_p=1,
+             )
+-            result_queue.put(response.choices[0].message.content)
++            draft = response.choices[0].message.content
++            review = client.chat.completions.create(
++                model=model_name,
++                messages=message + [{"role": "assistant", "content": draft},
++                    {"role": "user", "content": "Review the patch for missed requirements and return the corrected final patch only."}],
++                temperature=0,
++                top_p=1,
++            )
++            result_queue.put(review.choices[0].message.content)
+         except Exception as e:
+             result_queue.put(str(e))
+ 
+-- 
+2.39.5 (Apple Git-154)
+

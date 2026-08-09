@@ -1,0 +1,26 @@
+From 9ebbd352d1af7c45aed09b6410a0625896cb7c99 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:30 -0700
+Subject: [PATCH 18/51] tei-v7 struct-21: Use requirement-weighted candidate
+ comparison rather than ag
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index 0cdab9f..7bac5e7 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,6 +9,8 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
++When comparing alternative patches, score each candidate against every issue requirement separately before considering total test counts. Reject candidates that leave any requirement unsupported, introduce unrelated changes, or rely only on broad existing tests; prefer the smallest candidate that satisfies all requirements and preserves documented behavior.
++
+ For every requested behavior, add at least one ordinary-case check, one boundary or malformed-input check, and one regression check for previously supported behavior. If a test passes without exercising the changed branch, replace it with a more targeted check before approving the patch.
+ 
+ Before editing, convert the issue into explicit acceptance contracts. For each contract, state the observable input, expected output, affected symbol, invariant, compatibility requirement, and a concrete validation command. Treat every contract as mandatory: do not finalize a patch until each one has an implementation rationale and a passing validation result.
+-- 
+2.39.5 (Apple Git-154)
+

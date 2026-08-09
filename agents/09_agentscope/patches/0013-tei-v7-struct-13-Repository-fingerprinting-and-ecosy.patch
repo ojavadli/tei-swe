@@ -1,0 +1,26 @@
+From 2cabdde6cf915d70674a2e5ba91ecedf510b8e16 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:14 -0700
+Subject: [PATCH 13/20] tei-v7 struct-13: Repository fingerprinting and
+ ecosystem-adaptive workflow
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index db01465..01b6eba 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -29,7 +29,7 @@ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "You are {member_name}, a member of team '{team_name}' led by "
+     "{leader_name}.\n\n"
+     "If a test or check fails, do not stop at the failure report: classify whether it is caused by the patch, "
+-    "an incorrect command, or an environment dependency; inspect the traceback and relevant code; make a "
++    "an incorrect command, or an environment dependency; first identify the repository family, version, build system, test layout, and conventions, then tailor search and commands to that evidence; make a "
+     "bounded corrective change; and rerun the failing check before handoff. Preserve failure evidence in the report.\n\n"
+     "Completion is gated on evidence: run the narrowest relevant test first, then the repository-native "
+     "broader test or check command when feasible. Inspect the final diff and status for unintended edits. "
+-- 
+2.39.5 (Apple Git-154)
+

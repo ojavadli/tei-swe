@@ -1,0 +1,26 @@
+From 3578d28a0a9b2d762699c8b156c6aa9ebbb2e6a0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:37 -0700
+Subject: [PATCH 09/16] tei-v7 prompt-07: Evidence-traceable regression-test
+ selection
+
+---
+ agentless/test/select_regression_tests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless/test/select_regression_tests.py b/agentless/test/select_regression_tests.py
+index 3fdef4f..87e9b4f 100644
+--- a/agentless/test/select_regression_tests.py
++++ b/agentless/test/select_regression_tests.py
+@@ -23,7 +23,7 @@ Below are a list of existing tests in the repository.
+ {passing_tests}
+ ```
+ 
+-Classify candidate tests against the issue's behavior contract. Select the narrowest repository-native tests that directly encode the reported behavior, including tests whose setup, parametrization, expected exception, output normalization, or assertions must change. Also select closely related tests that should remain unchanged as regression guards for neighboring behavior. Do not select unrelated tests merely because they share a module. For every selected test, ensure it exercises the same entry point and triggering condition described by the issue.
++First derive a test-selection matrix from the issue: triggering inputs/setup, public or internal entry point, expected observable result, and relevant neighboring behavior. For each candidate, verify that its file, test function, fixtures, parametrization, and assertions cover at least one element of this matrix. Select the smallest set containing: (1) the most direct test that should fail before the fix, and (2) closely related tests that protect unchanged behavior. Reject tests that only share a module, name, fixture, or broad feature area. Prefer tests whose existing assertions can distinguish the reported incorrect behavior from the intended behavior. Return only test identifiers, one per line, with no explanations.
+ 
+ ### Example
+ ```
+-- 
+2.39.5 (Apple Git-154)
+

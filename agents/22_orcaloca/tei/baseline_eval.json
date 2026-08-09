@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "target_alignment": 0.63,
+    "reasoning_soundness": 0.56,
+    "execution_accuracy": 0.42,
+    "output_integrity": 0.84
+  },
+  "probe_scores": [
+    {
+      "instance_id": "psf__requests-863",
+      "score": 0.82
+    },
+    {
+      "instance_id": "sympy__sympy-18621",
+      "score": 0.78
+    },
+    {
+      "instance_id": "sympy__sympy-18698",
+      "score": 0.2
+    },
+    {
+      "instance_id": "sympy__sympy-14396",
+      "score": 0.18
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Failure to convert localization into a correct end-to-end resolution",
+      "description": "The system can produce structured search and bug-location outputs, but unresolved outcomes indicate that localization or subsequent execution did not reliably yield a correct solution.",
+      "evidence_instance_ids": [
+        "sympy__sympy-18698",
+        "sympy__sympy-14396"
+      ]
+    },
+    {
+      "name": "Insufficient robustness on difficult SymPy issues",
+      "description": "Both recorded SymPy probes were unresolved, suggesting weak generalization or reasoning robustness on technically complex repository issues.",
+      "evidence_instance_ids": [
+        "sympy__sympy-18698",
+        "sympy__sympy-14396"
+      ]
+    },
+    {
+      "name": "Inconsistent issue-specific prioritization and context selection",
+      "description": "The framework relies on LLM-guided action decomposition, relevance scoring, and context pruning, yet the mixed probe outcomes show that these mechanisms do not consistently identify the actionable code path.",
+      "evidence_instance_ids": [
+        "sympy__sympy-18621",
+        "sympy__sympy-18698",
+        "sympy__sympy-14396"
+      ]
+    }
+  ],
+  "why": "The system resolved 41.0% of the SWE-bench Lite instances, so its target alignment and reasoning are only moderate and its execution accuracy is substantially weaker, despite a relatively strong structured-output interface. The probes show two successful cases but two unresolved SymPy cases, supporting good potential on some tasks but inconsistent localization-to-resolution performance.",
+  "aggregate": 0.6125,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "psf__requests-863",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-18621",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-18698",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sympy__sympy-14396",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  }
+}

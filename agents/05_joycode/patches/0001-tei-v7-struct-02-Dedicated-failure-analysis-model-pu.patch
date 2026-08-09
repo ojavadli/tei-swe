@@ -1,0 +1,31 @@
+From 1fec714c8f950e5b856360f6b96d443183e1aada Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:10 -0700
+Subject: [PATCH 01/47] tei-v7 struct-02: Dedicated failure-analysis model
+ purpose
+
+---
+ llm_server/client_manager.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index 76f83a5..ff244b6 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -14,10 +14,12 @@ from openai import OpenAI
+ class ModelPurpose(Enum):
+     """Model Usage Enumeration"""
+     PATCH_GENERATION = "patch_generation"
+-    TEST_GENERATION = "test_generation" 
++    TEST_GENERATION = "test_generation"
+     TRAJECTORY_COMPRESSION = "trajectory_compression"
+     SIMILARITY_SEARCH = "similarity_search"
+     RETRY_AGENT = "retry_agent"
++    FAILURE_ANALYSIS = "failure_analysis"
++    PATCH_REVIEW = "patch_review"
+ 
+ 
+ @dataclass
+-- 
+2.39.5 (Apple Git-154)
+

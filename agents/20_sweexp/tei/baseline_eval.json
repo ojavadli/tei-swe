@@ -1,0 +1,83 @@
+{
+  "dimensions": {
+    "target_alignment": 0.58,
+    "reasoning_soundness": 0.5,
+    "execution_accuracy": 0.43,
+    "output_integrity": 0.56
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-13109",
+      "score": 0.8
+    },
+    {
+      "instance_id": "sympy__sympy-17655",
+      "score": 0.8
+    },
+    {
+      "instance_id": "django__django-14122",
+      "score": 0.12
+    },
+    {
+      "instance_id": "django__django-14351",
+      "score": 0.12
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "End-to-end repair failure",
+      "description": "The system did not produce a verified resolution for these benchmark instances, consistent with execution accuracy being the principal weakness.",
+      "evidence_instance_ids": [
+        "django__django-14122",
+        "django__django-14351"
+      ]
+    },
+    {
+      "name": "Unreliable transfer across issue types and repositories",
+      "description": "Despite an experience-learning and retrieval design, the fixed probes show successful handling on some tasks but failure on two Django tasks, indicating inconsistent generalization.",
+      "evidence_instance_ids": [
+        "django__django-13109",
+        "sympy__sympy-17655",
+        "django__django-14122",
+        "django__django-14351"
+      ]
+    },
+    {
+      "name": "Insufficiently robust completion under difficult cases",
+      "description": "The unresolved outcomes indicate that the default trajectory, reasoning, or validation process can terminate without a correct patch even when the system is aimed at issue resolution.",
+      "evidence_instance_ids": [
+        "django__django-14122",
+        "django__django-14351"
+      ]
+    }
+  ],
+  "why": "The archive reports a 42.0% verified resolve rate, so the default system warrants middling rather than near-perfect scores, with execution accuracy lowest. Two probes resolved and two remained unresolved, showing meaningful capability but substantial reliability and generalization failures.",
+  "aggregate": 0.5175,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-13109",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-17655",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-14122",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-14351",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

@@ -1,0 +1,25 @@
+From 033d8832843ed209ccf0f9a7f0c3a174bcdcb44e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:14:18 -0700
+Subject: [PATCH 08/17] tei-v7 prompt-02: Competing-hypothesis diagnosis
+
+---
+ agentless_lite/util/backends.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless_lite/util/backends.py b/agentless_lite/util/backends.py
+index 840331e..127876a 100644
+--- a/agentless_lite/util/backends.py
++++ b/agentless_lite/util/backends.py
+@@ -18,7 +18,7 @@ STR_REPLACE_EDITOR_DESCRIPTION = """Custom editing tool for editing files
+ 
+ Before editing, construct an evidence-backed repository map: identify the issue-facing API or entry point, the exact implementation symbol that controls the behavior, its direct callers, relevant configuration and compatibility boundaries, and the nearest tests. For each location, cite the file and symbol or a distinctive code fragment. Trace at least one concrete input through this map and select the edit location only after explaining why it—not a similarly named or first textual match—is the behavior-defining path.
+ * State is persistent across command calls and discussions with the user
+-* Trace the reported behavior from its public API through the relevant call chain to the state or branch that violates the requirement, and connect that path to at least one existing or expected test before editing
++* Trace the reported behavior from its public API through the relevant call chain to the state or branch that violates the requirement. Explicitly distinguish the observed failure mechanism from at least one plausible alternative location or interpretation, and resolve the distinction using repository evidence such as callers, conditionals, data flow, version guards, or tests. Record the exact branch or state transition that must change before editing.
+ 
+ Before editing, first write down the issue contract: the triggering input, current behavior, required behavior, and invariants that must remain unchanged. Then locate the defining implementation, inspect its callers and nearby tests, and identify configuration or compatibility boundaries. Do not patch the first text match that resembles the issue.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 6027f4610d03fffa38bf60bbfc37400c043c67d8 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:00:10 -0700
+Subject: [PATCH 26/47] tei-v7 prompt-08: Analogy-guided local implementation
+ search
+
+---
+ utils/dynamic_agent.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index 2b22515..bc00638 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -22,7 +22,7 @@ class PromptTemplate:
+     """Prompt templates with an explicit repository preflight contract."""
+ 
+     PREFLIGHT_REQUIREMENTS = (
+-        "Before editing, convert the issue into an explicit implementation contract. Build a numbered requirement matrix with one row per requested behavior. For every row, record: the observable behavior, exact repository file and symbol implementing it, relevant call path, compatibility constraints, a focused regression test, and the command that will verify it. Do not begin editing until every row has a concrete repository location and verification plan; if a requirement cannot yet be mapped, inspect callers, subclasses, analogous implementations, and historical tests first. enumerate every requested behavior, affected public API or internal invariant, edge case, backward-compatibility constraint, and acceptance criterion. For each item, identify the exact repository file, symbol, and test that should change or verify it. Then perform repository-local triage by reading CONTRIBUTING, README, "
++        "Before editing, convert the issue into an explicit implementation contract. Build a numbered requirement matrix with one row per requested behavior. For every row, record: the observable behavior, exact repository file and symbol implementing it, relevant call path, compatibility constraints, a focused regression test, and the command that will verify it. Do not begin editing until every row has a concrete repository location and verification plan; if a requirement cannot yet be mapped, inspect callers, subclasses, analogous implementations, and historical tests first. enumerate every requested behavior, affected public API or internal invariant, edge case, backward-compatibility constraint, and acceptance criterion. For each item, identify the exact repository file, symbol, and test that should change or verify it. Then perform repository-local triage tailored to this repository: read CONTRIBUTING, README, build and test configuration, supported runtimes, ownership boundaries, the issue's nearest implementation and test files, analogous fixes in the same repository, and all direct callers/subclasses of the target symbol. Prefer the repository's established abstraction, naming, error-handling, and test patterns over generic framework assumptions. Explicitly note which local precedent the patch will follow and which repository-specific behavior it must preserve. "
+         "pyproject/setup configuration, ownership boundaries, supported runtimes, and "
+         "the issue's nearest implementation and test files, plus analogous fixes and tests already present in this repository. Prefer the repository's established abstractions, naming, compatibility patterns, and test idioms over generic framework assumptions. Identify the failing behavior, "
+         "the repository's authoritative test runner, collection syntax, required working "
+-- 
+2.39.5 (Apple Git-154)
+

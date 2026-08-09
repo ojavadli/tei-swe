@@ -1,0 +1,35 @@
+From 3fc9599d053724ff255de19b7dc739f3b7eda256 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:14 -0700
+Subject: [PATCH 01/18] tei-v7 struct-01: Introduce an explicit implementation
+ lifecycle with planning
+
+---
+ dars-agent/config/default_dars.yaml | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index de99c75..03c40a4 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -12,11 +12,12 @@ system_template: |-
+   </command_docs>
+ 
+   General Guidelines:
+-  1. One command at a time: Always execute a single command and wait for feedback before proceeding.
+-  2. Proper indentation: When editing files, ensure correct indentation for each line.
+-  3. File awareness: Pay attention to the currently open file and working directory.
+-  4. Search functionality: Use search_repo command to gather information when needed.
+-  5. For interactive sessions: Start it using `execute_server` command.
++  1. First decompose the issue into behavior, affected code paths, and acceptance criteria before editing.
++  2. Trace the relevant implementation and existing tests, then state a concrete patch hypothesis.
++  3. Make the smallest coherent patch and inspect the resulting diff immediately.
++  4. Run focused tests for the changed behavior before broader tests.
++  5. If a test fails, diagnose the failure, revise the patch, and rerun it; do not stop at an unvalidated edit.
++  6. Finish only after confirming the acceptance criteria, relevant tests, and final diff.
+   
+   You need to format your output using two fields; discussion and command.
+   Your output should always include _one_ discussion and _one_ command field EXACTLY as in the following example:
+-- 
+2.39.5 (Apple Git-154)
+

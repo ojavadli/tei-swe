@@ -1,0 +1,26 @@
+From 314c9946351683916f8614d472fd3f89215d677f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:14 -0700
+Subject: [PATCH 12/50] tei-v7 struct-15: Turn observation feedback into
+ hypothesis falsification and
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 1f6ce49..541ee6f 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -17,7 +17,7 @@ STEP_EXAMPLE = {
+             "test command or executable oracle that distinguishes the fixed behavior"
+         ]
+     },
+-    "observation_feedback": "For every observation, record newly supported and contradicted hypotheses, the exact symbol or call edge it establishes, and the next action with the highest expected information gain.",
++    "observation_feedback": "For every observation, update a ranked hypothesis ledger with supporting evidence, contradicted evidence, confidence, the exact symbol or call edge established, and the cheapest next action that can falsify the leading hypothesis. Do not select an action only because it returns more context; select it because its result can change the ranking or verify the repair chain.",
+     "potential_bug_locations": [
+         {
+             "file_path": "path/to/file",
+-- 
+2.39.5 (Apple Git-154)
+

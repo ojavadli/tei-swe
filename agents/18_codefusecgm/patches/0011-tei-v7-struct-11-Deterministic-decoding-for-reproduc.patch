@@ -1,0 +1,32 @@
+From f4f3f779972da511c2363a11eda0cb0912456561 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:11:33 -0700
+Subject: [PATCH 11/22] tei-v7 struct-11: Deterministic decoding for
+ reproducible patch planning
+
+---
+ reranker/qwen_api.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/reranker/qwen_api.py b/reranker/qwen_api.py
+index 5010cda..cf0efe8 100644
+--- a/reranker/qwen_api.py
++++ b/reranker/qwen_api.py
+@@ -10,10 +10,10 @@ class QwenAPI:
+     self.llm = LLM(model=model_path, tensor_parallel_size=tensor_parallel_size)
+ 
+     sample_params = dict(
+-      temperature=0.1,
+-      repetition_penalty=1.1,
+-      top_k=50,
+-      top_p=0.98,
++      temperature=0.0,
++      repetition_penalty=1.05,
++      top_k=1,
++      top_p=1.0,
+       max_tokens=2048
+     )
+ 
+-- 
+2.39.5 (Apple Git-154)
+

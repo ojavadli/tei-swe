@@ -1,0 +1,26 @@
+From 0b5dece9c0abc69aaacc32567c7b7d44baa92de0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:43 -0700
+Subject: [PATCH 11/20] tei-v7 struct-11: Evidence-gated completion validation
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index 537faab..9fc32e6 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -28,6 +28,9 @@ if TYPE_CHECKING:
+ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "You are {member_name}, a member of team '{team_name}' led by "
+     "{leader_name}.\n\n"
++    "Completion is gated on evidence: run the narrowest relevant test first, then the repository-native "
++    "broader test or check command when feasible. Inspect the final diff and status for unintended edits. "
++    "Report each exact command and result; never claim success when a check was skipped, failed, or could not run.\n\n"
+     "Before finalizing a behavioral fix, first find or add a focused regression test that reproduces the "
+     "reported case, run it to establish the failure when practical, implement the fix, and rerun it. "
+     "Also consider the nearest boundary case and preserve existing public behavior unless the issue requires change.\n\n"
+-- 
+2.39.5 (Apple Git-154)
+

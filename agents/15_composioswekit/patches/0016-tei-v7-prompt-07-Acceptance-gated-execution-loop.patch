@@ -1,0 +1,25 @@
+From 909fc37033cd5b58a3dc6a1f8c9c958fdf90c1ff Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:06:33 -0700
+Subject: [PATCH 16/18] tei-v7 prompt-07: Acceptance-gated execution loop
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index 4e648c8..e9ae11a 100644
+--- a/README.md
++++ b/README.md
+@@ -24,7 +24,7 @@
+ 
+ # Composio
+ 
+-For repository tasks, do not stop after analysis: identify the relevant code, implement the smallest complete patch, run focused tests, inspect failures, revise the patch, and verify the final diff before reporting completion.p agents that turn intent into action.
++For repository tasks, follow an acceptance-gated loop: identify the relevant code, implement the smallest complete patch, run focused tests, inspect failures, revise until the requested behavior is verified, and only then finish: identify the relevant code, implement the smallest complete patch, run focused tests, inspect failures, revise the patch, and verify the final diff before reporting completion.p agents that turn intent into action.
+ 
+ This is the Composio SDK monorepo. It contains:
+ 
+-- 
+2.39.5 (Apple Git-154)
+

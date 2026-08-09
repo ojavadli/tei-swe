@@ -1,0 +1,8 @@
+[
+ {"agent": "05_joycode", "file": "llm_server/client_manager.py", "error": "line 60: unexpected indent"},
+ {"agent": "05_joycode", "file": "utils/dynamic_agent.py", "error": "line 37: unterminated string literal (detected at line 37)"},
+ {"agent": "07_moatlesstools", "file": "moatless/utils/completion_parser.py", "error": "line 29: unexpected character after line continuation character"},
+ {"agent": "20_sweexp", "file": "moatless/experience/exp_agent/select_agent.py", "error": "line 302: f-string: unmatched '['"},
+ {"agent": "22_orcaloca", "file": "Orcar/prompts.py", "error": "line 124: closing parenthesis '}' does not match opening parenthesis '[' on line 96"},
+ {"agent": "27_agentless", "file": "agentless/repair/repair.py", "error": "line 37: unterminated string literal (detected at line 37)"}
+]

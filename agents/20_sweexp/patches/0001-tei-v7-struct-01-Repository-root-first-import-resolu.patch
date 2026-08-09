@@ -1,0 +1,27 @@
+From bc033aaabb58f770f8cdfe4883a6321301670316 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:15:39 -0700
+Subject: [PATCH 01/11] tei-v7 struct-01: Repository-root-first import
+ resolution
+
+---
+ moatless/experience/exp_agent/exp_agent.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/moatless/experience/exp_agent/exp_agent.py b/moatless/experience/exp_agent/exp_agent.py
+index 05cfc40..786ffdd 100644
+--- a/moatless/experience/exp_agent/exp_agent.py
++++ b/moatless/experience/exp_agent/exp_agent.py
+@@ -1,6 +1,8 @@
+ import sys
+ import os
+-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../..")))
++REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
++if REPO_ROOT not in sys.path:
++    sys.path.insert(0, REPO_ROOT)
+ from dotenv import load_dotenv
+ load_dotenv(".env")
+ 
+-- 
+2.39.5 (Apple Git-154)
+

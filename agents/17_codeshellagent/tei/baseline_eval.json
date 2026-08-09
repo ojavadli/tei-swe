@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "target_alignment": 0.56,
+    "reasoning_soundness": 0.47,
+    "execution_accuracy": 0.44,
+    "output_integrity": 0.52
+  },
+  "probe_scores": [
+    {
+      "instance_id": "sympy__sympy-15017",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-11880",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-15916",
+      "score": 0.08
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9673",
+      "score": 0.08
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Inconsistent end-to-end task resolution",
+      "description": "The system resolves some repository tasks but fails to produce a successful outcome on other instances.",
+      "evidence_instance_ids": [
+        "django__django-15916",
+        "sphinx-doc__sphinx-9673"
+      ]
+    },
+    {
+      "name": "Weak generalization across repositories and issue types",
+      "description": "Success on SymPy and one Django instance does not carry over reliably to another Django task or a Sphinx task.",
+      "evidence_instance_ids": [
+        "django__django-11880",
+        "django__django-15916",
+        "sphinx-doc__sphinx-9673"
+      ]
+    },
+    {
+      "name": "Insufficient patch verification or correction",
+      "description": "The unresolved outcomes indicate that execution and final validation are not consistently completed, despite demonstrated successes on two probes.",
+      "evidence_instance_ids": [
+        "django__django-15916",
+        "sphinx-doc__sphinx-9673"
+      ]
+    }
+  ],
+  "why": "The archived outcomes show only two of four fixed probes resolved, consistent with the system's broader 44.2% verified-split resolve rate. This supports moderate alignment and reasoning scores, but execution accuracy must remain the weakest dimension because more than half of instances fail, while output integrity is only moderately supported because the repository provides no prompt or patch-quality evidence.",
+  "aggregate": 0.4975,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "sympy__sympy-15017",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-11880",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-15916",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9673",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": true,
+    "tier": "PROXY",
+    "reason": "gpu/local-weights required"
+  }
+}

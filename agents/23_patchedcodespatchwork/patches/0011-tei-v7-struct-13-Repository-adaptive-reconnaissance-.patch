@@ -1,0 +1,106 @@
+From 8a8bf4ad28588511a40af4dfc82a6579ca68149d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:40:54 -0700
+Subject: [PATCH 11/27] tei-v7 struct-13: Repository-adaptive reconnaissance
+ contract
+
+---
+ .../multiturn_strategy/agentic_strategy.py    |  2 +-
+ tei/REPORT.md                                 | 62 +++++++++++++++++++
+ tei/candidates.jsonl                          |  1 +
+ 3 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 tei/REPORT.md
+
+diff --git a/patchwork/common/multiturn_strategy/agentic_strategy.py b/patchwork/common/multiturn_strategy/agentic_strategy.py
+index 14316a4..46756ee 100644
+--- a/patchwork/common/multiturn_strategy/agentic_strategy.py
++++ b/patchwork/common/multiturn_strategy/agentic_strategy.py
+@@ -30,7 +30,7 @@ class Role(abc.ABC):
+         if not self.history:
+             self.history.append({
+                 "role": "system",
+-                "content": "Work repository-first: inspect the target repository's conventions, neighboring implementations, tests, and supported versions before editing. Prefer the smallest compatible patch and verify it with focused tests."
++                "content": "Before reasoning about the fix, identify the repository, framework/version, issue type, and local conventions. Inspect the relevant implementation, neighboring code, history or compatibility constraints, and existing tests. Do not transfer assumptions from another repository; state the observed evidence that connects the issue to the proposed change. Prefer the smallest compatible patch and verify it with focused tests."
+             })
+         self.history.append(dict(role="user", content=message))
+         input_kwargs = dict(
+diff --git a/tei/REPORT.md b/tei/REPORT.md
+new file mode 100644
+index 0000000..35ec51b
+--- /dev/null
++++ b/tei/REPORT.md
+@@ -0,0 +1,62 @@
++# TEI v7 — Patched.Codes Patchwork
++
++**Rank 23 of 30** · SWE-bench lite · officially resolved
++111 (37.0%) · repo [https://github.com/patched-codes/patchwork](https://github.com/patched-codes/patchwork) @ `21948cbec4`
++
++> **All scores below are PROXY** — `gpt-5.6-luna` rubric scores against diagnosed
++> failure modes and fixed probe instances. This agent was not executed
++> (n/a). PROXY scores are not
++> resolve-rate gains and must not be reported as such.
++
++## Score trajectory
++
++| Stage | Aggregate |
++|---|---|
++| Baseline (default agent) | **0.5475** |
++| Best structural version (None) | **None** |
++| Best final version (None) | **None** |
++| Shipped | **None** |
++
++Baseline dimensions: `{"target_alignment": 0.62, "reasoning_soundness": 0.57, "execution_accuracy": 0.46, "output_integrity": 0.54}`
++Weakest dimension: **execution_accuracy**
++
++## Diagnosed failure modes
++
++- **Repository- and issue-type generalization failure** — The system resolved both sampled SymPy instances but failed both sampled Django instances, indicating weak transfer across repository conventions and issue domains. (evidence: django__django-11001, django__django-11910)
++- **Unreliable multi-step patch execution** — Although the repository exposes planning, agentic roles, and code-edit tools, both Django probes remained unresolved, suggesting that planning does not reliably become a correct, applied, and validated patch. (evidence: django__django-11001, django__django-11910)
++- **Insufficient completion or validation of final changes** — The unresolved outcomes are consistent with failures to finish the requested task or verify the resulting behavior, especially on the Django probes despite the system's structured prompt and tool surfaces. (evidence: django__django-11001, django__django-11910)
++
++## Proposals
++
++| Phase | Versions | Applied as real commits |
++|---|---|---|
++| A — structural | 12 | 10 |
++| B — prompt | 0 | 0 |
++| **total** | **12** | **10** |
++
++All 12 versions with their scores and why-records are in `tei/candidates.jsonl`.
++
++## Do-no-harm confirmation (tei_loop.gate.verify_candidate)
++
++```json
++{}
++```
++
++Paraphrase noise floor: `{}`
++
++
++## Top 3 why-records
++
++1. **struct-09 — Explicit edit-test-completion protocol** (targets _Unreliable multi-step patch execution_, score 0.5925, Δ +0.045, proposed_not_applied)
++   > The phased inspect-reproduce-plan-edit-diff-test-correct protocol directly addresses unreliable multi-step execution and incomplete validation. It is the strongest overall candidate, though it does not substantially improve repository targeting beyond baseline.
++
++2. **struct-01 — Inject a repository-aware execution contract into every agent conversation** (targets _Repository- and issue-type generalization failure_, score 0.59, Δ +0.0425, applied)
++   > The repository-aware contract directly addresses cross-repository generalization by requiring inspection of conventions, neighboring code, tests, and supported versions. It improves target selection and reasoning most, with smaller gains in execution and output discipline, but it remains prompt guidance rather than enforced behavior.
++
++3. **struct-08 — Issue-reproduction reconnaissance step** (targets _Repository- and issue-type generalization failure_, score 0.585, Δ +0.0375, applied)
++   > Explicit repository classification, reproduction, symbol discovery, and narrow-test selection improve target alignment more than candidate 0. It does not itself enforce patch execution or validation, limiting gains on completion and execution.
++
++
++## Trajectory availability
++
++SWE-bench/experiments ships aggregate results only; logs/ and trajs/ are in a credentialed S3 bucket (archive README). No AWS access per owner directive, so 0 recorded trajectories were read.
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 4afddde..aa1530e 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -9,3 +9,4 @@
+ {"version_id": "struct-09", "phase": "structural", "technique": "Explicit edit-test-completion protocol", "target_failure_mode": "Unreliable multi-step patch execution", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "                \"Work repository-first: inspect the target repository's conventions, neighboring implementations, tests, and supported versions before editing. Prefer the smallest compatible patch and verify it with focused tests.\"\n", "replace": "                \"Execute in phases: inspect and reproduce the issue, state a minimal patch plan, edit the code, inspect the resulting diff, run focused regression tests, fix any failures, and only then finish. Do not skip a phase or claim completion while an edit, test, or corrective iteration remains.\"\n"}, "dimensions": {"target_alignment": 0.63, "reasoning_soundness": 0.62, "execution_accuracy": 0.54, "output_integrity": 0.58}, "aggregate": 0.5925, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.83}, {"instance_id": "sympy__sympy-15011", "score": 0.81}, {"instance_id": "django__django-11001", "score": 0.27}, {"instance_id": "django__django-11910", "score": 0.25}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "find-block matched 0x (need exactly 1)", "delta_vs_baseline": 0.045, "why": "The phased inspect-reproduce-plan-edit-diff-test-correct protocol directly addresses unreliable multi-step execution and incomplete validation. It is the strongest overall candidate, though it does not substantially improve repository targeting beyond baseline."}
+ {"version_id": "struct-10", "phase": "structural", "technique": "Reject unverified successful completions", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "    @property\n    def completion_is_credible(self) -> bool:\n        return not self.is_completed or bool(self.validation_evidence.strip())", "replace": "    @property\n    def completion_is_credible(self) -> bool:\n        return (not self.is_completed) or bool(self.validation_evidence.strip())\n"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.57, "execution_accuracy": 0.45, "output_integrity": 0.57}, "aggregate": 0.5525, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.77}, {"instance_id": "sympy__sympy-15011", "score": 0.75}, {"instance_id": "django__django-11001", "score": 0.16}, {"instance_id": "django__django-11910", "score": 0.14}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.005, "why": "Requiring validation evidence for a completed result improves output credibility if the property is actually checked. However, it does not ensure meaningful evidence, and an evidence gate without a corresponding generation workflow can block otherwise usable completions, reducing execution performance below baseline."}
+ {"version_id": "struct-11", "phase": "structural", "technique": "Validation evidence on plan completion", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "output_integrity", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "class PlanCompletedResult(BaseModel):\n    is_plan_completed: bool", "replace": "class PlanCompletedResult(BaseModel):\n    is_plan_completed: bool\n    validation_evidence: str = \"\"\n\n    @property\n    def completion_is_credible(self) -> bool:\n        return not self.is_plan_completed or bool(self.validation_evidence.strip())"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.58, "execution_accuracy": 0.47, "output_integrity": 0.58}, "aggregate": 0.5625, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.18}, {"instance_id": "django__django-11910", "score": 0.17}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.015, "why": "Plan-level validation evidence is somewhat better scoped than candidate 3 and modestly improves reasoning and output integrity. It still provides no test-generation or validation-quality requirement, so its execution gains are small and remain below candidate 2."}
++{"version_id": "struct-12", "phase": "structural", "technique": "Non-empty structured execution output", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "output_integrity", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "class ExecutionResult(BaseModel):\n    json_data: str\n    message: str\n    is_completed: bool\n    validation_evidence: str = \"\"", "replace": "class ExecutionResult(BaseModel):\n    json_data: str\n    message: str\n    is_completed: bool\n    validation_evidence: str = \"\"\n\n    @field_validator(\"json_data\")\n    @classmethod\n    def json_data_must_not_be_blank(cls, value: str) -> str:\n        if not value.strip():\n            raise ValueError(\"json_data must contain the execution result\")\n        return value"}, "dimensions": {"target_alignment": 0.61, "reasoning_soundness": 0.56, "execution_accuracy": 0.44, "output_integrity": 0.6}, "aggregate": 0.5525, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.77}, {"instance_id": "sympy__sympy-20154", "score": 0.75}, {"instance_id": "django__django-11001", "score": 0.15}, {"instance_id": "django__django-11910", "score": 0.13}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.005, "why": "The active nonblank-field validator is the clearest output-integrity enforcement and can reject empty execution responses. However, nonempty json_data is not necessarily valid or useful evidence, while stricter schema rejection can interrupt execution without improving patch correctness; targeting and execution therefore fall below baseline."}
+-- 
+2.39.5 (Apple Git-154)
+

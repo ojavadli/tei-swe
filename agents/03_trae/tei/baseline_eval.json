@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.86,
+    "reasoning_soundness": 0.82,
+    "execution_accuracy": 0.79,
+    "output_integrity": 0.87
+  },
+  "probe_scores": [
+    {
+      "instance_id": "scikit-learn__scikit-learn-15100",
+      "score": 0.95
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7432",
+      "score": 0.95
+    },
+    {
+      "instance_id": "django__django-16938",
+      "score": 0.22
+    },
+    {
+      "instance_id": "astropy__astropy-13033",
+      "score": 0.18
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Complex repository-specific diagnosis and implementation",
+      "description": "The agent can complete standard fixes but fails on at least some issues requiring deeper localization, design understanding, or coordinated changes across an unfamiliar codebase.",
+      "evidence_instance_ids": [
+        "django__django-16938",
+        "astropy__astropy-13033"
+      ]
+    },
+    {
+      "name": "Insufficient validation and iterative debugging",
+      "description": "Tool-driven editing and testing do not consistently converge when the initial patch is incomplete or when failures require multiple debugging iterations.",
+      "evidence_instance_ids": [
+        "django__django-16938",
+        "astropy__astropy-13033"
+      ]
+    },
+    {
+      "name": "Edge-case and regression handling",
+      "description": "The unresolved probes indicate difficulty preserving behavior while addressing nuanced framework or scientific-library edge cases, despite successful outcomes on two other instances.",
+      "evidence_instance_ids": [
+        "django__django-16938",
+        "astropy__astropy-13033"
+      ]
+    }
+  ],
+  "why": "The recorded outcomes show strong but imperfect capability: two of four fixed probes resolved, while two remained unresolved, consistent with the system's broader 78.8% verified resolve rate rather than near-perfect reliability. Its modular agent, tool, and patch-selection surfaces support good alignment and output integrity, but the unresolved Django and Astropy cases most directly lower execution accuracy and reasoning soundness.",
+  "aggregate": 0.835,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "scikit-learn__scikit-learn-15100",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7432",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-16938",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "astropy__astropy-13033",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

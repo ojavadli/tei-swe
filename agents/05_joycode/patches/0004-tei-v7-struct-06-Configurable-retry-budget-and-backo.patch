@@ -1,0 +1,26 @@
+From b60a3fb3f6e7bf1d7428ec3c72242438d5465bb4 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:10 -0700
+Subject: [PATCH 04/47] tei-v7 struct-06: Configurable retry budget and backoff
+ policy
+
+---
+ llm_server/client_manager.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index ff244b6..e60534d 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -27,6 +27,8 @@ class ModelConfig:
+     """Model Configuration - Unified Use of OpenAI Client"""
+     model_name: str
+     max_retries: int = 10
++    retry_backoff_seconds: float = 1.0
++    retry_jitter_seconds: float = 0.5
+     temperature: float = 0.0
+     max_tokens: int = 32000
+     # OpenAI client settings
+-- 
+2.39.5 (Apple Git-154)
+

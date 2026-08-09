@@ -1,0 +1,66 @@
+From 68c68b1e2fa3ed54a8c4a01d2e9be34148443c53 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 21:45:55 -0700
+Subject: [PATCH 47/47] tei-v7 repair: fix syntax splices from
+ struct-24/prompt-30 (stray enum dup; spliced paren fragment)
+
+---
+ .DS_Store                    | Bin 12292 -> 14340 bytes
+ llm_server/client_manager.py |   1 -
+ utils/dynamic_agent.py       |   1 -
+ 3 files changed, 2 deletions(-)
+
+diff --git a/.DS_Store b/.DS_Store
+index 1502bf5a76231dbdbe10affe242a671b176dd036..ad0420a6009f8cd10953f641cfb00069eacaf1a7 100644
+GIT binary patch
+delta 1292
+zcmZokXem%&U|?W$DortDU@!nOIe-{M3-ADmHU<U-o{0+jqW(Y*Gf<F$A)g_ap@5-;
+zp*S~x;zi}j20ARPj6g}2$#2x;#O}sd&Aujl!qLSgDJMS(D9mBYo#C_jpoBB~W_Au1
+z4mD$-7&}mZ5wbZcaMe)#lLgg<Cwr;$F;1BLQB`<yj{3BT6U--078S@zHw;eB&n*C&
+z!oa{9sXcLmgh*~a!Zz+G+jS3s_Cv%G<|2s;6l5Tqv4LSTkANs+J&MU(3(dgpEC#x=
+z6zJAuhE$M$5%yeK2k|F1RR~*gt3q)D*9HcL$pV53^~}IvO=ZYLaS9W&4$u;)46+lR
+zZHx4K2=pqlEW&C`SrjXoKrzg~0=BQ1p~N#MKRGF9vArN8ljWMpjzSXb(>{ScI5|N`
+z63%WAl44>=*gQw5m66H$*W^SIoyq<pT<i<~K$VJ^BeAt7pA_L^N?-sg)7s1|s=}x|
+zKNe^uE6~b(Ak0AxPZ6PNP`a7yB__=dW9Nv;Ffm@(+$Cnp$kcRu@<DMacaJnk^nwj4
+z1satJF$m#r>?%<F&iG)nl7uX4y)-xk^cd2Crj($BxdwMVvK(@#gOW2e)L9sydUNv;
+z_G6PrvE2@6G6MrQL;Pe91(C_+5`3FY6cm{zD=MKSZiX9nljW39Q+H7i#QRVQgssRD
+z{3zBj3TzHkN@n7iy|)6KF()UecnKjiA_;qJPEhS)WD1s_>>&Dla7C6Rt0XHp*cc4B
+rfwU`f;k5DMd*;dfI)OY)kfO^1q;PVM&cw;{)$}HFtE?o_>n)4`9f(;_
+
+delta 591
+zcmZoEXh~3DU|?W$DortDV9)?EIe-{M3-ADmHU<U-?uiQeqSinTGf<F$A(5eoA(<hA
+zA)cXX;zi}j1|}@5j6g}2$p(TFlSKsOH(oPjpZI`(Gdl+h2czQV8-k*YlWT?fH~$gl
+zXJq>PdNQx51pEGY3%R)l$0zHEO2XMbqEbwZ6E<gvwlXp~sZDMa)tW3R&ckv1xT*PS
+zgX4}M0g>GN6qlr&{3M`#C=vn%8HT~h`MCu^2_R@-0IA-5UR;IIb@Otd04qZYLp~7Z
+zFcjzJyTFa`bxybM)IaWst^#2RRK;WqNf{<4hRtD;ri@IVwoUGpl48GMX#;ZD<aJWg
+zaP|c$pt6L`@1$f|H$FJS#3(s=mx9#hc?$YWn@g4BnK&*f$IP7wv~Y5Rs+SPL79?Sh
+z%?)Z@j7*{B6DP>A^KgOvKG{$}c(R-T4-#LIal>Rmb>Ycr0@LISj)UC~B!Cge4J2HV
+sBX8ry_so;|O#*p<kpzlb1|V%PImcw8bQ(h@Ln=cGa+p%&5GI4;0GtD#rvLx|
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index aecc487..2b5aa8d 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -57,7 +57,6 @@ ROLE_BOUNDARIES = {
+     ModelPurpose.FINAL_DIFF_AUDIT: "verify issue coverage, diff completeness, and test evidence only",
+     ModelPurpose.TEST_RESULT_REVIEW: "classify observed output; do not infer passing behavior from missing output",
+ }
+-    FINAL_DIFF_AUDIT = "final_diff_audit"
+ 
+ 
+ @dataclass
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index bb1b3b8..e0bcc07 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -34,7 +34,6 @@ class PromptTemplate:
+         "result, the expected post-patch invariant, and the files that must remain untouched. "
+         "Do not edit until all six items are present: issue behavior, owning symbol, call "
+         "path, baseline command, regression test, and post-patch invariant."
+-    )d falsify it."
+     )
+     
+     @staticmethod
+-- 
+2.39.5 (Apple Git-154)
+

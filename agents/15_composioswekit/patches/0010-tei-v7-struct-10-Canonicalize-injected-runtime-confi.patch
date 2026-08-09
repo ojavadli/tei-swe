@@ -1,0 +1,28 @@
+From 4691128085865cfaecf3c9a26b086e6e794d2baa Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:05:38 -0700
+Subject: [PATCH 10/18] tei-v7 struct-10: Canonicalize injected runtime
+ configuration
+
+---
+ .../src/workbench/python-helpers/composio_helper.py           | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index 939948b..e821ea8 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -42,7 +42,9 @@ try:
+     _INTERNAL
+ except NameError:
+     _INTERNAL = {}
+-if not isinstance(_INTERNAL, dict):
++if isinstance(_INTERNAL, dict):
++    _INTERNAL = {str(key).lower(): value for key, value in _INTERNAL.items()}
++else:
+     _INTERNAL = {}
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,25 @@
+From 9319f3abbb0213cbe697cda1ea1d5f2e75ef4f8e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:00:32 -0700
+Subject: [PATCH 28/50] tei-v7 prompt-02: Competing-hypothesis recovery loop
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 06e0b66..78fb456 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -4,7 +4,7 @@ STEP_EXAMPLE = {
+         "after_patch": "run the smallest regression oracle first",
+         "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test", "alternate representation or assumption", "interaction with the nearest caller"],
+         "acceptance_rule": "A patch is resolved only when: (1) the pre-patch failure is reproduced with a recorded command, input, exception or output, and exit status; (2) the patch is applied to the intended symbol and the diff is inspected; (3) the exact original command is rerun and now produces the stated expected output or exception; (4) a focused regression test passes; (5) at least one nearby valid case and one boundary or nested case pass; and (6) the final diff contains no unrelated changes. If any item is missing or fails, report unresolved, preserve the failing evidence, and do not claim success.",
+-        "recovery_rule": "if any check fails, record the failing oracle and revert the hypothesis; generate at least one competing causal hypothesis, rerun localization with the failed evidence, and apply a new minimal patch rather than widening the original patch"
++        "recovery_rule": "If any check fails, do not widen the patch. Record the exact failing oracle and classify the failure as wrong target, wrong invariant, incomplete call path, or incompatible behavior. Then generate at least two materially different causal hypotheses, each naming a distinct target symbol and predicted observable behavior; use repository search and the failed evidence to rank them; inspect the highest-ranked caller and callee; and test the cheapest discriminating hypothesis before editing. Revert rejected hypotheses and retain only the smallest patch whose prediction is confirmed."
+     },
+     "patch_contract": {
+         "target_file": "repository-relative path",
+-- 
+2.39.5 (Apple Git-154)
+

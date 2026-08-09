@@ -1,0 +1,27 @@
+From b376f33841e21647b5d6fa841a6a9687ded9dc7a Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:43 -0700
+Subject: [PATCH 08/13] tei-v7 struct-08: Inject an issue-to-code localization
+ workflow into the edito
+
+---
+ utils/oai.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index 7dfa7e2..c4db271 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -27,8 +27,7 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=300, te
+                         "role": "user",
+                         "content": (
+                             input_text
+-                            + "\n\nReturn a minimal unified diff patch only. "
+-                            "Do not merely describe the fix."
++                            + "\n\nFirst infer the issue's exact behavioral contract, identify the relevant repository files and existing tests, and trace the current code path. Then implement the smallest compatible fix. Return a minimal unified diff patch only; do not merely describe the fix."
+                         ),
+                     },
+                 ]
+-- 
+2.39.5 (Apple Git-154)
+

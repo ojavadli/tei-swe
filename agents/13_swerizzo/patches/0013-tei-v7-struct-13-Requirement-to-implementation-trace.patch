@@ -1,0 +1,26 @@
+From 4093c74e1b1741c619337b55ee903ecc0d2a5971 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:00 -0700
+Subject: [PATCH 13/51] tei-v7 struct-13: Requirement-to-implementation
+ traceability gate
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index e41070b..3fd7ac3 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,7 +9,7 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
+-Candidate handoff checklist: report the issue requirements addressed, files and symbols changed, tests run with exit status, known limitations, and any behavior that was intentionally left unchanged. Keep this summary separate from the patch so downstream candidate selection can compare candidates on requirement coverage, regression risk, and test evidence.
++Before producing a patch, build a requirement-to-code traceability table. For every requested behavior, record the affected symbol, the invariant being changed or preserved, the concrete implementation change, and a validation command. Do not finalize if any requirement lacks a mapped implementation location and validation result. In the handoff, report this table, tests with exit status, regressions considered, and intentionally unchanged behavior.
+ Before editing, decompose the issue into a numbered requirement matrix covering requested behavior, affected APIs, invariants, edge cases, and backward-compatibility constraints. For every requirement, identify the implementation location and a validation method; do not finalize while any matrix item lacks both a code change rationale and a test or inspection result. If any requirement remains uncertain, do not return the patch: enumerate the uncertainty, inspect the relevant call sites and existing tests, construct the smallest reproducer, and revise the implementation until the uncertainty is resolved. Then state which likely hidden-test scenarios are covered and which assumptions remain.
+ Before finalizing an edit, run a focused regression test plus adversarial tests for boundary values, invalid inputs, repeated calls, interactions with nearby features, and the unchanged legacy path. Verify that each test would fail on the pre-patch code, and use failures to revise the patch rather than merely reporting them. Do not stop at making the provided example or visible test pass. Before submission, compare old and new behavior for the issue path, its callers, error paths, and representative unaffected paths; run the narrow regression test and the broadest feasible relevant suite, and explain every failure or skipped check.
+ <files>
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 7d02f6c34beb8a3651393b1e8d7686d1a854a88e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:00:10 -0700
+Subject: [PATCH 28/47] tei-v7 prompt-10: Failure-class-specific recovery
+ playbook
+
+---
+ search_zip/zip_traj.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/search_zip/zip_traj.py b/search_zip/zip_traj.py
+index c90495b..3614111 100644
+--- a/search_zip/zip_traj.py
++++ b/search_zip/zip_traj.py
+@@ -12,7 +12,7 @@ You will be provided with:
+ 1. A trajectory file (.txt) in JSON format containing the agent's step-by-step execution
+ 2. A prediction file (.pred) containing the final result
+ 
+-Your goal is to produce an evidence-backed diagnosis and a non-repeating recovery plan. First reconstruct the last known repository state, exact commands, exit codes, relevant output, and final diff. Then compare every issue requirement with the final diff: list each requirement, the exact changed file and symbol satisfying it, the regression test covering it, and any requirement with no implementation evidence. Never classify an attempt as complete when any requirement lacks a file-level mapping. Classify the failure as implementation, regression, test discovery, environment, timeout, patch format, or unknown. Cite exact observations for every classification; never infer success from a plausible patch. Then prescribe one next action, explain why it differs from the failed attempt, and define the evidence that would confirm or reject it. Rank the action and assign confidence from 0 to 1. If evidence is insufficient, return UNKNOWN rather than inventing a cause.
++Your goal is to produce an evidence-backed diagnosis and a non-repeating recovery plan. First reconstruct the last known repository state, exact commands, exit codes, relevant output, and final diff. Classify the failure before proposing a fix: implementation behavior, missing regression coverage, test discovery, dependency/runtime, environment, timeout, patch format, or incomplete patch. For the selected class, perform only the corresponding recovery: inspect the affected call path for implementation failures; minimize and run the relevant regression for test failures; discover the repository-native test command for discovery failures; repair or isolate runtime issues; recreate the environment for environment failures; and regenerate a complete patch for format or incompleteness failures. Verify the classification with one focused command before making another broad change. Then compare every issue requirement with the final diff: list each requirement, the exact changed file and symbol satisfying it, the regression test covering it, and any requirement with no implementation evidence. Never classify an attempt as complete when any requirement lacks a file-level mapping. Classify the failure as implementation, regression, test discovery, environment, timeout, patch format, or unknown. Cite exact observations for every classification; never infer success from a plausible patch. Then prescribe one next action, explain why it differs from the failed attempt, and define the evidence that would confirm or reject it. Rank the action and assign confidence from 0 to 1. If evidence is insufficient, return UNKNOWN rather than inventing a cause.
+ 
+ Return your analysis in JSON format with the following fields:
+ - approach_summary: A concise summary of the main approach used in this solution
+-- 
+2.39.5 (Apple Git-154)
+

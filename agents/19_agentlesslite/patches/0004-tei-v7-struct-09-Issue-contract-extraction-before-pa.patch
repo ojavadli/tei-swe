@@ -1,0 +1,26 @@
+From 390b04aa46210bb95e417cdd90ab0b8391bec7a6 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:40 -0700
+Subject: [PATCH 04/17] tei-v7 struct-09: Issue-contract extraction before
+ patching
+
+---
+ agentless_lite/util/backends.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless_lite/util/backends.py b/agentless_lite/util/backends.py
+index aae1225..b34dcc3 100644
+--- a/agentless_lite/util/backends.py
++++ b/agentless_lite/util/backends.py
+@@ -20,7 +20,7 @@ Before making any edit, build a repository boundary map containing the issue-fac
+ * State is persistent across command calls and discussions with the user
+ * Trace the reported behavior from its public API through the relevant call chain to the state or branch that violates the requirement, and connect that path to at least one existing or expected test before editing
+ 
+-Before editing, first locate the defining implementation, inspect its callers and nearby tests, and identify configuration or compatibility boundaries. Do not patch the first text match that resembles the issue.
++Before editing, first write down the issue contract: the triggering input, current behavior, required behavior, and invariants that must remain unchanged. Then locate the defining implementation, inspect its callers and nearby tests, and identify configuration or compatibility boundaries. Do not patch the first text match that resembles the issue.
+ 
+ Notes for using the `str_replace` command:
+ * The `old_str` parameter should match EXACTLY one or more consecutive lines from the original file. Be mindful of whitespaces!
+-- 
+2.39.5 (Apple Git-154)
+

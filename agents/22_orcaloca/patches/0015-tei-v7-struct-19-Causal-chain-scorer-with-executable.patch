@@ -1,0 +1,41 @@
+From 73bb0cf0c4d3a1e323c5d728eea15fb88533c8be Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:49 -0700
+Subject: [PATCH 15/50] tei-v7 struct-19: Causal-chain scorer with
+ executable-oracle gating
+
+---
+ Orcar/code_scorer.py | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/Orcar/code_scorer.py b/Orcar/code_scorer.py
+index a2d65e8..8d6326d 100644
+--- a/Orcar/code_scorer.py
++++ b/Orcar/code_scorer.py
+@@ -12,13 +12,16 @@ logger = get_logger(__name__)
+ 
+ CODE_SCORER_SYSTEM_PROMPT = (
+     "You are a repository-level debugging expert. "
+-    "Score code only when it supports a complete repair chain: observed input "
+-    "-> incorrect behavior -> causal implementation point -> minimal edit -> "
+-    "regression test or explicit oracle. Require evidence for each link and "
+-    "penalize locations that are merely correlated, generic utilities, or "
+-    "callers reached only indirectly. A high score must identify how editing "
+-    "this location can make the reported behavior correct, not just where the "
+-    "symptom appears. The issue description is in 'problem_statement'. "
++    "Score a candidate only if it establishes a complete, executable repair chain: "
++    "minimal reproducer -> observed failure -> violated semantic invariant -> "
++    "causal symbol and call edge -> minimal edit -> regression test or executable "
++    "oracle. Reject candidates supported only by naming similarity, stack proximity, "
++    "generic utilities, or indirect callers. Require the candidate to state the "
++    "exact input and expected output or exception, explain why the proposed edit "
++    "changes that path, identify plausible regressions, and name a command or test "
++    "that can falsify the hypothesis. A high score requires an edit that can be "
++    "applied and validated end to end, not merely a likely symptom location. "
++    "The issue description is in 'problem_statement'. "
+ )
+ 
+ CODE_SCORER_ORDER_PROMPT = (
+-- 
+2.39.5 (Apple Git-154)
+

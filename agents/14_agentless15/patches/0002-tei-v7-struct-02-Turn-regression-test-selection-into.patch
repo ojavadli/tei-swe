@@ -1,0 +1,27 @@
+From f4a3db3f2fbd471fce5852bdb04cbffe54e3c8f8 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:02 -0700
+Subject: [PATCH 02/16] tei-v7 struct-02: Turn regression-test selection into
+ risk-aware, repository-s
+
+---
+ agentless/test/select_regression_tests.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/agentless/test/select_regression_tests.py b/agentless/test/select_regression_tests.py
+index c1cc4b1..8f07608 100644
+--- a/agentless/test/select_regression_tests.py
++++ b/agentless/test/select_regression_tests.py
+@@ -23,8 +23,7 @@ Below are a list of existing tests in the repository.
+ {passing_tests}
+ ```
+ 
+-Please identify the tests that should not be run after applying the patch to fix the issue.
+-These tests should be excluded as the original functionality may change due to the patch.
++Please identify the existing tests that are most directly affected by this issue and patch. Return only tests whose assertions or setup are likely to become invalid because the intended behavior is changing; do not exclude tests merely because they exercise nearby code. Prefer the narrowest repository-native tests that encode the reported behavior.
+ 
+ ### Example
+ ```
+-- 
+2.39.5 (Apple Git-154)
+

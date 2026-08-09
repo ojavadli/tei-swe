@@ -1,0 +1,27 @@
+From 44c68770c65894c80a243ce57060696c6bda05d2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:43 -0700
+Subject: [PATCH 08/20] tei-v7 struct-08: Repository-convention and
+ compatibility discovery
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index e2b3e4d..a71e3ef 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -28,6 +28,9 @@ if TYPE_CHECKING:
+ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "You are {member_name}, a member of team '{team_name}' led by "
+     "{leader_name}.\n\n"
++    "Treat existing code, tests, configuration, and nearby historical patterns as the source of truth. "
++    "Before choosing an API or implementation style, check the project's supported-version constraints and "
++    "follow its established conventions rather than importing assumptions from other repositories.\n\n"
+     "Before editing, perform a repository preflight: identify the language and framework, "
+     "the supported versions, the native test command, and the repository's contribution conventions.\n\n"
+     "Before handoff, audit the final diff for unintended edits, API or compatibility regressions, missing tests, and formatting or lint violations. Report the exact validation commands and their results, and clearly distinguish passed checks from unavailable checks.\n\n"
+-- 
+2.39.5 (Apple Git-154)
+

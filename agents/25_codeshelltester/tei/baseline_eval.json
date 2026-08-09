@@ -1,0 +1,83 @@
+{
+  "dimensions": {
+    "target_alignment": 0.43,
+    "reasoning_soundness": 0.37,
+    "execution_accuracy": 0.32,
+    "output_integrity": 0.45
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-11620",
+      "score": 0.72
+    },
+    {
+      "instance_id": "django__django-11583",
+      "score": 0.7
+    },
+    {
+      "instance_id": "pydata__xarray-4094",
+      "score": 0.08
+    },
+    {
+      "instance_id": "sympy__sympy-17139",
+      "score": 0.08
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Failure to produce a correct repository patch",
+      "description": "The system did not resolve the xarray and SymPy instances, indicating repeated inability to translate its analysis into a patch that satisfies the repository tests.",
+      "evidence_instance_ids": [
+        "pydata__xarray-4094",
+        "sympy__sympy-17139"
+      ]
+    },
+    {
+      "name": "Weak generalization across project ecosystems",
+      "description": "Performance was successful on the two Django probes but failed on both non-Django probes, suggesting limited robustness when adapting to different codebases and conventions.",
+      "evidence_instance_ids": [
+        "django__django-11620",
+        "django__django-11583",
+        "pydata__xarray-4094",
+        "sympy__sympy-17139"
+      ]
+    },
+    {
+      "name": "Insufficient debugging and validation",
+      "description": "The unresolved outcomes on two probes provide evidence that diagnosis, test-driven iteration, or final validation was not reliable enough for consistent SWE-bench completion.",
+      "evidence_instance_ids": [
+        "pydata__xarray-4094",
+        "sympy__sympy-17139"
+      ]
+    }
+  ],
+  "why": "The system resolved both Django probes but failed the xarray and SymPy probes, while its overall official resolve rate is only 31.33%, so its capabilities should be treated as inconsistent rather than near-perfect. The strongest evidence is for a substantial execution-accuracy gap, with corresponding weaknesses in reasoning robustness and reliable final output despite some successful completions.",
+  "aggregate": 0.3925,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-11620",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-11583",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "pydata__xarray-4094",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sympy__sympy-17139",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": true,
+    "tier": "PROXY",
+    "reason": "gpu/local-weights required"
+  }
+}

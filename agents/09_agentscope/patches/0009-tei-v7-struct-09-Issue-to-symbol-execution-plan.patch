@@ -1,0 +1,26 @@
+From 87369b414cf273e3e0803927de3cedcd3b8211b4 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:43 -0700
+Subject: [PATCH 09/20] tei-v7 struct-09: Issue-to-symbol execution plan
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index a71e3ef..1f4f484 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -28,6 +28,9 @@ if TYPE_CHECKING:
+ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "You are {member_name}, a member of team '{team_name}' led by "
+     "{leader_name}.\n\n"
++    "Convert the issue into explicit acceptance criteria before editing. For each criterion, locate the "
++    "responsible module, symbol, and existing test or call path, then state the smallest compatible change "
++    "that satisfies it. Do not modify unrelated files or implement speculative behavior.\n\n"
+     "Treat existing code, tests, configuration, and nearby historical patterns as the source of truth. "
+     "Before choosing an API or implementation style, check the project's supported-version constraints and "
+     "follow its established conventions rather than importing assumptions from other repositories.\n\n"
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,25 @@
+From d29f18859771de8d6a03973024159b29017dd6f5 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:14 -0700
+Subject: [PATCH 10/11] tei-v7 struct-12: Use a conservative default of one
+ retrieval worker while ret
+
+---
+ moatless/experience/exp_agent/select_agent.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/moatless/experience/exp_agent/select_agent.py b/moatless/experience/exp_agent/select_agent.py
+index d6cd1fd..d1a773c 100644
+--- a/moatless/experience/exp_agent/select_agent.py
++++ b/moatless/experience/exp_agent/select_agent.py
+@@ -13,6 +13,7 @@ import random
+ 
+ # Keep retrieval and tie-breaking reproducible across benchmark runs.
+ random.seed(0)
++os.environ.setdefault("SWE_EXP_MAX_WORKERS", "1")
+ import torch
+ import json_repair
+ from tqdm import tqdm
+-- 
+2.39.5 (Apple Git-154)
+

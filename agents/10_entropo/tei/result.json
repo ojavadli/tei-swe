@@ -1,0 +1,61 @@
+{
+  "agent": "10_entropo",
+  "system": "EntroPO + R2E + Qwen3-Coder-30B-A3B-Instruct",
+  "rank": 10,
+  "resolve_rate": 60.4,
+  "score_label": "PROXY",
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  },
+  "baseline": 0.63,
+  "best_structural": 0.6825,
+  "best_structural_id": "struct-12",
+  "best_final": 0.69,
+  "best_final_id": "prompt-06",
+  "shipped": "prompt-06",
+  "confirmation": {
+    "n_queries": 4,
+    "cand_mean": 0.615,
+    "ref_mean": 0.545,
+    "delta": 0.07,
+    "wins": 4,
+    "losses": 0,
+    "sign_p": 0.125,
+    "margin_hoeffding": 0.679,
+    "mde": 0.297,
+    "insufficient_n": false,
+    "accept": true,
+    "reason": "mean not below reference; 4W/0L paired (sign p=0.125)",
+    "preflight": "Power check: with 4 eval queries, only mean-score changes >= ~0.30 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
+  },
+  "noise_floor": {
+    "paraphrase_aggregates": [
+      0.63,
+      0.6375,
+      0.6325
+    ],
+    "noise_floor": 0.0075
+  },
+  "n_versions": 36,
+  "n_applied": 17,
+  "budget_after": {
+    "calls": 92,
+    "input_tokens": 126226,
+    "output_tokens": 165892,
+    "cost_nominal_usd": 1.8167,
+    "cost_conservative_usd": 3.6334,
+    "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+    "scale_downs": [
+      "iters 30->18 (projected $6.01) before 06_lingxi"
+    ]
+  },
+  "noise_floor_method": "baseline-anchored orbit; identical calibration to candidate scoring",
+  "shipped_delta": 0.06,
+  "gain_vs_noise_floor": "exceeds_noise_floor",
+  "below_mde": true,
+  "mde_note": "shipped delta 0.06 vs MDE 0.297 at n=4: BELOW the minimum detectable effect - not statistically meaningful at this n"
+}

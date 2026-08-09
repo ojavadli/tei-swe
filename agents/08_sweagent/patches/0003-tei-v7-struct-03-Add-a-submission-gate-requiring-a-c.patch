@@ -1,0 +1,26 @@
+From f520c5e57547f099ebadf62f9609d552b2e4a3ab Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:08:39 -0700
+Subject: [PATCH 03/22] tei-v7 struct-03: Add a submission gate requiring a
+ clean diff, focused regres
+
+---
+ config/benchmarks/250212_sweagent_heavy_sbl.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/config/benchmarks/250212_sweagent_heavy_sbl.yaml b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+index ddd1139..8f21d68 100644
+--- a/config/benchmarks/250212_sweagent_heavy_sbl.yaml
++++ b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+@@ -28,6 +28,8 @@ agent:
+ 
+           <pr_description>
+           {{problem_statement}}
++
++          Before submitting, inspect the final git diff for missing files, accidental changes, syntax errors, and incomplete branches. Add or update a focused regression test when appropriate, run it after the final code edit, and submit only after confirming the working tree contains the complete intended fix.
+           </pr_description>
+ 
+           Can you help me implement the necessary changes to the repository so that the requirements specified in the <pr_description> are met?
+-- 
+2.39.5 (Apple Git-154)
+

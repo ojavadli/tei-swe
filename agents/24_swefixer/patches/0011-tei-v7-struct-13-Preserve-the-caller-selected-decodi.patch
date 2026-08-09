@@ -1,0 +1,30 @@
+From 1ebf5a444678e0f186bb656cc112dbf0d069ecfc Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:11 -0700
+Subject: [PATCH 11/13] tei-v7 struct-13: Preserve the caller-selected decoding
+ temperature
+
+---
+ utils/oai.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index b3167b6..f4d73b5 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -13,9 +13,9 @@ def load_openai_client(api_key, base_url):
+ 
+ def get_model_prediction(client, input_text, system_prompt=None, timeout=900, temp=0):
+     def make_request(result_queue):
+-        temp = 0
+-        if temp != 0:
+-            print("temp: ", temp)
++        request_temperature = temp
++        if request_temperature != 0:
++            print("temp: ", request_temperature)
+         try:
+             models = client.models.list().data
+             if not models:
+-- 
+2.39.5 (Apple Git-154)
+

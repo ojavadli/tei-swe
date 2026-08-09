@@ -1,0 +1,33 @@
+agent                             py entry points           blockers
+01_livesweagent                    0 -                      no source code
+02_sonarfoundationagent            0 -                      no source code
+03_trae                           75 console_script         docker
+04_acoder                          0 -                      no source code
+05_joycode                        41 cli.py                 docker
+06_lingxi                         39 -                      no obvious entry point
+07_moatlesstools                 307 -                      docker,no obvious entry point
+08_sweagent                      100 console_script         NONE
+09_agentscope                    572 -                      no obvious entry point
+10_entropo                       106 -                      no obvious entry point
+11_experepair                     47 -                      no obvious entry point
+12_kgcompass                      55 app.py                 NONE
+13_swerizzo                       68 -                      docker,no obvious entry point
+14_agentless15                    25 -                      docker,no obvious entry point
+15_composioswekit                186 -                      no obvious entry point
+16_darsagent                      41 -                      no obvious entry point
+17_codeshellagent                 10 -                      gpu/weights,no obvious entry point
+18_codefusecgm                    32 -                      docker,gpu/weights,no obvious entry point
+19_agentlesslite                   9 -                      docker,no obvious entry point
+20_sweexp                        132 -                      no obvious entry point
+21_swerl                          17 -                      gpu/weights,no obvious entry point
+22_orcaloca                       59 cli.py,console_script  docker,gpu/weights
+23_patchedcodespatchwork         242 -                      gpu/weights,no obvious entry point
+24_swefixer                        7 -                      docker,no obvious entry point
+25_codeshelltester                10 -                      gpu/weights,no obvious entry point
+26_aegiso3mini10                  12 -                      no obvious entry point
+27_agentless                      52 -                      no obvious entry point
+28_coder                           0 -                      no source code
+29_aider                         147 console_script         NONE
+30_rag                            89 -                      docker,no obvious entry point
+
+agents with no static blocker: 3/30 -> ['08_sweagent', '12_kgcompass', '29_aider']

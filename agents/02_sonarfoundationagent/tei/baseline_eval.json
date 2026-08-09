@@ -1,0 +1,85 @@
+{
+  "dimensions": {
+    "target_alignment": 0.82,
+    "reasoning_soundness": 0.79,
+    "execution_accuracy": 0.78,
+    "output_integrity": 0.84
+  },
+  "probe_scores": [
+    {
+      "instance_id": "scikit-learn__scikit-learn-15100",
+      "score": 0.91
+    },
+    {
+      "instance_id": "sympy__sympy-19954",
+      "score": 0.89
+    },
+    {
+      "instance_id": "pydata__xarray-6599",
+      "score": 0.12
+    },
+    {
+      "instance_id": "sympy__sympy-14248",
+      "score": 0.14
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "End-to-end issue non-resolution",
+      "description": "The archived outcomes show complete failure on two of four fixed probes, indicating that the agent does not reliably turn analysis into an accepted repository resolution.",
+      "evidence_instance_ids": [
+        "pydata__xarray-6599",
+        "sympy__sympy-14248"
+      ]
+    },
+    {
+      "name": "Cross-repository robustness gap",
+      "description": "The system succeeds on the scikit-learn and one SymPy probe but fails on the xarray and another SymPy probe, showing inconsistent handling across repositories and issue instances.",
+      "evidence_instance_ids": [
+        "scikit-learn__scikit-learn-15100",
+        "sympy__sympy-19954",
+        "pydata__xarray-6599",
+        "sympy__sympy-14248"
+      ]
+    },
+    {
+      "name": "Instance-level reliability variance",
+      "description": "The mixed resolved and unresolved archive outcomes, together with a 79.2% overall resolve rate, indicate meaningful variance rather than uniformly dependable behavior.",
+      "evidence_instance_ids": [
+        "scikit-learn__scikit-learn-15100",
+        "sympy__sympy-19954",
+        "pydata__xarray-6599",
+        "sympy__sympy-14248"
+      ]
+    }
+  ],
+  "why": "The 79.2% verified resolve rate supports solid but clearly imperfect scores, with execution accuracy weakest because two of the four fixed probes were unresolved. The probe outcomes show strong success on two instances but near-failure on two others, and the absence of a prompt surface limits any stronger claim about the specific internal causes.",
+  "aggregate": 0.8075,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "scikit-learn__scikit-learn-15100",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-19954",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "pydata__xarray-6599",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sympy__sympy-14248",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": false,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "no source code in linked repo"
+  }
+}

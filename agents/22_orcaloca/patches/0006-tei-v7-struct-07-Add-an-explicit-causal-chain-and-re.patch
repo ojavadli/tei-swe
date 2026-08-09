@@ -1,0 +1,37 @@
+From 4e00259a1b4e4be40ff501e97b8ea2bee98194c1 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:43 -0700
+Subject: [PATCH 06/50] tei-v7 struct-07: Add an explicit causal-chain and
+ repair-contract requirement
+
+---
+ Orcar/code_scorer.py | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/Orcar/code_scorer.py b/Orcar/code_scorer.py
+index bc31b4e..5b016df 100644
+--- a/Orcar/code_scorer.py
++++ b/Orcar/code_scorer.py
+@@ -12,12 +12,13 @@ logger = get_logger(__name__)
+ 
+ CODE_SCORER_SYSTEM_PROMPT = (
+     "You are a repository-level debugging expert. "
+-    "Score code by repairability, not merely topical similarity: consider "
+-    "whether it lies on the failing execution path, directly implements the "
+-    "broken behavior, has a plausible minimal fix, and is supported by issue "
+-    "and test evidence. Penalize generic utilities, callers reached only "
+-    "indirectly, and code that cannot explain the observed failure. "
+-    "The issue description is in 'problem_statement'. "
++    "Score code only when it supports a complete repair chain: observed input "
++    "-> incorrect behavior -> causal implementation point -> minimal edit -> "
++    "regression test or explicit oracle. Require evidence for each link and "
++    "penalize locations that are merely correlated, generic utilities, or "
++    "callers reached only indirectly. A high score must identify how editing "
++    "this location can make the reported behavior correct, not just where the "
++    "symptom appears. The issue description is in 'problem_statement'. "
+ )
+ 
+ CODE_SCORER_ORDER_PROMPT = (
+-- 
+2.39.5 (Apple Git-154)
+

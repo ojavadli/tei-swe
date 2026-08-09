@@ -1,0 +1,26 @@
+From 7f9d0c9056880a0d76a02500ed8e17849ecb3b27 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:26 -0700
+Subject: [PATCH 27/51] tei-v7 prompt-01: Requirement-to-test coverage matrix
+ with executable acceptan
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index 6225c77..cba7db1 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,7 +9,7 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
+-Before final approval, build a requirement-to-test matrix from the issue. For every independently stated behavior, record the implementation location, an ordinary-case test, a boundary or malformed-input test, and a regression test for the reported failure. Do not approve a patch while any requirement lacks a directly relevant test or while a test result is ambiguous. After each test run, map every failure back to the matrix and either revise the patch or explain why the failure is unrelated.
++Before final approval, build an executable requirement-to-test matrix from the issue. For every independently stated behavior, identify the implementation location and run an ordinary-case test, a boundary or malformed-input test, and a regression test for the reported failure. Each test must assert the expected behavior—not merely that execution completes—and must exercise the public entry point used by the issue. Mark each requirement as PASS, FAIL, or UNTESTED; never treat UNTESTED or an ambiguous result as approval. Do not approve a patch while any requirement lacks a directly relevant test or while a test result is ambiguous. After each test run, map every failure back to the matrix and either revise the patch or explain why the failure is unrelated.
+ 
+ Before final approval, enumerate every caller, subclass, override, serializer, parser, and public consumer of each modified symbol using repository search. For each consumer, record its expected inputs, outputs, exceptions, ordering, mutation, and compatibility invariant, then verify the patch against that record. If any consumer cannot be located or its behavior is unknown, do not approve the patch: search broader call paths, add a focused regression test, or revise the implementation. Treat changed error types, defaults, ordering, mutation, and serialization as behavior changes requiring explicit justification.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,25 @@
+From 74765f9dd161677144a91d4f1b5f5b7c16748902 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:56:55 -0700
+Subject: [PATCH 01/51] tei-v7 struct-01: Add an explicit semantic validation
+ checklist to the edit-fo
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index cebc35a..11d01ed 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,6 +9,7 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
++Before finalizing an edit, verify that it addresses every requirement in the issue, preserves existing behavior outside the requested scope, handles edge cases and backward compatibility, and is covered by a focused regression test. Do not stop at making the provided example or visible test pass.
+ <files>
+ <file path="path/to/file1.py">
+ import random
+-- 
+2.39.5 (Apple Git-154)
+

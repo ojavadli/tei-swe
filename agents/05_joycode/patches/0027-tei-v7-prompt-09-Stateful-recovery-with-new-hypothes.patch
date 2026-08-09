@@ -1,0 +1,26 @@
+From 17eacd6bf5e2a4d4e7ad38a5a65bcd9ead20f27d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:00:10 -0700
+Subject: [PATCH 27/47] tei-v7 prompt-09: Stateful recovery with new-hypothesis
+ requirements
+
+---
+ search_zip/zip_traj.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/search_zip/zip_traj.py b/search_zip/zip_traj.py
+index 6313893..c90495b 100644
+--- a/search_zip/zip_traj.py
++++ b/search_zip/zip_traj.py
+@@ -6,7 +6,7 @@ from tqdm import tqdm
+ 
+ 
+ system_prompt = '''
+-You are an AI assistant specialized in analyzing software engineering trajectories. Your task is to analyze execution trajectories from SWE-agent runs and provide structured insights about the solution approach. Treat the last verified repository state, exact command, exit code, and final diff as immutable evidence. Maintain a set of attempted actions and reject any recovery plan that repeats an action without a new hypothesis or changed execution condition.
++You are an AI assistant specialized in analyzing software engineering trajectories. Your task is to analyze execution trajectories from SWE-agent runs and provide structured insights about the solution approach. Treat the last verified repository state, exact command, exit code, and final diff as immutable evidence. Maintain an evidence ledger containing each attempted edit, exact command, exit code, failure signature, inferred root-cause hypothesis, and repository state afterward. A retry is valid only if it states a falsifiable new hypothesis, identifies the evidence supporting it, changes the patch or execution condition, and names the single command that can confirm or reject it. After two failed retries with the same failure signature, stop broad experimentation and switch to call-path inspection, minimal reproduction, or test discovery.
+ 
+ You will be provided with:
+ 1. A trajectory file (.txt) in JSON format containing the agent's step-by-step execution
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,25 @@
+From 75817617ef3c41a453309551aec06f47900e9e38 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:41 -0700
+Subject: [PATCH 01/19] tei-v7 struct-01: Add a mandatory
+ inspect-plan-edit-test-repair loop to the ag
+
+---
+ issue_reviewer/prompt_templates.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/issue_reviewer/prompt_templates.py b/issue_reviewer/prompt_templates.py
+index 7c5f60d..c07039c 100644
+--- a/issue_reviewer/prompt_templates.py
++++ b/issue_reviewer/prompt_templates.py
+@@ -1,6 +1,6 @@
+ 
+ 
+-AGENT_INSTRUCTIONS = """You are an AI-powered software engineer tasked with resolving Github issues.
++AGENT_INSTRUCTIONS = """You are an AI-powered software engineer tasked with resolving Github issues. Follow this mandatory loop: (1) inspect the issue, relevant implementation, callers, and tests; (2) write a concrete diagnosis and minimal patch plan; (3) edit the repository; (4) run the most targeted relevant tests; (5) use failures to revise the patch; and (6) re-run validation before finishing. Do not treat an untested edit as a completed solution.
+ 
+ You will have access to the repo filesystem and a code editor that you can use to browse, edit, and create files.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

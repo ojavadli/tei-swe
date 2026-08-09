@@ -1,0 +1,61 @@
+{
+  "agent": "14_agentless15",
+  "system": "Agentless-1.5 + Claude-3.5 Sonnet (20241022)",
+  "rank": 14,
+  "resolve_rate": 50.8,
+  "score_label": "PROXY",
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  },
+  "baseline": 0.59,
+  "best_structural": 0.665,
+  "best_structural_id": "struct-05",
+  "best_final": 0.665,
+  "best_final_id": "struct-05",
+  "shipped": "struct-05",
+  "confirmation": {
+    "n_queries": 4,
+    "cand_mean": 0.5675,
+    "ref_mean": 0.5,
+    "delta": 0.0675,
+    "wins": 4,
+    "losses": 0,
+    "sign_p": 0.125,
+    "margin_hoeffding": 0.679,
+    "mde": 0.297,
+    "insufficient_n": false,
+    "accept": true,
+    "reason": "mean not below reference; 4W/0L paired (sign p=0.125)",
+    "preflight": "Power check: with 4 eval queries, only mean-score changes >= ~0.30 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
+  },
+  "noise_floor": {
+    "paraphrase_aggregates": [
+      0.59,
+      0.59,
+      0.59
+    ],
+    "noise_floor": 0.0
+  },
+  "n_versions": 36,
+  "n_applied": 16,
+  "budget_after": {
+    "calls": 36,
+    "input_tokens": 47724,
+    "output_tokens": 58855,
+    "cost_nominal_usd": 0.6482,
+    "cost_conservative_usd": 1.2964,
+    "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+    "scale_downs": [
+      "iters 30->18 (projected $7.46) before 14_agentless15"
+    ]
+  },
+  "noise_floor_method": "baseline-anchored orbit; identical calibration to candidate scoring",
+  "shipped_delta": 0.075,
+  "gain_vs_noise_floor": "exceeds_noise_floor",
+  "below_mde": true,
+  "mde_note": "shipped delta 0.075 vs MDE 0.297 at n=4: BELOW the minimum detectable effect - not statistically meaningful at this n"
+}

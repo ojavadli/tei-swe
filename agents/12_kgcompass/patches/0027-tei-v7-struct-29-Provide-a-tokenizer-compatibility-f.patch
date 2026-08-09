@@ -1,0 +1,48 @@
+From aa4e7d42a408ea5f956f52963860961ec21f43be Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:39:51 -0700
+Subject: [PATCH 27/28] tei-v7 struct-29: Provide a tokenizer compatibility
+ fallback for environments
+
+---
+ kgcompass/repair_claude.py | 14 +++++++++++++-
+ tei/candidates.jsonl       |  1 +
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/kgcompass/repair_claude.py b/kgcompass/repair_claude.py
+index ebf3a78..4f2d883 100644
+--- a/kgcompass/repair_claude.py
++++ b/kgcompass/repair_claude.py
+@@ -34,7 +34,19 @@ try:
+     import anthropic
+ except ImportError:
+     anthropic = None
+-import tiktoken
++try:
++    import tiktoken
++except ImportError:
++    class _FallbackEncoding:
++        def encode(self, text):
++            return text.split()
++        def decode(self, tokens):
++            return ' '.join(tokens)
++    class _FallbackTiktoken:
++        @staticmethod
++        def get_encoding(_name):
++            return _FallbackEncoding()
++    tiktoken = _FallbackTiktoken()
+ import difflib
+ import subprocess
+ from datetime import datetime
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index bea0372..2e7ec6b 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -25,3 +25,4 @@
+ {"version_id": "struct-25", "phase": "structural", "technique": "Make the repair-context budget configurable with a larger safe default", "target_failure_mode": "Fault-localization or context-selection misses", "expected_dimension": "target_alignment", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "    MODEL_NAME = os.getenv('MODEL_NAME', 'deepseek-chat')\n    MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '24000'))\n    TEMPERATURE = float(os.getenv('TEMPERATURE', '0.1'))", "replace": "    MODEL_NAME = os.getenv('MODEL_NAME', 'deepseek-chat')\n    MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '48000'))\n    TEMPERATURE = float(os.getenv('TEMPERATURE', '0.1'))"}, "dimensions": {"target_alignment": 0.72, "reasoning_soundness": 0.64, "execution_accuracy": 0.58, "output_integrity": 0.65}, "aggregate": 0.6475, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.25}, {"instance_id": "django__django-11964", "score": 0.23}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "A larger configurable context budget directly addresses missed repair context and modestly improves the difficult probes. The gain is limited because larger inputs can increase noise or approach model context limits, while execution and output handling are largely unchanged."}
+ {"version_id": "struct-26", "phase": "structural", "technique": "Replace first-match JSON extraction with balanced JSONDecoder scanning", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "def extract_json_code(text):\n    if not isinstance(text, str):\n        return {}", "replace": "def extract_json_code(text):\n    if not isinstance(text, str):\n        return {}\n    decoder = json.JSONDecoder()\n    for start, char in enumerate(text):\n        if char != '{':\n            continue\n        try:\n            parsed, _ = decoder.raw_decode(text[start:])\n            if isinstance(parsed, dict) and parsed:\n                return parsed\n        except (ValueError, TypeError, json.JSOND"}, "dimensions": {"target_alignment": 0.7, "reasoning_soundness": 0.63, "execution_accuracy": 0.59, "output_integrity": 0.71}, "aggregate": 0.6575, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.3}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.03, "why": "Balanced JSONDecoder scanning is a meaningful improvement for malformed or prefixed model output and raises output integrity. It does not materially improve diagnosis or patch generation, and scanning arbitrary opening braces can still select an unintended valid object."}
+ {"version_id": "struct-27", "phase": "structural", "technique": "Treat patch-tool and filesystem errors as failed attempts rather than aborting orchestration", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "    try:\n        result = _applable_patch(*args, **kwargs)\n    except (OSError, subprocess.CalledProcessError, ValueError):\n        result = False", "replace": "    try:\n        result = _applable_patch(*args, **kwargs)\n    except Exception:\n        result = False"}, "dimensions": {"target_alignment": 0.69, "reasoning_soundness": 0.61, "execution_accuracy": 0.61, "output_integrity": 0.65}, "aggregate": 0.64, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.25}, {"instance_id": "django__django-11964", "score": 0.24}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0125, "why": "Converting patch-tool exceptions into failed attempts improves orchestration resilience and gives retries or alternate attempts a chance. Broad exception swallowing can hide programming and filesystem defects, so reasoning soundness improves little and execution gains remain modest."}
++{"version_id": "struct-28", "phase": "structural", "technique": "Make post-application whitespace verification failure-safe", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "    whitespace = subprocess.run(\n        ['git', 'diff', '--check'], capture_output=True, text=True\n    )", "replace": "    try:\n        whitespace = subprocess.run(\n            ['git', 'diff', '--check'], capture_output=True, text=True\n        )\n    except (OSError, subprocess.SubprocessError):\n        return False"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.63, "execution_accuracy": 0.55, "output_integrity": 0.65}, "aggregate": 0.6275, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.89}, {"instance_id": "django__django-12747", "score": 0.89}, {"instance_id": "django__django-13768", "score": 0.19}, {"instance_id": "django__django-11964", "score": 0.2}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0, "why": "Failure-safe whitespace checking avoids an orchestration crash, but returning false when subprocess verification is unavailable can reject otherwise usable patches and reduce execution accuracy. It provides only a small integrity benefit and is below baseline overall."}
+-- 
+2.39.5 (Apple Git-154)
+

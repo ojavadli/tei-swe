@@ -1,0 +1,28 @@
+From 9effa2b5042e9443834debf3933948b3ac883509 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:49 -0700
+Subject: [PATCH 04/18] tei-v7 struct-04: Expand transient-failure
+ classification to cover status-code
+
+---
+ .../src/workbench/python-helpers/composio_helper.py           | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index a987fe6..4999e21 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -24,6 +24,10 @@ RATE_LIMIT_PATTERNS = (
+     "too many requests",
+     "quota exceeded",
+     "resource exhausted",
++    "429",
++    "throttl",
++    "temporarily unavailable",
++    "try again later",
+ )
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

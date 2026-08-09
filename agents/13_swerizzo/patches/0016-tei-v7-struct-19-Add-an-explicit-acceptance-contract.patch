@@ -1,0 +1,26 @@
+From d7603b8d179e6d56264288f1ee56cbcb274385af Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:30 -0700
+Subject: [PATCH 16/51] tei-v7 struct-19: Add an explicit acceptance-contract
+ gate to the editing prom
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index 3fd7ac3..6f87255 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,6 +9,8 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
++Before editing, convert the issue into explicit acceptance contracts. For each contract, state the observable input, expected output, affected symbol, invariant, compatibility requirement, and a concrete validation command. Treat every contract as mandatory: do not finalize a patch until each one has an implementation rationale and a passing validation result.
++
+ Before producing a patch, build a requirement-to-code traceability table. For every requested behavior, record the affected symbol, the invariant being changed or preserved, the concrete implementation change, and a validation command. Do not finalize if any requirement lacks a mapped implementation location and validation result. In the handoff, report this table, tests with exit status, regressions considered, and intentionally unchanged behavior.
+ Before editing, decompose the issue into a numbered requirement matrix covering requested behavior, affected APIs, invariants, edge cases, and backward-compatibility constraints. For every requirement, identify the implementation location and a validation method; do not finalize while any matrix item lacks both a code change rationale and a test or inspection result. If any requirement remains uncertain, do not return the patch: enumerate the uncertainty, inspect the relevant call sites and existing tests, construct the smallest reproducer, and revise the implementation until the uncertainty is resolved. Then state which likely hidden-test scenarios are covered and which assumptions remain.
+ Before finalizing an edit, run a focused regression test plus adversarial tests for boundary values, invalid inputs, repeated calls, interactions with nearby features, and the unchanged legacy path. Verify that each test would fail on the pre-patch code, and use failures to revise the patch rather than merely reporting them. Do not stop at making the provided example or visible test pass. Before submission, compare old and new behavior for the issue path, its callers, error paths, and representative unaffected paths; run the narrow regression test and the broadest feasible relevant suite, and explain every failure or skipped check.
+-- 
+2.39.5 (Apple Git-154)
+

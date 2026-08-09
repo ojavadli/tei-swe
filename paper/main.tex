@@ -1,0 +1,697 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{authblk}
+\usepackage{microtype}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{longtable}
+\usepackage{listings}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,breakatwhitespace=false,
+  columns=fullflexible,keepspaces=true,frame=single,framesep=2pt,rulecolor=\color{gray!50},
+  xleftmargin=3pt,xrightmargin=3pt,aboveskip=5pt,belowskip=5pt,showstringspaces=false,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}}
+
+\renewcommand{\arraystretch}{1.08}
+\setlength{\emergencystretch}{2em}
+
+\input{numbers}
+\input{a1_result}
+
+\title{\bfseries Improving \swBlindMajP{} of \swBlindAgents{} Patched SWE-bench Agents
+at About Half a Dollar Each:\\
+\large Blinded-Confirmed Gains from a Gated Target--Evaluate--Improve Loop,\\
+and a Validation Ladder for Optimization Without Execution (TEI-SWE)}
+
+\author[1]{Orkhan Javadli}
+\affil[1]{Stanford University \quad \texttt{ojavadli@stanford.edu}}
+\date{August 8, 2026\\[2pt]\small Artifacts: the \textbf{TEI-SWE-30} frozen agent set,
+\swVersions{} why-records, blinded-vote and audit datasets, patches, and all scripts
+(release pointer in \S\ref{sec:repro});\\
+\small methodology: \url{https://github.com/ojavadli/tei-bench} and the \texttt{tei-loop} gate.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent In 30 structural-fix plus 30 prompt-optimization gated iterations per
+agent, at \swCostNom{} total (about \$0.35 per agent for the optimization run,
+under \$0.50 with every validation pass included), the TEI~v7 loop improved the
+judged quality of every one of \swN{} real systems frozen from the official
+SWE-bench leaderboard archive~\citep{swebench2024,swebenchexperiments}---and the
+improvement is not an artifact of how it was scored:
+\textbf{on \swBlindMajP{} of \swBlindAgents{} patched agents, blinded
+re-evaluation prefers the patched code} (\swBlindVotesP/\swBlindVotesN{} votes,
+share \swBlindShare{}, exact 95\% CI \swBlindShareCI, sign test
+$p\swBlindSign$; \swBlindPerfect{} agents at a perfect \swBlindK/\swBlindK),
+where the judge sees only real before/after code states in randomized order,
+with no narrative and no indication of which is newer. The loop shipped
+\swApplied{} concrete patches as commits across \swN{} per-agent branches, all
+\texttt{ast}-clean, with per-agent gains of \swDeltaFB{} on the four-dimension
+rubric (Holm-corrected $p\swHolmFB$) that exceed the measured paraphrase noise
+floor on \swExceedFloor/\swN{} agents\MDEsentence. A second judge family
+reproduces the signal\TERRAsentence, and real recorded trajectories ground the
+baselines where they exist\TRAJsentence. No 2026 prompt-or-agent optimizer we
+compare against (GEPA, MIPROv2, Maestro, ACE) reports this coverage (30
+heterogeneous third-party systems vs.\ single-digit own-scaffold tasks), this
+cost profile, or \emph{any} bias-controlled validation of its selection signal
+(\S\ref{sec:compare}). Working without execution access also stress-tested the
+method: the validation ladder introduced here---rubric $<$ blinded A/B $<$
+static checks $<$ execution---caught a rare patch-damage mode (6 files across 5
+agents), which was repaired and permanently closed by a zero-cost compile
+pre-gate now committed to the methodology\EXECsentence. We release the
+TEI-SWE-30 set, the \swVersions-record why-record and blinded-vote datasets,
+and every script; each claim in this paper is stated at the ladder rung that
+supports it.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+This paper reports, to our knowledge, the broadest and cheapest controlled
+application of an automated improvement loop to real software-engineering
+agents to date: \swN{} systems spanning \swRateMin--\swRateMax{} official
+resolve rates, frozen at recorded SHAs from the SWE-bench leaderboard
+archive~\citep{swebench2024,swebenchverified2024,swebenchexperiments}, each run
+through 30 structural-fix and 30 prompt-optimization iterations of the gated
+TEI~v7 loop for roughly the price of a sandwich per agent. The loop produced
+\swVersions{} scored candidate versions carrying auditable why-records,
+applied \swApplied{} of them as real commits, and raised every agent's
+four-dimension judged quality, $\swBase\to\swStruct\to\swFinal$ on average
+(Fig.~\ref{fig:slope}).
+
+The result that makes those numbers citable, rather than merely encouraging,
+is the \textbf{blinded confirmation}. Judge-scored optimization is rightly
+distrusted: a judge that knows which version is ``improved,'' and is shown the
+optimizer's own rationale, inherits every bias of the pipeline it is
+scoring~\citep{llmjudge2023,selfpreference2024}. We therefore re-evaluated the
+real artifacts---the applied diffs---under blinding: the judge sees the actual
+before/after contents of the changed regions, in randomized order, with no
+why-record, no scores, and no statement of which state is newer, five
+independent times per agent. The patched state wins on \swBlindMajP{} of
+\swBlindAgents{} patched agents, \swBlindVotesP{} of \swBlindVotesN{} votes
+(sign test $p\swBlindSign$), with \swBlindPerfect{} agents unanimous at
+\swBlindK/\swBlindK. A second judge family agrees\TERRAshort. Whatever the
+loop is producing, it is code that independent, bias-controlled evaluation
+consistently prefers---at \$0.35 per agent.
+
+Working at this scale without execution access (the archive's traces are
+credentialed; SWE-bench's ground-truth harness needs infrastructure the study
+host lacked; \swNoSource{} linked repositories ship no runnable source at all)
+forced a discipline that we found to be the paper's second contribution: the
+\textbf{validation ladder}. Every claim is stated at the rung of evidence that
+supports it---narrative rubric, blinded A/B, deterministic static checks,
+execution---each rung cheaper than the next is trusted
+(Fig.~\ref{fig:ladder}). Climbing the ladder did exactly what such structure
+is for: the blinded rung confirmed the improvement signal was real rather than
+narrative, and the static rung caught a rare failure mode (exact-match patches
+splicing strings or landing at the wrong indentation in 6 files across 5
+agents) that was repaired, re-confirmed under blinding, and permanently closed
+by a zero-cost \texttt{ast.parse} pre-gate this study contributes back to the
+methodology's decision layer. Post-repair, all \swN{} branches are
+compile-clean and the blinded margin is unanimous-or-near-unanimous on every
+patched agent.
+
+\paragraph{Research questions.}
+\textbf{RQ1 (improvement).} Does a gated two-phase loop improve real,
+heterogeneous, third-party agents---and does the improvement survive
+bias-controlled evaluation? \textbf{RQ2 (cost/coverage).} At what cost, and at
+what coverage, relative to 2026 prompt/agent optimizers? \textbf{RQ3
+(statistics).} Do the gains clear measured noise---paraphrase floors and
+test-retest minimum detectable effects---rather than assumed constants?
+\textbf{RQ4 (method).} What does the validation ladder add over single-rung
+judge scoring? \textbf{RQ5 (provenance).} Can the whole study be re-derived
+from public artifacts by a hostile reviewer?
+
+\paragraph{Contributions.}
+\begin{enumerate}\itemsep1pt
+  \item \textbf{Blinded-confirmed improvement at unprecedented coverage and
+  cost}: \swBlindMajP/\swBlindAgents{} patched agents prefer the patched state
+  under blinding (\swBlindVotesP/\swBlindVotesN{} votes, $p\swBlindSign$),
+  across \swN{} third-party systems, for \swCostNom{} total---versus
+  single-digit own-scaffold task counts and hundreds of executed rollouts per
+  task in contemporary optimizers (\S\ref{sec:compare}).
+  \item \textbf{TEI-SWE-30}, a frozen, reviewer-reproducible agent set from
+  the official archive (\swSubs{} submissions $\to$ \swUnique{} systems $\to$
+  \swN{} verified-sourceable), with per-agent diagnoses, \swVersions{}
+  why-records, and \swApplied{} committed patches (\S\ref{sec:set}).
+  \item \textbf{The validation ladder} and the \textbf{substrate-honesty
+  protocol}: every number labeled with its evidence rung at point of use;
+  rubric preferences never reported as outcomes (\S\ref{sec:method},
+  \S\ref{sec:results}).
+  \item \textbf{A zero-cost compile pre-gate}, motivated by a failure mode the
+  ladder caught and now committed to the deployed gate
+  (\texttt{tei\_loop.gate.static\_pregate}): candidates whose patch breaks
+  parsing are rejected before any judge call (\S\ref{sec:ladder}).
+  \item \textbf{Measured-noise statistics}: paraphrase noise floors measured
+  under candidate-identical calibration (cleared \swExceedFloor/\swN) and
+  MDEs recomputed from test-retest repeats rather than assumed constants
+  (\S\ref{sec:power}), plus cross-judge replication (\S\ref{sec:results}).
+  \item \textbf{Open artifacts}: the why-record dataset (\swVersions{}
+  records), the blinded-votes dataset, audits, and one-command regeneration
+  of every number in this paper (\S\ref{sec:repro}).
+\end{enumerate}
+
+\begin{figure}[t]
+\centering
+\fbox{\begin{minipage}{0.94\textwidth}\footnotesize
+\textbf{The validation ladder} --- each rung is cheaper than the rung above it
+is trusted; claim at the rung you reached. This study's results per rung:
+\smallskip
+
+\begin{tabular}{@{}llll@{}}
+\toprule
+Rung & What it checks & Marginal cost here & This study \\
+\midrule
+4. Execution & real outcomes (resolve rate) & harness + rollouts & \EXECladder \\
+3. Static checks & parse/compile/lint of patched files & \$0 (deterministic) & \swSynPost{} errors on 41 files (post-repair) \\
+2. Blinded A/B & code preferred without narrative/direction & \$0.03/agent & \swBlindMajP/\swBlindAgents{} agents, \swBlindVotesP/\swBlindVotesN{} votes \\
+1. Rubric (anchored) & judged dimensions vs.\ diagnosis & \$0.35/agent & 30/30 improved, $\Delta$ \swDeltaFB{} \\
+\bottomrule
+\end{tabular}
+\smallskip
+
+\emph{Checklist for any optimization claim:} hold out the selection signal;
+beat budget-matched random search; run free static checks \emph{before} any
+judge call; blind the judge to direction and narrative; report the noise floor
+and the measured-noise MDE next to every delta; label every number's rung.
+\end{minipage}}
+\caption{The validation ladder and the practitioner checklist it implies.}
+\label{fig:ladder}
+\end{figure}
+
+\section{Related Work}
+\label{sec:related}
+\paragraph{SWE-bench and its agent ecosystem.}
+SWE-bench~\citep{swebench2024} scores systems on real GitHub issues against
+repository test suites; Verified~\citep{swebenchverified2024} is its
+human-validated split, and the submission archive~\citep{swebenchexperiments}
+records per-instance outcomes per system---our population frame and probe
+source. The frozen set spans the design space: ACI agents
+(SWE-agent~\citep{sweagent2024}), pipeline systems
+(Agentless~\citep{agentless2024}), search-based repair
+(AutoCodeRover~\citep{autocoderover2024}), RAG baselines~\citep{swebench2024},
+IDE assistants (aider~\citep{aider}), and tree search
+(moatless-tools~\citep{moatless}). To our knowledge no prior work applies one
+optimization procedure uniformly across a leaderboard's worth of third-party
+systems.
+
+\paragraph{Prompt and agent optimizers (2026 state).}
+APE~\citep{ape2022}, OPRO~\citep{opro2023}, DSPy/MIPROv2~\citep{dspy2023,
+mipro2024}, TextGrad~\citep{textgrad2024}, GEPA~\citep{gepa2025} (ICLR 2026
+oral), Maestro~\citep{maestro2025}, and ACE~\citep{ace2026} optimize prompts,
+programs, or agent graphs against a scoreable objective, reporting e.g.\
+``over 10\%'' above MIPROv2 across six tasks (GEPA) or $+4.9\%$ above GEPA on
+two benchmarks (Maestro). All evaluate on their own scaffolds with executed
+rollouts as both selection signal and evidence; none reports a bias-controlled
+check of its judge or selection signal. \S\ref{sec:compare} makes the
+comparison explicit, substrate labels included. The earlier TEI-Bench program
+supplies our design rationale: naive scorers manufacture gains (a $+0.175$
+artifact), beating a baseline means little without beating budget-matched
+random search, and a do-no-harm confirmation gate converts an unreliable loop
+into a zero-regression one---the executed lineage (v3 $+0.025$, $p{=}.024$,
+0 regressions; v6 $+0.026$, $p{=}.029$) behind the v7 decision layer used
+here.
+
+\paragraph{Selection-consistent evaluation.}
+Our gate-and-floor machinery joins a 2025--26 line of work on making
+selection-time signals trustworthy: correcting the winner's curse in adaptive
+benchmarking~\citep{winnerscurse2026}, non-vacuous generalization bounds for
+prompt selection~\citep{pacbayes2025}, distribution-free risk control for
+prompt deployment~\citep{zollo2024}, conformal factuality
+certificates~\citep{cfc2026}, and evaluation-subset design for prompt
+optimization~\citep{sess2026}. The ladder adds the orthogonal axis these
+works assume away: \emph{what the score is grounded in}
+(rubric/blinded/static/executed). LLM-judge bias~\citep{llmjudge2023,
+selfpreference2024} and benchmark contamination~\citep{contamination2023}
+motivate the blinded rung; the four Evaluation dimensions adapt Agent
+GPA~\citep{gpa2025}; the gate arithmetic uses Wilson bounds~\citep{wilson1927},
+Hoeffding margins~\citep{hoeffding1963}, Jeffreys priors~\citep{jeffreys1946},
+and Holm correction~\citep{holm1979}.
+
+\section{The TEI-SWE-30 Frozen Agent Set}
+\label{sec:set}
+The population must survive a hostile reviewer reconstructing it. We fixed the
+selection rule before parsing anything, used the official archive as the sole
+frame, and report every departure from target rather than repairing it.
+
+\paragraph{Source and rule.}
+\texttt{SWE-bench/experiments}~\citep{swebenchexperiments} frozen at
+\texttt{\swArchiveShort} (accessed \swAccessDate): \swSubs{} submissions
+across Lite and Verified, resolve rates computed exactly as the archive's own
+leaderboard script computes them. Rule, applied unchanged: parse every
+submission; deduplicate to unique systems (normalized names, keep each
+system's best submission); keep systems whose \emph{kept} submission names a
+\texttt{github.com} repository in its own metadata (URLs never guessed);
+verify each with \texttt{git ls-remote}; rank by resolve rate. Result:
+\swUnique{} unique systems, \swN{} sourceable (Table~\ref{tab:selection}),
+each shallow-cloned at a recorded SHA onto a local \texttt{tei-v7} branch
+(full list with links: Appendix Table~\ref{tab:frozen}).
+
+\begin{table}[t]\centering
+\caption{Selection funnel. Operational note preserved for reproducers: macOS
+ships no \texttt{timeout(1)}, so a first \texttt{git ls-remote} sweep returned
+exit 127 for all URLs---``every repository unreachable''---until a control
+probe exposed it; verification was re-run with in-process timeouts.}
+\label{tab:selection}\footnotesize
+\input{tables/selection}
+\end{table}
+
+\paragraph{Why \swN{} and not 31.}
+The target was 31; the strict rule yields \swN. The pre-approved widening
+(\texttt{evaluation/multilingual/}) added zero: none of its 13 entries names a
+repository, and all 13 are one system under the dedupe rule. One alternative
+reading of the source rule reaches 31 (qualify a system if \emph{any} of its
+submissions names a verified repository, admitting
+\texttt{autocoderover}~\citep{autocoderover2024} and \texttt{patchpilot}), but
+it was identified only after the strict count was known, so adopting it would
+have tuned selection to the target; the set stays \swN{} and unpadded. Two
+entries share one repository (\texttt{codeshellagent}/\texttt{codeshelltester})
+and are kept as distinct leaderboard systems.
+
+\paragraph{The execution boundary (stated once).}
+Three facts of the public record define what \S\ref{sec:results} can claim,
+and none is a choice of ours: the archive ships aggregate results only (its
+\texttt{logs/}/\texttt{trajs/} live behind credentialed storage; anonymous
+listing returns 403); deciding ``resolved'' requires SWE-bench's
+container-based harness; and \swNoSource{} linked repositories contain no
+runnable source (README/report only). A static screen found 3 systems
+runnable-in-principle (\texttt{SWE-agent}, \texttt{KGCompass}, \texttt{aider});
+Table~\ref{tab:runnability} gives the taxonomy, \S\ref{sec:gap} the execution
+plan and its result. Four repositories \emph{do} ship their own recorded
+trajectories in-repo (\texttt{sweagent} 22, \texttt{agentless} 15,
+\texttt{darsagent} 1, \texttt{coder} 522), which we use as a middle
+grounding rung (\S\ref{sec:results}).
+
+\begin{table}[t]\centering
+\caption{Runnability taxonomy over the \swN{} repositories (static screen).}
+\label{tab:runnability}\footnotesize
+\input{tables/runnability}
+\end{table}
+
+\section{Method: the Gated Loop and the Ladder}
+\label{sec:method}
+The optimization methodology is TEI~v7 as deployed and frozen
+(\texttt{tei-bench@\swTeibenchSHA}; gate ported in
+\texttt{tei-loop@\swTeiloopSHA}); this study executes it and contributes one
+upgrade back (the static pre-gate). Per agent, on its branch:
+\textbf{(1)~Baseline}: the judge scores the unmodified system on four
+Evaluation dimensions (target alignment, reasoning soundness, execution
+accuracy, output integrity), anchored on the repository's real content and the
+archive's recorded per-instance outcomes; it names the weakest dimension and
+three failure modes with probe-instance evidence. \textbf{(2)~Phase A}
+(30 iterations): concrete structural fixes---exact find/replace blocks against
+real files---each targeting a diagnosed failure mode; uniquely-matching
+patches are applied and committed. \textbf{(3)~Select} the best; \textbf{(4)
+Phase B} (30 iterations): prompt-surface optimization on top.
+\textbf{(5)~Decision layer}, unchanged from v7: a sequential paired gate
+(exact-futility and Jeffreys-posterior kills), an MDE power preflight printed
+\emph{before} verdicts, a paraphrase noise-floor orbit under
+candidate-identical calibration, why-records for every candidate, a certified
+Wilson-LCB Pareto front, and a final paired do-no-harm confirmation
+(\texttt{verify\_candidate}). \textbf{(6)~Static pre-gate} (new, contributed
+by this study): any candidate whose patch leaves a changed file unparseable is
+auto-rejected at zero LLM cost (\texttt{ast.parse}; committed as
+\texttt{tei\_loop.gate.static\_pregate} and active in the study pipeline).
+
+\paragraph{Evaluation substrates and rung labels.}
+Two endpoint classes are never conflated: \emph{executed} outcomes
+(code-computed resolve rates) and \emph{judge} scores (preference
+measurements by a stronger model). Because this population cannot be executed
+freely, the study's scores are judge-based, and every number carries its rung
+label at point of use: \textsc{rubric} (anchored four-dimension scoring),
+\textsc{blinded} (randomized, narrative-free A/B on real diffs),
+\textsc{static} (deterministic checks), \textsc{traj} (scores of real recorded
+traces), \textsc{verified} (executed outcomes only). Honesty rules inherited
+from the TEI-Bench program: nothing missing is synthesized, no threshold is
+retuned after results, no aggregate may reach 1.000 (max observed: 0.890), and
+a fixed single-model design constraint routes all pipeline calls through one
+judge/optimizer model (\texttt{gpt-5.6-luna}), with a second family
+(\texttt{gpt-5.6-terra}) used purely for replication.
+
+\begin{algorithm}[t]
+\caption{TEI-SWE: one agent through the gated loop and the ladder}
+\label{alg:loop}
+\begin{algorithmic}[1]
+\Require frozen clone $R$ at recorded SHA, archive outcomes $O$, judge $J$
+\State probes $\gets$ fixed-seed sample of $O$ (resolved + unresolved by this system)
+\State $B \gets J(\text{rubric} \mid R, O, \text{probes})$ \Comment{dims, weakest, failure modes w/ evidence}
+\For{phase $\in$ \{structural, prompt\}, $k=1..30$}
+  \State $c \gets$ proposal targeting a diagnosed failure mode (why-record always kept)
+  \State \textbf{static pre-gate}: reject $c$ at zero cost if its patch breaks \texttt{ast.parse}
+  \State apply iff find-block uniquely matches; commit; score on rubric + probes \Comment{\textsc{rubric}}
+\EndFor
+\State MDE preflight; paired do-no-harm gate; paraphrase noise-floor orbit
+\State \textbf{blinded rung}: $k{=}5$ randomized, narrative-free A/B on the real diff \Comment{\textsc{blinded}}
+\State \textbf{static rung}: full-branch parse audit \Comment{\textsc{static}}
+\State \Return trajectory + votes + audits, each labeled with its rung
+\end{algorithmic}
+\end{algorithm}
+
+\section{Experimental Protocol}
+\label{sec:protocol}
+\paragraph{Models.}
+All pipeline calls (judge, fix generation, optimization) use OpenAI
+\texttt{gpt-5.6-luna} through one endpoint, with per-call model verification;
+the replication passes use \texttt{gpt-5.6-terra} under the identical rubric
+and blinded protocols. Structured outputs use the API's enforced-JSON mode.
+
+\paragraph{Probe sets and budgets.}
+Per agent, a fixed-seed probe set drawn from instances that system actually
+attempted (half resolved, half not, per the archive). Budget control is
+pre-registered and uniform: projection against the cap triggered scale-downs
+(probes $6\to4$; iterations $30{+}30\to18{+}18\to12{+}12$), recorded per
+agent (\swItersFull{} agents at 60 versions, \swItersMid{} at 36,
+\swItersLow{} at 24). Spend is metered per token and priced under a stated
+assumption with a $2\times$ conservative bound (the key cannot read billed
+cost); Table~\ref{tab:spend}.
+
+\begin{table}[t]\centering
+\caption{Spend and scale-down record, all passes included (optimization run,
+blinded passes, repairs, replication, trajectory and noise passes).}
+\label{tab:spend}\footnotesize
+\input{tables/spend}
+\end{table}
+
+\paragraph{Run integrity.}
+Three operational failures were caught by invariant checks and are preserved
+for reproducers: the \texttt{timeout(1)} false-negative
+(Table~\ref{tab:selection}); an early \texttt{git add -A} that swept study
+artifacts into agent history (fixed; artifacts excluded); and a
+process-management collision in which two shard generations raced on three
+agents' logs---caught by the \texttt{candidates.jsonl}-count invariant, now a
+released audit script; the three agents were discarded and re-run from frozen
+SHAs. The final audit passes \swN/\swN.
+
+\section{Results}
+\label{sec:results}
+Table~\ref{tab:pertask} is the central artifact: per agent, the improvement
+trajectory with, side by side, its blinded vote, its static-audit status, its
+measured noise floor, and its rubric-rung MDE. Every agent improved; the
+blinded and static columns are what make that sentence citable.
+
+\begin{table}[p]\centering
+\caption{Per-agent results with ladder columns. $\Delta$ = final $-$ baseline
+(\textsc{rubric}, judge scale). Blind = blinded A/B votes for the patched
+state, $k{=}\swBlindK$ (\textsc{blinded}; post-repair; ``--'' = no applied
+patch to compare). AST \checkmark{} = all changed files parse
+(\textsc{static}, post-repair). Floor = measured paraphrase noise floor;
+MDE$^{a}_{80}$ = minimum detectable effect at the probe count under the
+gate's \emph{assumed} noise constant (the measured-noise MDE is
+Table~\ref{tab:power}).}
+\label{tab:pertask}
+\scriptsize
+\setlength{\tabcolsep}{3.2pt}
+\input{tables/pertask}
+\end{table}
+
+\paragraph{R1 --- the loop improved every agent it touched, at \$0.35 each.}
+All \swN{} agents complete both phases: \swVersions{} versions scored
+(\swStructN{} structural, \swPromptN{} prompt), \swApplied{} applied as
+commits, every candidate carrying a why-record. Stage means move
+$\swBase\to\swStruct\to\swFinal$; the structural phase contributes
+\swDeltaSB{} (Holm $p\swHolmSB$) and the prompt phase \swDeltaFS{} on top
+(Holm $p\swHolmFS$), adding a distinct increment on \swPromptAdds/\swN{}
+agents---the same two-phase signature as the executed companion
+run\footnote{The executed TEI-Bench v7 run (31 classification agents,
+factually banded baselines, code-computed objective) moved
+$0.644\to0.879\to0.889$; per-task table in
+\texttt{FINAL\_TABLE\_band31\_v2.md}, results in
+\texttt{results\_cubic30\_band31\_v2/} and \texttt{results\_struct\_band31\_v2/}
+at \texttt{tei-bench@\swTeibenchSHA} (models per that report:
+\texttt{gpt-5.4-mini-2026-03-17} across roles).} (Fig.~\ref{fig:slope};
+contrasts in Table~\ref{tab:contrasts}). Weakest-dimension diagnoses are
+uniform---execution accuracy, \swWeakEA/\swN---consistent with probing
+recorded execution failures; dimension detail in Table~\ref{tab:dims}. The
+proposal stream is concrete engineering (Table~\ref{tab:techniques}):
+regression-guard loops, patch-format normalization, fault-localization passes,
+invariant checks; \swTargeting{} of \swTargetingN{} versions move their
+declared target dimension most.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.55\textwidth]{figures/slope.png}
+\caption{Per-agent trajectories (gray) and mean (red) across the two phases
+(\textsc{rubric} rung). Structural dominates; prompt adds a residual---the
+executed-v7 signature reproduced at 30-agent scale.}
+\label{fig:slope}
+\end{figure}
+
+\begin{table}[t]\centering
+\caption{Stage contrasts across \swN{} agents (\textsc{rubric} rung), with
+Holm correction across the three contrasts.}
+\label{tab:contrasts}\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\input{tables/contrasts}
+\end{table}
+
+\begin{table}[t]\centering
+\caption{Evaluation-dimension means at baseline and shipped (\textsc{rubric}).}
+\label{tab:dims}\footnotesize
+\input{tables/dims}
+\end{table}
+
+\begin{table}[t]\centering
+\caption{Most frequent proposal techniques (top 12 of \swVersions{}
+why-records) with mean rubric delta.}
+\label{tab:techniques}\footnotesize
+\setlength{\tabcolsep}{4pt}
+\input{tables/techniques}
+\end{table}
+
+\paragraph{R2 --- the headline: the gains survive blinding.}
+For every agent with applied patches (\swBlindAgents{} of \swN; the other
+\swNoSource{} have no diff to compare), the judge was shown the real
+before/after contents of the changed regions---baseline SHA vs.\ branch
+HEAD---in randomized order, stripped of why-records, scores, and any
+indication of which state is newer, \swBlindK{} independent times.
+\textbf{The patched state is preferred on \swBlindMajP{} of \swBlindAgents{}
+agents}: \swBlindVotesP/\swBlindVotesN{} votes (share \swBlindShare, exact
+95\% CI \swBlindShareCI), sign test across agents $p\swBlindSign$,
+\swBlindPerfect{} agents at a unanimous \swBlindK/\swBlindK{}
+(Table~\ref{tab:pertask}, Blind column). Blinding removes the two biases a
+rubric pass cannot: narrative anchoring and knowledge of direction. What
+remains is a consistent, near-deterministic preference for the patched
+code---\emph{bias-controlled evidence of genuine improvement}, the strongest
+claim available below the execution rung, and it holds on every patched
+agent.
+
+\paragraph{R2b --- a second judge family replicates it.}
+\TERRApara
+
+\paragraph{R2c --- real trajectories ground the baselines.}
+\TRAJpara
+
+\paragraph{R3 --- the gains clear measured noise, not just assumed noise.}
+Every shipped gain exceeds its agent's paraphrase noise floor
+(\swExceedFloor/\swN): undirected rewordings, scored under identical
+calibration, move at most \swParaMax{} (mean \swParaMean{} over \swParaN{}
+paraphrases), an order of magnitude below the shipped deltas
+(\swDeltaMin--\swDeltaMax; Fig.~\ref{fig:floor}). \MDEresultpara{}
+Section~\ref{sec:power} gives the full power analysis, including the
+assumed-noise column retained for comparability.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.48\textwidth]{figures/floor.png}
+\caption{Shipped deltas (green) vs.\ the paraphrase orbit (gray) over
+\swParaN{} paraphrases (\textsc{rubric} rung): directed proposals separate
+cleanly from rewording noise.}
+\label{fig:floor}
+\end{figure}
+
+\section{What the Ladder Additionally Caught}
+\label{sec:ladder}
+One section, one story, told once: the ladder's discovery narrative, which is
+where the pre-repair numbers live. The first blinded pass (pre-repair) already
+confirmed the headline on \swBlindPreMajP{} of \swBlindAgents{} agents
+(\swBlindPreVotesP/\swBlindVotesN{} votes)---and flagged the other
+\swBlindPreMajB: on \texttt{JoyCode} (0/\swBlindK) and \texttt{Agentless}
+(1/\swBlindK) the blinded judge preferred the \emph{original}, citing
+``visibly malformed strings'' and ``stray indentation'' in the patched files.
+The deterministic rung then quantified what it had seen: \texttt{ast.parse}
+over all 41 changed Python files found \swSynFiles{} files across
+\swSynAgents{} agents with syntax errors introduced by exact-match
+patching---string splices and mis-indented insertions---each of which the
+anchored rubric had scored as an improvement, and two of which the blinded
+pass caught from content alone (the three others' breakage sat in files
+outside its shown excerpts). All six were repaired as recorded
+\texttt{tei-v7 repair} commits, the full audit re-run to \swSynPost{} errors
+(AST column of Table~\ref{tab:pertask}), and the blinded pass re-executed for
+the five affected agents---each flipping to \swBlindK/0, producing the
+post-repair headline of R2. The permanent fix is structural, not vigilance:
+the \texttt{static\_pregate} now rejects parse-breaking candidates before any
+judge call, at zero cost, inside the deployed gate. Two design lessons
+generalize. \emph{Free rungs first}: a deterministic check that costs nothing
+caught what \$0.35 of anchored judging scored as gains. \emph{Blinding is
+also a detector}: with narrative removed, the judge's attention lands on the
+code itself---including its defects---which is exactly what made the
+confirmation in R2 credible.
+
+\section{Power: Measured Noise, and What Each Test Certifies}
+\label{sec:power}
+\MDEpowerpara
+
+The cross-agent contrasts (Table~\ref{tab:contrasts}) certify that the
+loop-plus-instrument reliably moves scores in one direction across \swN{}
+independent applications; the per-agent measured-noise MDE certifies which
+individual deltas exceed the instrument's own repeatability; the blinded rung
+certifies the direction is a property of the \emph{code}, not the narrative;
+and only the execution rung can certify outcomes. Stating each claim at its
+rung is what the numbers in this paper mean by ``confirmed.'' For
+comparability with the original preflight we retain the assumed-noise column
+(per-query sd $0.15$ $\Rightarrow$ MDE$^{a}_{80}$
+\swMDEmin--\swMDEmax): under that deliberately conservative constant the
+rubric deltas are below detectability, a bound the measured-noise column
+supersedes.
+
+\section{Comparison with 2026 Optimizers}
+\label{sec:compare}
+Table~\ref{tab:compare} compares TEI-SWE with the strongest contemporaneous
+optimizers on the axes this study measures on both sides; quality numbers
+carry a mandatory substrate column, and substrate-mismatched quality
+comparisons are not made. TEI's factual advantages are coverage (30
+heterogeneous third-party systems vs.\ single-digit own-scaffold task counts),
+cost (\swCalls{} calls, \swCostNom{} \emph{total}---versus hundreds of
+executed rollouts \emph{per task}), and shipped validation depth (blinded
+A/B, static pre-gate, measured noise floors, MDE preflights, do-no-harm gate,
+full why-record audit trail---none of the compared systems reports any
+bias-controlled validation of its selection signal). Their advantage is the
+substrate: executed end-task gains on the tasks they optimize. The rows state
+both without conversion.
+
+\begin{table}[t]\centering
+\caption{TEI-SWE vs.\ 2026 optimizers, on axes measured on both sides. Quality
+numbers are stated with their substrate; ``n.r.''\ = not reported in the cited
+abstract. Sources: GEPA~\citep{gepa2025}, MIPROv2~\citep{mipro2024},
+Maestro~\citep{maestro2025}, ACE~\citep{ace2026}.}
+\label{tab:compare}\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lccccc}
+\toprule
+ & \textbf{TEI-SWE (this work)} & GEPA & MIPROv2 & Maestro & ACE \\
+\midrule
+Systems optimized & \textbf{30, third-party, heterogeneous} & 6 tasks, own scaffold & 7 programs, own & 2 benchmarks + 2 apps & agents + finance suites \\
+Total optimizer cost & \textbf{\swCostNom{} (\swCalls{} calls, all passes)} & 100s of rollouts/task (n.r.\ \$) & n.r. & ``far fewer than GEPA'' (n.r.) & n.r. \\
+Improvement evidence & \swBlindMajP/\swBlindAgents{} blinded-confirmed; $\Delta$\swDeltaFB{} rubric & +10\%+ vs MIPROv2; +6\% avg vs GRPO & up to +13\% & +4.9\% vs GEPA & +10.6\% agents \\
+\quad substrate & \textbf{blinded-proxy + static} (exec: \S\ref{sec:gap}) & executed & executed & executed & executed \\
+Executed lineage (same loop) & v3 +0.025 ($p{=}.024$, 0 regr.); v6 +0.026 & --- & --- & --- & --- \\
+Bias-controlled validation of signal & \textbf{yes: blinded A/B ($k{=}5$), 2 judges} & none reported & none reported & none reported & none reported \\
+Zero-cost static pre-gate & \textbf{yes (contributed)} & no & no & no & no \\
+Audit trail released & \textbf{\swVersions{} why-records + votes} & code & code & no & no \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{From Blinded to Executed: the Micro-Arm}
+\label{sec:gap}
+\EXECpara{} The remaining path is mechanical and priced: the gate's own
+arithmetic (\texttt{queries\_needed}) puts a certified $0.10$ execution gain
+at $\approx$36 paired instances per comparison; the \swApplied{} committed
+patches are ready-made candidates; and the four trajectory-bearing repos
+provide the intermediate rung today. The ladder tells a practitioner exactly
+what each next dollar of verification buys.
+
+\section{Threats to Validity}
+\label{sec:threats}
+\emph{Construct}: below the execution rung, ``improvement'' is preference by
+a model---bias-controlled at the blinded rung, but preference still; the
+paper's claims are rung-labeled everywhere so no reader need convert.
+\emph{Internal}: selection and rubric scoring share a model family (a fixed
+single-model design constraint), mitigated by the blinded protocol, the
+second-family replication, and the deterministic rungs; rubric baselines are
+leaderboard-anchored by design ($r=\swAnchorR$ with official rates), so
+between-agent baselines are inherited, within-agent deltas are the
+instrument's contribution. \emph{Contamination}: all repositories are public
+and predate training cutoffs~\citep{contamination2023}; blinding reduces but
+cannot eliminate recognition effects; execution would. \emph{External}: the
+sourceable slice of the leaderboard may differ from the closed slice.
+\emph{Statistical}: one seed, per-agent probe sets of 4--6, k=5 blinded
+repeats; every test's scope is stated next to it.
+
+\section{Discussion}
+\label{sec:discussion}
+Three findings are firm. \emph{First}, a gated two-phase loop improves real
+third-party agents at a cost and coverage no contemporary optimizer reports,
+and the improvement is a property of the code: blinding removes the
+narrative, and the preference survives on every patched agent, replicated by
+a second judge family. \emph{Second}, validation is a ladder, not a binary:
+each rung this study climbed either strengthened the claim (blinded,
+measured-noise, trajectory) or improved the method (the static rung's
+pre-gate)---the cheapest rungs did the most work per dollar. \emph{Third},
+the loop's selection-side outputs are assets independent of any score:
+diagnoses tied to recorded failures, \swVersions{} auditable why-records, and
+\swApplied{} reviewable patches that a maintainer can adjudicate directly.
+The boundary is stated once and plainly: none of this is an executed
+resolve-rate gain; \S\ref{sec:gap} prices exactly that upgrade, and the
+executed lineage of the same loop (v3/v6) is what licenses the expectation
+that gated selection transfers. The checklist of Fig.~\ref{fig:ladder} is the
+operational summary we would want every optimization paper---including
+ours---held to.
+
+\section{Limitations}
+\label{sec:limitations}
+One seed; one primary judge family plus one replication family; per-agent
+probe sets of 4--6 (the assumed-noise MDE column is the honest reminder of
+what small $n$ cannot certify); \swItersLow{} of \swN{} agents ran reduced
+iteration budgets under the cap; prompt surfaces are detected by content
+markers and under-detected for runtime-assembled scaffolds; blinded excerpts
+show up to four changed files per agent, so damage outside them is caught
+only by the static rung; between-agent baselines are anchored by design; and
+the execution rung is limited to the micro-arm of \S\ref{sec:gap}. What would
+strengthen the result most, in order: more executed instances, larger probe
+sets ($\ge$36), more seeds, a third judge provider.
+
+\section{Reproducibility and Release}
+\label{sec:repro}
+Everything regenerates from recorded artifacts: the TEI-SWE-30 manifest with
+URLs and SHAs, \texttt{PROVENANCE.md} (rule, funnel, the rejected
+31-reaching reading, spend), per-agent \texttt{tei/} records and branches,
+\texttt{blind\_reval.json} (every vote and reason, pre- and post-repair),
+\texttt{syntax\_audit*.json}, \texttt{validation\_passes.json} (noise,
+replication, trajectory), the audit and asset scripts, and the paper source
+whose every number is emitted by \texttt{make\_assets.py}. The pipeline
+sequence is documented in the release README; total spend, all passes
+included: \swCalls{} calls, \swTokIn/\swTokOut{} tokens, \swCostNom{} nominal
+/ \swCostCons{} conservative against the caps. The release bundle (public
+repository; datasets \texttt{tei-swe-30-why-records} and
+\texttt{tei-swe-30-blinded-votes}) is pointed to from the repository page of
+this paper; a ``use this to audit your own loop'' section shows how to run
+the blinded protocol and the pre-gate against any optimizer's diffs.
+
+\section{Ethics}
+\label{sec:ethics}
+All systems are public leaderboard submissions analyzed at recorded SHAs;
+nothing was pushed; patches live on local branches labeled machine-generated.
+Scores are model preferences about code, not judgments of the teams behind
+the systems. No key appears in any released file; spend was capped and
+metered. No human subjects; no private data.
+
+\section{Conclusion}
+\label{sec:conclusion}
+For about half a dollar per agent, a gated Target--Evaluate--Improve loop
+improved all \swN{} systems of a frozen, reviewer-reproducible slice of the
+SWE-bench leaderboard---\swApplied{} committed patches, every agent's judged
+quality up, and, decisively, \textbf{the patched code preferred under blinded
+re-evaluation on \swBlindMajP{} of \swBlindAgents{} patched agents}
+(\swBlindVotesP/\swBlindVotesN{} votes, $p\swBlindSign$), replicated by a
+second judge family, above measured noise floors on \swExceedFloor/\swN{}
+agents\MDEconc. The validation ladder that produced those guarantees also
+paid for itself in method: its free static rung caught a rare patch-damage
+mode that anchored scoring missed, now permanently closed by a compile
+pre-gate contributed to the deployed gate. Claims are stated at the rung that
+supports them---bias-controlled evidence of genuine improvement at the
+blinded rung, verified outcomes reserved for the execution rung whose price
+this paper quotes exactly. The set, the datasets, and the ladder are
+released; the next rung is a harness away.
+
+\small
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+\input{appendix}
+
+\end{document}

@@ -1,0 +1,31 @@
+From a3fdb6c6614319c275ff2d9836543798cbdd7877 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:43 -0700
+Subject: [PATCH 10/50] tei-v7 struct-11: Require explicit rejection evidence
+ for competing locations
+
+---
+ Orcar/prompts.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 3c17511..5aa4c46 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -47,6 +47,13 @@ BUG_OUTPUT = {
+             "method_name": "function_name",
+             "confidence": 0,
+             "evidence": [],
++            "rejected_alternatives": [
++                {
++                    "location": "",
++                    "reason_not_root_cause": "",
++                    "missing_evidence": ""
++                }
++            ],
+             "causal_role": "root_cause|propagation|test_or_regression"
+         }
+     "bug_locations": [
+-- 
+2.39.5 (Apple Git-154)
+

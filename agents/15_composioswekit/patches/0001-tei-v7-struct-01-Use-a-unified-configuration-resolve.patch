@@ -1,0 +1,28 @@
+From 5d8dea52cfeb7999bee8d5ce8abfb04d89cc5e52 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:48 -0700
+Subject: [PATCH 01/18] tei-v7 struct-01: Use a unified configuration resolver
+ with injected-config an
+
+---
+ .../src/workbench/python-helpers/composio_helper.py           | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index f358c87..e0229bd 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -29,7 +29,9 @@ RATE_LIMIT_PATTERNS = (
+ 
+ def _read_env(name, default=None):
+     value = os.environ.get(name)
+-    return default if value is None or value == "" else value
++    if value is None or value.strip() == "":
++        value = _INTERNAL.get(name.lower()) if isinstance(_INTERNAL, dict) else None
++    return default if value is None or str(value).strip() == "" else str(value).strip()
+ 
+ 
+ def _require_value(value, label):
+-- 
+2.39.5 (Apple Git-154)
+

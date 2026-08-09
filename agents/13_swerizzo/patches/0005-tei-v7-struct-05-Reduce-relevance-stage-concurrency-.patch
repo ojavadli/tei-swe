@@ -1,0 +1,26 @@
+From 256d6a0b112676e9717900e195da616d890043e1 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:56:56 -0700
+Subject: [PATCH 05/51] tei-v7 struct-05: Reduce relevance-stage concurrency to
+ improve deterministic
+
+---
+ codemonkeys/stages/context/relevance.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/stages/context/relevance.py b/codemonkeys/stages/context/relevance.py
+index cb315b1..7afa8b2 100644
+--- a/codemonkeys/stages/context/relevance.py
++++ b/codemonkeys/stages/context/relevance.py
+@@ -18,7 +18,7 @@ class RelevanceConfig(CodeMonkeysConfigWithLLM):
+     def __init__(self):
+         super().__init__()
+ 
+-        self.max_workers = 256
++        self.max_workers = 128
+         self.max_tokens = 8192
+         self.timeout = 3600.0
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,25 @@
+From 79db635b32ad06a3fe82e2bfcc5f7d3e5db0d5ae Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:56:56 -0700
+Subject: [PATCH 06/51] tei-v7 struct-06: Require self-critique before
+ accepting a sampled candidate
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index 11d01ed..dfa680e 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,6 +9,7 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
++Before presenting a candidate as final, explicitly compare the proposed behavior with the issue requirements, inspect likely hidden-test cases, and identify what existing tests do not exercise. If any requirement remains uncertain, revise the patch and add a targeted test before returning it.
+ Before finalizing an edit, verify that it addresses every requirement in the issue, preserves existing behavior outside the requested scope, handles edge cases and backward compatibility, and is covered by a focused regression test. Do not stop at making the provided example or visible test pass.
+ <files>
+ <file path="path/to/file1.py">
+-- 
+2.39.5 (Apple Git-154)
+

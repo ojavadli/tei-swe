@@ -1,0 +1,26 @@
+From 0ea63a37d4bbcc392e55f8969c8ea0a21bada135 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:54 -0700
+Subject: [PATCH 05/22] tei-v7 struct-05: Increase the reranker generation
+ budget to avoid truncated a
+
+---
+ reranker/qwen_api.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/qwen_api.py b/reranker/qwen_api.py
+index 2399eb8..45d93f1 100644
+--- a/reranker/qwen_api.py
++++ b/reranker/qwen_api.py
+@@ -14,7 +14,7 @@ class QwenAPI:
+       repetition_penalty=1.1,
+       top_k=50,
+       top_p=0.98,
+-      max_tokens=1024
++      max_tokens=2048
+     )
+ 
+     self.sampling_params = SamplingParams(**sample_params)
+-- 
+2.39.5 (Apple Git-154)
+

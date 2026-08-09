@@ -1,0 +1,25 @@
+From 2128a5cbd188e0ad6d0f740e1125c6bab08bbfec Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:19 -0700
+Subject: [PATCH 03/24] tei-v7 struct-06: Add reviewer guidance to the
+ supervisor graph surface
+
+---
+ src/agent/supervisor_graph_demo.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/agent/supervisor_graph_demo.py b/src/agent/supervisor_graph_demo.py
+index aaeadf2..2d971e3 100644
+--- a/src/agent/supervisor_graph_demo.py
++++ b/src/agent/supervisor_graph_demo.py
+@@ -19,6 +19,7 @@ from agent.llm import llm
+ from agent.prompt import (
+     ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT,
+     ISSUE_RESOLVE_PROBLEM_SOLVER_SYSTEM_PROMPT,
++    ISSUE_RESOLVE_REVIEWER_SYSTEM_PROMPT,
+     ISSUE_RESOLVE_SOLUTION_MAPPER_SYSTEM_PROMPT,
+     ISSUE_RESOLVE_SUPERVISOR_SYSTEM_PROMPT,
+ )
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 41015059015e3a542cf30444cd32dd14f7adaed7 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:54 -0700
+Subject: [PATCH 1/9] tei-v7 struct-01: Make retry backoff configurable and
+ substantially longer for
+
+---
+ aider/models.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/aider/models.py b/aider/models.py
+index a6f4559..ca57d99 100644
+--- a/aider/models.py
++++ b/aider/models.py
+@@ -23,7 +23,7 @@ from aider.openrouter import OpenRouterModelManager
+ from aider.sendchat import ensure_alternating_roles, sanity_check_messages
+ from aider.utils import check_pip_install_extra
+ 
+-RETRY_TIMEOUT = 60
++RETRY_TIMEOUT = int(os.environ.get("AIDER_RETRY_TIMEOUT", "180"))
+ 
+ request_timeout = 600
+ 
+-- 
+2.39.5 (Apple Git-154)
+

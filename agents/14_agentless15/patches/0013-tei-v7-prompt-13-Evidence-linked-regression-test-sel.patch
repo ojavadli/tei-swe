@@ -1,0 +1,26 @@
+From 2cc1d10adcdae36890aed468965e53a07a4521ce Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:04 -0700
+Subject: [PATCH 13/16] tei-v7 prompt-13: Evidence-linked regression test
+ selection
+
+---
+ agentless/test/select_regression_tests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless/test/select_regression_tests.py b/agentless/test/select_regression_tests.py
+index 87e9b4f..5bef923 100644
+--- a/agentless/test/select_regression_tests.py
++++ b/agentless/test/select_regression_tests.py
+@@ -23,7 +23,7 @@ Below are a list of existing tests in the repository.
+ {passing_tests}
+ ```
+ 
+-First derive a test-selection matrix from the issue: triggering inputs/setup, public or internal entry point, expected observable result, and relevant neighboring behavior. For each candidate, verify that its file, test function, fixtures, parametrization, and assertions cover at least one element of this matrix. Select the smallest set containing: (1) the most direct test that should fail before the fix, and (2) closely related tests that protect unchanged behavior. Reject tests that only share a module, name, fixture, or broad feature area. Prefer tests whose existing assertions can distinguish the reported incorrect behavior from the intended behavior. Return only test identifiers, one per line, with no explanations.
++First derive an evidence-linked test-selection matrix from the issue. Record the triggering inputs and setup, the exact public or internal entry point, the expected observable result, and relevant neighboring behavior. For every row, cite the repository file, symbol, fixture, parametrization, or assertion that supports it. Do not infer coverage from filenames or module proximity alone; if no existing test directly exercises a row, mark it as uncovered rather than treating a related test as sufficient. For each candidate, verify that its file, test function, fixtures, parametrization, and assertions cover at least one element of this matrix. Select the smallest set containing: (1) the most direct test that should fail before the fix, and (2) closely related tests that protect unchanged behavior. Reject tests that only share a module, name, fixture, or broad feature area. Prefer tests whose existing assertions can distinguish the reported incorrect behavior from the intended behavior. Return only test identifiers, one per line, with no explanations.
+ 
+ ### Example
+ ```
+-- 
+2.39.5 (Apple Git-154)
+

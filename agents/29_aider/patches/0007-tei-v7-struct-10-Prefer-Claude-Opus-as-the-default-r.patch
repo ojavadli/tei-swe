@@ -1,0 +1,26 @@
+From 7555d84c50c6b98e75f930055662b6d2de972e4d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:14:28 -0700
+Subject: [PATCH 7/9] tei-v7 struct-10: Prefer Claude Opus as the default
+ reasoning model
+
+---
+ aider/models.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/aider/models.py b/aider/models.py
+index 49bc752..e98282b 100644
+--- a/aider/models.py
++++ b/aider/models.py
+@@ -27,7 +27,7 @@ RETRY_TIMEOUT = int(os.environ.get("AIDER_RETRY_TIMEOUT", "180"))
+ 
+ request_timeout = int(os.environ.get("AIDER_REQUEST_TIMEOUT", "1200"))
+ 
+-DEFAULT_MODEL_NAME = "gpt-4o"
++DEFAULT_MODEL_NAME = "claude-3-opus"
+ ANTHROPIC_BETA_HEADER = "prompt-caching-2024-07-31,pdfs-2024-09-25"
+ 
+ OPENAI_MODELS = """
+-- 
+2.39.5 (Apple Git-154)
+

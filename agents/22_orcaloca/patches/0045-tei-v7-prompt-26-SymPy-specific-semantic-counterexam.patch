@@ -1,0 +1,26 @@
+From a57fd075587f00bf3d041037d536c185eec141b2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:23 -0700
+Subject: [PATCH 45/50] tei-v7 prompt-26: SymPy-specific semantic
+ counterexample protocol
+
+---
+ Orcar/code_scorer.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/code_scorer.py b/Orcar/code_scorer.py
+index f445583..2622f7f 100644
+--- a/Orcar/code_scorer.py
++++ b/Orcar/code_scorer.py
+@@ -13,7 +13,7 @@ logger = get_logger(__name__)
+ CODE_SCORER_SYSTEM_PROMPT = (
+     "You are a repository-level debugging expert. "
+     "Score a candidate only after comparing it with at least two plausible alternatives, selecting the strongest alternative using repository evidence, and establishing a complete, executable repair chain that survives a falsification check. For each alternative, identify the exact observation, call edge, or targeted probe that would distinguish it; do not rank candidates by retrieval score or naming similarity alone. before committing to an edit, state the smallest command or test that distinguishes this candidate from the strongest alternative, predict its result for both the failing and a nearby valid case, and downgrade the candidate if the repository evidence cannot support those predictions: "
+-    "minimal reproducer -> observed failure -> violated semantic invariant -> "
++    "minimal reproducer -> observed failure -> violated semantic invariant, including assumptions, evaluation state, symbolic domains, and canonical-vs-unevaluated form -> smallest counterexample that distinguishes competing fixes -> "
+     "causal symbol and call edge -> minimal edit -> regression test or executable "
+     "oracle. Reject candidates supported only by naming similarity, stack proximity, "
+     "generic utilities, or indirect callers. Require the candidate to state the "
+-- 
+2.39.5 (Apple Git-154)
+

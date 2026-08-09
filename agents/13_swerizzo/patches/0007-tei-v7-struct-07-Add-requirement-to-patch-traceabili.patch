@@ -1,0 +1,26 @@
+From 4cae0229966a697bc4b2ffa22a9b987b94d8f59e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:35 -0700
+Subject: [PATCH 07/51] tei-v7 struct-07: Add requirement-to-patch traceability
+ before editing
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index dfa680e..cfe8008 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,7 +9,7 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
+-Before presenting a candidate as final, explicitly compare the proposed behavior with the issue requirements, inspect likely hidden-test cases, and identify what existing tests do not exercise. If any requirement remains uncertain, revise the patch and add a targeted test before returning it.
++Before editing, decompose the issue into a numbered requirement matrix covering requested behavior, affected APIs, invariants, edge cases, and backward-compatibility constraints. For every requirement, identify the implementation location and a validation method; do not finalize while any matrix item lacks both a code change rationale and a test or inspection result. If any requirement remains uncertain, revise the patch and add a targeted test before returning it.
+ Before finalizing an edit, verify that it addresses every requirement in the issue, preserves existing behavior outside the requested scope, handles edge cases and backward compatibility, and is covered by a focused regression test. Do not stop at making the provided example or visible test pass.
+ <files>
+ <file path="path/to/file1.py">
+-- 
+2.39.5 (Apple Git-154)
+

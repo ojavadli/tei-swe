@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.79,
+    "reasoning_soundness": 0.75,
+    "execution_accuracy": 0.72,
+    "output_integrity": 0.81
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-13089",
+      "score": 0.93
+    },
+    {
+      "instance_id": "sympy__sympy-24213",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-13794",
+      "score": 0.27
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9229",
+      "score": 0.22
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incomplete issue localization and scope control",
+      "description": "The system can fail to identify all relevant files or the precise behavioral contract, leading to unresolved patches on repository-specific issues.",
+      "evidence_instance_ids": [
+        "django__django-13794",
+        "sphinx-doc__sphinx-9229"
+      ]
+    },
+    {
+      "name": "Insufficient framework-specific diagnosis",
+      "description": "Multi-agent analysis and historical guidance do not reliably produce a sound explanation for harder Django and Sphinx behaviors, resulting in incorrect or incomplete fixes.",
+      "evidence_instance_ids": [
+        "django__django-13794",
+        "sphinx-doc__sphinx-9229"
+      ]
+    },
+    {
+      "name": "Weak implementation validation and iteration",
+      "description": "The default workflow does not consistently catch failed assumptions through tests, focused reproduction, or follow-up edits; this is reflected by unresolved outcomes despite the available repository and editing tools.",
+      "evidence_instance_ids": [
+        "django__django-13794",
+        "sphinx-doc__sphinx-9229"
+      ]
+    }
+  ],
+  "why": "The two resolved probes show that the default multi-agent workflow can produce effective repository-level repairs, but the two unresolved probes demonstrate substantial brittleness on more difficult instances. Scores are therefore kept materially below 1.0 and calibrated to the reported 74.6% Pass@1 rate, with execution accuracy weakest because successful analysis does not consistently translate into a validated, correct patch.",
+  "aggregate": 0.7675,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-13089",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-24213",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-13794",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9229",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

@@ -1,0 +1,26 @@
+From 240a05b30d4f60f5ffeeba5f8a5bbe894d5485cb Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:18:45 -0700
+Subject: [PATCH 06/10] tei-v7 struct-07: Correct the escaped-whitespace fence
+ matcher so fallback ext
+
+---
+ src/swerl/agentless_mini/repair.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/swerl/agentless_mini/repair.py b/src/swerl/agentless_mini/repair.py
+index af14bcf..65b8c5a 100644
+--- a/src/swerl/agentless_mini/repair.py
++++ b/src/swerl/agentless_mini/repair.py
+@@ -27,7 +27,7 @@ def _resilient_extract_python_blocks(raw_output: str):
+     if commands:
+         return commands
+     recovered = []
+-    blocks = re.findall(r"```(?:python)?\\s*(.*?)```", raw_output, flags=re.IGNORECASE | re.DOTALL)
++    blocks = re.findall(r"```(?:python)?\s*(.*?)```", raw_output, flags=re.IGNORECASE | re.DOTALL)
+     for block in blocks:
+         try:
+             recovered.extend(_primary_extract_python_blocks(block))
+-- 
+2.39.5 (Apple Git-154)
+

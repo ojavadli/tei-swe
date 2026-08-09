@@ -1,0 +1,62 @@
+{
+  "agent": "15_composioswekit",
+  "system": "Composio SWE-Kit (2024-10-25)",
+  "rank": 15,
+  "resolve_rate": 48.6,
+  "score_label": "PROXY",
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  },
+  "baseline": 0.6275,
+  "best_structural": 0.665,
+  "best_structural_id": "struct-02",
+  "best_final": 0.685,
+  "best_final_id": "prompt-01",
+  "shipped": "prompt-01",
+  "confirmation": {
+    "n_queries": 4,
+    "cand_mean": 0.54,
+    "ref_mean": 0.4875,
+    "delta": 0.0525,
+    "wins": 4,
+    "losses": 0,
+    "sign_p": 0.125,
+    "margin_hoeffding": 0.679,
+    "mde": 0.297,
+    "insufficient_n": false,
+    "accept": true,
+    "reason": "mean not below reference; 4W/0L paired (sign p=0.125)",
+    "preflight": "Power check: with 4 eval queries, only mean-score changes >= ~0.30 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
+  },
+  "noise_floor": {
+    "paraphrase_aggregates": [
+      0.6275,
+      0.635,
+      0.625
+    ],
+    "noise_floor": 0.0075
+  },
+  "n_versions": 24,
+  "n_applied": 18,
+  "budget_after": {
+    "calls": 46,
+    "input_tokens": 63115,
+    "output_tokens": 77627,
+    "cost_nominal_usd": 0.8552,
+    "cost_conservative_usd": 1.7103,
+    "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+    "scale_downs": [
+      "iters 30->18 (projected $7.46) before 14_agentless15",
+      "iters 18->12 (projected $5.83) before 15_composioswekit"
+    ]
+  },
+  "noise_floor_method": "baseline-anchored orbit; identical calibration to candidate scoring",
+  "shipped_delta": 0.0575,
+  "gain_vs_noise_floor": "exceeds_noise_floor",
+  "below_mde": true,
+  "mde_note": "shipped delta 0.0575 vs MDE 0.297 at n=4: BELOW the minimum detectable effect - not statistically meaningful at this n"
+}

@@ -1,0 +1,26 @@
+From fd349c19e649c283825b7efbf137d53a7817aa6c Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:11 -0700
+Subject: [PATCH 12/13] tei-v7 struct-14: Force an explicit repository-tracing
+ phase before patch synt
+
+---
+ utils/oai.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index f4d73b5..0a78b1c 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -28,7 +28,7 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=900, te
+                         "role": "user",
+                         "content": (
+                             input_text
+-                            + "\n\nFirst infer the issue's exact behavioral contract, identify the relevant repository files and existing tests, and trace the current code path. Then implement the smallest compatible fix. Return a minimal unified diff patch only; do not merely describe the fix."
++                            + "\n\nBefore proposing any change, perform a repository-tracing phase: state the issue's observable behavioral contract, identify the exact entry points and tests involved, trace the current failing code path from input to output, and distinguish confirmed repository facts from hypotheses. Only then synthesize a patch grounded in those findings.. Then implement the smallest compatible fix. Return a minimal unified diff patch only; do not merely describe the fix."
+                         ),
+                     },
+                 ]
+-- 
+2.39.5 (Apple Git-154)
+

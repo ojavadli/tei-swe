@@ -1,0 +1,26 @@
+From e37d6b2bfb4f1fe92c48d19d91c75ffd135a469b Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:20:50 -0700
+Subject: [PATCH 07/13] tei-v7 prompt-11: Independent patch-versus-contract
+ validation
+
+---
+ ExpeRepair-v1.0/inference/validation.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ExpeRepair-v1.0/inference/validation.py b/ExpeRepair-v1.0/inference/validation.py
+index 2255715..070b589 100644
+--- a/ExpeRepair-v1.0/inference/validation.py
++++ b/ExpeRepair-v1.0/inference/validation.py
+@@ -8,7 +8,7 @@ import litellm
+ 
+ SYSTEM_PROMPT_W_REPO = "You are an expert software engineering evaluator analyzing patches for resolving GitHub issues in the {repo_name} project."
+ 
+-TASK_PROMPT_INITIAL = '''Since both the reproduction test and candidate patches may be unreliable, assess them independently and apply a strict validity gate. First reconstruct the issue's required behavior from the report and repository conventions. For every reproduction assertion, classify it as valid, invalid, or indeterminate and explain whether its expected result is supported by the issue or codebase. Ignore invalid and indeterminate assertions when judging a patch; never reward a patch merely because it makes a malformed test pass. Then evaluate whether the candidate changes fix the confirmed root cause, preserve existing behavior, and avoid unrelated modifications.
++TASK_PROMPT_INITIAL = '''Since both the reproduction test and candidate patches may be unreliable, assess them independently and apply a strict validity gate. First reconstruct the issue's required behavior from the report and repository conventions. For every reproduction assertion, classify it as valid, invalid, or indeterminate and explain whether its expected result is supported by the issue or codebase. Ignore invalid and indeterminate assertions when judging a patch; never reward a patch merely because it makes a malformed test pass. Then evaluate whether the candidate changes fix the confirmed root cause, preserve existing behavior, and avoid unrelated modifications. Reconstruct the relevant execution path independently rather than treating a passing generated test as proof. Check that the diff is actually applied to the intended files, changes executable source rather than only tests or comments, reaches the failing branch, and implements the required contract for normal inputs and the reported edge case. Reject patches that are no-ops, edit the wrong version or duplicate implementation, depend on an unproven test artifact, or pass only because the reproduction is malformed.
+ Your task is to:
+ 1. Evaluate the Reproduction Test:
+    - For each test case, determine whether its input is valid for verifying the patch. A test input is considered invalid if:
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,42 @@
+From 9d6f5147d385674489d34f67b962a0d497007178 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:42:18 -0700
+Subject: [PATCH 25/27] tei-v7 struct-28: Credibility threshold for planned
+ steps
+
+---
+ patchwork/common/multiturn_strategy/planning_strategy.py | 8 +++++++-
+ tei/candidates.jsonl                                     | 1 +
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/patchwork/common/multiturn_strategy/planning_strategy.py b/patchwork/common/multiturn_strategy/planning_strategy.py
+index 302cc5f..67fca70 100644
+--- a/patchwork/common/multiturn_strategy/planning_strategy.py
++++ b/patchwork/common/multiturn_strategy/planning_strategy.py
+@@ -28,7 +28,13 @@ class StepCompletedResult(BaseModel):
+ 
+     @property
+     def completion_is_credible(self) -> bool:
+-        return not self.is_step_completed or bool(self.validation_evidence.strip())
++        if not self.is_step_completed:
++            return True
++        evidence = self.validation_evidence.strip().lower()
++        return len(evidence) >= 20 and any(
++            marker in evidence
++            for marker in ("pytest", "test", "assert", "verified", "validation")
++        )
+ 
+ 
+ class PlanCompletedResult(BaseModel):
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index e4c20b6..0b648e2 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -24,3 +24,4 @@
+ {"version_id": "struct-24", "phase": "structural", "technique": "Normalize prompt identifiers before template lookup", "target_failure_mode": "Repository- and issue-type generalization failure", "expected_dimension": "target_alignment", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/steps/PreparePrompt/PreparePrompt.py", "find": "    if prompt_template_file is None or prompt_id is None:\n        return None", "replace": "    if prompt_template_file is None or prompt_id is None:\n        return None\n    prompt_id = prompt_id.strip()\n    if not prompt_id:\n        logger.warning(\"PromptId is empty after normalization\")\n        return None"}, "dimensions": {"target_alignment": 0.67, "reasoning_soundness": 0.59, "execution_accuracy": 0.47, "output_integrity": 0.54}, "aggregate": 0.5675, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.2}, {"instance_id": "django__django-11910", "score": 0.18}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "Normalization improves robustness across prompt identifier formatting and directly addresses generalization, especially for heterogeneous repositories, but it only fixes lookup hygiene and does not improve patch execution or completion validation."}
+ {"version_id": "struct-25", "phase": "structural", "technique": "Repository-aware bootstrap instruction", "target_failure_mode": "Repository- and issue-type generalization failure", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "        self.history: list[ChatCompletionMessageParam] = []", "replace": "        self.history: list[ChatCompletionMessageParam] = [{\n            \"role\": \"system\",\n            \"content\": (\n                \"First identify the repository, framework and version, issue type, relevant \"\n                \"conventions, and expected behavior. Inspect analogous code and tests before \"\n                \"editing. Make the smallest compatible patch, then run focused tests and \"\n     "}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.49, "output_integrity": 0.55}, "aggregate": 0.585, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.8}, {"instance_id": "sympy__sympy-15011", "score": 0.79}, {"instance_id": "django__django-11001", "score": 0.24}, {"instance_id": "django__django-11910", "score": 0.22}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0375, "why": "The repository-aware bootstrap directly addresses cross-repository and issue-type confusion, improving target selection and initial reasoning, especially on the Django probes. It does not materially solve patch execution or final validation."}
+ {"version_id": "struct-26", "phase": "structural", "technique": "Deterministic tool-schema ordering", "target_failure_mode": "Unreliable multi-step patch execution", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "        self.tool_set = {\n            name: tool\n            for name, tool in tool_set.items()\n            if tool is not None\n        }", "replace": "        self.tool_set = {\n            name: tool\n            for name, tool in sorted(\n                tool_set.items(),\n                key=lambda item: (item[0] == \"end\", item[0]),\n            )\n            if tool is not None\n        }"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.58, "execution_accuracy": 0.5, "output_integrity": 0.54}, "aggregate": 0.56, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.18}, {"instance_id": "django__django-11910", "score": 0.17}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0125, "why": "Stable tool ordering modestly improves reproducibility during multi-step execution, but it has little effect on repository understanding or validation. The gain is small because ordering alone does not ensure correct tool use or patch content."}
++{"version_id": "struct-27", "phase": "structural", "technique": "Evidence-bearing completion gate", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "output_integrity", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "    @field_validator(\"validation_evidence\")\n    @classmethod\n    def require_evidence_for_completed_step(cls, value, info):\n        if info.data.get(\"is_step_completed\") and not value.strip():\n            raise ValueError(\"Completed steps must include validation evidence\")\n        return value", "replace": "    @field_validator(\"validation_evidence\")\n    @classmethod\n    def require_evidence_for_completed_step(cls, value, info):\n        if info.data.get(\"is_step_completed\"):\n            evidence = value.strip()\n            if not evidence:\n                raise ValueError(\"Completed steps must include validation evidence\")\n            if not any(token in evidence.lower() for token in (\"test\", \"pytest"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.59, "execution_accuracy": 0.49, "output_integrity": 0.6}, "aggregate": 0.575, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.8}, {"instance_id": "sympy__sympy-15011", "score": 0.78}, {"instance_id": "django__django-11001", "score": 0.2}, {"instance_id": "django__django-11910", "score": 0.18}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0275, "why": "Requiring evidence for completed steps directly improves completion integrity and discourages unsupported success claims. It can slightly reduce execution throughput when the agent completes work without recording evidence, so the execution gain is limited."}
+-- 
+2.39.5 (Apple Git-154)
+

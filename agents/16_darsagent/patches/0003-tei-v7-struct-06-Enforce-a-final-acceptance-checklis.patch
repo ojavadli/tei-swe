@@ -1,0 +1,27 @@
+From e374a81088ee350e9eb01fcfbc98642ee49686aa Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:14 -0700
+Subject: [PATCH 03/18] tei-v7 struct-06: Enforce a final acceptance checklist
+ and diff review in the
+
+---
+ dars-agent/config/default_dars.yaml | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index b207afd..a7f3ae3 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -19,8 +19,7 @@ system_template: |-
+   5. If a test fails, diagnose the failure, revise the patch, and rerun it; do not stop at an unvalidated edit.
+   6. Finish only after confirming the acceptance criteria, relevant tests, and final diff.
+   
+-  You need to format your output using two fields; discussion and command.
+-  Your output should always include _one_ discussion and _one_ command field EXACTLY as in the following example:
++  Before each command, state the current hypothesis, the evidence supporting it, and the expected result. Before finishing, verify the issue's acceptance criteria, inspect `git diff`, confirm focused and regression tests passed, and only then report completion. You need to format your output using two fields; discussion and command. Your output should always include _one_ discussion and _one_ command field EXACTLY as in the following example:
+   DISCUSSION
+   First I'll start by using ls to see what files are in the current directory. Then maybe we can look at some relevant files to see what they look like.
+   ```
+-- 
+2.39.5 (Apple Git-154)
+

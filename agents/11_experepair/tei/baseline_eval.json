@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.74,
+    "reasoning_soundness": 0.68,
+    "execution_accuracy": 0.61,
+    "output_integrity": 0.79
+  },
+  "probe_scores": [
+    {
+      "instance_id": "sympy__sympy-13647",
+      "score": 0.82
+    },
+    {
+      "instance_id": "sympy__sympy-16792",
+      "score": 0.82
+    },
+    {
+      "instance_id": "django__django-11620",
+      "score": 0.24
+    },
+    {
+      "instance_id": "django__django-12497",
+      "score": 0.24
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incorrect repository localization",
+      "description": "The search stage must select relevant editable files from the repository structure; failures on both Django probes are consistent with localization errors or incomplete cause analysis.",
+      "evidence_instance_ids": [
+        "django__django-11620",
+        "django__django-12497"
+      ]
+    },
+    {
+      "name": "Unreliable reproduction or validation judgment",
+      "description": "The system relies on generated reproduction tests and an LLM validation stage, creating a failure mode when tests are invalid, incomplete, or misinterpreted.",
+      "evidence_instance_ids": [
+        "django__django-11620",
+        "django__django-12497"
+      ]
+    },
+    {
+      "name": "Patch generation or execution failure",
+      "description": "The unresolved outcomes indicate that analysis did not consistently produce and successfully apply a correct repository-level fix, despite the multi-agent repair workflow.",
+      "evidence_instance_ids": [
+        "django__django-11620",
+        "django__django-12497"
+      ]
+    }
+  ],
+  "why": "The observed 2/4 probe success rate is consistent with a system that has useful issue analysis and repair capability but substantial execution failures, and it is compatible with the reported 60.33% overall resolve rate. The explicit search, reproduction, and validation stages support the identified failure modes, while the two resolved SymPy probes show that the workflow can succeed on some instances.",
+  "aggregate": 0.705,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "sympy__sympy-13647",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-16792",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-11620",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-12497",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

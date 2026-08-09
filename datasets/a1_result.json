@@ -1,0 +1,36 @@
+{
+ "status": "ok",
+ "n_agents": 1,
+ "summary": "SWE-agent, 6 fixed-seed paired instances it previously attempted: baseline and patched arms each resolve 1/6 -- the same instance -- with 0 paired wins and 0 losses; the deployed gate confirms do-no-harm at the execution rung",
+ "ladder": "1 system executed: do-no-harm confirmed, 1/6 = 1/6 resolved",
+ "para": "Three attempts got one of the three statically-runnable systems all the way through real execution. Infrastructure: a headless Docker engine (colima), x86\\_64 instance images under Rosetta emulation, and the official SWE-bench evaluation harness. \\texttt{SWE-agent} then ran end-to-end in both arms on 6 fixed-seed paired instances drawn from those it previously attempted (agent model \\texttt{gpt-4o-mini}, \\$0.30/instance cap; rollout cost \\$0.95+\\$1.54): \\textbf{baseline 1/6 resolved, patched 1/6 resolved---the same instance---0 paired wins, 0 losses}; \\texttt{verify\\_candidate} accepts (do-no-harm \\emph{confirmed at the execution rung}: \\textsc{verified}), and at $n{=}6$ the preflight puts the detectable-gain bar far above anything a 6-instance arm can certify, so the correct execution-rung claim is exactly that pair of facts. One texture detail is itself evidence: the patched scaffold's added verification steps consumed more of the fixed per-instance budget (three cost-limit exits vs.\\ zero), a real cost--behavior trade the blinded rung cannot see. The other two runnable systems hit walls the timebox could not absorb: \\texttt{KGCompass} requires a Neo4j service its README assumes, and \\texttt{aider}'s SWE-bench runner lives in a separate repository with its own orchestration; both are documented, priced next steps rather than unknowns.",
+ "gate": {
+  "n_queries": 6,
+  "cand_mean": 0.1667,
+  "ref_mean": 0.1667,
+  "delta": 0.0,
+  "wins": 0,
+  "losses": 0,
+  "sign_p": 1.0,
+  "margin_hoeffding": 0.554,
+  "mde": 0.242,
+  "insufficient_n": false,
+  "accept": true,
+  "reason": "mean not below reference; 0W/0L paired (sign p=1.0)",
+  "preflight": "Power check: with 6 eval queries, only mean-score changes >= ~0.24 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
+ },
+ "instances": [
+  "sphinx-doc__sphinx-10449",
+  "matplotlib__matplotlib-24570",
+  "django__django-13112",
+  "pydata__xarray-6599",
+  "django__django-11292",
+  "matplotlib__matplotlib-23412"
+ ],
+ "patched_report": "_a1_patched.a1_patched.json",
+ "baseline_report": "_a1_baseline.a1_baseline.json",
+ "rollout_cost_usd": {
+  "patched": 0.9518347500000007,
+  "baseline": 1.5360510000000003
+ }
+}

@@ -1,0 +1,26 @@
+From c24e6a785ea6bca494330b5b361c56340e62aa76 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:42 -0700
+Subject: [PATCH 09/18] tei-v7 struct-12: Lower the default sampling
+ temperature for more deterministi
+
+---
+ dars-agent/sweagent/agent/models.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dars-agent/sweagent/agent/models.py b/dars-agent/sweagent/agent/models.py
+index 87b19cf..5925c9f 100644
+--- a/dars-agent/sweagent/agent/models.py
++++ b/dars-agent/sweagent/agent/models.py
+@@ -35,7 +35,7 @@ class ModelArguments(FrozenSerializable):
+     model_name: str
+     per_instance_cost_limit: float = 0.0
+     total_cost_limit: float = 0.0
+-    temperature: float = 1.0
++    temperature: float = 0.3
+     top_p: float = 1.0
+     replay_path: str | None = None
+     host_url: str = "localhost:11434"
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From ca509ae41125f93d0d156ead61ba4a4020dc9603 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:30 -0700
+Subject: [PATCH 21/51] tei-v7 struct-24: Reduce concurrent relevance pressure
+ to improve completion r
+
+---
+ codemonkeys/stages/context/relevance.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/stages/context/relevance.py b/codemonkeys/stages/context/relevance.py
+index 3c46ce3..21962af 100644
+--- a/codemonkeys/stages/context/relevance.py
++++ b/codemonkeys/stages/context/relevance.py
+@@ -20,7 +20,7 @@ class RelevanceConfig(CodeMonkeysConfigWithLLM):
+ 
+         # Keep concurrent context decisions below provider/container pressure so
+         # relevance calls finish reliably and downstream agents receive feedback.
+-        self.max_workers = 32
++        self.max_workers = 16
+         self.max_tokens = 8192
+         self.timeout = 7200.0
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,32 @@
+From 7f8d9d35564829c02ed6616127a286951fceab2d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:43 -0700
+Subject: [PATCH 07/13] tei-v7 struct-07: Select the editor by capability
+ instead of falling back to t
+
+---
+ utils/oai.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index e775880..7dfa7e2 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -17,10 +17,10 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=300, te
+             print("temp: ", temp)
+         try:
+             models = client.models.list().data
+-            model_name = next(
+-                (model.id for model in models if "72b" in model.id.lower()),
+-                models[0].id,
+-            )
++            if not models:
++                raise RuntimeError("No model is available from the configured endpoint")
++            editor_models = [model.id for model in models if "72b" in model.id.lower()]
++            model_name = editor_models[0] if editor_models else models[0].id
+             if system_prompt is None or system_prompt == "":
+                 message = [
+                     {
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,38 @@
+From 46022891fb6c6ba275c23a70f36c993bc6ef3e0e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:36:59 -0700
+Subject: [PATCH 02/28] tei-v7 struct-02: Make the localization API client
+ retry transient failures an
+
+---
+ kgcompass/llm_loc.py | 7 ++++++-
+ tei/candidates.jsonl | 1 +
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/kgcompass/llm_loc.py b/kgcompass/llm_loc.py
+index 743d503..eb40eaa 100644
+--- a/kgcompass/llm_loc.py
++++ b/kgcompass/llm_loc.py
+@@ -27,7 +27,12 @@ class PreFaultLocalization:
+         
+         self.model_name = MODEL_NAME
+         # Create a client instance pointing to the OpenAI-compatible endpoint
+-        self.client = openai.OpenAI(api_key=BAILIAN_API_KEY, base_url=DEEPSEEK_BASE_URL)
++        self.client = openai.OpenAI(
++            api_key=BAILIAN_API_KEY,
++            base_url=DEEPSEEK_BASE_URL,
++            max_retries=4,
++            timeout=180.0,
++        )
+ 
+     def _load_target_sample(self):
+         # 首先尝试从 KG location 文件加载（自定义仓库模式）
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index e69de29..4c3501e 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -0,0 +1 @@
++{"version_id": "struct-01", "phase": "structural", "technique": "Search all KG-location layouts instead of assuming one exact directory depth", "target_failure_mode": "Fault-localization or context-selection misses", "expected_dimension": "target_alignment", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "kg_location_files = glob.glob(f\"tests/{self.instance_id}_*/kg_locations/{self.instance_id}.json\")", "replace": "kg_location_files = sorted(set(\n            glob.glob(f\"tests/{self.instance_id}_*/kg_locations/{self.instance_id}.json\")\n            + glob.glob(f\"tests/**/{self.instance_id}.json\", recursive=True)\n            + glob.glob(f\"**/kg_locations/{self.instance_id}.json\", recursive=True)\n        ))"}, "dimensions": {"target_alignment": 0.73, "reasoning_soundness": 0.63, "execution_accuracy": 0.59, "output_integrity": 0.65}, "aggregate": 0.65, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.92}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.29}, {"instance_id": "django__django-11964", "score": 0.25}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0225, "why": "Broadening KG-location discovery directly addresses context-selection failures and should recover layouts missed by the fixed path assumption. The recursive searches add some false-positive and performance risk, so the gains are meaningful but limited."}
+-- 
+2.39.5 (Apple Git-154)
+

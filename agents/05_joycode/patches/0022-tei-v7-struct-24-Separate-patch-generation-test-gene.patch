@@ -1,0 +1,33 @@
+From 910aedd2ef5d9fc2c951e3d1a9b664b1080134d5 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:55 -0700
+Subject: [PATCH 22/47] tei-v7 struct-24: Separate patch generation, test
+ generation, and final audit
+
+---
+ llm_server/client_manager.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index a543a4f..aecc487 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -48,6 +48,15 @@ class ModelPurpose(Enum):
+     PATCH_REVIEW = "patch_review"
+     FINAL_DIFF_AUDIT = "final_diff_audit"
+     TEST_RESULT_REVIEW = "test_result_review"
++
++
++ROLE_BOUNDARIES = {
++    ModelPurpose.PATCH_GENERATION: "propose the smallest implementation change; do not invent tests as evidence",
++    ModelPurpose.TEST_GENERATION: "write a repository-native regression test; do not modify production behavior",
++    ModelPurpose.PATCH_REVIEW: "review behavior and scope; do not silently rewrite the patch",
++    ModelPurpose.FINAL_DIFF_AUDIT: "verify issue coverage, diff completeness, and test evidence only",
++    ModelPurpose.TEST_RESULT_REVIEW: "classify observed output; do not infer passing behavior from missing output",
++}
+     FINAL_DIFF_AUDIT = "final_diff_audit"
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

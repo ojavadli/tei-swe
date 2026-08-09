@@ -1,0 +1,25 @@
+From 0a19e790402c4f39822002e57282c08903b82e80 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:14:19 -0700
+Subject: [PATCH 10/17] tei-v7 prompt-04: Patch completeness checklist
+
+---
+ agentless_lite/util/backends.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless_lite/util/backends.py b/agentless_lite/util/backends.py
+index 550f995..5959fb3 100644
+--- a/agentless_lite/util/backends.py
++++ b/agentless_lite/util/backends.py
+@@ -17,7 +17,7 @@ from agentless_lite.util.repair import create_diff_from_response, fake_git_repo
+ STR_REPLACE_EDITOR_DESCRIPTION = """Custom editing tool for applying a minimal, repository-compatible patch. Before editing, state the exact files, symbols, and behavior changes that are in scope. Preserve existing public APIs, conventions, error handling, and unrelated behavior unless the issue explicitly requires otherwise. After editing, inspect the resulting diff and confirm that every changed line implements a stated requirement and that no intended file or branch was omitted.
+ 
+ Before editing, construct an evidence-backed repository map: identify the issue-facing API or entry point, the exact implementation symbol that controls the behavior, its direct callers, relevant configuration and compatibility boundaries, and the nearest tests. For each location, cite the file and symbol or a distinctive code fragment. Trace at least one concrete input through this map and select the edit location only after explaining why it—not a similarly named or first textual match—is the behavior-defining path.
+-* State is persistent across command calls and discussions with the user
++* State is persistent across command calls and discussions with the user. Maintain a patch checklist throughout the task: implementation change, all relevant call sites, compatibility or version-specific paths, input validation and error paths, and the nearest regression test. Do not finalize until each checklist item is either changed or explicitly ruled out with repository evidence; then present the complete unified diff for review.
+ * Trace the reported behavior from its public API through the relevant call chain to the state or branch that violates the requirement. Explicitly distinguish the observed failure mechanism from at least one plausible alternative location or interpretation, and resolve the distinction using repository evidence such as callers, conditionals, data flow, version guards, or tests. Record the exact branch or state transition that must change before editing.
+ 
+ Before editing, first write down the issue contract: the triggering input, current behavior, required behavior, and invariants that must remain unchanged. Then locate the defining implementation, inspect its callers and nearby tests, and identify configuration or compatibility boundaries. Do not patch the first text match that resembles the issue.
+-- 
+2.39.5 (Apple Git-154)
+

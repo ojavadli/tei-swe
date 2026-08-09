@@ -1,0 +1,26 @@
+From 6e144be03e6d6322b41075a8bee61831168de25b Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:56:56 -0700
+Subject: [PATCH 03/51] tei-v7 struct-03: Allow longer-running test-feedback
+ iterations
+
+---
+ codemonkeys/stages/context/relevance.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/stages/context/relevance.py b/codemonkeys/stages/context/relevance.py
+index cbdee69..c73b586 100644
+--- a/codemonkeys/stages/context/relevance.py
++++ b/codemonkeys/stages/context/relevance.py
+@@ -20,7 +20,7 @@ class RelevanceConfig(CodeMonkeysConfigWithLLM):
+ 
+         self.max_workers = 256
+         self.max_tokens = 8192
+-        self.timeout = 1800.0
++        self.timeout = 3600.0
+ 
+         # max problem statement is ~10k tokens, so we'll be under context length limit
+         self.max_file_tokens = 100_000
+-- 
+2.39.5 (Apple Git-154)
+

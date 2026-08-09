@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.46,
+    "reasoning_soundness": 0.39,
+    "execution_accuracy": 0.33,
+    "output_integrity": 0.58
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-11815",
+      "score": 0.78
+    },
+    {
+      "instance_id": "django__django-11583",
+      "score": 0.74
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-10451",
+      "score": 0.18
+    },
+    {
+      "instance_id": "django__django-14016",
+      "score": 0.15
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incorrect or incomplete patch implementation",
+      "description": "The system can generate a plausible repair but fails to produce a patch that fully satisfies the issue, as shown by unresolved outcomes.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-10451",
+        "django__django-14016"
+      ]
+    },
+    {
+      "name": "Insufficient repository-level localization and reasoning",
+      "description": "Despite RepoGraph-supported context retrieval and relevant-file prompting, the agent does not reliably identify and reason through the complete set of affected code paths.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-10451",
+        "django__django-14016"
+      ]
+    },
+    {
+      "name": "Weak validation against behavioral requirements",
+      "description": "The pipeline includes syntax, lint, and diff postprocessing, but these mechanical checks do not ensure semantic correctness, reflected in the unresolved probes.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-10451",
+        "django__django-14016"
+      ]
+    }
+  ],
+  "why": "The repository shows substantial support for context retrieval, structured editing, parsing, syntax checks, and patch postprocessing, so target alignment and output integrity are stronger than semantic execution. However, the recorded 29.67% overall resolve rate and two unresolved fixed probes require low-to-moderate scores for reasoning and especially execution accuracy; the two resolved probes indicate useful but inconsistent capability rather than dependable repair performance.",
+  "aggregate": 0.44,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-11815",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-11583",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-10451",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-14016",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

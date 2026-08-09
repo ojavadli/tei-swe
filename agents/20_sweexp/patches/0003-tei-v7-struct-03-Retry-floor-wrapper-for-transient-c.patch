@@ -1,0 +1,33 @@
+From eb1dcff5c266436e067e1ecb0776f63955c5d2c6 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:15:40 -0700
+Subject: [PATCH 03/11] tei-v7 struct-03: Retry-floor wrapper for transient
+ completion failures
+
+---
+ moatless/experience/exp_agent/exp_agent.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/moatless/experience/exp_agent/exp_agent.py b/moatless/experience/exp_agent/exp_agent.py
+index 4bd42d7..c048f19 100644
+--- a/moatless/experience/exp_agent/exp_agent.py
++++ b/moatless/experience/exp_agent/exp_agent.py
+@@ -18,11 +18,14 @@ from moatless.completion.completion import CompletionModel, LLMResponseFormat
+ from moatless.completion.model import Completion
+ from tenacity import (
+     retry,
+-    stop_after_attempt,
++    stop_after_attempt as _stop_after_attempt,
+     wait_fixed,
+     retry_if_exception_type,
+     before_sleep_log,
+ )
++
++def stop_after_attempt(attempts):
++    return _stop_after_attempt(max(attempts, 3))
+ from moatless.benchmark.utils import get_moatless_instance
+ from moatless.experience.get_save_json import get_json, save2json
+ from moatless.experience.prompts.exp_prompts import (
+-- 
+2.39.5 (Apple Git-154)
+

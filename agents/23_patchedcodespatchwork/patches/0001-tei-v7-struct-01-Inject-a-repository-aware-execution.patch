@@ -1,0 +1,393 @@
+From dffd551dce6c7812ed790a3d663efb38996e84ec Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:39:34 -0700
+Subject: [PATCH 01/27] tei-v7 struct-01: Inject a repository-aware execution
+ contract into every agen
+
+---
+ .../multiturn_strategy/agentic_strategy.py    |   5 +
+ tei/baseline_eval.json                        |  81 ++++++
+ tei/candidates.jsonl                          |   0
+ tei/onboarding.json                           | 260 ++++++++++++++++++
+ 4 files changed, 346 insertions(+)
+ create mode 100644 tei/baseline_eval.json
+ create mode 100644 tei/candidates.jsonl
+ create mode 100644 tei/onboarding.json
+
+diff --git a/patchwork/common/multiturn_strategy/agentic_strategy.py b/patchwork/common/multiturn_strategy/agentic_strategy.py
+index 10b5a0a..14316a4 100644
+--- a/patchwork/common/multiturn_strategy/agentic_strategy.py
++++ b/patchwork/common/multiturn_strategy/agentic_strategy.py
+@@ -27,6 +27,11 @@ class Role(abc.ABC):
+         self.response_tokens = 0
+ 
+     def generate_reply(self, message: str) -> str:
++        if not self.history:
++            self.history.append({
++                "role": "system",
++                "content": "Work repository-first: inspect the target repository's conventions, neighboring implementations, tests, and supported versions before editing. Prefer the smallest compatible patch and verify it with focused tests."
++            })
+         self.history.append(dict(role="user", content=message))
+         input_kwargs = dict(
+             messages=self.history,
+diff --git a/tei/baseline_eval.json b/tei/baseline_eval.json
+new file mode 100644
+index 0000000..af4c66e
+--- /dev/null
++++ b/tei/baseline_eval.json
+@@ -0,0 +1,81 @@
++{
++  "dimensions": {
++    "target_alignment": 0.62,
++    "reasoning_soundness": 0.57,
++    "execution_accuracy": 0.46,
++    "output_integrity": 0.54
++  },
++  "probe_scores": [
++    {
++      "instance_id": "sympy__sympy-20154",
++      "score": 0.78
++    },
++    {
++      "instance_id": "sympy__sympy-15011",
++      "score": 0.76
++    },
++    {
++      "instance_id": "django__django-11001",
++      "score": 0.18
++    },
++    {
++      "instance_id": "django__django-11910",
++      "score": 0.16
++    }
++  ],
++  "weakest_dimension": "execution_accuracy",
++  "failure_modes": [
++    {
++      "name": "Repository- and issue-type generalization failure",
++      "description": "The system resolved both sampled SymPy instances but failed both sampled Django instances, indicating weak transfer across repository conventions and issue domains.",
++      "evidence_instance_ids": [
++        "django__django-11001",
++        "django__django-11910"
++      ]
++    },
++    {
++      "name": "Unreliable multi-step patch execution",
++      "description": "Although the repository exposes planning, agentic roles, and code-edit tools, both Django probes remained unresolved, suggesting that planning does not reliably become a correct, applied, and validated patch.",
++      "evidence_instance_ids": [
++        "django__django-11001",
++        "django__django-11910"
++      ]
++    },
++    {
++      "name": "Insufficient completion or validation of final changes",
++      "description": "The unresolved outcomes are consistent with failures to finish the requested task or verify the resulting behavior, especially on the Django probes despite the system's structured prompt and tool surfaces.",
++      "evidence_instance_ids": [
++        "django__django-11001",
++        "django__django-11910"
++      ]
++    }
++  ],
++  "why": "The official 37.0% resolve rate indicates broad unreliability, and the fixed probes show only the two SymPy tasks resolved while both Django tasks failed. The prompt, planning, and agentic-tool code provides substantial capability surface, but the observed Django failures warrant materially lower execution and reasoning scores rather than near-perfect ratings.",
++  "aggregate": 0.5475,
++  "score_label": "PROXY",
++  "probes": [
++    {
++      "instance_id": "sympy__sympy-20154",
++      "archive_outcome": "resolved"
++    },
++    {
++      "instance_id": "sympy__sympy-15011",
++      "archive_outcome": "resolved"
++    },
++    {
++      "instance_id": "django__django-11001",
++      "archive_outcome": "unresolved_by_this_system"
++    },
++    {
++      "instance_id": "django__django-11910",
++      "archive_outcome": "unresolved_by_this_system"
++    }
++  ],
++  "runnability": {
++    "has_code": true,
++    "needs_docker": false,
++    "needs_gpu": true,
++    "tier": "PROXY",
++    "reason": "gpu/local-weights required"
++  }
++}
+\ No newline at end of file
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+new file mode 100644
+index 0000000..e69de29
+diff --git a/tei/onboarding.json b/tei/onboarding.json
+new file mode 100644
+index 0000000..956791d
+--- /dev/null
++++ b/tei/onboarding.json
+@@ -0,0 +1,260 @@
++{
++  "rank": 23,
++  "system": "Patched.Codes Patchwork",
++  "system_key": "patchedcodespatchwork",
++  "slug": "patchedcodespatchwork",
++  "split": "lite",
++  "submission_folder": "20250104_patched_codes_claude-3.5-sonnet-20241022",
++  "date": "2025-01-04",
++  "model": "claude-3-5-sonnet-20241022",
++  "resolved": 111,
++  "resolve_rate": 37.0,
++  "repo_url": "https://github.com/patched-codes/patchwork",
++  "repo_sha": "21948cbec44d3b7aec30715923ac7a0cd3fb1155",
++  "site_urls": [
++    "https://github.com/patched-codes/patchwork"
++  ],
++  "report_urls": [],
++  "archive_has_logs": false,
++  "archive_has_trajs": false,
++  "recorded_trajectories_available": 0,
++  "trajectory_note": "SWE-bench/experiments ships aggregate results only; logs/ and trajs/ are in a credentialed S3 bucket (archive README). No AWS access per owner directive, so 0 recorded trajectories were read.",
++  "resolved_instance_ids": [
++    "astropy__astropy-12907",
++    "astropy__astropy-14995",
++    "django__django-10914",
++    "django__django-10924",
++    "django__django-11039",
++    "django__django-11049",
++    "django__django-11099",
++    "django__django-11133",
++    "django__django-11179",
++    "django__django-11583",
++    "django__django-11620",
++    "django__django-11815",
++    "django__django-11999",
++    "django__django-12184",
++    "django__django-12284",
++    "django__django-12286",
++    "django__django-12453",
++    "django__django-12700",
++    "django__django-12915",
++    "django__django-12983",
++    "django__django-13028",
++    "django__django-13158",
++    "django__django-13230",
++    "django__django-13401",
++    "django__django-13447",
++    "django__django-13590",
++    "django__django-13658",
++    "django__django-13660",
++    "django__django-13710",
++    "django__django-13757",
++    "django__django-13925",
++    "django__django-13933",
++    "django__django-14016",
++    "django__django-14017",
++    "django__django-14238",
++    "django__django-14382",
++    "django__django-14608",
++    "django__django-14672",
++    "django__django-14752",
++    "django__django-14787",
++    "django__django-14855",
++    "django__django-14915",
++    "django__django-14999",
++    "django__django-15347",
++    "django__django-15400",
++    "django__django-15498",
++    "django__django-15789",
++    "django__django-15790",
++    "django__django-15814",
++    "django__django-15819",
++    "django__django-15851",
++    "django__django-16046",
++    "django__django-16139",
++    "django__django-16255",
++    "django__django-16379",
++    "django__django-16527",
++    "django__django-16595",
++    "django__django-16873",
++    "django__django-17051",
++    "django__django-17087",
++    "mwaskom__seaborn-3010",
++    "mwaskom__seaborn-3190",
++    "psf__requests-2317",
++    "psf__requests-2674",
++    "psf__requests-3362",
++    "psf__requests-863",
++    "pydata__xarray-5131",
++    "pylint-dev__pylint-5859",
++    "pylint-dev__pylint-7080",
++    "pylint-dev__pylint-7993",
++    "pytest-dev__pytest-11143",
++    "pytest-dev__pytest-5227",
++    "pytest-dev__pytest-5692",
++    "pytest-dev__pytest-7373",
++    "pytest-dev__pytest-7432",
++    "pytest-dev__pytest-7490",
++    "scikit-learn__scikit-learn-10297",
++    "scikit-learn__scikit-learn-12471",
++    "scikit-learn__scikit-learn-13241",
++    "scikit-learn__scikit-learn-13439",
++    "scikit-learn__scikit-learn-13496",
++    "scikit-learn__scikit-learn-13584",
++    "scikit-learn__scikit-learn-13779",
++    "scikit-learn__scikit-learn-14983",
++    "scikit-learn__scikit-learn-15535",
++    "scikit-learn__scikit-learn-25570",
++    "scikit-learn__scikit-learn-25747",
++    "sphinx-doc__sphinx-8595",
++    "sphinx-doc__sphinx-8713",
++    "sphinx-doc__sphinx-8721",
++    "sympy__sympy-12481",
++    "sympy__sympy-13471",
++    "sympy__sympy-13480",
++    "sympy__sympy-13647",
++    "sympy__sympy-13971",
++    "sympy__sympy-14774",
++    "sympy__sympy-15011",
++    "sympy__sympy-16792",
++    "sympy__sympy-17022",
++    "sympy__sympy-18532",
++    "sympy__sympy-18835",
++    "sympy__sympy-20154",
++    "sympy__sympy-20212",
++    "sympy__sympy-21055",
++    "sympy__sympy-21614",
++    "sympy__sympy-21847",
++    "sympy__sympy-22005",
++    "sympy__sympy-23117",
++    "sympy__sympy-24066",
++    "sympy__sympy-24152",
++    "sympy__sympy-24213"
++  ],
++  "n_resolved_ids": 111,
++  "prompt_surface": [
++    {
++      "path": "patchwork/steps/PreparePrompt/PreparePrompt.py",
++      "markers": 30,
++      "bytes": 3562,
++      "sample": "PROMPT_TEMPLATE"
++    },
++    {
++      "path": "patchwork/common/multiturn_strategy/agentic_strategy.py",
++      "markers": 17,
++      "bytes": 7028,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/common/multiturn_strategy/planning_strategy.py",
++      "markers": 11,
++      "bytes": 8439,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/steps/ManageEngineAgent/ManageEngineAgent.py",
++      "markers": 10,
++      "bytes": 3302,
++      "sample": "user_prompt"
++    },
++    {
++      "path": "patchwork/steps/SlackAgent/SlackAgent.py",
++      "markers": 10,
++      "bytes": 3833,
++      "sample": "user_prompt"
++    },
++    {
++      "path": "patchwork/steps/ZohoDeskAgent/ZohoDeskAgent.py",
++      "markers": 10,
++      "bytes": 4222,
++      "sample": "user_prompt"
++    },
++    {
++      "path": "patchwork/common/multiturn_strategy/agentic_strategy_v2.py",
++      "markers": 10,
++      "bytes": 6158,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/common/multiturn_strategy/analyze_implement.py",
++      "markers": 8,
++      "bytes": 4058,
++      "sample": "prompt_template"
++    },
++    {
++      "path": "patchwork/steps/SimplifiedLLMOnce/README.md",
++      "markers": 7,
++      "bytes": 4578,
++      "sample": "user_prompt"
++    },
++    {
++      "path": "patchwork/patchflows/ResolveIssue/ResolveIssue.py",
++      "markers": 7,
++      "bytes": 4694,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/steps/AgenticLLMV2/AgenticLLMV2.py",
++      "markers": 6,
++      "bytes": 1682,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/patchflows/LogAnalysis/LogAnalysis.py",
++      "markers": 6,
++      "bytes": 2779,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/patchflows/DependencyUpgrade/dependency_upgrade_prompt.json",
++      "markers": 5,
++      "bytes": 2495,
++      "sample": "role\": \"system"
++    },
++    {
++      "path": "patchwork/steps/AgenticLLM/AgenticLLM.py",
++      "markers": 4,
++      "bytes": 1314,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/patchflows/PRReview/pr_review_prompt.json",
++      "markers": 4,
++      "bytes": 1894,
++      "sample": "role\": \"system"
++    },
++    {
++      "path": "patchwork/steps/DatabaseAgent/DatabaseAgent.py",
++      "markers": 4,
++      "bytes": 1906,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/steps/GitHubAgent/GitHubAgent.py",
++      "markers": 4,
++      "bytes": 2319,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/steps/FileAgent/FileAgent.py",
++      "markers": 4,
++      "bytes": 2512,
++      "sample": "system_prompt"
++    },
++    {
++      "path": "patchwork/patchflows/PRReview/PRReview.py",
++      "markers": 4,
++      "bytes": 4930,
++      "sample": "user_prompt"
++    },
++    {
++      "path": "patchwork/steps/AgenticLLMV2/typed.py",
++      "markers": 3,
++      "bytes": 1284,
++      "sample": "system_prompt"
++    }
++  ],
++  "n_prompt_surface_files": 20,
++  "prompt_surface_method": "content-marker scan (system_template/system_prompt/'You are a'/...)"
++}
+\ No newline at end of file
+-- 
+2.39.5 (Apple Git-154)
+

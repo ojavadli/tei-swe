@@ -1,0 +1,59 @@
+{
+  "agent": "05_joycode",
+  "system": "JoyCode + Claude 4 Sonnet + GPT-4.1",
+  "rank": 5,
+  "resolve_rate": 74.6,
+  "score_label": "PROXY",
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  },
+  "baseline": 0.8275,
+  "best_structural": 0.8675,
+  "best_structural_id": "struct-04",
+  "best_final": 0.885,
+  "best_final_id": "prompt-19",
+  "shipped": "prompt-19",
+  "confirmation": {
+    "n_queries": 4,
+    "cand_mean": 0.6125,
+    "ref_mean": 0.5725,
+    "delta": 0.04,
+    "wins": 4,
+    "losses": 0,
+    "sign_p": 0.125,
+    "margin_hoeffding": 0.679,
+    "mde": 0.297,
+    "insufficient_n": false,
+    "accept": true,
+    "reason": "mean not below reference; 4W/0L paired (sign p=0.125)",
+    "preflight": "Power check: with 4 eval queries, only mean-score changes >= ~0.30 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
+  },
+  "noise_floor": {
+    "paraphrase_aggregates": [
+      0.8275,
+      0.835,
+      0.82
+    ],
+    "noise_floor": 0.0075
+  },
+  "n_versions": 60,
+  "n_applied": 46,
+  "budget_after": {
+    "calls": 22,
+    "input_tokens": 29300,
+    "output_tokens": 39293,
+    "cost_nominal_usd": 0.4296,
+    "cost_conservative_usd": 0.8591,
+    "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+    "scale_downs": []
+  },
+  "noise_floor_method": "baseline-anchored orbit; identical calibration to candidate scoring",
+  "shipped_delta": 0.0575,
+  "gain_vs_noise_floor": "exceeds_noise_floor",
+  "below_mde": true,
+  "mde_note": "shipped delta 0.0575 vs MDE 0.297 at n=4: BELOW the minimum detectable effect - not statistically meaningful at this n"
+}

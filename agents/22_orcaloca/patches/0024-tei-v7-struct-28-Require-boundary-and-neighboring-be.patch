@@ -1,0 +1,26 @@
+From 26983f0655d42b897c325d9cc69323b081f9ac18 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:09 -0700
+Subject: [PATCH 24/50] tei-v7 struct-28: Require boundary and
+ neighboring-behavior evidence in the re
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 09aa9be..3f99311 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -2,7 +2,7 @@ STEP_EXAMPLE = {
+     "execution_gate": {
+         "before_patch": "record the exact failing command, exit status, exception, relevant output, repository revision, and a minimal reproducer whose failure is independently confirmed",
+         "after_patch": "run the smallest regression oracle first",
+-        "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test"],
++        "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test", "alternate representation or assumption", "interaction with the nearest caller"],
+         "acceptance_rule": "do not report resolved unless the original failure is fixed and compatibility checks pass",
+         "recovery_rule": "if any check fails, record the failing oracle and revert the hypothesis; generate at least one competing causal hypothesis, rerun localization with the failed evidence, and apply a new minimal patch rather than widening the original patch"
+     },
+-- 
+2.39.5 (Apple Git-154)
+

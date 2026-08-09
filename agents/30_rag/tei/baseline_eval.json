@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.24,
+    "reasoning_soundness": 0.2,
+    "execution_accuracy": 0.08,
+    "output_integrity": 0.32
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-10914",
+      "score": 0.82
+    },
+    {
+      "instance_id": "sympy__sympy-21847",
+      "score": 0.82
+    },
+    {
+      "instance_id": "django__django-16116",
+      "score": 0.05
+    },
+    {
+      "instance_id": "pydata__xarray-3677",
+      "score": 0.05
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Low instance-level solve reliability",
+      "description": "The system resolves only 35 verified instances, a 7.0% rate, indicating that successful issue understanding does not consistently become a correct repository change.",
+      "evidence_instance_ids": [
+        "django__django-16116",
+        "pydata__xarray-3677"
+      ]
+    },
+    {
+      "name": "Weak cross-instance generalization",
+      "description": "It resolves one Django instance but fails another, showing that success on a repository or framework does not reliably transfer to a different issue in the same codebase.",
+      "evidence_instance_ids": [
+        "django__django-10914",
+        "django__django-16116"
+      ]
+    },
+    {
+      "name": "Inconsistent cross-repository execution",
+      "description": "The system succeeds on the SymPy probe but fails on the Xarray probe, indicating unreliable adaptation to repository-specific code, tests, and conventions.",
+      "evidence_instance_ids": [
+        "sympy__sympy-21847",
+        "pydata__xarray-3677"
+      ]
+    }
+  ],
+  "why": "The two resolved probes show that RAG plus Claude 3 Opus can occasionally produce a correct result, but the official verified resolve rate is only 35 instances (7.0%), so execution accuracy and overall TEI must remain low. The two unresolved probes, including one from Django despite another Django success, provide direct evidence of substantial instance-level and cross-issue inconsistency.",
+  "aggregate": 0.21,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-10914",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-21847",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-16116",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "pydata__xarray-3677",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  }
+}

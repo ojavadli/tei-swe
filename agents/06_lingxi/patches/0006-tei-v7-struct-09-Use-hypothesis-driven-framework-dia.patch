@@ -1,0 +1,31 @@
+From 53ef3dacef6dc986000035a24e74bf8387483270 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:54 -0700
+Subject: [PATCH 06/24] tei-v7 struct-09: Use hypothesis-driven framework
+ diagnosis with competing exp
+
+---
+ src/agent/prompt/__init__.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index 6d78a95..ed324be 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -10,8 +10,12 @@ ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT = _BASE_PROBLEM_DECODER_PROMPT + """
+ Before proposing a fix, produce an explicit scope map: relevant files, symbols, callers, tests, and configuration surfaces. Separate confirmed facts from hypotheses, state the precise behavioral contract and non-goals, and identify any repository paths that must be inspected before implementation.
+ """
+ from .problem_solver import (
+-    ISSUE_RESOLVE_PROBLEM_SOLVER_SYSTEM_PROMPT,
++    ISSUE_RESOLVE_PROBLEM_SOLVER_SYSTEM_PROMPT as _BASE_PROBLEM_SOLVER_PROMPT,
+ )
++ISSUE_RESOLVE_PROBLEM_SOLVER_SYSTEM_PROMPT = _BASE_PROBLEM_SOLVER_PROMPT + """
++
++For framework behavior, list at least two competing causal hypotheses. For each, cite the relevant framework lifecycle, dispatch, parsing, caching, or configuration code; propose a minimal discriminating reproduction or test; and only choose an implementation after explaining why the observed behavior rules out the alternatives. Do not infer framework semantics from names alone.
++"""
+ from .reviewer import (
+     ISSUE_RESOLVE_REVIEWER_SYSTEM_PROMPT,
+ )
+-- 
+2.39.5 (Apple Git-154)
+

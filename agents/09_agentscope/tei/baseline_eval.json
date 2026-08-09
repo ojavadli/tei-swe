@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.68,
+    "reasoning_soundness": 0.62,
+    "execution_accuracy": 0.6,
+    "output_integrity": 0.65
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-14999",
+      "score": 0.84
+    },
+    {
+      "instance_id": "django__django-14580",
+      "score": 0.82
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8056",
+      "score": 0.28
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "score": 0.24
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Cross-repository generalization failure",
+      "description": "The system resolved both Django probes but failed on the Sphinx and Seaborn probes, indicating inconsistent transfer across repository ecosystems.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-8056",
+        "mwaskom__seaborn-3187"
+      ]
+    },
+    {
+      "name": "Insufficient issue-specific patch execution",
+      "description": "The unresolved Sphinx and Seaborn outcomes suggest that identifying or implementing the required repository-specific changes is unreliable.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-8056",
+        "mwaskom__seaborn-3187"
+      ]
+    },
+    {
+      "name": "Weak validation of completed fixes",
+      "description": "The two unresolved outcomes indicate that the default workflow does not consistently produce a verified, task-complete result outside the successful Django cases.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-8056",
+        "mwaskom__seaborn-3187"
+      ]
+    }
+  ],
+  "why": "The fixed probes show 2 of 4 resolved, while the broader verified split reports a 63.4% resolve rate, so the dimensions are kept moderate rather than near-perfect. The successful Django cases show useful task alignment, but failures on Sphinx and Seaborn materially reduce reasoning, execution, and output confidence for the unmodified system.",
+  "aggregate": 0.6375,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-14999",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-14580",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8056",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

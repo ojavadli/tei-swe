@@ -1,0 +1,36 @@
+From de766321ea048299a068daa8c72074af7fbe3049 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:55 -0700
+Subject: [PATCH 18/47] tei-v7 struct-20: Introduce failure-specific retry
+ policies instead of generic
+
+---
+ llm_server/client_manager.py | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index 0c5ffbb..a543a4f 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -24,6 +24,18 @@ class FailureKind(Enum):
+     UNKNOWN = "unknown"
+ 
+ 
++RECOVERY_POLICY = {
++    FailureKind.IMPLEMENTATION: {"action": "reinspect_call_path", "allow_same_patch": False},
++    FailureKind.REGRESSION_TEST: {"action": "minimize_and_run_regression", "allow_same_patch": False},
++    FailureKind.TEST_DISCOVERY: {"action": "discover_repository_test_command", "allow_same_patch": True},
++    FailureKind.DEPENDENCY_OR_RUNTIME: {"action": "repair_runtime_or_narrow_test", "allow_same_patch": True},
++    FailureKind.ENVIRONMENT: {"action": "recreate_clean_execution_context", "allow_same_patch": True},
++    FailureKind.TIMEOUT: {"action": "split_validation_and_reduce_scope", "allow_same_patch": True},
++    FailureKind.PATCH_FORMAT: {"action": "regenerate_unified_diff", "allow_same_patch": False},
++    FailureKind.INCOMPLETE_PATCH: {"action": "audit_issue_requirements_and_diff", "allow_same_patch": False},
++}
++
++
+ class ModelPurpose(Enum):
+     """Model Usage Enumeration"""
+     REPOSITORY_TRIAGE = "repository_triage"
+-- 
+2.39.5 (Apple Git-154)
+

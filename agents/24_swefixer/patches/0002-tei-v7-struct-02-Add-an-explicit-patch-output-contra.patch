@@ -1,0 +1,33 @@
+From d23ce2e92e3c1a43b97e357530f1574a33a18abb Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:07 -0700
+Subject: [PATCH 02/13] tei-v7 struct-02: Add an explicit patch-output contract
+ to the user request
+
+---
+ utils/oai.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index c9b1acd..eff3646 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -23,7 +23,14 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=300, te
+             )
+             if system_prompt is None or system_prompt == "":
+                 message = [
+-                    {"role": "user", "content": input_text},
++                    {
++                        "role": "user",
++                        "content": (
++                            input_text
++                            + "\n\nReturn a minimal unified diff patch only. "
++                            "Do not merely describe the fix."
++                        ),
++                    },
+                 ]
+             else:
+                 message = [
+-- 
+2.39.5 (Apple Git-154)
+

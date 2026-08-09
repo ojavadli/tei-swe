@@ -1,0 +1,25 @@
+From 5a99c449b121bbea907be76bd6d86849603b5153 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:00:32 -0700
+Subject: [PATCH 27/50] tei-v7 prompt-01: Evidence-locked execution gate
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index c4a83e7..06e0b66 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -3,7 +3,7 @@ STEP_EXAMPLE = {
+         "before_patch": "record the exact failing command, exit status, exception, relevant output, repository revision, and a minimal reproducer whose failure is independently confirmed",
+         "after_patch": "run the smallest regression oracle first",
+         "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test", "alternate representation or assumption", "interaction with the nearest caller"],
+-        "acceptance_rule": "do not report resolved unless the original failing command is rerun, the exact expected output or exception is observed, the regression oracle passes, all compatibility checks pass, and the applied diff is minimal; otherwise report unresolved with the failing evidence",
++        "acceptance_rule": "A patch is resolved only when: (1) the pre-patch failure is reproduced with a recorded command, input, exception or output, and exit status; (2) the patch is applied to the intended symbol and the diff is inspected; (3) the exact original command is rerun and now produces the stated expected output or exception; (4) a focused regression test passes; (5) at least one nearby valid case and one boundary or nested case pass; and (6) the final diff contains no unrelated changes. If any item is missing or fails, report unresolved, preserve the failing evidence, and do not claim success.",
+         "recovery_rule": "if any check fails, record the failing oracle and revert the hypothesis; generate at least one competing causal hypothesis, rerun localization with the failed evidence, and apply a new minimal patch rather than widening the original patch"
+     },
+     "patch_contract": {
+-- 
+2.39.5 (Apple Git-154)
+

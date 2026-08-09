@@ -1,0 +1,26 @@
+From 455042bd176bc1c7829562df0a6925db467760b8 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:20:50 -0700
+Subject: [PATCH 06/13] tei-v7 prompt-08: Candidate localization by falsifiable
+ hypotheses
+
+---
+ ExpeRepair-v1.0/agents/agent_search.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ExpeRepair-v1.0/agents/agent_search.py b/ExpeRepair-v1.0/agents/agent_search.py
+index e865309..cd02573 100644
+--- a/ExpeRepair-v1.0/agents/agent_search.py
++++ b/ExpeRepair-v1.0/agents/agent_search.py
+@@ -9,7 +9,7 @@ GENERAL_SYSTEM_PROMPT_W_REPO = ("As a software developer maintaining the GitHub
+                                 "you are responsible for analyzing a submitted issue and identifying the exact location in the repository where the issue occurs.")
+ 
+ 
+-SELECT_FILE_PROMPT_INITIAL = """First decompose the issue into: (a) the externally observed incorrect behavior, (b) the expected behavior, (c) the triggering code path, and (d) the smallest likely fix. Explicitly trace the call chain from the public API, command, model, or configuration named in the issue to the suspected defect. For each link, cite the relevant symbol and its full repository path. Distinguish implementation files from tests, documentation, generated code, vendored code, and compatibility shims; select an implementation file only when the trace provides evidence that it can contain the behavior or fix. Trace that behavior from the public API or user-visible entry point through the repository structure. Identify the concrete classes, functions, methods, or configuration entries that must be inspected, and use filenames only when supported by this trace. Then rank TEN candidate editable files by the strength of repository evidence that they contain the defect or required fix. Do not select files merely because their names resemble issue keywords.
++SELECT_FILE_PROMPT_INITIAL = """First decompose the issue into: (a) the externally observed incorrect behavior, (b) the expected behavior, (c) the triggering code path, and (d) the smallest likely fix. Explicitly trace the call chain from the public API, command, model, or configuration named in the issue to the suspected defect. For each link, cite the relevant symbol and its full repository path. Distinguish implementation files from tests, documentation, generated code, vendored code, and compatibility shims; select an implementation file only when the trace provides evidence that it can contain the behavior or fix. Trace that behavior from the public API or user-visible entry point through the repository structure. Identify the concrete classes, functions, methods, or configuration entries that must be inspected, and use filenames only when supported by this trace. Then rank TEN candidate editable files by the strength of repository evidence that they contain the defect or required fix. Do not select files merely because their names resemble issue keywords. For every selected file, provide a falsifiable hypothesis in the form: symbol or code path, relevant behavior, why this file can cause the observed failure, and what evidence would disqualify it. Prefer files containing the behavior-changing branch, normalization, lookup, validation, or state transition over callers that only pass arguments through. If the issue could involve multiple versions or backends, compare their implementations and explain why the selected file is the active path.
+ 
+ IMPORTANT:
+ 1. Select files ONLY FROM THE PROVIDED LIST and specify their FULL PATHS, starting from the root directory. Do not include any test files.
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 5c9122838dd49c8364b6dfd45b489de0a281380d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:55 -0700
+Subject: [PATCH 20/47] tei-v7 struct-22: Add a repository-specific
+ test-discovery gate before patch a
+
+---
+ utils/dynamic_agent.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index 8c994e8..2363587 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -25,6 +25,8 @@ class PromptTemplate:
+         "Before editing, perform a repository-local triage: read CONTRIBUTING, README, "
+         "pyproject/setup configuration, ownership boundaries, supported runtimes, and "
+         "the issue's nearest implementation and test files. Identify the failing behavior, "
++        "the repository's authoritative test runner, collection syntax, required working "
++        "directory, and any project-specific test-selection conventions before editing. "
+         "the public API or command involved, and the smallest relevant test command. Record "
+         "exact file paths, symbols, and expected-vs-actual behavior. Do not import patterns "
+         "from another repository. Before patching, state one minimal hypothesis and one "
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,25 @@
+From 107a8f0bbdd9b0d958ac5053be98f864addbebcd Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:09:11 -0700
+Subject: [PATCH 11/22] tei-v7 struct-12: Add a repository-convention discovery
+ phase that requires se
+
+---
+ config/benchmarks/250212_sweagent_heavy_sbl.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/config/benchmarks/250212_sweagent_heavy_sbl.yaml b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+index ee913be..5798d65 100644
+--- a/config/benchmarks/250212_sweagent_heavy_sbl.yaml
++++ b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+@@ -19,6 +19,7 @@ agent:
+       templates:
+         system_template: &system_template |-
+           You are a helpful assistant that can interact with a computer to solve tasks.
++          First discover repository-specific conventions: search neighboring implementations, compatibility branches, validation and error-message patterns, and the project’s test helpers. Align the fix with those conventions and add regression coverage for the issue’s distinctive edge cases.
+           For every behavior change, write an edge-case matrix before coding: normal, empty or missing, invalid, boundary, repeated, and backward-compatible inputs. Derive expected outcomes from repository conventions, nearby implementations, and existing tests rather than inventing new semantics.
+           Before final submission, perform a requirements-to-diff audit: map every issue requirement to the changed code and at least one relevant test, check for regressions and unintended files, and do not submit until the final diff and validation results are internally consistent.
+           Validation is iterative, not one-shot: run focused tests after the edit, inspect every failure and traceback, classify the cause, repair actionable defects, and rerun the focused tests. Then run the narrowest broader regression set relevant to the changed code before submitting.
+-- 
+2.39.5 (Apple Git-154)
+

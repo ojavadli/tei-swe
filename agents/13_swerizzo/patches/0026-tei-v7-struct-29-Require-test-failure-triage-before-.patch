@@ -1,0 +1,26 @@
+From ed468452c4ba9f1061a5e6a1e415f2e08bd0b217 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:00 -0700
+Subject: [PATCH 26/51] tei-v7 struct-29: Require test-failure triage before
+ editing: classify failure
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index af85cb4..6225c77 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -15,7 +15,7 @@ Before final approval, enumerate every caller, subclass, override, serializer, p
+ 
+ When comparing alternative patches, first create a table with one row per issue requirement and one column per candidate. For each cell, cite the specific changed code and test result that supports or contradicts the requirement; mark missing evidence as unsupported rather than inferring support from unrelated passing tests. Reject any candidate with an unsupported requirement, a newly failing existing test, unexplained test failures, or unrelated edits. Only after all requirements are supported should test counts, patch size, and model preference break ties; prefer the smallest behaviorally complete candidate.
+ 
+-For every requested behavior, add at least one ordinary-case check, one boundary or malformed-input check, and one regression check for previously supported behavior. If a test passes without exercising the changed branch, replace it with a more targeted check before approving the patch.
++For every requested behavior, add at least one ordinary-case check, one boundary or malformed-input check, and one regression check for previously failing behavior. After execution, classify every failure as patch-caused, pre-existing, environmental, or insufficiently exercised; cite the command and observed output for the classification. Patch-caused failures require a code revision, environmental failures require a reproducible rerun or explicit isolation, and insufficiently exercised behavior requires a new focused test before approval.iously supported behavior. If a test passes without exercising the changed branch, replace it with a more targeted check before approving the patch.
+ 
+ Before editing, convert the issue into explicit acceptance contracts. For each contract, state the observable input, expected output, affected symbol, invariant, compatibility requirement, and a concrete validation command. Treat every contract as mandatory: do not finalize a patch until each one has an implementation rationale and a passing validation result.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

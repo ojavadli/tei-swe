@@ -1,0 +1,34 @@
+From ecb5e3f8fc5a61b51b6fdca40f8d28a1fa933666 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:07 -0700
+Subject: [PATCH 03/13] tei-v7 struct-03: Inject a repository-grounding
+ checklist into the system inst
+
+---
+ utils/oai.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index eff3646..7b2ea39 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -34,7 +34,15 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=300, te
+                 ]
+             else:
+                 message = [
+-                    {"role": "system", "content": system_prompt},
++                    {
++                        "role": "system",
++                        "content": (
++                            system_prompt
++                            + "\nGround every change in the reported issue, repository code, "
++                            "existing conventions, and relevant tests. Inspect before editing; "
++                            "avoid generic or speculative fixes."
++                        ),
++                    },
+                     {"role": "user", "content": input_text},
+                 ]
+             response = client.chat.completions.create(
+-- 
+2.39.5 (Apple Git-154)
+

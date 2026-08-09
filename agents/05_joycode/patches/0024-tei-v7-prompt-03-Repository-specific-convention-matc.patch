@@ -1,0 +1,26 @@
+From c5c4ea64f42ad9ab476de8d7b57e5212481fbb92 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:45 -0700
+Subject: [PATCH 24/47] tei-v7 prompt-03: Repository-specific convention
+ matching
+
+---
+ utils/dynamic_agent.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index fb94951..226a696 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -24,7 +24,7 @@ class PromptTemplate:
+     PREFLIGHT_REQUIREMENTS = (
+         "Before editing, convert the issue into an explicit implementation contract: enumerate every requested behavior, affected public API or internal invariant, edge case, backward-compatibility constraint, and acceptance criterion. For each item, identify the exact repository file, symbol, and test that should change or verify it. Then perform repository-local triage by reading CONTRIBUTING, README, "
+         "pyproject/setup configuration, ownership boundaries, supported runtimes, and "
+-        "the issue's nearest implementation and test files. Identify the failing behavior, "
++        "the issue's nearest implementation and test files, plus analogous fixes and tests already present in this repository. Prefer the repository's established abstractions, naming, compatibility patterns, and test idioms over generic framework assumptions. Identify the failing behavior, "
+         "the repository's authoritative test runner, collection syntax, required working "
+         "directory, and any project-specific test-selection conventions before editing. "
+         "the public API or command involved, and the smallest relevant test command. Record "
+-- 
+2.39.5 (Apple Git-154)
+

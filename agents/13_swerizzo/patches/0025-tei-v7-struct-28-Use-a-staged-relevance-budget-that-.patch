@@ -1,0 +1,38 @@
+From 0be8a810b5f8fa94f46dc0670524daea868016e4 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:00 -0700
+Subject: [PATCH 25/51] tei-v7 struct-28: Use a staged relevance budget that
+ limits concurrent context
+
+---
+ codemonkeys/stages/context/relevance.py | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/codemonkeys/stages/context/relevance.py b/codemonkeys/stages/context/relevance.py
+index 21962af..6acd1cf 100644
+--- a/codemonkeys/stages/context/relevance.py
++++ b/codemonkeys/stages/context/relevance.py
+@@ -18,14 +18,15 @@ class RelevanceConfig(CodeMonkeysConfigWithLLM):
+     def __init__(self):
+         super().__init__()
+ 
+-        # Keep concurrent context decisions below provider/container pressure so
+-        # relevance calls finish reliably and downstream agents receive feedback.
+-        self.max_workers = 16
++        # Keep context decisions conservative so every selected file is evaluated
++        # reliably and the editor receives complete, high-signal evidence.
++        self.max_workers = 8
+         self.max_tokens = 8192
+         self.timeout = 7200.0
+ 
+-        # max problem statement is ~10k tokens, so we'll be under context length limit
+-        self.max_file_tokens = 150_000
++        # Reserve context for issue details, callers, and test feedback instead of
++        # allowing one large file to crowd out the rest of the repository evidence.
++        self.max_file_tokens = 60_000
+ 
+ 
+ def _parse_response(response: str) -> RelevanceDecision:
+-- 
+2.39.5 (Apple Git-154)
+

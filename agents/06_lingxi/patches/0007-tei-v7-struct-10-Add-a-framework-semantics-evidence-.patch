@@ -1,0 +1,29 @@
+From 145da87b32900eb90f18fef8852a58ac15bb45b2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:54 -0700
+Subject: [PATCH 07/24] tei-v7 struct-10: Add a framework-semantics evidence
+ table to the multi-agent
+
+---
+ src/agent/prompt/__init__.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index ed324be..75f5280 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -1,6 +1,10 @@
+ from .mam import (
+-    ISSUE_RESOLVE_MAM_SYSTEM_PROMPT,
++    ISSUE_RESOLVE_MAM_SYSTEM_PROMPT as _BASE_MAM_SYSTEM_PROMPT,
+ )
++ISSUE_RESOLVE_MAM_SYSTEM_PROMPT = _BASE_MAM_SYSTEM_PROMPT + """
++
++When synthesizing agent findings for a framework-heavy issue, require an evidence table with: claimed invariant, framework version or compatibility branch, exact source location establishing it, observed counterexample, and the smallest change that preserves neighboring behavior. Resolve disagreements by inspecting source or running a focused reproduction rather than by majority vote.
++"""
+ from .context_manager import RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT
+ from .problem_decoder import (
+     ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT as _BASE_PROBLEM_DECODER_PROMPT,
+-- 
+2.39.5 (Apple Git-154)
+

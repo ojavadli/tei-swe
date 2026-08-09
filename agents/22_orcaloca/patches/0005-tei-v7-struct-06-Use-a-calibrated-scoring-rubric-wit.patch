@@ -1,0 +1,35 @@
+From e5b5f9412888783ec13bfffe946f7f051c6c407a Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:08 -0700
+Subject: [PATCH 05/50] tei-v7 struct-06: Use a calibrated scoring rubric with
+ competing hypotheses an
+
+---
+ Orcar/code_scorer.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/Orcar/code_scorer.py b/Orcar/code_scorer.py
+index ae0848b..bc31b4e 100644
+--- a/Orcar/code_scorer.py
++++ b/Orcar/code_scorer.py
+@@ -21,10 +21,13 @@ CODE_SCORER_SYSTEM_PROMPT = (
+ )
+ 
+ CODE_SCORER_ORDER_PROMPT = (
+-    "Please score how likely this piece of code will need to be modified to solve a github issue. "
+-    "Please score the likeliness with an integer between 0 and 100, the higher the more likely."
+-    "Your output will be processed by program instead of human, "
+-    "so please ONLY output a single integer."
++    "Score this code from 0 to 100 using: 40 points for direct causal evidence, "
++    "25 for matching the failing execution path, 20 for consistency with tests "
++    "and expected behavior, and 15 for being a plausible minimal edit. Compare "
++    "it mentally against at least one alternative location; subtract points "
++    "when evidence is indirect or the issue is underspecified. Use 0-30 when "
++    "the snippet is merely related and 70-100 only when a concrete fix is "
++    "supported. Output ONLY one integer."
+ )
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

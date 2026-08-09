@@ -1,0 +1,31 @@
+From 70d20db264b59b28fc64ab723dd449ba75a584cb Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:05:38 -0700
+Subject: [PATCH 09/18] tei-v7 struct-09: Expanded transient-failure classifier
+
+---
+ .../src/workbench/python-helpers/composio_helper.py       | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index 348ad28..939948b 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -61,6 +61,14 @@ RATE_LIMIT_PATTERNS = (
+     "throttl",
+     "temporarily unavailable",
+     "try again later",
++    "connection reset",
++    "connection aborted",
++    "connection refused",
++    "timed out",
++    "timeout",
++    "502",
++    "503",
++    "504",
+ )
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

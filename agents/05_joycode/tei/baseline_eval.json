@@ -1,0 +1,83 @@
+{
+  "dimensions": {
+    "target_alignment": 0.86,
+    "reasoning_soundness": 0.81,
+    "execution_accuracy": 0.76,
+    "output_integrity": 0.88
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-13023",
+      "score": 0.93
+    },
+    {
+      "instance_id": "sympy__sympy-24443",
+      "score": 0.91
+    },
+    {
+      "instance_id": "django__django-14170",
+      "score": 0.24
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9229",
+      "score": 0.21
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Failure to complete repository-specific fixes",
+      "description": "The system's patch-generation and execution pipeline did not resolve the Django 14170 and Sphinx 9229 tasks, showing residual failures despite the reported overall 74.6% resolution rate.",
+      "evidence_instance_ids": [
+        "django__django-14170",
+        "sphinx-doc__sphinx-9229"
+      ]
+    },
+    {
+      "name": "Insufficient recovery from failed attempts",
+      "description": "Although the repository emphasizes intelligent retries, test generation, and failure attribution, the recorded unresolved outcomes indicate that these mechanisms do not reliably recover from difficult instances.",
+      "evidence_instance_ids": [
+        "django__django-14170",
+        "sphinx-doc__sphinx-9229"
+      ]
+    },
+    {
+      "name": "Cross-project generalization gap",
+      "description": "The resolved Django and SymPy probes coexist with unresolved Django and Sphinx probes, indicating that success is not uniform across issue types and repository environments.",
+      "evidence_instance_ids": [
+        "django__django-13023",
+        "sympy__sympy-24443",
+        "django__django-14170",
+        "sphinx-doc__sphinx-9229"
+      ]
+    }
+  ],
+  "why": "The system demonstrates strong but incomplete alignment and output handling, with a verified 74.6% resolution rate and two successful probes. Execution accuracy is weakest because two of the four fixed probes are explicitly unresolved, so the system should not receive near-perfect TEI scores.",
+  "aggregate": 0.8275,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-13023",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-24443",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-14170",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9229",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  }
+}

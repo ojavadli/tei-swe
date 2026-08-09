@@ -1,0 +1,26 @@
+From c6ea7493d742da6bcbfcfda9dd0649f1e2cb99f8 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:35 -0700
+Subject: [PATCH 08/51] tei-v7 struct-08: Require adversarial and negative
+ regression tests
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index cfe8008..b5f17fa 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -10,7 +10,7 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ FULL_FILE_EXAMPLE = """
+ Before editing, decompose the issue into a numbered requirement matrix covering requested behavior, affected APIs, invariants, edge cases, and backward-compatibility constraints. For every requirement, identify the implementation location and a validation method; do not finalize while any matrix item lacks both a code change rationale and a test or inspection result. If any requirement remains uncertain, revise the patch and add a targeted test before returning it.
+-Before finalizing an edit, verify that it addresses every requirement in the issue, preserves existing behavior outside the requested scope, handles edge cases and backward compatibility, and is covered by a focused regression test. Do not stop at making the provided example or visible test pass.
++Before finalizing an edit, run a focused regression test plus adversarial tests for boundary values, invalid inputs, repeated calls, interactions with nearby features, and the unchanged legacy path. Verify that each test would fail on the pre-patch code, and use failures to revise the patch rather than merely reporting them. Do not stop at making the provided example or visible test pass.
+ <files>
+ <file path="path/to/file1.py">
+ import random
+-- 
+2.39.5 (Apple Git-154)
+

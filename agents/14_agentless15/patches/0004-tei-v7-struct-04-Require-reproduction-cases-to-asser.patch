@@ -1,0 +1,30 @@
+From 49c42569425d3396b72bd0897f954cd1a2987a56 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:02 -0700
+Subject: [PATCH 04/16] tei-v7 struct-04: Require reproduction cases to assert
+ the reported contract i
+
+---
+ agentless/test/generate_reproduction_tests.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/agentless/test/generate_reproduction_tests.py b/agentless/test/generate_reproduction_tests.py
+index 503f872..93e4abf 100644
+--- a/agentless/test/generate_reproduction_tests.py
++++ b/agentless/test/generate_reproduction_tests.py
+@@ -26,9 +26,9 @@ Please generate a complete test that can be used to reproduce the issue.
+ The complete test should contain the following:
+ 1. Necessary imports
+ 2. Code to reproduce the issue described in the issue text
+-3. Print "Issue reproduced" if the outcome indicates that the issue is reproduced
+-4. Print "Issue resolved" if the outcome indicates that the issue has been successfully resolved
+-5. Print "Other issues" if the outcome indicates there are other issues with the source code
++3. Express the expected pre-fix and post-fix behavior as explicit assertions, using the repository's existing testing style where possible
++4. Make the test fail on the buggy behavior and pass on the intended behavior; do not treat an arbitrary successful execution as resolution
++5. Print "Issue reproduced", "Issue resolved", or "Other issues" only as a concise summary after the assertions and exception handling
+ 
+ Here is an example:
+ 
+-- 
+2.39.5 (Apple Git-154)
+

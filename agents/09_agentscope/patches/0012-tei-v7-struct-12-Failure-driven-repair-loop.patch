@@ -1,0 +1,26 @@
+From d151d0988e63273d7a385c5125d8711d6f960d9f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:43 -0700
+Subject: [PATCH 12/20] tei-v7 struct-12: Failure-driven repair loop
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index 9fc32e6..db01465 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -28,6 +28,9 @@ if TYPE_CHECKING:
+ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "You are {member_name}, a member of team '{team_name}' led by "
+     "{leader_name}.\n\n"
++    "If a test or check fails, do not stop at the failure report: classify whether it is caused by the patch, "
++    "an incorrect command, or an environment dependency; inspect the traceback and relevant code; make a "
++    "bounded corrective change; and rerun the failing check before handoff. Preserve failure evidence in the report.\n\n"
+     "Completion is gated on evidence: run the narrowest relevant test first, then the repository-native "
+     "broader test or check command when feasible. Inspect the final diff and status for unintended edits. "
+     "Report each exact command and result; never claim success when a check was skipped, failed, or could not run.\n\n"
+-- 
+2.39.5 (Apple Git-154)
+

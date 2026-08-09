@@ -1,0 +1,36 @@
+From d40fc7905ca771cceb972a44b5fb4bb8e9dec177 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 21:45:55 -0700
+Subject: [PATCH 4/4] tei-v7 repair: fix literal \n escapes from struct-05/06
+ patches
+
+---
+ moatless/utils/completion_parser.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/moatless/utils/completion_parser.py b/moatless/utils/completion_parser.py
+index d340d64..d66d0c7 100644
+--- a/moatless/utils/completion_parser.py
++++ b/moatless/utils/completion_parser.py
+@@ -26,10 +26,16 @@ def parse_completion(completion_data: Dict[str, Any]) -> CompletionDTO:
+     )
+ 
+     # Parse from original_response if it exists
+-    original_response = completion_data.get("original_response_obj")\n    if original_response is None:\n        original_response = completion_data.get("original_response")
++    original_response = completion_data.get("original_response_obj")
++    if original_response is None:
++        original_response = completion_data.get("original_response")
+     if original_response is not None:
+         if isinstance(original_response, str):
+-            completion_dto.output = CompletionOutput(\n                content=original_response\n                if isinstance(original_response, str)\n                else json.dumps(original_response, ensure_ascii=False)\n            )
++            completion_dto.output = CompletionOutput(
++                content=original_response
++                if isinstance(original_response, str)
++                else json.dumps(original_response, ensure_ascii=False)
++            )
+         # Handle Anthropic format
+         if "content" in original_response:
+             completion_dto.output = parse_anthropic_response(completion_dto, original_response)
+-- 
+2.39.5 (Apple Git-154)
+

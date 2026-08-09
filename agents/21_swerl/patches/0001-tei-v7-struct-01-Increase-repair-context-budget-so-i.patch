@@ -1,0 +1,26 @@
+From c056d55dda8eda8290675910ff9ab215b4c8c5f0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:18:04 -0700
+Subject: [PATCH 01/10] tei-v7 struct-01: Increase repair-context budget so
+ issue statements, localiza
+
+---
+ src/swerl/agentless_mini/repair.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/swerl/agentless_mini/repair.py b/src/swerl/agentless_mini/repair.py
+index 3109db9..cda4a11 100644
+--- a/src/swerl/agentless_mini/repair.py
++++ b/src/swerl/agentless_mini/repair.py
+@@ -20,7 +20,7 @@ class Args:
+     # Localization file and output file for repair
+     loc_file: str
+     output_folder: str
+-    max_input_tokens: int = field(default=60000)
++    max_input_tokens: int = field(default=100000)
+ 
+     @property
+     def output_file(self):
+-- 
+2.39.5 (Apple Git-154)
+

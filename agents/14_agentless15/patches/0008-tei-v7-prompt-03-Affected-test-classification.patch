@@ -1,0 +1,25 @@
+From e6ebe57d82229b8ea65c934059945436d804ce5f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:09 -0700
+Subject: [PATCH 08/16] tei-v7 prompt-03: Affected-test classification
+
+---
+ agentless/test/select_regression_tests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless/test/select_regression_tests.py b/agentless/test/select_regression_tests.py
+index dbed96f..3fdef4f 100644
+--- a/agentless/test/select_regression_tests.py
++++ b/agentless/test/select_regression_tests.py
+@@ -23,7 +23,7 @@ Below are a list of existing tests in the repository.
+ {passing_tests}
+ ```
+ 
+-Please identify the existing tests that are most directly affected by this issue and patch. Return only tests whose assertions or setup are likely to become invalid because the intended behavior is changing; do not exclude tests merely because they exercise nearby code. Prefer the narrowest repository-native tests that encode the reported behavior.
++Classify candidate tests against the issue's behavior contract. Select the narrowest repository-native tests that directly encode the reported behavior, including tests whose setup, parametrization, expected exception, output normalization, or assertions must change. Also select closely related tests that should remain unchanged as regression guards for neighboring behavior. Do not select unrelated tests merely because they share a module. For every selected test, ensure it exercises the same entry point and triggering condition described by the issue.
+ 
+ ### Example
+ ```
+-- 
+2.39.5 (Apple Git-154)
+

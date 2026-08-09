@@ -1,0 +1,33 @@
+From b996c0b1aceb21970c44f554228c786c77cad548 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:44 -0700
+Subject: [PATCH 07/47] tei-v7 struct-09: Introduce a repository-specific
+ preflight phase before patch
+
+---
+ utils/dynamic_agent.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index 565df20..f65f436 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -19,7 +19,14 @@ from cli import main as cli_main
+ 
+ 
+ class PromptTemplate:
+-    """Prompt template definitions"""
++    """Prompt templates with an explicit repository preflight contract."""
++
++    PREFLIGHT_REQUIREMENTS = (
++        "Before editing, inspect repository guidance, package ownership, supported runtime "
++        "versions, and the narrowest relevant tests. Record the exact test command, the "
++        "implementation files involved, and one nearby test that should regress. Do not "
++        "infer conventions from another repository."
++    )"
+     
+     @staticmethod
+     def get_basic_retry_prompt(workspace_root: str, problem_statement: str,
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,25 @@
+From b867e0d4a7df46061b7a2a1eb26612ad86b70fcc Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:14:18 -0700
+Subject: [PATCH 07/17] tei-v7 prompt-01: Evidence-backed repository map
+
+---
+ agentless_lite/util/backends.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless_lite/util/backends.py b/agentless_lite/util/backends.py
+index c4c3afc..840331e 100644
+--- a/agentless_lite/util/backends.py
++++ b/agentless_lite/util/backends.py
+@@ -16,7 +16,7 @@ from agentless_lite.util.repair import create_diff_from_response, fake_git_repo
+ 
+ STR_REPLACE_EDITOR_DESCRIPTION = """Custom editing tool for editing files
+ 
+-Before making any edit, build a repository boundary map containing the issue-facing entry point, defining implementation, direct callers, configuration or compatibility boundaries, and the nearest relevant tests. Select the edit location from this map, not from a first textual match.
++Before editing, construct an evidence-backed repository map: identify the issue-facing API or entry point, the exact implementation symbol that controls the behavior, its direct callers, relevant configuration and compatibility boundaries, and the nearest tests. For each location, cite the file and symbol or a distinctive code fragment. Trace at least one concrete input through this map and select the edit location only after explaining why it—not a similarly named or first textual match—is the behavior-defining path.
+ * State is persistent across command calls and discussions with the user
+ * Trace the reported behavior from its public API through the relevant call chain to the state or branch that violates the requirement, and connect that path to at least one existing or expected test before editing
+ 
+-- 
+2.39.5 (Apple Git-154)
+

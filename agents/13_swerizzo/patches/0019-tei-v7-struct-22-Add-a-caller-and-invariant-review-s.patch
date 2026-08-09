@@ -1,0 +1,26 @@
+From 9e47061e46b4ede0c638ed24d8df24cbecc0967d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:30 -0700
+Subject: [PATCH 19/51] tei-v7 struct-22: Add a caller-and-invariant review
+ step to final patch approv
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index 7bac5e7..dddd065 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,6 +9,8 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
++Before final approval, inspect all callers and consumers of each modified symbol. Record the invariant each caller relies on, explain why the patch preserves compatible callers, and identify any changed error, ordering, mutation, or serialization behavior. Reopen implementation if any caller impact is unknown.
++
+ When comparing alternative patches, score each candidate against every issue requirement separately before considering total test counts. Reject candidates that leave any requirement unsupported, introduce unrelated changes, or rely only on broad existing tests; prefer the smallest candidate that satisfies all requirements and preserves documented behavior.
+ 
+ For every requested behavior, add at least one ordinary-case check, one boundary or malformed-input check, and one regression check for previously supported behavior. If a test passes without exercising the changed branch, replace it with a more targeted check before approving the patch.
+-- 
+2.39.5 (Apple Git-154)
+

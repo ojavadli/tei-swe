@@ -1,0 +1,38 @@
+From 2f816743bd857c67d9b01ce75a16db4cd15e8623 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:40:26 -0700
+Subject: [PATCH 04/39] tei-v7 struct-04: Make patch selection require
+ behavioral evidence rather than
+
+---
+ evaluation/patch_selection/trae_selector/selector_agent.py | 5 ++++-
+ tei/candidates.jsonl                                       | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/evaluation/patch_selection/trae_selector/selector_agent.py b/evaluation/patch_selection/trae_selector/selector_agent.py
+index a3763d7..585062e 100755
+--- a/evaluation/patch_selection/trae_selector/selector_agent.py
++++ b/evaluation/patch_selection/trae_selector/selector_agent.py
+@@ -22,7 +22,10 @@ class CandidatePatch:
+ 
+ def build_system_prompt(candidate_length: int) -> str:
+     init_prompt = f"""\
+-# ROLE: Act as an expert code evaluator. Given a codebase, an github issue and **{candidate_length} candidate patches** proposed by your colleagues, your responsibility is to **select the correct one** to solve the issue.
++# ROLE: Act as an expert code evaluator. Given a codebase, a GitHub issue, and **{candidate_length} candidate patches** proposed by your colleagues, select the patch that actually solves the issue.
++
++# EVIDENCE GATE:
++Reject patches that are merely plausible. Prefer candidates with focused test evidence, regression evidence, and a clear explanation of why the failing behavior changes without breaking neighboring behavior. If evidence is missing, inspect the repository and run the smallest decisive test before selecting.
+ 
+ # WORK PROCESS:
+ You are given a software issue and multiple candidate patches. Your goal is to identify the patch that correctly resolves the issue.
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 0ccf143..4612ecf 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -1,2 +1,3 @@
+ {"version_id": "struct-01", "phase": "structural", "technique": "Inject a mandatory repository-diagnosis phase into the agent's system instructions", "target_failure_mode": "Complex repository-specific diagnosis and implementation", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT", "replace": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT\n\nTRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + \"\"\"\n\nBefore editing, perform a repository-specific diagnosis: trace the relevant call path, identify the owning abstraction and nearby compatibility constraints, inspect analogous implementations, and state the smallest behavior change that satisfies the issue. Do not patch un"}, "dimensions": {"target_alignment": 0.9, "reasoning_soundness": 0.87, "execution_accuracy": 0.82, "output_integrity": 0.88}, "aggregate": 0.8675, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.96}, {"instance_id": "django__django-16938", "score": 0.29}, {"instance_id": "astropy__astropy-13033", "score": 0.26}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0325, "why": "The mandatory call-path and abstraction diagnosis directly addresses repository-specific failures, improving issue targeting and reasoning. It provides less direct benefit than an execution loop for validation, so gains on the difficult probes remain moderate."}
+ {"version_id": "struct-02", "phase": "structural", "technique": "Inject a bounded reproduce-test-debug loop into the agent's system instructions", "target_failure_mode": "Insufficient validation and iterative debugging", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT", "replace": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT\n\nTRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + \"\"\"\n\nUse an iterative validation loop after every substantive edit: run the narrowest reproducer or focused test, inspect the complete failure, revise the patch, and rerun it. Before finishing, run relevant regression tests and continue debugging until the result is passing or"}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.85, "execution_accuracy": 0.85, "output_integrity": 0.88}, "aggregate": 0.8625, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.97}, {"instance_id": "django__django-16938", "score": 0.3}, {"instance_id": "astropy__astropy-13033", "score": 0.29}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0275, "why": "The bounded reproduce-test-debug loop materially improves validation and iterative correction, especially for complex Django and Astropy behavior. It does not itself improve initial diagnosis or contract reconstruction as much as the more targeted reasoning changes."}
++{"version_id": "struct-03", "phase": "structural", "technique": "Add an explicit compatibility and regression checklist to the agent's system instructions", "target_failure_mode": "Edge-case and regression handling", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT", "replace": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT\n\nTRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + \"\"\"\n\nFor framework and scientific-library changes, check edge conditions explicitly: empty and null inputs, boundary values, subclass or alternate implementation paths, backwards-compatible defaults, error behavior, and interactions with existing public APIs. Preserve unrelate"}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.85, "execution_accuracy": 0.82, "output_integrity": 0.9}, "aggregate": 0.8625, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.96}, {"instance_id": "django__django-16938", "score": 0.27}, {"instance_id": "astropy__astropy-13033", "score": 0.31}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0275, "why": "The explicit compatibility checklist improves regression awareness and scientific-library edge-case handling, with the clearest benefit on Astropy. It is less effective for discovering the correct repository-specific implementation or debugging a failing patch."}
+-- 
+2.39.5 (Apple Git-154)
+

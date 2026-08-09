@@ -1,0 +1,627 @@
+From ed48f24a60d52082438d13da1d48a5f51a09ebd0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:31:55 -0700
+Subject: [PATCH 01/24] tei-v7 prompt-01: Acceptance-criteria decomposition
+ before editing
+
+---
+ config/livesweagent_swebench.yaml |   2 +-
+ tei/baseline_eval.json            | 100 +++++++
+ tei/candidates.jsonl              |  30 ++
+ tei/onboarding.json               | 445 ++++++++++++++++++++++++++++++
+ 4 files changed, 576 insertions(+), 1 deletion(-)
+ create mode 100644 tei/baseline_eval.json
+ create mode 100644 tei/candidates.jsonl
+ create mode 100644 tei/onboarding.json
+
+diff --git a/config/livesweagent_swebench.yaml b/config/livesweagent_swebench.yaml
+index eec8734..80f61eb 100644
+--- a/config/livesweagent_swebench.yaml
++++ b/config/livesweagent_swebench.yaml
+@@ -25,7 +25,7 @@ agent:
+     # Task Instructions
+ 
+     ## Overview
+-    You're a software engineer interacting continuously with a computer by submitting commands.
++    You're a software engineer interacting continuously with a computer by submitting commands. Before changing code, translate the PR description into explicit behavioral acceptance criteria: identify the affected public and internal APIs, required behavior, preserved behavior, error and boundary cases, and likely regression risks. Trace each criterion to the relevant implementation and call sites, then use that checklist to drive both the patch and validation.
+     You'll be helping implement necessary changes to meet requirements in the PR description.
+     Your task is specifically to make changes to non-test files in the current directory in order to fix the issue described in the PR description in a way that is general and consistent with the codebase.
+ 
+diff --git a/tei/baseline_eval.json b/tei/baseline_eval.json
+new file mode 100644
+index 0000000..ab8e76c
+--- /dev/null
++++ b/tei/baseline_eval.json
+@@ -0,0 +1,100 @@
++{
++  "dimensions": {
++    "target_alignment": 0.86,
++    "reasoning_soundness": 0.84,
++    "execution_accuracy": 0.79,
++    "output_integrity": 0.9
++  },
++  "probe_scores": [
++    {
++      "instance_id": "scikit-learn__scikit-learn-25102",
++      "score": 0.94
++    },
++    {
++      "instance_id": "sympy__sympy-19783",
++      "score": 0.93
++    },
++    {
++      "instance_id": "django__django-16569",
++      "score": 0.92
++    },
++    {
++      "instance_id": "mwaskom__seaborn-3187",
++      "score": 0.3
++    },
++    {
++      "instance_id": "sympy__sympy-15875",
++      "score": 0.28
++    },
++    {
++      "instance_id": "sphinx-doc__sphinx-9602",
++      "score": 0.32
++    }
++  ],
++  "weakest_dimension": "execution_accuracy",
++  "failure_modes": [
++    {
++      "name": "Incomplete or incorrect implementation on difficult issues",
++      "description": "The system has recorded unresolved outcomes on three probes, indicating that correct issue understanding does not consistently translate into a working patch.",
++      "evidence_instance_ids": [
++        "mwaskom__seaborn-3187",
++        "sympy__sympy-15875",
++        "sphinx-doc__sphinx-9602"
++      ]
++    },
++    {
++      "name": "Insufficient robustness across project-specific edge cases",
++      "description": "Failures span Seaborn, SymPy, and Sphinx, suggesting difficulty adapting implementation and validation to differing library conventions and edge cases.",
++      "evidence_instance_ids": [
++        "mwaskom__seaborn__seaborn-3187",
++        "sympy__sympy-15875",
++        "sphinx-doc__sphinx-9602"
++      ]
++    },
++    {
++      "name": "Uneven cross-repository generalization",
++      "description": "Although the system resolves representative scikit-learn, SymPy, and Django tasks, it fails other repositories in the same benchmark, showing non-uniform performance across codebases.",
++      "evidence_instance_ids": [
++        "mwaskom__seaborn-3187",
++        "sympy__sympy-15875",
++        "sphinx-doc__sphinx-9602"
++      ]
++    }
++  ],
++  "why": "The recorded 79.2% resolve rate supports generally strong but clearly imperfect scores, with execution accuracy weakest because 20.8% of benchmark instances remain unresolved. The probes show successful handling of scikit-learn, one SymPy issue, and Django, but failures on Seaborn, another SymPy issue, and Sphinx demonstrate meaningful project- and task-specific brittleness.",
++  "aggregate": 0.8475,
++  "score_label": "PROXY",
++  "probes": [
++    {
++      "instance_id": "scikit-learn__scikit-learn-25102",
++      "archive_outcome": "resolved"
++    },
++    {
++      "instance_id": "sympy__sympy-19783",
++      "archive_outcome": "resolved"
++    },
++    {
++      "instance_id": "django__django-16569",
++      "archive_outcome": "resolved"
++    },
++    {
++      "instance_id": "mwaskom__seaborn-3187",
++      "archive_outcome": "unresolved_by_this_system"
++    },
++    {
++      "instance_id": "sympy__sympy-15875",
++      "archive_outcome": "unresolved_by_this_system"
++    },
++    {
++      "instance_id": "sphinx-doc__sphinx-9602",
++      "archive_outcome": "unresolved_by_this_system"
++    }
++  ],
++  "runnability": {
++    "has_code": false,
++    "needs_docker": false,
++    "needs_gpu": false,
++    "tier": "PROXY",
++    "reason": "no source code in linked repo"
++  }
++}
+\ No newline at end of file
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+new file mode 100644
+index 0000000..d6d26d3
+--- /dev/null
++++ b/tei/candidates.jsonl
+@@ -0,0 +1,30 @@
++{"version_id": "struct-01", "phase": "structural", "technique": "Add a mandatory hypothesis-to-validation loop: after locating the likely implementation, require the agent to state the behavioral contract, create a minimal reproducer, apply the smallest patch, and rerun both the reproducer and the nearest existing regression tests before proceeding.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.89, "reasoning_soundness": 0.88, "execution_accuracy": 0.84, "output_integrity": 0.9}, "aggregate": 0.8775, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.35}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.36}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.03, "why": "The mandatory reproduce-patch-regression loop directly addresses incomplete fixes and provides concrete execution gates. It should improve difficult issues modestly, though it adds workflow cost and cannot guarantee that the chosen reproducer or regression scope is correct."}
++{"version_id": "struct-02", "phase": "structural", "technique": "Introduce a two-pass implementation architecture in which the first pass produces a proposed patch and explicit invariants, while a second independent review pass searches for missed call sites, incompatible assumptions, and regressions before the patch is accepted.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.9, "execution_accuracy": 0.83, "output_integrity": 0.9}, "aggregate": 0.8775, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.34}, {"instance_id": "sympy__sympy-15875", "score": 0.35}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.35}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.03, "why": "Independent review is strong against locally plausible but incomplete multi-file fixes and slightly improves reasoning more than candidate 0. However, a second pass can repeat the same mistaken assumptions, increase latency, and does not itself ensure that a failing implementation is repaired, limiting execution gains."}
++{"version_id": "struct-03", "phase": "structural", "technique": "Add a repository-convention discovery phase that inspects package layout, neighboring implementations, supported-version constraints, error-handling patterns, and relevant historical tests, then requires the patch plan to cite the conventions it follows.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.86, "execution_accuracy": 0.82, "output_integrity": 0.9}, "aggregate": 0.865, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.36}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.37}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0175, "why": "Convention discovery is well aligned with cross-repository robustness and should help with package-specific assumptions, especially in Seaborn, SymPy, and Sphinx. Its effect is indirect: citing conventions can become documentation overhead or produce false confidence without stronger validation, so execution improves less than with a direct test loop."}
++{"version_id": "struct-04", "phase": "structural", "technique": "Build an edge-case matrix from the issue description and affected APIs, covering boundary values, invalid inputs, empty collections, legacy behavior, alternate execution paths, and compatibility constraints; require at least one validation command per applicable matrix row.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.87, "execution_accuracy": 0.81, "output_integrity": 0.89}, "aggregate": 0.86, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.38}, {"instance_id": "sympy__sympy-15875", "score": 0.36}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.38}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0125, "why": "The edge-case matrix directly targets robustness gaps and offers the largest potential gains on the weak probes. It is less reliable in practice because applicability judgments and validation commands may be incomplete or expensive, and enforcing a command for every row can distract from the highest-value checks."}
++{"version_id": "struct-05", "phase": "structural", "technique": "Add an adaptive test-selection layer that maps changed files and symbols to project-specific test commands, first running focused tests, then neighboring subsystem tests, and finally a broader suite when focused results pass.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.85, "execution_accuracy": 0.84, "output_integrity": 0.91}, "aggregate": 0.8675, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.37}, {"instance_id": "sympy__sympy-15875", "score": 0.35}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.39}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.02, "why": "Changed-file and symbol-aware test selection improves portability and final validation, with particularly useful gains for repositories whose test layouts differ. It mainly detects regressions rather than preventing incomplete reasoning, and mappings can be wrong for indirect dependencies, so reasoning gains are limited."}
++{"version_id": "struct-06", "phase": "structural", "technique": "Use a repository bootstrap and capability profile before solving: detect the project\u2019s test runner, formatting and lint rules, supported runtime versions, contribution conventions, and relevant package boundaries, then feed that profile into planning and final validation.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.86, "reasoning_soundness": 0.86, "execution_accuracy": 0.83, "output_integrity": 0.91}, "aggregate": 0.865, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.94}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn__3187", "score": 0.36}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.38}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0175, "why": "A bootstrap capability profile addresses cross-project workflow mismatches and modestly improves validation integrity. It is broad and front-loaded, so it can consume effort without changing the actual repair strategy; the benefit is therefore smaller than adaptive test selection and it remains near baseline on the strong probes."}
++{"version_id": "struct-07", "phase": "structural", "technique": "Add a staged implementation controller that requires the agent to produce an issue contract before editing: affected behavior, invariants, likely files, acceptance tests, and unresolved assumptions. Block the editing phase until the contract is internally checked against the issue description and repository code.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.9, "reasoning_soundness": 0.88, "execution_accuracy": 0.8, "output_integrity": 0.91}, "aggregate": 0.8725, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.34}, {"instance_id": "sympy__sympy-15875", "score": 0.33}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.36}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.025, "why": "The issue contract directly improves requirement extraction and reduces premature partial fixes, so target alignment and reasoning rise above baseline. Gains in execution are limited because planning does not itself ensure that the implementation handles discovered edge cases, and the added gate can consume budget or encourage overly abstract plans."}
++{"version_id": "struct-08", "phase": "structural", "technique": "Implement a mandatory reproduce-patch-verify loop in the agent controller. After every patch, run the smallest reproducer or targeted test, inspect the failure output, and permit submission only after the original failure is resolved and the resulting diff is reviewed.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.86, "execution_accuracy": 0.85, "output_integrity": 0.93}, "aggregate": 0.88, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.96}, {"instance_id": "sympy__sympy-19783", "score": 0.96}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.42}, {"instance_id": "sympy__sympy-15875", "score": 0.4}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.43}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0325, "why": "This is the strongest targeted improvement: reproducing and verifying after each patch materially improves execution accuracy and output integrity, especially for difficult issues. The benefit is capped because tests may be incomplete, expensive, or misleading, and a hard submission gate can fail to resolve cases where the original bug is difficult to reproduce."}
++{"version_id": "struct-09", "phase": "structural", "technique": "Add a project-aware edge-case planning module that mines neighboring tests, call sites, type checks, and documented invariants, then generates a validation matrix covering normal, boundary, empty, invalid, and backwards-compatibility cases relevant to the changed API.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.88, "execution_accuracy": 0.82, "output_integrity": 0.91}, "aggregate": 0.87, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.39}, {"instance_id": "sympy__sympy-15875", "score": 0.36}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.4}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0225, "why": "Mining local tests and call sites is well matched to the diagnosed edge-case failure mode and improves reasoning over generic model intuition. The gains are smaller than candidate 1 because generating a validation matrix does not guarantee that the agent executes it, and broad matrices can increase scope, time, and false-positive concerns."}
++{"version_id": "struct-10", "phase": "structural", "technique": "Introduce repository adapters selected during initialization. Each adapter discovers the project\u2019s test commands, supported runtime versions, formatting rules, package layout, public API conventions, and preferred test locations, and supplies these constraints to search, editing, and validation stages.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.89, "reasoning_soundness": 0.86, "execution_accuracy": 0.83, "output_integrity": 0.91}, "aggregate": 0.8725, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.39}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.41}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.025, "why": "Repository adapters address cross-project assumptions directly and should improve command selection, package navigation, and compatibility decisions. The improvement is moderate rather than large because adapter discovery can be wrong or incomplete, while the extra abstraction may introduce initialization errors and reduce flexibility on unusual repositories."}
++{"version_id": "struct-11", "phase": "structural", "technique": "Add an independent post-patch reviewer stage with a separate context and rubric. The reviewer compares the patch against the issue contract, checks all affected call paths and compatibility constraints, runs targeted tests, and returns structured defects for an automatic repair pass.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.88, "execution_accuracy": 0.84, "output_integrity": 0.93}, "aggregate": 0.8825, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.96}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.41}, {"instance_id": "sympy__sympy-15875", "score": 0.38}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.42}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.035, "why": "An independent reviewer adds a useful second pass over call paths, compatibility, and project conventions, improving reasoning, execution, and patch integrity above baseline. It is slightly less reliable than the reproduce gate because the reviewer can repeat the same mistaken assumptions, and the additional repair loop can consume interaction budget."}
++{"version_id": "struct-12", "phase": "structural", "technique": "Build a failure-recovery state machine that records failed hypotheses and test results, reverts ineffective edits, and escalates through distinct strategies such as broader code search, call-graph tracing, historical-version inspection, and alternative minimal patches instead of repeatedly issuing similar commands.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.85, "execution_accuracy": 0.83, "output_integrity": 0.91}, "aggregate": 0.865, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.39}, {"instance_id": "sympy__sympy-15875", "score": 0.36}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.4}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0175, "why": "Explicit recovery branches improve resilience after failed edits and reduce repetitive debugging, giving execution a modest gain on difficult repositories. The state machine adds complexity and can spend the remaining budget on speculative strategies; it also improves recovery more than initial diagnosis, so target alignment and reasoning remain close to or only slightly above baseline."}
++{"version_id": "struct-13", "phase": "structural", "technique": "Add a repository reconnaissance gate that requires the agent to identify the relevant modules, call sites, neighboring implementations, and project-specific conventions before editing. The agent must record an issue-to-symbol map and use it to select the change location.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.86, "execution_accuracy": 0.8, "output_integrity": 0.91}, "aggregate": 0.8625, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.35}, {"instance_id": "sympy__sympy-15875", "score": 0.33}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.36}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.015, "why": "The reconnaissance gate directly improves repository adaptation and modestly raises target alignment and output integrity, especially on cross-project probes. It does not itself ensure behavioral correctness, so execution gains remain small and the extra documentation step can add overhead."}
++{"version_id": "struct-14", "phase": "structural", "technique": "Introduce a hypothesis-and-reproduction phase gate: before modifying production code, require a minimal failing reproducer tied to the requested behavior, its expected result, and the exact code path it exercises. Do not permit implementation until the reproducer fails for the original checkout.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.9, "reasoning_soundness": 0.88, "execution_accuracy": 0.82, "output_integrity": 0.9}, "aggregate": 0.875, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.38}, {"instance_id": "sympy__sympy-15875", "score": 0.36}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.38}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0275, "why": "Requiring a failing reproducer strongly improves issue interpretation and reasoning on difficult tasks, producing the largest target-alignment gain. It is less effective when failures require complex setup or are only indirectly testable, and the hard gate can prevent otherwise useful progress."}
++{"version_id": "struct-15", "phase": "structural", "technique": "Add an implementation loop with explicit checkpoints: make the smallest coherent patch, run the reproducer, run focused nearby tests, classify every failure as regression, incomplete coverage, or environment failure, and revise until the classification is resolved.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.89, "execution_accuracy": 0.85, "output_integrity": 0.92}, "aggregate": 0.885, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.96}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.4}, {"instance_id": "sympy__sympy-15875", "score": 0.39}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.4}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0375, "why": "The explicit patch-test-classify-revise loop most directly addresses incomplete implementations and converts test failures into corrective feedback. It gives the strongest execution and reasoning improvement, though repeated validation can amplify environment-related stalls and does not guarantee the initial hypothesis is right."}
++{"version_id": "struct-16", "phase": "structural", "technique": "Add a project-convention discovery step that searches for analogous APIs, validators, exception patterns, state transitions, and compatibility shims, then requires the patch to reuse the closest established pattern unless the agent documents why it cannot.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.87, "execution_accuracy": 0.82, "output_integrity": 0.91}, "aggregate": 0.87, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.39}, {"instance_id": "sympy__sympy-15875", "score": 0.38}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.41}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0225, "why": "Mining analogous local APIs and compatibility patterns is well matched to project-specific edge cases and provides particularly strong gains on Sphinx and the difficult SymPy and Seaborn probes. The rule to reuse an analogue may overconstrain genuinely novel fixes, so execution improves less than with an iterative test loop."}
++{"version_id": "struct-17", "phase": "structural", "technique": "Require an edge-case matrix before finalization covering normal input, empty or null input, boundary values, repeated calls, invalid input, backwards-compatibility behavior, and interactions with adjacent features. Each row must map to a test command or a justified omission.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.86, "execution_accuracy": 0.81, "output_integrity": 0.92}, "aggregate": 0.865, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.38}, {"instance_id": "sympy__sympy-15875", "score": 0.38}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.39}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0175, "why": "The edge-case matrix improves coverage discipline and output integrity, with useful but moderate gains on difficult repositories. It is weaker than local convention discovery or iterative testing because rows can be documented without being meaningfully exercised, and it adds process overhead without resolving implementation errors."}
++{"version_id": "struct-18", "phase": "structural", "technique": "Add a finalization gate that inspects the complete diff, checks that only intended non-test files changed, reruns the focused regression tests plus the project's relevant broader suite, and rejects completion when the reproducer still passes before the patch or when unrelated behavior changes.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "output_integrity", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.86, "execution_accuracy": 0.84, "output_integrity": 0.95}, "aggregate": 0.88, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.36}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.37}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0325, "why": "Complete-diff inspection and broader regression validation give the best output-integrity improvement and catch accidental or narrowly overfit patches. They provide only modest gains on the difficult probes because this gate detects failures late rather than helping construct the missing behavior, and broad-suite requirements can reject valid changes in constrained environments."}
++{"version_id": "struct-19", "phase": "structural", "technique": "Add a requirement-to-implementation traceability gate that converts the issue description into explicit behavioral requirements, affected code paths, invariants, and acceptance tests before editing. Require the agent to re-check every requirement against the final diff.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.9, "reasoning_soundness": 0.88, "execution_accuracy": 0.81, "output_integrity": 0.91}, "aggregate": 0.875, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.34}, {"instance_id": "sympy__sympy-15875", "score": 0.32}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.35}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0275, "why": "The traceability gate improves requirement coverage and reduces partial implementations, but it is primarily a planning safeguard and does not itself validate behavior, so execution gains are modest."}
++{"version_id": "struct-20", "phase": "structural", "technique": "Introduce a staged reproduce-patch-test-debug controller with mandatory checkpoints: reproduce the reported behavior, make the smallest patch, run a focused regression test, inspect failures, and iterate before broad validation.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.89, "execution_accuracy": 0.85, "output_integrity": 0.92}, "aggregate": 0.885, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.96}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.37}, {"instance_id": "sympy__sympy-15875", "score": 0.35}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.38}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0375, "why": "Mandatory reproduction, focused testing, and iteration directly address plausible-but-broken patches and provide the strongest execution improvement, though the controller can add cost and does not fully solve untested edge cases."}
++{"version_id": "struct-21", "phase": "structural", "technique": "Add an edge-case matrix generator that derives cases from public API boundaries, sentinel values, empty and singleton inputs, invalid inputs, version-dependent behavior, and nearby tests, then requires the agent to validate each relevant row.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.86, "reasoning_soundness": 0.86, "execution_accuracy": 0.78, "output_integrity": 0.9}, "aggregate": 0.85, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.93}, {"instance_id": "sympy__sympy-19783", "score": 0.92}, {"instance_id": "django__django-16569", "score": 0.91}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.35}, {"instance_id": "sympy__sympy-15875", "score": 0.33}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.36}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0025, "why": "The matrix improves attention to project-specific boundary cases, but broad generated validation can encourage speculative behavior changes and adds execution burden without a reliable prioritization mechanism, lowering accuracy overall."}
++{"version_id": "struct-22", "phase": "structural", "technique": "Create a repository-convention discovery phase that identifies the project\u2019s supported Python versions, test commands, exception and warning conventions, public/private API boundaries, typing style, and analogous implementations before patch generation.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.89, "reasoning_soundness": 0.88, "execution_accuracy": 0.81, "output_integrity": 0.91}, "aggregate": 0.8725, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.34}, {"instance_id": "sympy__sympy-15875", "score": 0.31}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.36}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.025, "why": "Repository-convention discovery improves cross-project transfer and reduces incompatible assumptions, but it is front-loaded process work and offers weaker protection against incomplete implementation than a test-driven controller."}
++{"version_id": "struct-23", "phase": "structural", "technique": "Add an implementation-review pass that compares the proposed change with at least two neighboring call sites or analogous functions and checks API compatibility, error behavior, mutation semantics, serialization, and backward compatibility.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.85, "reasoning_soundness": 0.88, "execution_accuracy": 0.8, "output_integrity": 0.91}, "aggregate": 0.86, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.94}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.92}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.35}, {"instance_id": "sympy__sympy-15875", "score": 0.32}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.36}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0125, "why": "Comparing neighboring implementations exposes hidden contracts and improves reasoning about compatibility, but mandatory analogue checks can distract from the issue and do not guarantee that the selected patch is behaviorally tested."}
++{"version_id": "struct-24", "phase": "structural", "technique": "Implement a failure-recovery loop that classifies test failures as environment, incorrect expectation, incomplete implementation, or unrelated regression; for implementation failures it must localize the failing path, revise the hypothesis, and rerun the smallest diagnostic test before continuing.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.89, "execution_accuracy": 0.84, "output_integrity": 0.91}, "aggregate": 0.8775, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.93}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.36}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.37}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.03, "why": "Failure classification and localized hypothesis revision improve recovery from repository-specific test behavior and produce strong execution gains, but classification errors and repeated diagnostics can still cause wasted iterations or incorrect attribution."}
++{"version_id": "struct-25", "phase": "structural", "technique": "Add a mandatory implementation-validation gate that requires the agent to reproduce the reported failure, apply the smallest patch, rerun the reproducer, and only then proceed to broader tests; if validation fails, force a diagnosis-and-revision cycle.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.86, "reasoning_soundness": 0.85, "execution_accuracy": 0.82, "output_integrity": 0.91}, "aggregate": 0.86, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.36}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.37}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0125, "why": "The reproduce-patch-rerun gate directly improves implementation correctness and submission reliability, especially on issues where the initial patch is incomplete. It is less effective when reproducing the failure is difficult or environment-dependent, and the mandatory cycle can add friction without adapting the investigation strategy."}
++{"version_id": "struct-26", "phase": "structural", "technique": "Introduce a two-pass patch protocol: first require an explicit behavioral contract with preconditions, postconditions, and unchanged behaviors, then require a separate review pass that checks the diff against that contract before testing.", "target_failure_mode": "Incomplete or incorrect implementation on difficult issues", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.88, "execution_accuracy": 0.82, "output_integrity": 0.92}, "aggregate": 0.8725, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.34}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.36}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.025, "why": "The explicit contract and independent diff review strengthen reasoning and catch partial or overbroad changes before testing. The protocol improves difficult fixes modestly, but it does not itself discover repository-specific semantics and can formalize an incorrect contract if the initial interpretation is wrong."}
++{"version_id": "struct-27", "phase": "structural", "technique": "Add a repository-adaptation phase that detects the project\u2019s test runner, supported Python/version constraints, local contribution conventions, neighboring APIs, and relevant implementation patterns before editing.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.87, "execution_accuracy": 0.83, "output_integrity": 0.91}, "aggregate": 0.8725, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.39}, {"instance_id": "sympy__sympy-15875", "score": 0.36}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.41}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.025, "why": "Repository adaptation directly targets the observed cross-project weakness by identifying runners, conventions, APIs, and version constraints before editing. It yields the strongest gains on Seaborn, SymPy, and Sphinx, though detection errors and added reconnaissance limit the improvement on already familiar repositories."}
++{"version_id": "struct-28", "phase": "structural", "technique": "Require an edge-case test matrix derived from the issue and nearby callers, covering empty, null, boundary, invalid, repeated, and backward-compatibility inputs as applicable; block completion until each applicable category is considered.", "target_failure_mode": "Insufficient robustness across project-specific edge cases", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.87, "execution_accuracy": 0.82, "output_integrity": 0.91}, "aggregate": 0.8675, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.39}, {"instance_id": "sympy__sympy-15875", "score": 0.38}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.4}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.02, "why": "The edge-case matrix improves robustness for empty, invalid, boundary, and compatibility behavior and therefore helps the low-scoring difficult probes. Its value depends on correctly deriving applicable categories; requiring consideration of irrelevant cases can consume effort and does not resolve deeper repository-understanding failures."}
++{"version_id": "struct-29", "phase": "structural", "technique": "Implement a cross-repository strategy selector that classifies the task by repository, subsystem, and change type, then loads repository-specific investigation and validation playbooks instead of using one uniform workflow.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.85, "execution_accuracy": 0.8, "output_integrity": 0.89}, "aggregate": 0.855, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.95}, {"instance_id": "sympy__sympy-19783", "score": 0.94}, {"instance_id": "django__django-16569", "score": 0.94}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.37}, {"instance_id": "sympy__sympy-15875", "score": 0.34}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.37}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0075, "why": "A strategy selector is directionally aligned with uneven cross-repository performance, but classification and playbook selection introduce a new failure mode. The extra abstraction may choose the wrong workflow or delay straightforward fixes, so execution and output reliability score below the stronger concrete validation changes."}
++{"version_id": "struct-30", "phase": "structural", "technique": "Add a failure-escalation controller that classifies failed tests or commands, preserves the failing artifact, revisits the issue hypothesis, and switches to targeted source tracing rather than repeatedly issuing similar edits.", "target_failure_mode": "Uneven cross-repository generalization", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-25102", "sympy__sympy-19783", "django__django-16569", "mwaskom__seaborn-3187", "sympy__sympy-15875", "sphinx-doc__sphinx-9602"], "patch_or_prompt": {"file": null, "find": "", "replace": ""}, "dimensions": {"target_alignment": 0.86, "reasoning_soundness": 0.87, "execution_accuracy": 0.84, "output_integrity": 0.91}, "aggregate": 0.87, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-25102", "score": 0.96}, {"instance_id": "sympy__sympy-19783", "score": 0.95}, {"instance_id": "django__django-16569", "score": 0.95}, {"instance_id": "mwaskom__seaborn-3187", "score": 0.39}, {"instance_id": "sympy__sympy-15875", "score": 0.38}, {"instance_id": "sphinx-doc__sphinx-9602", "score": 0.41}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "no concrete patch (null file/find/replace)", "delta_vs_baseline": 0.0225, "why": "Structured escalation prevents repeated edits after a failed assumption and encourages targeted source tracing, improving recovery on difficult and repository-specific tasks. It is the strongest execution-oriented change, but it is reactive rather than preventive and cannot help when tests fail to expose the relevant behavioral gap."}
+diff --git a/tei/onboarding.json b/tei/onboarding.json
+new file mode 100644
+index 0000000..622c3e6
+--- /dev/null
++++ b/tei/onboarding.json
+@@ -0,0 +1,445 @@
++{
++  "rank": 1,
++  "system": "live-SWE-agent + Claude 4.5 Opus medium (20251101)",
++  "system_key": "livesweagent",
++  "slug": "livesweagent",
++  "split": "verified",
++  "submission_folder": "20251215_livesweagent_claude-opus-4-5",
++  "date": "2025-12-15",
++  "model": "claude-opus-4-5-20251101",
++  "resolved": 396,
++  "resolve_rate": 79.2,
++  "repo_url": "https://github.com/OpenAutoCoder/live-swe-agent",
++  "repo_sha": "8d7dd8634580d1e09320b4c27d70380bc9ae74a8",
++  "site_urls": [
++    "https://github.com/OpenAutoCoder/live-swe-agent"
++  ],
++  "report_urls": [
++    "https://arxiv.org/abs/2511.13646"
++  ],
++  "archive_has_logs": false,
++  "archive_has_trajs": false,
++  "recorded_trajectories_available": 0,
++  "trajectory_note": "SWE-bench/experiments ships aggregate results only; logs/ and trajs/ are in a credentialed S3 bucket (archive README). No AWS access per owner directive, so 0 recorded trajectories were read.",
++  "resolved_instance_ids": [
++    "astropy__astropy-12907",
++    "astropy__astropy-13453",
++    "astropy__astropy-13579",
++    "astropy__astropy-14096",
++    "astropy__astropy-14309",
++    "astropy__astropy-14508",
++    "astropy__astropy-14539",
++    "astropy__astropy-14995",
++    "astropy__astropy-7166",
++    "astropy__astropy-7336",
++    "astropy__astropy-7671",
++    "django__django-10097",
++    "django__django-10880",
++    "django__django-10914",
++    "django__django-10973",
++    "django__django-11066",
++    "django__django-11095",
++    "django__django-11099",
++    "django__django-11119",
++    "django__django-11133",
++    "django__django-11138",
++    "django__django-11149",
++    "django__django-11163",
++    "django__django-11179",
++    "django__django-11206",
++    "django__django-11211",
++    "django__django-11239",
++    "django__django-11276",
++    "django__django-11292",
++    "django__django-11299",
++    "django__django-11333",
++    "django__django-11451",
++    "django__django-11490",
++    "django__django-11532",
++    "django__django-11551",
++    "django__django-11555",
++    "django__django-11603",
++    "django__django-11728",
++    "django__django-11740",
++    "django__django-11749",
++    "django__django-11790",
++    "django__django-11815",
++    "django__django-11848",
++    "django__django-11880",
++    "django__django-11951",
++    "django__django-11964",
++    "django__django-11999",
++    "django__django-12039",
++    "django__django-12050",
++    "django__django-12125",
++    "django__django-12143",
++    "django__django-12155",
++    "django__django-12193",
++    "django__django-12209",
++    "django__django-12262",
++    "django__django-12276",
++    "django__django-12304",
++    "django__django-12419",
++    "django__django-12663",
++    "django__django-12708",
++    "django__django-12713",
++    "django__django-12741",
++    "django__django-12754",
++    "django__django-12774",
++    "django__django-12858",
++    "django__django-12965",
++    "django__django-13012",
++    "django__django-13023",
++    "django__django-13028",
++    "django__django-13033",
++    "django__django-13089",
++    "django__django-13109",
++    "django__django-13112",
++    "django__django-13121",
++    "django__django-13128",
++    "django__django-13158",
++    "django__django-13279",
++    "django__django-13297",
++    "django__django-13315",
++    "django__django-13343",
++    "django__django-13344",
++    "django__django-13346",
++    "django__django-13363",
++    "django__django-13401",
++    "django__django-13406",
++    "django__django-13410",
++    "django__django-13417",
++    "django__django-13449",
++    "django__django-13516",
++    "django__django-13551",
++    "django__django-13568",
++    "django__django-13569",
++    "django__django-13590",
++    "django__django-13658",
++    "django__django-13670",
++    "django__django-13741",
++    "django__django-13786",
++    "django__django-13807",
++    "django__django-13809",
++    "django__django-13810",
++    "django__django-13820",
++    "django__django-13821",
++    "django__django-13837",
++    "django__django-13933",
++    "django__django-13964",
++    "django__django-14007",
++    "django__django-14017",
++    "django__django-14089",
++    "django__django-14122",
++    "django__django-14140",
++    "django__django-14238",
++    "django__django-14311",
++    "django__django-14349",
++    "django__django-14351",
++    "django__django-14373",
++    "django__django-14376",
++    "django__django-14434",
++    "django__django-14493",
++    "django__django-14500",
++    "django__django-14534",
++    "django__django-14539",
++    "django__django-14559",
++    "django__django-14580",
++    "django__django-14608",
++    "django__django-14631",
++    "django__django-14672",
++    "django__django-14725",
++    "django__django-14752",
++    "django__django-14765",
++    "django__django-14771",
++    "django__django-14787",
++    "django__django-14855",
++    "django__django-14915",
++    "django__django-14999",
++    "django__django-15022",
++    "django__django-15037",
++    "django__django-15103",
++    "django__django-15104",
++    "django__django-15127",
++    "django__django-15128",
++    "django__django-15161",
++    "django__django-15268",
++    "django__django-15277",
++    "django__django-15278",
++    "django__django-15280",
++    "django__django-15315",
++    "django__django-15368",
++    "django__django-15375",
++    "django__django-15380",
++    "django__django-15382",
++    "django__django-15467",
++    "django__django-15499",
++    "django__django-15503",
++    "django__django-15525",
++    "django__django-15554",
++    "django__django-15561",
++    "django__django-15569",
++    "django__django-15572",
++    "django__django-15695",
++    "django__django-15731",
++    "django__django-15741",
++    "django__django-15814",
++    "django__django-15851",
++    "django__django-15863",
++    "django__django-15916",
++    "django__django-15930",
++    "django__django-15957",
++    "django__django-15987",
++    "django__django-16032",
++    "django__django-16082",
++    "django__django-16100",
++    "django__django-16116",
++    "django__django-16136",
++    "django__django-16139",
++    "django__django-16145",
++    "django__django-16255",
++    "django__django-16315",
++    "django__django-16333",
++    "django__django-16429",
++    "django__django-16454",
++    "django__django-16485",
++    "django__django-16493",
++    "django__django-16527",
++    "django__django-16560",
++    "django__django-16569",
++    "django__django-16595",
++    "django__django-16612",
++    "django__django-16642",
++    "django__django-16661",
++    "django__django-16662",
++    "django__django-16801",
++    "django__django-16819",
++    "django__django-16877",
++    "django__django-16899",
++    "django__django-16901",
++    "django__django-16938",
++    "django__django-17029",
++    "django__django-17084",
++    "django__django-17087",
++    "django__django-7530",
++    "django__django-9296",
++    "matplotlib__matplotlib-13989",
++    "matplotlib__matplotlib-14623",
++    "matplotlib__matplotlib-20488",
++    "matplotlib__matplotlib-20826",
++    "matplotlib__matplotlib-20859",
++    "matplotlib__matplotlib-22719",
++    "matplotlib__matplotlib-22865",
++    "matplotlib__matplotlib-22871",
++    "matplotlib__matplotlib-23314",
++    "matplotlib__matplotlib-23412",
++    "matplotlib__matplotlib-24026",
++    "matplotlib__matplotlib-24149",
++    "matplotlib__matplotlib-24177",
++    "matplotlib__matplotlib-24570",
++    "matplotlib__matplotlib-24627",
++    "matplotlib__matplotlib-24637",
++    "matplotlib__matplotlib-24970",
++    "matplotlib__matplotlib-25122",
++    "matplotlib__matplotlib-25287",
++    "matplotlib__matplotlib-25311",
++    "matplotlib__matplotlib-25332",
++    "matplotlib__matplotlib-25960",
++    "matplotlib__matplotlib-26113",
++    "matplotlib__matplotlib-26291",
++    "matplotlib__matplotlib-26342",
++    "mwaskom__seaborn-3069",
++    "pallets__flask-5014",
++    "psf__requests-1724",
++    "psf__requests-1766",
++    "psf__requests-1921",
++    "psf__requests-2317",
++    "psf__requests-2931",
++    "psf__requests-5414",
++    "psf__requests-6028",
++    "pydata__xarray-2905",
++    "pydata__xarray-3095",
++    "pydata__xarray-3151",
++    "pydata__xarray-3305",
++    "pydata__xarray-3677",
++    "pydata__xarray-3993",
++    "pydata__xarray-4075",
++    "pydata__xarray-4094",
++    "pydata__xarray-4356",
++    "pydata__xarray-4629",
++    "pydata__xarray-4687",
++    "pydata__xarray-4695",
++    "pydata__xarray-4966",
++    "pydata__xarray-6461",
++    "pydata__xarray-6721",
++    "pydata__xarray-6744",
++    "pydata__xarray-6938",
++    "pydata__xarray-7233",
++    "pydata__xarray-7393",
++    "pylint-dev__pylint-4970",
++    "pylint-dev__pylint-6386",
++    "pylint-dev__pylint-6528",
++    "pylint-dev__pylint-6903",
++    "pylint-dev__pylint-7277",
++    "pylint-dev__pylint-8898",
++    "pytest-dev__pytest-10051",
++    "pytest-dev__pytest-10081",
++    "pytest-dev__pytest-5262",
++    "pytest-dev__pytest-5631",
++    "pytest-dev__pytest-5787",
++    "pytest-dev__pytest-5809",
++    "pytest-dev__pytest-6197",
++    "pytest-dev__pytest-6202",
++    "pytest-dev__pytest-7205",
++    "pytest-dev__pytest-7236",
++    "pytest-dev__pytest-7324",
++    "pytest-dev__pytest-7432",
++    "pytest-dev__pytest-7490",
++    "pytest-dev__pytest-7521",
++    "pytest-dev__pytest-7571",
++    "pytest-dev__pytest-7982",
++    "pytest-dev__pytest-8399",
++    "scikit-learn__scikit-learn-10297",
++    "scikit-learn__scikit-learn-10844",
++    "scikit-learn__scikit-learn-10908",
++    "scikit-learn__scikit-learn-11310",
++    "scikit-learn__scikit-learn-11578",
++    "scikit-learn__scikit-learn-12585",
++    "scikit-learn__scikit-learn-12682",
++    "scikit-learn__scikit-learn-12973",
++    "scikit-learn__scikit-learn-13124",
++    "scikit-learn__scikit-learn-13135",
++    "scikit-learn__scikit-learn-13142",
++    "scikit-learn__scikit-learn-13328",
++    "scikit-learn__scikit-learn-13439",
++    "scikit-learn__scikit-learn-13496",
++    "scikit-learn__scikit-learn-13779",
++    "scikit-learn__scikit-learn-14053",
++    "scikit-learn__scikit-learn-14087",
++    "scikit-learn__scikit-learn-14141",
++    "scikit-learn__scikit-learn-14496",
++    "scikit-learn__scikit-learn-14629",
++    "scikit-learn__scikit-learn-14710",
++    "scikit-learn__scikit-learn-14894",
++    "scikit-learn__scikit-learn-14983",
++    "scikit-learn__scikit-learn-15100",
++    "scikit-learn__scikit-learn-25102",
++    "scikit-learn__scikit-learn-25232",
++    "scikit-learn__scikit-learn-25931",
++    "scikit-learn__scikit-learn-25973",
++    "scikit-learn__scikit-learn-26323",
++    "scikit-learn__scikit-learn-9288",
++    "sphinx-doc__sphinx-10323",
++    "sphinx-doc__sphinx-10449",
++    "sphinx-doc__sphinx-10466",
++    "sphinx-doc__sphinx-10673",
++    "sphinx-doc__sphinx-11445",
++    "sphinx-doc__sphinx-7454",
++    "sphinx-doc__sphinx-7757",
++    "sphinx-doc__sphinx-7889",
++    "sphinx-doc__sphinx-7910",
++    "sphinx-doc__sphinx-8035",
++    "sphinx-doc__sphinx-8056",
++    "sphinx-doc__sphinx-8120",
++    "sphinx-doc__sphinx-8265",
++    "sphinx-doc__sphinx-8269",
++    "sphinx-doc__sphinx-8459",
++    "sphinx-doc__sphinx-8475",
++    "sphinx-doc__sphinx-8548",
++    "sphinx-doc__sphinx-8551",
++    "sphinx-doc__sphinx-8593",
++    "sphinx-doc__sphinx-8621",
++    "sphinx-doc__sphinx-8638",
++    "sphinx-doc__sphinx-8721",
++    "sphinx-doc__sphinx-9230",
++    "sphinx-doc__sphinx-9258",
++    "sphinx-doc__sphinx-9281",
++    "sphinx-doc__sphinx-9320",
++    "sphinx-doc__sphinx-9367",
++    "sphinx-doc__sphinx-9461",
++    "sphinx-doc__sphinx-9591",
++    "sphinx-doc__sphinx-9658",
++    "sphinx-doc__sphinx-9673",
++    "sphinx-doc__sphinx-9698",
++    "sympy__sympy-11618",
++    "sympy__sympy-12096",
++    "sympy__sympy-12419",
++    "sympy__sympy-12481",
++    "sympy__sympy-12489",
++    "sympy__sympy-13031",
++    "sympy__sympy-13091",
++    "sympy__sympy-13372",
++    "sympy__sympy-13480",
++    "sympy__sympy-13551",
++    "sympy__sympy-13615",
++    "sympy__sympy-13647",
++    "sympy__sympy-13757",
++    "sympy__sympy-13877",
++    "sympy__sympy-13878",
++    "sympy__sympy-14248",
++    "sympy__sympy-14531",
++    "sympy__sympy-14711",
++    "sympy__sympy-14976",
++    "sympy__sympy-15017",
++    "sympy__sympy-15345",
++    "sympy__sympy-15349",
++    "sympy__sympy-15809",
++    "sympy__sympy-16450",
++    "sympy__sympy-16766",
++    "sympy__sympy-16792",
++    "sympy__sympy-16886",
++    "sympy__sympy-17139",
++    "sympy__sympy-17655",
++    "sympy__sympy-18189",
++    "sympy__sympy-18211",
++    "sympy__sympy-18698",
++    "sympy__sympy-19040",
++    "sympy__sympy-19346",
++    "sympy__sympy-19495",
++    "sympy__sympy-19637",
++    "sympy__sympy-19783",
++    "sympy__sympy-19954",
++    "sympy__sympy-20154",
++    "sympy__sympy-20590",
++    "sympy__sympy-20801",
++    "sympy__sympy-21379",
++    "sympy__sympy-21612",
++    "sympy__sympy-21847",
++    "sympy__sympy-22714",
++    "sympy__sympy-22914",
++    "sympy__sympy-23262",
++    "sympy__sympy-23413",
++    "sympy__sympy-23534",
++    "sympy__sympy-23824",
++    "sympy__sympy-23950",
++    "sympy__sympy-24066",
++    "sympy__sympy-24213",
++    "sympy__sympy-24443",
++    "sympy__sympy-24539",
++    "sympy__sympy-24562",
++    "sympy__sympy-24661"
++  ],
++  "n_resolved_ids": 396,
++  "prompt_surface": [
++    {
++      "path": "config/livesweagent.yaml",
++      "markers": 3,
++      "bytes": 6672,
++      "sample": "system_template"
++    },
++    {
++      "path": "config/livesweagent_swebench.yaml",
++      "markers": 3,
++      "bytes": 8775,
++      "sample": "system_template"
++    },
++    {
++      "path": "config/livesweagent_swebench_pro.yaml",
++      "markers": 3,
++      "bytes": 8812,
++      "sample": "system_template"
++    }
++  ],
++  "n_prompt_surface_files": 3,
++  "prompt_surface_method": "content-marker scan (system_template/system_prompt/'You are a'/...)"
++}
+\ No newline at end of file
+-- 
+2.39.5 (Apple Git-154)
+

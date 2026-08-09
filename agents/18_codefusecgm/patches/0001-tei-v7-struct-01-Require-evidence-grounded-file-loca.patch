@@ -1,0 +1,26 @@
+From e4be3239393c1eef7f13b2dac1a49518c58132cc Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:53 -0700
+Subject: [PATCH 01/22] tei-v7 struct-01: Require evidence-grounded file
+ localization with explicit is
+
+---
+ reranker/reranker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index 15d7915..2fdcbda 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -11,7 +11,7 @@ stage_1_system_prompt = """
+ You are an experienced software developer who specializes in extracting the most relevant files for solving issues from many reference files.
+ 
+ Task:
+-Based on the information received about the issue from a repository, find the most likely few files from among those that may be able to resolve the issue.
++Map each issue symptom to concrete repository evidence before selecting files. Identify likely implementation modules, call sites, configuration paths, and relevant tests, then rank the most likely files that would require modification.
+ 
+ Instructions:
+ 1. Analysis:
+-- 
+2.39.5 (Apple Git-154)
+

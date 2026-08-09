@@ -1,0 +1,27 @@
+From 11b13ca3a71917701102b850a1c0fc3a3ead319f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:22 -0700
+Subject: [PATCH 16/47] tei-v7 struct-18: Bounded, structured retry policy
+ state
+
+---
+ llm_server/client_manager.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index 19211c8..0c5ffbb 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -48,6 +48,9 @@ class ModelConfig:
+     retry_jitter_seconds: float = 0.5
+     temperature: float = 0.0
+     max_tokens: int = 32000
++    require_fresh_retry_strategy: bool = True
++    max_same_failure_retries: int = 1
++    require_clean_retest_after_patch: bool = True
+     fallback_model_names: List[str] = None
+     circuit_breaker_threshold: int = 3
+     request_timeout_retries: int = 2
+-- 
+2.39.5 (Apple Git-154)
+

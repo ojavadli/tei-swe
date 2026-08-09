@@ -1,0 +1,61 @@
+From b15c502465cd621384326acb665e4d6bd109bd3e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:39:51 -0700
+Subject: [PATCH 28/28] tei-v7 struct-30: Add recovery parsing for edit blocks
+ after strict diff-comma
+
+---
+ kgcompass/repair.py  | 23 ++++++++++++++++++++++-
+ tei/candidates.jsonl |  1 +
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/kgcompass/repair.py b/kgcompass/repair.py
+index cd5bf7a..18fbf5a 100644
+--- a/kgcompass/repair.py
++++ b/kgcompass/repair.py
+@@ -21,11 +21,32 @@ from utils import (
+     format_entity_content,
+     extract_python_blocks,
+     split_edit_multifile_commands,
+-    parse_diff_edit_commands_strict as _parse_diff_edit_commands_strict,
++    parse_diff_edit_commands_strict as _strict_parse_diff_edit_commands,
+     check_syntax,
+     applable_patch as _applable_patch,
+ )
+ 
++def _parse_diff_edit_commands_strict(*args, **kwargs):
++    try:
++        result = _strict_parse_diff_edit_commands(*args, **kwargs)
++        if result:
++            return result
++    except (OSError, ValueError, TypeError, IndexError):
++        pass
++    text_index = next((i for i, value in enumerate(args) if isinstance(value, str)), None)
++    if text_index is None:
++        return []
++    for block in extract_python_blocks(args[text_index]):
++        retry_args = list(args)
++        retry_args[text_index] = block
++        try:
++            result = _strict_parse_diff_edit_commands(*retry_args, **kwargs)
++            if result:
++                return result
++        except (OSError, ValueError, TypeError, IndexError):
++            continue
++    return []
++
+ def applable_patch(*args, **kwargs):
+     try:
+         result = _applable_patch(*args, **kwargs)
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 2e7ec6b..54f0582 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -26,3 +26,4 @@
+ {"version_id": "struct-26", "phase": "structural", "technique": "Replace first-match JSON extraction with balanced JSONDecoder scanning", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "def extract_json_code(text):\n    if not isinstance(text, str):\n        return {}", "replace": "def extract_json_code(text):\n    if not isinstance(text, str):\n        return {}\n    decoder = json.JSONDecoder()\n    for start, char in enumerate(text):\n        if char != '{':\n            continue\n        try:\n            parsed, _ = decoder.raw_decode(text[start:])\n            if isinstance(parsed, dict) and parsed:\n                return parsed\n        except (ValueError, TypeError, json.JSOND"}, "dimensions": {"target_alignment": 0.7, "reasoning_soundness": 0.63, "execution_accuracy": 0.59, "output_integrity": 0.71}, "aggregate": 0.6575, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.3}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.03, "why": "Balanced JSONDecoder scanning is a meaningful improvement for malformed or prefixed model output and raises output integrity. It does not materially improve diagnosis or patch generation, and scanning arbitrary opening braces can still select an unintended valid object."}
+ {"version_id": "struct-27", "phase": "structural", "technique": "Treat patch-tool and filesystem errors as failed attempts rather than aborting orchestration", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "    try:\n        result = _applable_patch(*args, **kwargs)\n    except (OSError, subprocess.CalledProcessError, ValueError):\n        result = False", "replace": "    try:\n        result = _applable_patch(*args, **kwargs)\n    except Exception:\n        result = False"}, "dimensions": {"target_alignment": 0.69, "reasoning_soundness": 0.61, "execution_accuracy": 0.61, "output_integrity": 0.65}, "aggregate": 0.64, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.25}, {"instance_id": "django__django-11964", "score": 0.24}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0125, "why": "Converting patch-tool exceptions into failed attempts improves orchestration resilience and gives retries or alternate attempts a chance. Broad exception swallowing can hide programming and filesystem defects, so reasoning soundness improves little and execution gains remain modest."}
+ {"version_id": "struct-28", "phase": "structural", "technique": "Make post-application whitespace verification failure-safe", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "    whitespace = subprocess.run(\n        ['git', 'diff', '--check'], capture_output=True, text=True\n    )", "replace": "    try:\n        whitespace = subprocess.run(\n            ['git', 'diff', '--check'], capture_output=True, text=True\n        )\n    except (OSError, subprocess.SubprocessError):\n        return False"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.63, "execution_accuracy": 0.55, "output_integrity": 0.65}, "aggregate": 0.6275, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.89}, {"instance_id": "django__django-12747", "score": 0.89}, {"instance_id": "django__django-13768", "score": 0.19}, {"instance_id": "django__django-11964", "score": 0.2}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0, "why": "Failure-safe whitespace checking avoids an orchestration crash, but returning false when subprocess verification is unavailable can reject otherwise usable patches and reduce execution accuracy. It provides only a small integrity benefit and is below baseline overall."}
++{"version_id": "struct-29", "phase": "structural", "technique": "Provide a tokenizer compatibility fallback for environments without tiktoken", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair_claude.py", "find": "import tiktoken", "replace": "try:\n    import tiktoken\nexcept ImportError:\n    class _FallbackEncoding:\n        def encode(self, text):\n            return text.split()\n        def decode(self, tokens):\n            return ' '.join(tokens)\n    class _FallbackTiktoken:\n        @staticmethod\n        def get_encoding(_name):\n            return _FallbackEncoding()\n    tiktoken = _FallbackTiktoken()"}, "dimensions": {"target_alignment": 0.65, "reasoning_soundness": 0.57, "execution_accuracy": 0.52, "output_integrity": 0.56}, "aggregate": 0.575, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.86}, {"instance_id": "django__django-12747", "score": 0.87}, {"instance_id": "django__django-13768", "score": 0.16}, {"instance_id": "django__django-11964", "score": 0.17}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": -0.0525, "why": "The fallback prevents an import-time failure, but whitespace tokenization is not tokenizer-compatible and decode reintroduces spacing changes that can corrupt code or token budgets. This is a brittle compatibility workaround and scores below baseline on execution and output integrity."}
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From dc19536355a70b8dae56d62186662b482f98dbca Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:49 -0700
+Subject: [PATCH 06/18] tei-v7 struct-06: Sanitize injected runtime
+ configuration before reading model
+
+---
+ .../src/workbench/python-helpers/composio_helper.py             | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index a3cb105..a38b3ac 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -15,6 +15,8 @@ try:
+     _INTERNAL
+ except NameError:
+     _INTERNAL = {}
++if not isinstance(_INTERNAL, dict):
++    _INTERNAL = {}
+ 
+ 
+ DEFAULT_INVOKE_LLM_MODEL = (
+-- 
+2.39.5 (Apple Git-154)
+

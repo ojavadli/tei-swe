@@ -1,0 +1,25 @@
+From 8491d7b77e8491d53c624afdca74211867a9433d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:00:32 -0700
+Subject: [PATCH 29/50] tei-v7 prompt-03: Invariant-first patch contract
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 78fb456..8bd3b67 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -8,7 +8,7 @@ STEP_EXAMPLE = {
+     },
+     "patch_contract": {
+         "target_file": "repository-relative path",
+-        "target_symbol": "exact function, method, class, or branch", "causal_chain": "name the failing input, violated invariant, caller-to-callee edge, and the exact branch that must change",
++        "target_symbol": "exact function, method, class, or branch, together with the semantic invariant it must preserve, the input state that violates that invariant, the nearest caller and callee involved, and the reason this symbol—not merely a helper with similar names—is causal", "causal_chain": "name the failing input, violated invariant, caller-to-callee edge, and the exact branch that must change",
+         "edit_invariant": "the behavior-preserving constraint outside the bug",
+         "minimal_change": "one precise edit in the causal symbol or its directly responsible branch, with no speculative refactor, unrelated cleanup, or multi-site workaround",
+         "regression_test": "exact test path or executable oracle",
+-- 
+2.39.5 (Apple Git-154)
+

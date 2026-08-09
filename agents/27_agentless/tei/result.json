@@ -1,0 +1,62 @@
+{
+  "agent": "27_agentless",
+  "system": "Agentless + RepoGraph + GPT-4o",
+  "rank": 27,
+  "resolve_rate": 29.67,
+  "score_label": "PROXY",
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  },
+  "baseline": 0.44,
+  "best_structural": 0.48,
+  "best_structural_id": "struct-07",
+  "best_final": 0.5025,
+  "best_final_id": "prompt-11",
+  "shipped": "prompt-11",
+  "confirmation": {
+    "n_queries": 4,
+    "cand_mean": 0.5325,
+    "ref_mean": 0.4625,
+    "delta": 0.07,
+    "wins": 4,
+    "losses": 0,
+    "sign_p": 0.125,
+    "margin_hoeffding": 0.679,
+    "mde": 0.297,
+    "insufficient_n": false,
+    "accept": true,
+    "reason": "mean not below reference; 4W/0L paired (sign p=0.125)",
+    "preflight": "Power check: with 4 eval queries, only mean-score changes >= ~0.30 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
+  },
+  "noise_floor": {
+    "paraphrase_aggregates": [
+      0.44,
+      0.4425,
+      0.4425
+    ],
+    "noise_floor": 0.0025
+  },
+  "n_versions": 24,
+  "n_applied": 8,
+  "budget_after": {
+    "calls": 67,
+    "input_tokens": 82354,
+    "output_tokens": 112439,
+    "cost_nominal_usd": 1.2273,
+    "cost_conservative_usd": 2.4547,
+    "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+    "scale_downs": [
+      "iters 30->18 (projected $8.10) before 24_swefixer",
+      "iters 18->12 (projected $6.04) before 25_codeshelltester"
+    ]
+  },
+  "noise_floor_method": "baseline-anchored orbit; identical calibration to candidate scoring",
+  "shipped_delta": 0.0625,
+  "gain_vs_noise_floor": "exceeds_noise_floor",
+  "below_mde": true,
+  "mde_note": "shipped delta 0.0625 vs MDE 0.297 at n=4: BELOW the minimum detectable effect - not statistically meaningful at this n"
+}

@@ -1,0 +1,25 @@
+From f306aefc2c26e30435c9f809648f72cacd50fcf8 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:18:20 -0700
+Subject: [PATCH 12/17] tei-v7 prompt-13: Atomic acceptance-contract expansion
+
+---
+ src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index 88780da..49226d6 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -22,7 +22,7 @@ def deepswe_condense_thoughts(
+ 
+     The first [USER] block is left intact.
+     """
+-    placeholder = "<Older execution history condensed. Treat the issue statement as a strict acceptance contract. First decompose it into atomic behavioral, API, compatibility, and error-handling requirements. For each requirement, identify the current implementation path, the exact code and call sites that must change, and the observable expected behavior. Implement every requirement, including implicit edge cases and unchanged behavior constraints. Before finishing, produce a requirement-to-code mapping and inspect the complete diff for omissions.>"
++    placeholder = "<Older execution history condensed. Treat the issue statement as a strict acceptance contract. Extract explicit and implicit requirements, including public API behavior, compatibility constraints, failure modes, boundary cases, and requirements that must remain unchanged; do not stop after satisfying only the headline behavior. First decompose it into atomic behavioral, API, compatibility, and error-handling requirements. For each requirement, identify the current implementation path, the exact code and call sites that must change, and the observable expected behavior. Implement every requirement, including implicit edge cases and unchanged behavior constraints. Before finishing, produce a requirement-to-code mapping and inspect the complete diff for omissions.>"
+     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+ 
+     # Preserve requirement, patch, and test evidence while removing only low-value history.
+-- 
+2.39.5 (Apple Git-154)
+

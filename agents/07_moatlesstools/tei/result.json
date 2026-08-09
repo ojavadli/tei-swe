@@ -1,0 +1,61 @@
+{
+  "agent": "07_moatlesstools",
+  "system": "Moatless Tools + Claude 4 Sonnet",
+  "rank": 7,
+  "resolve_rate": 70.8,
+  "score_label": "PROXY",
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  },
+  "baseline": 0.795,
+  "best_structural": 0.8425,
+  "best_structural_id": "struct-03",
+  "best_final": 0.85,
+  "best_final_id": "prompt-18",
+  "shipped": "prompt-18",
+  "confirmation": {
+    "n_queries": 4,
+    "cand_mean": 0.6775,
+    "ref_mean": 0.59,
+    "delta": 0.0875,
+    "wins": 4,
+    "losses": 0,
+    "sign_p": 0.125,
+    "margin_hoeffding": 0.679,
+    "mde": 0.297,
+    "insufficient_n": false,
+    "accept": true,
+    "reason": "mean not below reference; 4W/0L paired (sign p=0.125)",
+    "preflight": "Power check: with 4 eval queries, only mean-score changes >= ~0.30 are statistically meaningful; smaller deltas are within judge noise. (~36 queries would certify a 0.10 gain.)"
+  },
+  "noise_floor": {
+    "paraphrase_aggregates": [
+      0.795,
+      0.795,
+      0.795
+    ],
+    "noise_floor": 0.0
+  },
+  "n_versions": 36,
+  "n_applied": 3,
+  "budget_after": {
+    "calls": 50,
+    "input_tokens": 66818,
+    "output_tokens": 89374,
+    "cost_nominal_usd": 0.9773,
+    "cost_conservative_usd": 1.9545,
+    "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+    "scale_downs": [
+      "iters 30->18 (projected $6.01) before 06_lingxi"
+    ]
+  },
+  "noise_floor_method": "baseline-anchored orbit; identical calibration to candidate scoring",
+  "shipped_delta": 0.055,
+  "gain_vs_noise_floor": "exceeds_noise_floor",
+  "below_mde": true,
+  "mde_note": "shipped delta 0.055 vs MDE 0.297 at n=4: BELOW the minimum detectable effect - not statistically meaningful at this n"
+}

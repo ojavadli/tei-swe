@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.78,
+    "reasoning_soundness": 0.77,
+    "execution_accuracy": 0.75,
+    "output_integrity": 0.8
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-14631",
+      "score": 0.95
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-15100",
+      "score": 0.95
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7277",
+      "score": 0.05
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-13124",
+      "score": 0.05
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incomplete task resolution",
+      "description": "The system failed to produce a resolved outcome on two fixed repository tasks, indicating substantial tail risk despite the aggregate success rate.",
+      "evidence_instance_ids": [
+        "pylint-dev__pylint-7277",
+        "scikit-learn__scikit-learn-13124"
+      ]
+    },
+    {
+      "name": "Insufficient repository-specific debugging or implementation accuracy",
+      "description": "Failures on both a Pylint task and a scikit-learn task suggest difficulty converting repository analysis into a correct, project-specific change.",
+      "evidence_instance_ids": [
+        "pylint-dev__pylint-7277",
+        "scikit-learn__scikit-learn-13124"
+      ]
+    },
+    {
+      "name": "Unreliable end-to-end verification and completion",
+      "description": "The recorded unresolved outcomes indicate that exploration and reasoning do not consistently culminate in a validated patch, even though two other probes were resolved.",
+      "evidence_instance_ids": [
+        "pylint-dev__pylint-7277",
+        "scikit-learn__scikit-learn-13124"
+      ]
+    }
+  ],
+  "why": "ACoder's officially resolved rate is 76.4%, so its dimensions should reflect meaningful capability with nontrivial failure risk rather than near-perfect performance. The fixed probes show successful handling of django__django-14631 and scikit-learn__scikit-learn-15100, but failure on pylint-dev__pylint-7277 and scikit-learn__scikit-learn-13124; the repository also exposes no prompt surface for stronger evidence about alignment or output behavior.",
+  "aggregate": 0.775,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-14631",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-15100",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7277",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-13124",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": false,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "no source code in linked repo"
+  }
+}

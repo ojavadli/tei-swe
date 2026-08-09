@@ -1,0 +1,30 @@
+From a3d970190cfef0d77db3ebfd41d165b27a4d9ff2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:18:05 -0700
+Subject: [PATCH 05/10] tei-v7 struct-06: Discard parsed command groups that
+ are empty before entering
+
+---
+ src/swerl/agentless_mini/repair.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/swerl/agentless_mini/repair.py b/src/swerl/agentless_mini/repair.py
+index 631cc5c..af14bcf 100644
+--- a/src/swerl/agentless_mini/repair.py
++++ b/src/swerl/agentless_mini/repair.py
+@@ -57,7 +57,11 @@ def _post_process_multifile_repair(
+     edit_multifile_commands = utils.data.extract_python_blocks(raw_output)
+     edited_files = list[str]()
+     new_contents = list[str]()
+-    file_to_commands = utils.data.split_edit_multifile_commands(edit_multifile_commands)
++    file_to_commands = {
++        edited_file: commands
++        for edited_file, commands in utils.data.split_edit_multifile_commands(edit_multifile_commands).items()
++        if edited_file and commands
++    }
+ 
+     for edited_file_key in file_to_commands:
+         edited_file = ""
+-- 
+2.39.5 (Apple Git-154)
+

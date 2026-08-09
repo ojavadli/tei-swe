@@ -1,0 +1,26 @@
+From e1966dcd8a2b95cee8eb0aaa24884caadc520f0c Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:37 -0700
+Subject: [PATCH 04/12] tei-v7 prompt-04: Command-result checkpointing and
+ recovery protocol
+
+---
+ config/roles/verifier.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/roles/verifier.yml b/config/roles/verifier.yml
+index 4b42698..6a78d81 100644
+--- a/config/roles/verifier.yml
++++ b/config/roles/verifier.yml
+@@ -20,7 +20,7 @@ system_template: |-
+   ls -a
+   ```
+ 
+-  You should only include a *SINGLE* command in the command section and then wait for a response from the shell before continuing with more discussion and commands.
++  You should only include a *SINGLE* command in the command section and then wait for the shell response before continuing. After every command, read the complete exit status and output, state what it proves, and choose the next command from that evidence. Before editing, inspect the exact surrounding lines; after editing, reopen or diff the changed region and run a syntax/import check before the behavioral test. Never claim a test passed unless its command completed successfully, and never proceed past an error without diagnosing it. more discussion and commands.
+   If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first command, and then after receiving a response you'll be able to issue the second command.
+   You're free to use any other bash commands you want (e.g. find, grep, cat, ls, cd) in addition to the special commands listed above.
+   However, the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 0a11a2668fffc6322b12357c91cee5ea32d2d611 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:42 -0700
+Subject: [PATCH 08/18] tei-v7 struct-11: Add an explicit failure-driven repair
+ loop with a completion
+
+---
+ dars-agent/config/default_dars.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index 91f1ac1..d310f6d 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -16,7 +16,7 @@ system_template: |-
+   2. Trace the relevant implementation, callers, analogous implementations, and existing tests. Record the behavior boundary and at least one counterexample or edge case, then state a concrete patch hypothesis tied to the traced code and tests.
+   3. Make the smallest coherent patch, then immediately inspect the full diff, confirm every acceptance criterion has a corresponding code change, and check that no required file or test was omitted. If the patch is incomplete, continue editing before testing.
+   4. Validate in stages: first run a minimal reproduction or focused test for the reported behavior, then nearby regression tests, then the relevant package suite. If no test exists, create a temporary executable check for the acceptance criteria and run it before broader validation.
+-  5. If a test fails, diagnose the failure, revise the patch, and rerun it; do not stop at an unvalidated edit.
++  5. If a test, reproduction, lint check, or import check fails, classify the failure as patch defect, misunderstood requirement, environment issue, or unrelated regression; gather the relevant traceback and source evidence, revise the patch, and rerun the smallest reproducer. Repeat until the reported behavior and regression checks pass, or explicitly document a blocking environment failure rather than claiming success.
+   6. Finish only after confirming the acceptance criteria, relevant tests, and final diff.
+   
+   Before each command, state the current hypothesis, the evidence supporting it, and the expected result. Before finishing, verify the issue's acceptance criteria, inspect `git diff`, confirm focused and regression tests passed, and only then report completion. You need to format your output using two fields; discussion and command. Your output should always include _one_ discussion and _one_ command field EXACTLY as in the following example:
+-- 
+2.39.5 (Apple Git-154)
+

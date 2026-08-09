@@ -1,0 +1,41 @@
+From 98bc2668ce711d7522f62f7ea6d2eb59cefc36cc Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:35 -0700
+Subject: [PATCH 12/24] tei-v7 struct-15: Historical-analogy triangulation with
+ repository-local falsi
+
+---
+ src/agent/tool_set/dev_knowledge.py | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/tool_set/dev_knowledge.py b/src/agent/tool_set/dev_knowledge.py
+index 2edbd4d..c9a7472 100644
+--- a/src/agent/tool_set/dev_knowledge.py
++++ b/src/agent/tool_set/dev_knowledge.py
+@@ -20,7 +20,22 @@ from langchain_anthropic import ChatAnthropic
+ from langgraph.prebuilt import create_react_agent
+ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+ 
+-from src.agent.prompt.dev_knowledge_prompts import DEV_KNOWLEDGE_ANALYSIS_SYSTEM_PROMPT, DEV_KNOWLEDGE_ANALYSIS_USER_PROMPT, DEV_KNOWLEDGE_SUMMARY_SYSTEM_PROMPT, DEV_KNOWLEDGE_SUMMARY_USER_PROMPT, GUIDING_QUESTIONS_PROMPT
++from src.agent.prompt.dev_knowledge_prompts import (
++    DEV_KNOWLEDGE_ANALYSIS_SYSTEM_PROMPT as _BASE_DEV_KNOWLEDGE_ANALYSIS_SYSTEM_PROMPT,
++    DEV_KNOWLEDGE_ANALYSIS_USER_PROMPT as _BASE_DEV_KNOWLEDGE_ANALYSIS_USER_PROMPT,
++    DEV_KNOWLEDGE_SUMMARY_SYSTEM_PROMPT as _BASE_DEV_KNOWLEDGE_SUMMARY_SYSTEM_PROMPT,
++    DEV_KNOWLEDGE_SUMMARY_USER_PROMPT as _BASE_DEV_KNOWLEDGE_SUMMARY_USER_PROMPT,
++    GUIDING_QUESTIONS_PROMPT as _BASE_GUIDING_QUESTIONS_PROMPT,
++)
++DEV_KNOWLEDGE_ANALYSIS_SYSTEM_PROMPT = _BASE_DEV_KNOWLEDGE_ANALYSIS_SYSTEM_PROMPT + """
++For every historical analogy, identify the framework version, invariant, and mechanism that transfer. Compare it against the current repository source and issue reproduction; explicitly record one reason the analogy might not transfer and falsify that reason before using it.
++"""
++DEV_KNOWLEDGE_ANALYSIS_USER_PROMPT = _BASE_DEV_KNOWLEDGE_ANALYSIS_USER_PROMPT
++DEV_KNOWLEDGE_SUMMARY_SYSTEM_PROMPT = _BASE_DEV_KNOWLEDGE_SUMMARY_SYSTEM_PROMPT + """
++Summaries must separate transferable mechanism from incidental patch details and cite current-repository evidence for each recommendation.
++"""
++DEV_KNOWLEDGE_SUMMARY_USER_PROMPT = _BASE_DEV_KNOWLEDGE_SUMMARY_USER_PROMPT
++GUIDING_QUESTIONS_PROMPT = _BASE_GUIDING_QUESTIONS_PROMPT
+ from src.agent.logging_config import get_logger
+ from src.agent.state import DevKnowledge, State
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,100 @@
+{
+  "dimensions": {
+    "target_alignment": 0.86,
+    "reasoning_soundness": 0.84,
+    "execution_accuracy": 0.79,
+    "output_integrity": 0.9
+  },
+  "probe_scores": [
+    {
+      "instance_id": "scikit-learn__scikit-learn-25102",
+      "score": 0.94
+    },
+    {
+      "instance_id": "sympy__sympy-19783",
+      "score": 0.93
+    },
+    {
+      "instance_id": "django__django-16569",
+      "score": 0.92
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "score": 0.3
+    },
+    {
+      "instance_id": "sympy__sympy-15875",
+      "score": 0.28
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9602",
+      "score": 0.32
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incomplete or incorrect implementation on difficult issues",
+      "description": "The system has recorded unresolved outcomes on three probes, indicating that correct issue understanding does not consistently translate into a working patch.",
+      "evidence_instance_ids": [
+        "mwaskom__seaborn-3187",
+        "sympy__sympy-15875",
+        "sphinx-doc__sphinx-9602"
+      ]
+    },
+    {
+      "name": "Insufficient robustness across project-specific edge cases",
+      "description": "Failures span Seaborn, SymPy, and Sphinx, suggesting difficulty adapting implementation and validation to differing library conventions and edge cases.",
+      "evidence_instance_ids": [
+        "mwaskom__seaborn__seaborn-3187",
+        "sympy__sympy-15875",
+        "sphinx-doc__sphinx-9602"
+      ]
+    },
+    {
+      "name": "Uneven cross-repository generalization",
+      "description": "Although the system resolves representative scikit-learn, SymPy, and Django tasks, it fails other repositories in the same benchmark, showing non-uniform performance across codebases.",
+      "evidence_instance_ids": [
+        "mwaskom__seaborn-3187",
+        "sympy__sympy-15875",
+        "sphinx-doc__sphinx-9602"
+      ]
+    }
+  ],
+  "why": "The recorded 79.2% resolve rate supports generally strong but clearly imperfect scores, with execution accuracy weakest because 20.8% of benchmark instances remain unresolved. The probes show successful handling of scikit-learn, one SymPy issue, and Django, but failures on Seaborn, another SymPy issue, and Sphinx demonstrate meaningful project- and task-specific brittleness.",
+  "aggregate": 0.8475,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "scikit-learn__scikit-learn-25102",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-19783",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-16569",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sympy__sympy-15875",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9602",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": false,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "no source code in linked repo"
+  }
+}

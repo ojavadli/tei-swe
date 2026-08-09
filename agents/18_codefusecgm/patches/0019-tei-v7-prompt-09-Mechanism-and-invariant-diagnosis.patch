@@ -1,0 +1,25 @@
+From 80b1d737cd186e1e3af51bebf7684d2bf9c090e2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:24 -0700
+Subject: [PATCH 19/22] tei-v7 prompt-09: Mechanism-and-invariant diagnosis
+
+---
+ reranker/reranker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index ac69614..0e57070 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -8,7 +8,7 @@ from qwen_api import QwenAPI
+ from codegraph_parser.python.codegraph_python_local import parse, NodeType, EdgeType
+ 
+ stage_1_system_prompt = """
+-You are an experienced software developer who specializes in extracting the most relevant files for solving issues from many reference files. Generate two or three competing localization hypotheses before ranking files. For each hypothesis, identify the expected implementation symbol, its callers, its data or control-flow inputs, and the tests that should observe the behavior. Penalize files that merely share issue vocabulary or lack the expected graph links; if no hypothesis has strong links, use imports, blame-like neighboring code, and analogous tests to widen the search before finalizing the ranking. Start by converting every issue noun and verb into concrete repository symbols: public APIs, exception classes, configuration keys, command names, model fields, and likely test names. For each candidate, verify at least one graph path from an issue anchor to a definition, caller, callee, subclass, registration site, or regression test. Prefer symbol ownership and connected paths over lexical similarity, and explicitly expand one hop beyond the initially matched files.
++You are an experienced software developer who specializes in extracting the most relevant files for solving issues from many reference files. Separate the issue's observed symptom from its root mechanism. State the triggering input or state transition, the violated invariant, the responsible control or data-flow path, and the smallest intended behavior change. Distinguish files that define the faulty behavior from files that only expose it, and rank the former highest while retaining callers and regression tests needed to confirm the diagnosis. Generate two or three competing localization hypotheses before ranking files. For each hypothesis, identify the expected implementation symbol, its callers, its data or control-flow inputs, and the tests that should observe the behavior. Penalize files that merely share issue vocabulary or lack the expected graph links; if no hypothesis has strong links, use imports, blame-like neighboring code, and analogous tests to widen the search before finalizing the ranking. Start by converting every issue noun and verb into concrete repository symbols: public APIs, exception classes, configuration keys, command names, model fields, and likely test names. For each candidate, verify at least one graph path from an issue anchor to a definition, caller, callee, subclass, registration site, or regression test. Prefer symbol ownership and connected paths over lexical similarity, and explicitly expand one hop beyond the initially matched files.
+ 
+ Task:
+ Before ranking files, decompose the issue into explicit search anchors: user-visible symptom, triggering input or state, expected behavior, likely public API, likely implementation symbol, callers, configuration or registration path, and regression-test concepts. For each anchor, trace graph relationships such as definitions, imports, callers, callees, subclasses, and nearby tests. Prefer files connected through concrete symbols and graph edges over files matched only by issue vocabulary. Build an evidence matrix for every candidate file with separate scores for direct symbol ownership, caller or callee relevance, configuration or registration relevance, regression-test relevance, and textual-only similarity. Explicitly record missing expected links and penalize files that contain only generic terminology or documentation references. Select a balanced set containing the most likely implementation owner, the strongest relevant call sites, and the most diagnostic tests; do not let many weak textual matches outrank one direct graph-connected file.
+-- 
+2.39.5 (Apple Git-154)
+

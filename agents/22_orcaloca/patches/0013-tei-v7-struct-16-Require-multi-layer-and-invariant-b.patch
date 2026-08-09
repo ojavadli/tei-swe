@@ -1,0 +1,27 @@
+From 670fa9d7191d4294cf90fb76287804101d2840e4 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:14 -0700
+Subject: [PATCH 13/50] tei-v7 struct-16: Require multi-layer and
+ invariant-based reproduction obligat
+
+---
+ Orcar/prompts.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 541ee6f..ce36af1 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -14,6 +14,9 @@ STEP_EXAMPLE = {
+             "minimal input that triggers the bug",
+             "expected versus actual result or exception",
+             "semantic invariants that must remain true after the fix",
++            "a nearby valid input that must remain unchanged",
++            "a boundary, nested, symbolic, or unevaluated input that probes generalization",
++            "the normalization, canonicalization, or assumption invariant exercised by the issue",
+             "test command or executable oracle that distinguishes the fixed behavior"
+         ]
+     },
+-- 
+2.39.5 (Apple Git-154)
+

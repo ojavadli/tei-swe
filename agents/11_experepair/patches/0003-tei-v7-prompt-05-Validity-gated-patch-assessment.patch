@@ -1,0 +1,25 @@
+From c9ee14207c2d0aa269ec1b00debf2503ef725ad0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:20:23 -0700
+Subject: [PATCH 03/13] tei-v7 prompt-05: Validity-gated patch assessment
+
+---
+ ExpeRepair-v1.0/inference/validation.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ExpeRepair-v1.0/inference/validation.py b/ExpeRepair-v1.0/inference/validation.py
+index 8fe2f0f..61b741a 100644
+--- a/ExpeRepair-v1.0/inference/validation.py
++++ b/ExpeRepair-v1.0/inference/validation.py
+@@ -8,7 +8,7 @@ import litellm
+ 
+ SYSTEM_PROMPT_W_REPO = "You are an expert software engineering evaluator analyzing patches for resolving GitHub issues in the {repo_name} project."
+ 
+-TASK_PROMPT_INITIAL = '''Since both the reproduction test and candidate patches may be unreliable, you must comprehensively analyze both to identify the correct patch.
++TASK_PROMPT_INITIAL = '''Since both the reproduction test and candidate patches may be unreliable, assess them independently and apply a strict validity gate. First reconstruct the issue's required behavior from the report and repository conventions. For every reproduction assertion, classify it as valid, invalid, or indeterminate and explain whether its expected result is supported by the issue or codebase. Ignore invalid and indeterminate assertions when judging a patch; never reward a patch merely because it makes a malformed test pass. Then evaluate whether the candidate changes fix the confirmed root cause, preserve existing behavior, and avoid unrelated modifications.
+ Your task is to:
+ 1. Evaluate the Reproduction Test:
+    - For each test case, determine whether its input is valid for verifying the patch. A test input is considered invalid if:
+-- 
+2.39.5 (Apple Git-154)
+

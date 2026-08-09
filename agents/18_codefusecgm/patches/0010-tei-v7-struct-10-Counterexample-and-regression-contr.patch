@@ -1,0 +1,26 @@
+From cc7de37a8d0ad00433c8e6f7cf465beba9b831b2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:11:33 -0700
+Subject: [PATCH 10/22] tei-v7 struct-10: Counterexample and
+ regression-contract reasoning
+
+---
+ reranker/reranker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index f02039d..636a687 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -18,7 +18,7 @@ Instructions:
+ - First write a compact causal hypothesis: observed symptom -> triggering state or input -> responsible function or class -> incorrect behavior -> intended behavior. Then test that hypothesis against every candidate file using named classes, functions, imported symbols, callers/callees, and nearby tests. using named classes, functions, imported symbols, callers/callees, nearby tests, and graph paths. For every selected file, cite the exact symbol or edge connecting it to the reported symptom, distinguish direct ownership from textual mention, and score evidence strength before ranking files. Prefer files that own the failing behavior or its regression tests over files that merely mention the issue terminology.
+ - Decompose the issue into separate behavioral clues: public API or user-visible symptom, likely implementation mechanism, callers or configuration paths, and expected regression-test behavior. Track which candidate files cover each clue, penalize rankings that cover only one clue, and note any clues that currently have no repository evidence.
+ 2. Extraction:
+-- Based on your analysis, choose the Top **{}** files and assign each a role: primary implementation, supporting implementation, regression test, or reference-only. Select primary implementation files only when the issue evidence identifies the behavior they own.
++- Based on your analysis, choose the Top **{}** files and assign each a role: primary implementation, supporting implementation, regression test, or reference-only. Before finalizing, state the smallest input or execution path that would reproduce the issue, the expected invariant after the fix, and one plausible alternative diagnosis that the selected files rule out. Select primary implementation files only when the issue evidence identifies the behavior they own.
+ - You should choose files from the provided files, and should not modify their name in any way.
+ 
+ Respond using exactly this format and no additional headings:
+-- 
+2.39.5 (Apple Git-154)
+

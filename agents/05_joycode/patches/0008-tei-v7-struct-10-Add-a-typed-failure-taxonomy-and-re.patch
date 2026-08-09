@@ -1,0 +1,34 @@
+From 29557c3f83e8e01efc25a4d172a2709cb8117bd0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:44 -0700
+Subject: [PATCH 08/47] tei-v7 struct-10: Add a typed failure taxonomy and
+ require retry strategy sele
+
+---
+ llm_server/client_manager.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index 85c8d0f..a22ce21 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -11,6 +11,16 @@ from pathlib import Path
+ from openai import OpenAI
+ 
+ 
++class FailureKind(Enum):
++    """Actionable execution failure classes used by the recovery controller."""
++    IMPLEMENTATION = "implementation"
++    REGRESSION_TEST = "regression_test"
++    ENVIRONMENT = "environment"
++    TIMEOUT = "timeout"
++    PATCH_FORMAT = "patch_format"
++    UNKNOWN = "unknown"
++
++
+ class ModelPurpose(Enum):
+     """Model Usage Enumeration"""
+     PATCH_GENERATION = "patch_generation"
+-- 
+2.39.5 (Apple Git-154)
+

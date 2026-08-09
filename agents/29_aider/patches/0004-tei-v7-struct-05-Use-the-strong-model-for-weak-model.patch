@@ -1,0 +1,26 @@
+From fe4d690c53c1b86ee404e7fce39d1663cdfcc906 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:55 -0700
+Subject: [PATCH 4/9] tei-v7 struct-05: Use the strong model for weak-model
+ summarization and auxili
+
+---
+ aider/resources/model-settings.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/aider/resources/model-settings.yml b/aider/resources/model-settings.yml
+index fb9bc8d..83d0ae7 100644
+--- a/aider/resources/model-settings.yml
++++ b/aider/resources/model-settings.yml
+@@ -34,7 +34,7 @@
+ 
+ - name: openai/gpt-4o
+   edit_format: diff
+-  weak_model_name: gpt-4o-mini
++  weak_model_name: gpt-4o
+   use_repo_map: true
+   lazy: false
+   reminder: sys
+-- 
+2.39.5 (Apple Git-154)
+

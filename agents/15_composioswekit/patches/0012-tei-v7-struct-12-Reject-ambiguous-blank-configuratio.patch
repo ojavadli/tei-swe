@@ -1,0 +1,38 @@
+From 2d88840a5c07bdb4542240752dd3054ea17a8142 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:05:38 -0700
+Subject: [PATCH 12/18] tei-v7 struct-12: Reject ambiguous blank configuration
+ values consistently
+
+---
+ .../workbench/python-helpers/composio_helper.py    | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index 92a6de7..09f857d 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -76,10 +76,16 @@ RATE_LIMIT_PATTERNS = (
+ 
+ 
+ def _read_env(name, default=None):
+-    value = os.environ.get(name)
+-    if value is None or value.strip() == "":
+-        value = _INTERNAL.get(name.lower()) if isinstance(_INTERNAL, dict) else None
+-    return default if value is None or str(value).strip() == "" else str(value).strip()
++    key = str(name).strip()
++    value = os.environ.get(key)
++    if value is None or not str(value).strip():
++        value = _INTERNAL.get(key.lower()) if isinstance(_INTERNAL, dict) else None
++    if value is None:
++        return default
++    normalized = str(value).strip()
++    if not normalized or normalized.lower() in {"none", "null", "undefined"}:
++        return default
++    return normalized
+ 
+ 
+ def _require_value(value, label):
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From c897906af0ccbb03ce017a85a9e0023194e72a50 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:04 -0700
+Subject: [PATCH 16/16] tei-v7 prompt-16: Executable behavior-contract
+ reproduction
+
+---
+ agentless/test/generate_reproduction_tests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless/test/generate_reproduction_tests.py b/agentless/test/generate_reproduction_tests.py
+index b8e5ec7..65580bb 100644
+--- a/agentless/test/generate_reproduction_tests.py
++++ b/agentless/test/generate_reproduction_tests.py
+@@ -21,7 +21,7 @@ We are currently solving the following issue within our repository. Here is the
+ {problem_statement}
+ --- END ISSUE ---
+ 
+-Before writing the test, build an evidence-backed behavior contract: (a) the exact input and setup that trigger the problem, (b) the current observable behavior, (c) the exact intended behavior stated or implied by the issue, and (d) relevant boundary cases. For every contract item, identify the repository file, function/class, existing test, fixture, or documentation that verifies the API and semantics. If the issue wording and repository evidence disagree, follow the repository's established API and explicitly choose the narrowest interpretation that satisfies the issue without changing unrelated behavior. For each behavior, identify the smallest repository-native public or internal entry point and cite the existing file, fixture, or test convention that supports it. Generate a complete, minimal reproduction using only verified APIs, fixtures, imports, and conventions from this repository; never invent packages, helpers, command-line options, or undocumented behavior. Before finalizing it, mentally preflight the exact imports, object construction, fixture scope, parameter shapes, assertion types, and repository-native test command. State the expected pre-fix failure signature and ensure the test does not depend on network access, timing, filesystem order, global state, or unavailable optional dependencies unless the issue explicitly requires one. Keep the reproduction minimal enough to run independently and compatible with the repository's existing test style. options, or undocumented behavior. The assertion must encode the intended behavior from the issue, not merely capture the current implementation. Make the test fail for the reported pre-fix behavior and pass for the intended fix. Add at least one assertion that would fail for a superficial workaround or hard-coded special case, while keeping unrelated behavior unconstrained. Use deterministic inputs and avoid broad snapshots when a precise semantic assertion is possible. options, or unsupported versions.
++Before writing the test, build an evidence-backed, executable behavior contract. Record (a) the smallest exact input and setup that trigger the problem, (b) the current observable behavior on the unmodified code, (c) the exact intended behavior stated or implied by the issue, (d) relevant boundary cases, and (e) an oracle that can distinguish the intended behavior from both the current behavior and a superficial workaround. For each item, identify the repository file, symbol, fixture, existing test, or documentation that supports it; do not encode the current buggy output as the expected result. For every contract item, identify the repository file, function/class, existing test, fixture, or documentation that verifies the API and semantics. If the issue wording and repository evidence disagree, follow the repository's established API and explicitly choose the narrowest interpretation that satisfies the issue without changing unrelated behavior. For each behavior, identify the smallest repository-native public or internal entry point and cite the existing file, fixture, or test convention that supports it. Generate a complete, minimal reproduction using only verified APIs, fixtures, imports, and conventions from this repository; never invent packages, helpers, command-line options, or undocumented behavior. Before finalizing it, mentally preflight the exact imports, object construction, fixture scope, parameter shapes, assertion types, and repository-native test command. State the expected pre-fix failure signature and ensure the test does not depend on network access, timing, filesystem order, global state, or unavailable optional dependencies unless the issue explicitly requires one. Keep the reproduction minimal enough to run independently and compatible with the repository's existing test style. options, or undocumented behavior. The assertion must encode the intended behavior from the issue, not merely capture the current implementation. Make the test fail for the reported pre-fix behavior and pass for the intended fix. Add at least one assertion that would fail for a superficial workaround or hard-coded special case, while keeping unrelated behavior unconstrained. Use deterministic inputs and avoid broad snapshots when a precise semantic assertion is possible. options, or unsupported versions.
+ 
+ The complete test should contain the following:
+ 1. Necessary imports that already occur in the repository or are required by the identified entry point
+-- 
+2.39.5 (Apple Git-154)
+

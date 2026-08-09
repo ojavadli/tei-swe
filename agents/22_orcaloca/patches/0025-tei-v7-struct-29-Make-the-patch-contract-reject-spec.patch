@@ -1,0 +1,26 @@
+From 62d5debd55cf2e7b8cccb8b6ceca550f3ef2cc9e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:09 -0700
+Subject: [PATCH 25/50] tei-v7 struct-29: Make the patch contract reject
+ speculative multi-site edits
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 3f99311..dfd9792 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -10,7 +10,7 @@ STEP_EXAMPLE = {
+         "target_file": "repository-relative path",
+         "target_symbol": "exact function, method, class, or branch", "causal_chain": "name the failing input, violated invariant, caller-to-callee edge, and the exact branch that must change",
+         "edit_invariant": "the behavior-preserving constraint outside the bug",
+-        "minimal_change": "one precise edit with no speculative refactor",
++        "minimal_change": "one precise edit in the causal symbol or its directly responsible branch, with no speculative refactor, unrelated cleanup, or multi-site workaround",
+         "regression_test": "exact test path or executable oracle",
+         "applyability_check": "the edit must be representable as an exact file/find/replace operation"
+     },
+-- 
+2.39.5 (Apple Git-154)
+

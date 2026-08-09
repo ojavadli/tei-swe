@@ -1,0 +1,27 @@
+From f4141e34badd9422540b74d67f5210cae7f7d19a Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:00 -0700
+Subject: [PATCH 14/51] tei-v7 struct-15: Resource-stable relevance fanout
+
+---
+ codemonkeys/stages/context/relevance.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/codemonkeys/stages/context/relevance.py b/codemonkeys/stages/context/relevance.py
+index e785e66..112cce0 100644
+--- a/codemonkeys/stages/context/relevance.py
++++ b/codemonkeys/stages/context/relevance.py
+@@ -18,7 +18,9 @@ class RelevanceConfig(CodeMonkeysConfigWithLLM):
+     def __init__(self):
+         super().__init__()
+ 
+-        self.max_workers = 128
++        # Keep concurrent context decisions below provider/container pressure so
++        # relevance calls finish reliably and downstream agents receive feedback.
++        self.max_workers = 32
+         self.max_tokens = 8192
+         self.timeout = 3600.0
+ 
+-- 
+2.39.5 (Apple Git-154)
+

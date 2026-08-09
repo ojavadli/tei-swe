@@ -1,0 +1,34 @@
+From a6184cb7009703e234be01cdaeaa852a62e30f94 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:21 -0700
+Subject: [PATCH 13/47] tei-v7 struct-15: Dedicated triage and independent
+ verification model roles
+
+---
+ llm_server/client_manager.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index e67addf..50e6896 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -26,6 +26,7 @@ class FailureKind(Enum):
+ 
+ class ModelPurpose(Enum):
+     """Model Usage Enumeration"""
++    REPOSITORY_TRIAGE = "repository_triage"
+     PATCH_GENERATION = "patch_generation"
+     TEST_GENERATION = "test_generation"
+     TRAJECTORY_COMPRESSION = "trajectory_compression"
+@@ -33,6 +34,8 @@ class ModelPurpose(Enum):
+     RETRY_AGENT = "retry_agent"
+     FAILURE_ANALYSIS = "failure_analysis"
+     PATCH_REVIEW = "patch_review"
++    TEST_RESULT_REVIEW = "test_result_review"
++    FINAL_DIFF_AUDIT = "final_diff_audit"
+ 
+ 
+ @dataclass
+-- 
+2.39.5 (Apple Git-154)
+

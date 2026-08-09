@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.66,
+    "reasoning_soundness": 0.61,
+    "execution_accuracy": 0.58,
+    "output_integrity": 0.67
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-15315",
+      "score": 0.84
+    },
+    {
+      "instance_id": "sympy__sympy-13974",
+      "score": 0.82
+    },
+    {
+      "instance_id": "django__django-15930",
+      "score": 0.28
+    },
+    {
+      "instance_id": "django__django-11820",
+      "score": 0.24
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incorrect or incomplete patch implementation",
+      "description": "The system failed to resolve two of the four fixed probes, indicating recurring difficulty translating the task requirements into a correct, complete repository change.",
+      "evidence_instance_ids": [
+        "django__django-15930",
+        "django__django-11820"
+      ]
+    },
+    {
+      "name": "Insufficient test-driven verification and iteration",
+      "description": "The unresolved outcomes are consistent with failures to validate the proposed change against the relevant regression behavior before finishing; the repository exposes bash, execution, and submission tools, but successful tool availability does not ensure accurate verification.",
+      "evidence_instance_ids": [
+        "django__django-15930",
+        "django__django-11820"
+      ]
+    },
+    {
+      "name": "Long-horizon context degradation",
+      "description": "The verifier explicitly condenses older execution-result blocks once the Qwen context exceeds 31,000 tokens, creating a recurring risk that debugging evidence or prior assumptions are lost during multi-turn repair attempts.",
+      "evidence_instance_ids": [
+        "django__django-15930",
+        "django__django-11820"
+      ]
+    }
+  ],
+  "why": "The fixed probes show 2 resolved and 2 unresolved outcomes, which supports middling rather than near-perfect scores and is broadly consistent with the system's officially resolved rate of 60.4%. The agent has substantial execution infrastructure, but its multi-turn context condensation and the two concrete failures indicate weaknesses in reasoning continuity, verification, and final patch accuracy.",
+  "aggregate": 0.63,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-15315",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-13974",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-15930",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-11820",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

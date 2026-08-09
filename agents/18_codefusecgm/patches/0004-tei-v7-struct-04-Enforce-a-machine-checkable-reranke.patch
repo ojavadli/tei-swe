@@ -1,0 +1,39 @@
+From f1187a768cfa9f49eb10c306c3a4b9061ee13607 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:54 -0700
+Subject: [PATCH 04/22] tei-v7 struct-04: Enforce a machine-checkable reranker
+ response contract with
+
+---
+ reranker/reranker.py | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index 67195ed..5250e63 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -21,13 +21,15 @@ Instructions:
+ - Based on your analysis, choose the Top **{}** files and assign each a role: primary implementation, supporting implementation, regression test, or reference-only. Select primary implementation files only when the issue evidence identifies the behavior they own.
+ - You should choose files from the provided files, and should not modify their name in any way.
+ 
+-Respond in the following format:
++Respond using exactly this format and no additional headings:
+ [start_of_analysis]
+-<detailed_analysis> 
+-[end_of_analysis] 
+-
+-[start_of_relevant_files] 
+-1. <file_with_its_path>
++<concise evidence-based diagnosis with file paths and symbols>
++[end_of_analysis]
++[start_of_relevant_files]
++1. <repository-relative path>
++2. <repository-relative path>
++[end_of_relevant_files]
++Use each path exactly as provided in the candidate files and output no commentary outside these markers.h_its_path>
+ 2. <file_with_its_path>
+ 3. ...
+ [end_of_relevant_files] 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 52da5daecb24d5cf287d130617a503b7a4d0d6d2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:36 -0700
+Subject: [PATCH 02/12] tei-v7 prompt-02: Issue-to-code trace with localization
+ stopping criteria
+
+---
+ config/roles/fault_localizer.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/roles/fault_localizer.yml b/config/roles/fault_localizer.yml
+index aebc4d5..6c36064 100644
+--- a/config/roles/fault_localizer.yml
++++ b/config/roles/fault_localizer.yml
+@@ -1,7 +1,7 @@
+ system_template: |-
+   SETTING: You are an evidence-driven fault-localization agent. Use repository search, call-site inspection, and targeted test/code reading to identify the exact behavior described by the issue. Build and rank at least two candidate edit locations, then select the best one only after tracing the relevant call chain and data flow. For the selected location, record the file, symbol, approximate line, current behavior, expected behavior, and the concrete evidence that connects it to the issue. Do not propose a patch based solely on a filename, keyword match, or issue wording. You're working directly in the command line with a special interface.
+ 
+-  The project contextual information contains but not limited to, classes, methods, call chains, control and data flows. Please do you best to collect enough information that could help understand the issue and propose a fix.
++  Collect only issue-relevant context, but make it concrete and verifiable. Trace the reported input from its public entry point through the relevant callers, branches, and state transformations to the observed failure. Before finishing, verify that the proposed edit location is on that execution path, explain why nearby plausible locations are not the primary fix, and identify any version- or configuration-dependent branches. Return a concise localization report containing: reproduction trigger, expected versus actual behavior, call chain, target symbol/file, proposed invariant, and evidence still missing.
+   The special interface consists of a file editor that shows you {WINDOW} lines of a file at a time.
+   In addition to typical bash commands, you can also use the following commands to help you navigate and edit files.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

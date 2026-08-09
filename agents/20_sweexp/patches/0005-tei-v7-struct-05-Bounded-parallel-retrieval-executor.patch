@@ -1,0 +1,29 @@
+From 6ec5425fad8c5b3758fd348d6040f0624dcc2d24 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:15:40 -0700
+Subject: [PATCH 05/11] tei-v7 struct-05: Bounded parallel retrieval executor
+
+---
+ moatless/experience/exp_agent/select_agent.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/moatless/experience/exp_agent/select_agent.py b/moatless/experience/exp_agent/select_agent.py
+index c3664b4..c2f3264 100644
+--- a/moatless/experience/exp_agent/select_agent.py
++++ b/moatless/experience/exp_agent/select_agent.py
+@@ -18,7 +18,11 @@ import json_repair
+ from tqdm import tqdm
+ from typing import Dict, Any, List, Tuple, Optional
+ from pydantic import BaseModel, Field, PrivateAttr, model_validator, ValidationError
+-from concurrent.futures import ThreadPoolExecutor, as_completed
++from concurrent.futures import ThreadPoolExecutor as _ThreadPoolExecutor, as_completed
++
++class ThreadPoolExecutor(_ThreadPoolExecutor):
++    def __init__(self, max_workers=None, *args, **kwargs):
++        super().__init__(max_workers=min(max_workers or 8, 8), *args, **kwargs)
+ 
+ import torch.nn.functional as F
+ from torch import Tensor
+-- 
+2.39.5 (Apple Git-154)
+

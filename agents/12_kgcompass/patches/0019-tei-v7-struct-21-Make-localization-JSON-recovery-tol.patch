@@ -1,0 +1,36 @@
+From 00906d04eb7e12351803f58d264a3d73e6f567d3 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:39:01 -0700
+Subject: [PATCH 19/28] tei-v7 struct-21: Make localization JSON recovery
+ tolerate non-JSON decoding e
+
+---
+ kgcompass/llm_loc.py | 2 +-
+ tei/candidates.jsonl | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/kgcompass/llm_loc.py b/kgcompass/llm_loc.py
+index 2e3ca43..1b40e52 100644
+--- a/kgcompass/llm_loc.py
++++ b/kgcompass/llm_loc.py
+@@ -23,7 +23,7 @@ def extract_json_code(text):
+                 parsed = json.loads(match.group(0))
+                 if isinstance(parsed, dict):
+                     return parsed
+-            except json.JSONDecodeError:
++            except (json.JSONDecodeError, TypeError, ValueError):
+                 continue
+     return {}
+ from config import (
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 56e0af3..1142b2b 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -17,3 +17,4 @@
+ {"version_id": "struct-17", "phase": "structural", "technique": "Provide environment-backed configuration defaults when optional config loading fails", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "from config import (\n    BAILIAN_API_KEY,\n    MODEL_NAME,\n    MAX_INPUT_LENGTH,\n    TEMPERATURE,\n    TOP_P,\n    DEEPSEEK_BASE_URL,\n)", "replace": "try:\n    from config import (\n        BAILIAN_API_KEY, MODEL_NAME, MAX_INPUT_LENGTH,\n        TEMPERATURE, TOP_P, DEEPSEEK_BASE_URL,\n    )\nexcept ImportError:\n    BAILIAN_API_KEY = os.getenv('BAILIAN_API_KEY', '')\n    MODEL_NAME = os.getenv('MODEL_NAME', 'deepseek-chat')\n    MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '12000'))\n    TEMPERATURE = float(os.getenv('TEMPERATURE', '0.2'))\n    T"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.59, "output_integrity": 0.7}, "aggregate": 0.6475, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.24}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "Environment-backed defaults prevent optional configuration imports from aborting orchestration, improving startup and output continuity. The change is peripheral to localization and patch correctness, so its gains are smaller than candidate 1 and it only modestly helps the failing probes."}
+ {"version_id": "struct-18", "phase": "structural", "technique": "Make non-selected API clients optional at module import time", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair_claude.py", "find": "import openai\ntry:\n    import anthropic\nexcept ImportError:\n    anthropic = None", "replace": "try:\n    import openai\nexcept ImportError:\n    openai = None\ntry:\n    import anthropic\nexcept ImportError:\n    anthropic = None"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.56, "output_integrity": 0.68}, "aggregate": 0.635, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.21}, {"instance_id": "django__django-11964", "score": 0.22}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0075, "why": "Optional client imports reduce module-load failures, but replacing missing clients with null values can defer failures until an API call and make execution less reliable. It is therefore below baseline on execution accuracy and below the stronger configuration and parsing fixes."}
+ {"version_id": "struct-19", "phase": "structural", "technique": "Increase the repair-context budget when no explicit configuration is supplied", "target_failure_mode": "Fault-localization or context-selection misses", "expected_dimension": "target_alignment", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '12000'))", "replace": "MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '24000'))"}, "dimensions": {"target_alignment": 0.72, "reasoning_soundness": 0.64, "execution_accuracy": 0.59, "output_integrity": 0.65}, "aggregate": 0.65, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.28}, {"instance_id": "django__django-11964", "score": 0.26}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0225, "why": "Increasing the default repair context directly addresses missed fault localization and should help the two difficult probes, but the larger context does not materially improve patch application or output handling."}
++{"version_id": "struct-20", "phase": "structural", "technique": "Accept ordinary unescaped JSON objects during localization-result recovery", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "for match in re.finditer(r\"\\\\{.*?\\\\}\", candidate, flags=re.S):", "replace": "for match in re.finditer(r\"\\{.*?\\}\", candidate, flags=re.S):"}, "dimensions": {"target_alignment": 0.69, "reasoning_soundness": 0.62, "execution_accuracy": 0.58, "output_integrity": 0.68}, "aggregate": 0.6425, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.22}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.015, "why": "Recovery of ordinary JSON objects improves orchestration robustness and can preserve valid localization results, but the non-greedy regex remains brittle for nested objects and only modestly improves difficult repairs."}
+-- 
+2.39.5 (Apple Git-154)
+

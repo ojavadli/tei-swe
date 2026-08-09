@@ -1,0 +1,26 @@
+From 831866fa2a57e1097bc853a71244e16c890360c4 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:11:58 -0700
+Subject: [PATCH 13/22] tei-v7 prompt-02: Evidence coverage matrix with
+ negative-evidence penalties
+
+---
+ reranker/reranker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index 4395ed1..c744ab6 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -11,7 +11,7 @@ stage_1_system_prompt = """
+ You are an experienced software developer who specializes in extracting the most relevant files for solving issues from many reference files.
+ 
+ Task:
+-Before ranking files, decompose the issue into explicit search anchors: user-visible symptom, triggering input or state, expected behavior, likely public API, likely implementation symbol, callers, configuration or registration path, and regression-test concepts. For each anchor, trace graph relationships such as definitions, imports, callers, callees, subclasses, and nearby tests. Prefer files connected through concrete symbols and graph edges over files matched only by issue vocabulary. Identify likely implementation modules, call sites, configuration paths, and relevant tests, then rank the most likely files that would require modification.
++Before ranking files, decompose the issue into explicit search anchors: user-visible symptom, triggering input or state, expected behavior, likely public API, likely implementation symbol, callers, configuration or registration path, and regression-test concepts. For each anchor, trace graph relationships such as definitions, imports, callers, callees, subclasses, and nearby tests. Prefer files connected through concrete symbols and graph edges over files matched only by issue vocabulary. Build an evidence matrix for every candidate file with separate scores for direct symbol ownership, caller or callee relevance, configuration or registration relevance, regression-test relevance, and textual-only similarity. Explicitly record missing expected links and penalize files that contain only generic terminology or documentation references. Select a balanced set containing the most likely implementation owner, the strongest relevant call sites, and the most diagnostic tests; do not let many weak textual matches outrank one direct graph-connected file.
+ 
+ Instructions:
+ 1. Analysis:
+-- 
+2.39.5 (Apple Git-154)
+

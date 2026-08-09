@@ -1,0 +1,25 @@
+From e41cb2819986c74eb631f99d470345ea17508925 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:05:45 -0700
+Subject: [PATCH 2/4] tei-v7 struct-05: Null-safe completion handling
+
+---
+ moatless/utils/completion_parser.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/moatless/utils/completion_parser.py b/moatless/utils/completion_parser.py
+index ce81c67..ea57b60 100644
+--- a/moatless/utils/completion_parser.py
++++ b/moatless/utils/completion_parser.py
+@@ -27,7 +27,7 @@ def parse_completion(completion_data: Dict[str, Any]) -> CompletionDTO:
+ 
+     # Parse from original_response if it exists
+     original_response = completion_data.get("original_response_obj")\n    if original_response is None:\n        original_response = completion_data.get("original_response")
+-    if original_response:
++    if original_response is not None:
+         if isinstance(original_response, str):
+             completion_dto.output = CompletionOutput(content=original_response)
+         # Handle Anthropic format
+-- 
+2.39.5 (Apple Git-154)
+

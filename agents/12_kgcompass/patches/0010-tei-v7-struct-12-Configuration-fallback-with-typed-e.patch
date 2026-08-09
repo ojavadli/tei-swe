@@ -1,0 +1,54 @@
+From 40f385dea50f0251b6fcd5fb4574eba55b5f5f39 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:37:41 -0700
+Subject: [PATCH 10/28] tei-v7 struct-12: Configuration fallback with typed
+ environment parsing
+
+---
+ kgcompass/repair_claude.py | 20 ++++++++++++--------
+ tei/candidates.jsonl       |  1 +
+ 2 files changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/kgcompass/repair_claude.py b/kgcompass/repair_claude.py
+index 8d32493..1d9b0f7 100644
+--- a/kgcompass/repair_claude.py
++++ b/kgcompass/repair_claude.py
+@@ -35,14 +35,18 @@ import tiktoken
+ import difflib
+ import subprocess
+ from datetime import datetime
+-from config import (
+-    BAILIAN_API_KEY,
+-    MODEL_NAME,
+-    MAX_INPUT_LENGTH,
+-    TEMPERATURE,
+-    TOP_P,
+-    DEEPSEEK_BASE_URL,
+-)
++try:
++    from config import (
++        BAILIAN_API_KEY, MODEL_NAME, MAX_INPUT_LENGTH,
++        TEMPERATURE, TOP_P, DEEPSEEK_BASE_URL,
++    )
++except (ImportError, AttributeError):
++    BAILIAN_API_KEY = os.getenv('BAILIAN_API_KEY', '')
++    MODEL_NAME = os.getenv('MODEL_NAME', 'claude-sonnet-4-20250514')
++    MAX_INPUT_LENGTH = int(os.getenv('MAX_INPUT_LENGTH', '12000'))
++    TEMPERATURE = float(os.getenv('TEMPERATURE', '0.2'))
++    TOP_P = float(os.getenv('TOP_P', '0.95'))
++    DEEPSEEK_BASE_URL = os.getenv('DEEPSEEK_BASE_URL', '')
+ import argparse
+ from typing import Optional, Tuple
+ from utils import (
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index ea88a37..c53d821 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -8,3 +8,4 @@
+ {"version_id": "struct-08", "phase": "structural", "technique": "Fail-closed instance and language grounding before localization", "target_failure_mode": "Fault-localization or context-selection misses", "expected_dimension": "target_alignment", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "self.target_sample = self._load_target_sample()\n        if self.target_sample:\n            self.language = self.target_sample.get('language', 'python').lower()", "replace": "self.target_sample = self._load_target_sample()\n        if not self.target_sample:\n            raise ValueError(f\"Unable to load benchmark instance: {self.instance_id}\")\n        self.language = str(self.target_sample.get('language') or 'python').lower()\n        if self.language not in {'python', 'java'}:\n            self.language = 'python'"}, "dimensions": {"target_alignment": 0.73, "reasoning_soundness": 0.65, "execution_accuracy": 0.59, "output_integrity": 0.65}, "aggregate": 0.655, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.92}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.29}, {"instance_id": "django__django-11964", "score": 0.27}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0275, "why": "Failing closed when the benchmark target cannot be loaded prevents localization against the wrong instance, and explicit language grounding improves context selection. It raises target alignment most clearly, though the strict language gate can reject unsupported cases rather than solve them."}
+ {"version_id": "struct-09", "phase": "structural", "technique": "Type-normalizing and exception-safe edit-command boundary", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "def parse_diff_edit_commands_strict(*args, **kwargs):\n    try:\n        return _parse_diff_edit_commands_strict(*args, **kwargs)\n    except (ValueError, TypeError, IndexError):\n        return []", "replace": "def parse_diff_edit_commands_strict(*args, **kwargs):\n    try:\n        parsed = _parse_diff_edit_commands_strict(*args, **kwargs)\n    except Exception:\n        return []\n    if parsed is None:\n        return []\n    if isinstance(parsed, dict):\n        parsed = [parsed]\n    if not isinstance(parsed, list):\n        return []\n    return [item for item in parsed if isinstance(item, dict) and item]"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.61, "execution_accuracy": 0.58, "output_integrity": 0.68}, "aggregate": 0.6375, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.24}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.01, "why": "Normalizing parser outputs and preventing boundary exceptions improves orchestration robustness. However, converting unexpected parser failures into empty edit lists can silently discard valid edits, so execution accuracy and reasoning soundness remain near baseline and are slightly penalized."}
+ {"version_id": "struct-10", "phase": "structural", "technique": "Post-application transactional diff validation", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "from utils import (\n    format_entity_content,\n    extract_python_blocks,\n    split_edit_multifile_commands,\n    parse_diff_edit_commands_strict as _parse_diff_edit_commands_strict,\n    check_syntax,\n    applable_patch,\n)", "replace": "from utils import (\n    format_entity_content,\n    extract_python_blocks,\n    split_edit_multifile_commands,\n    parse_diff_edit_commands_strict as _parse_diff_edit_commands_strict,\n    check_syntax,\n    applable_patch as _applable_patch,\n)\n\ndef applable_patch(*args, **kwargs):\n    result = _applable_patch(*args, **kwargs)\n    if not result:\n        return result\n    verified = subprocess.run(\n   "}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.64, "execution_accuracy": 0.63, "output_integrity": 0.67}, "aggregate": 0.655, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.92}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.32}, {"instance_id": "django__django-11964", "score": 0.35}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0275, "why": "Transactional post-application validation most directly addresses patch application failures by rejecting or containing invalid edits and checking the resulting state. It substantially improves execution accuracy and modestly improves reasoning soundness, with some risk of rejecting marginally valid patches."}
++{"version_id": "struct-11", "phase": "structural", "technique": "Optional provider imports for single-provider execution", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair_claude.py", "find": "import anthropic", "replace": "try:\n    import anthropic\nexcept ImportError:\n    anthropic = None"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.57, "output_integrity": 0.66}, "aggregate": 0.6325, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.21}, {"instance_id": "django__django-11964", "score": 0.2}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.005, "why": "Making the Anthropic import optional helps environments that do not install every provider, but this single-provider execution change does not address localization, patch generation, or benchmark reasoning. It provides only a small orchestration benefit and may defer failure until provider use."}
+-- 
+2.39.5 (Apple Git-154)
+

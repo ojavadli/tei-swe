@@ -1,0 +1,33 @@
+From b9f6a537312c0afa304e2b37eff8d7d3bdb1a3d3 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:49 -0700
+Subject: [PATCH 18/50] tei-v7 struct-22: Evidence-backed hypothesis ledger in
+ the issue model
+
+---
+ Orcar/prompts.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index c1648fd..8124bdb 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -15,6 +15,15 @@ STEP_EXAMPLE = {
+         "applyability_check": "the edit must be representable as an exact file/find/replace operation"
+     },
+     "issue_model": {
++        "hypothesis_ledger": {
++            "leading_hypothesis": "one falsifiable causal explanation",
++            "supporting_evidence": [],
++            "contradicting_evidence": [],
++            "established_symbols_and_edges": [],
++            "confidence": 0,
++            "cheapest_next_falsifier": "one concrete search, reproduction, or test action",
++            "promotion_rule": "promote only when a concrete observation supports the causal edge"
++        },
+         "observed_behavior": "",
+         "expected_behavior": "",
+         "constraints": [],
+-- 
+2.39.5 (Apple Git-154)
+

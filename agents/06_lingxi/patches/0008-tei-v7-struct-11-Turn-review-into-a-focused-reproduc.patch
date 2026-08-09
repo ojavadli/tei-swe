@@ -1,0 +1,31 @@
+From b0b3ccfe6571b2da98b2451dfb1e7494a12fdd5b Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:54 -0700
+Subject: [PATCH 08/24] tei-v7 struct-11: Turn review into a focused
+ reproduction-and-regression valid
+
+---
+ src/agent/prompt/__init__.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index 75f5280..d9f3f2c 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -21,8 +21,12 @@ ISSUE_RESOLVE_PROBLEM_SOLVER_SYSTEM_PROMPT = _BASE_PROBLEM_SOLVER_PROMPT + """
+ For framework behavior, list at least two competing causal hypotheses. For each, cite the relevant framework lifecycle, dispatch, parsing, caching, or configuration code; propose a minimal discriminating reproduction or test; and only choose an implementation after explaining why the observed behavior rules out the alternatives. Do not infer framework semantics from names alone.
+ """
+ from .reviewer import (
+-    ISSUE_RESOLVE_REVIEWER_SYSTEM_PROMPT,
++    ISSUE_RESOLVE_REVIEWER_SYSTEM_PROMPT as _BASE_REVIEWER_PROMPT,
+ )
++ISSUE_RESOLVE_REVIEWER_SYSTEM_PROMPT = _BASE_REVIEWER_PROMPT + """
++
++Validation is mandatory before approval. First run or construct the smallest reproduction for the reported failure, then run the narrowest relevant regression tests and inspect the diff for unintended behavior. Record commands, outcomes, and remaining failures. If the reproduction still fails, identify the failed assumption and return an actionable correction request instead of approving the patch.
++"""
+ from .solution_mapper import (
+     ISSUE_RESOLVE_SOLUTION_MAPPER_SYSTEM_PROMPT as _BASE_SOLUTION_MAPPER_PROMPT,
+ )
+-- 
+2.39.5 (Apple Git-154)
+

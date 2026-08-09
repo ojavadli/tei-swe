@@ -1,0 +1,25 @@
+From 3a476fc15b38edd8835b3f559b0c3e62660edb7c Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:29 -0700
+Subject: [PATCH 6/9] tei-v7 struct-11: Bounded API retry and timeout policy
+
+---
+ agentless/util/api_requests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless/util/api_requests.py b/agentless/util/api_requests.py
+index d18954e..cbe768a 100644
+--- a/agentless/util/api_requests.py
++++ b/agentless/util/api_requests.py
+@@ -5,7 +5,7 @@ from typing import Dict, Union
+ import openai
+ import tiktoken
+ 
+-client = openai.OpenAI()
++client = openai.OpenAI(timeout=90.0, max_retries=3)
+ 
+ 
+ def num_tokens_from_messages(message, model="gpt-3.5-turbo-0301"):
+-- 
+2.39.5 (Apple Git-154)
+

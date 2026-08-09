@@ -1,0 +1,25 @@
+From da7c6ceddeee3c926d2b2f60de3b2db45efa9633 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:10 -0700
+Subject: [PATCH 02/47] tei-v7 struct-03: Evidence-based trajectory diagnosis
+
+---
+ search_zip/zip_traj.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/search_zip/zip_traj.py b/search_zip/zip_traj.py
+index c042b0e..0bb3ecb 100644
+--- a/search_zip/zip_traj.py
++++ b/search_zip/zip_traj.py
+@@ -12,7 +12,7 @@ You will be provided with:
+ 1. A trajectory file (.txt) in JSON format containing the agent's step-by-step execution
+ 2. A prediction file (.pred) containing the final result
+ 
+-Your goal is to extract and summarize the core solution strategy, techniques, and approaches used in this trajectory.
++Your goal is to extract a failure diagnosis from the trajectory, distinguish agent reasoning errors from environment or test failures, and produce an actionable recovery plan grounded in observed commands, outputs, and the final diff. Do not infer success from an apparently plausible patch.
+ 
+ Return your analysis in JSON format with the following fields:
+ - approach_summary: A concise summary of the main approach used in this solution
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,30 @@
+From 59a5659e4f4c414ed89bc5a0e2c4444afba1cfa7 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:22 -0700
+Subject: [PATCH 02/17] =?UTF-8?q?tei-v7=20struct-07:=20Increase=20the=20ve?=
+ =?UTF-8?q?rifier=E2=80=99s=20usable=20context=20budget=20so=20the=20task?=
+ =?UTF-8?q?=20sp?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index 127d248..87ea54d 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
+ 
+ def deepswe_condense_thoughts(
+     input_str: str,
+-    max_tokens: int = 31000,
++    max_tokens: int = 46000,
+     tokenizer_name="Qwen/Qwen3-Coder-30B-A3B-Instruct",
+ ) -> str:
+     """
+-- 
+2.39.5 (Apple Git-154)
+

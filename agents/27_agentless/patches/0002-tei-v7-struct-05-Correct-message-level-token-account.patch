@@ -1,0 +1,42 @@
+From 2205a05c63906a5d305a58e4c884e02acaef2f32 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:09:51 -0700
+Subject: [PATCH 2/9] tei-v7 struct-05: Correct message-level token accounting
+
+---
+ agentless/util/api_requests.py | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/agentless/util/api_requests.py b/agentless/util/api_requests.py
+index 4545681..4266483 100644
+--- a/agentless/util/api_requests.py
++++ b/agentless/util/api_requests.py
+@@ -9,17 +9,19 @@ client = openai.OpenAI()
+ 
+ 
+ def num_tokens_from_messages(message, model="gpt-3.5-turbo-0301"):
+-    """Returns the number of tokens used by a list of messages."""
++    """Return an estimate of the tokens consumed by the complete prompt."""
+     try:
+         encoding = tiktoken.encoding_for_model(model)
+     except KeyError:
+         encoding = tiktoken.get_encoding("cl100k_base")
+     if isinstance(message, list):
+-        # use last message.
+-        num_tokens = len(encoding.encode(message[0]["content"]))
+-    else:
+-        num_tokens = len(encoding.encode(message))
+-    return num_tokens
++        num_tokens = 0
++        for item in message:
++            num_tokens += 4
++            for value in item.values():
++                num_tokens += len(encoding.encode(str(value)))
++        return num_tokens + 2
++    return len(encoding.encode(str(message)))
+ 
+ 
+ def create_chatgpt_config(
+-- 
+2.39.5 (Apple Git-154)
+

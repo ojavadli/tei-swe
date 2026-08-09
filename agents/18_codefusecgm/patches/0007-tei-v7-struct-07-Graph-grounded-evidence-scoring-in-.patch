@@ -1,0 +1,26 @@
+From 78a924be75acf50434669e8a133ce2dc812f55f4 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:11:33 -0700
+Subject: [PATCH 07/22] tei-v7 struct-07: Graph-grounded evidence scoring in
+ reranking
+
+---
+ reranker/reranker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index 5250e63..0e0f2ef 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -15,7 +15,7 @@ Map each issue symptom to concrete repository evidence before selecting files. I
+ 
+ Instructions:
+ 1. Analysis:
+-- Analyze the issue and every candidate file using named classes, functions, imported symbols, callers/callees, and nearby tests. Prefer files that own the failing behavior or its regression tests over files that merely mention the issue terminology.
++- Analyze the issue and every candidate file using named classes, functions, imported symbols, callers/callees, nearby tests, and graph paths. For every selected file, cite the exact symbol or edge connecting it to the reported symptom, distinguish direct ownership from textual mention, and score evidence strength before ranking files. Prefer files that own the failing behavior or its regression tests over files that merely mention the issue terminology.
+ - Determine the specific problem or error mentioned in the issue and note any clues that could help your judgment.
+ 2. Extraction:
+ - Based on your analysis, choose the Top **{}** files and assign each a role: primary implementation, supporting implementation, regression test, or reference-only. Select primary implementation files only when the issue evidence identifies the behavior they own.
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 0fa5610ca824cd85b7201bc435c6460a116895ef Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:08:32 -0700
+Subject: [PATCH 17/18] tei-v7 prompt-11: Force repository-guided call-graph
+ tracing
+
+---
+ dars-agent/config/default_dars.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index 75080ce..6bf52d4 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -5,7 +5,7 @@ system_template: |-
+   <command_docs>
+   {command_docs}
+   search_repo:
+-    docstring: searches the repository for a symbol and returns definitions, references, related tests, and nearby implementations; use the results to identify the true behavior boundary before editing.
++    docstring: searches the repository for a symbol and returns definitions, references, related tests, and nearby implementations; use the results to identify the true behavior boundary before editing. Trace the reported symbol from public entry point through dispatch, normalization, core implementation, and output construction; inspect every relevant caller, helper, and test. Explicitly distinguish the layer where the incorrect behavior originates from layers that only expose or format it. Do not patch the first matching definition unless the trace shows that it owns the violated contract.
+     signature: search_repo <search_term>
+     arguments:
+       - search_term (string) [required]: function, class, API, or domain concept to trace through implementation and tests.
+-- 
+2.39.5 (Apple Git-154)
+

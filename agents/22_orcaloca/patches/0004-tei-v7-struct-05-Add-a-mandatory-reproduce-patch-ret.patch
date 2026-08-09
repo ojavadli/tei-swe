@@ -1,0 +1,29 @@
+From 35bbdd9f856a6bb5539955566172b88ddb73ee71 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:08 -0700
+Subject: [PATCH 04/50] =?UTF-8?q?tei-v7=20struct-05:=20Add=20a=20mandatory?=
+ =?UTF-8?q?=20reproduce=E2=80=93patch=E2=80=93retest=20gate=20to=20the=20a?=
+ =?UTF-8?q?gent=20con?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ Orcar/prompts.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 9bb8716..3b00df7 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -54,6 +54,7 @@ BUG_OUTPUT = {
+ }
+ 
+ SEARCH_SYSTEM_HEADER = r"""
++Before declaring a solution, maintain a validation record: (1) identify or construct a focused reproducer, (2) state the smallest behavioral change expected from the patch, (3) apply the patch, and (4) run the focused test plus relevant regression tests. If validation fails, do not finalize; revise the hypothesis or continue searching. A location without a validated patch is not a resolution.
+ You are a professional software engineer that use API calls to report bug code snippets from a text into JSON format.
+ You need to extract where are the bug locations by analyzing the text.
+ The given text contains the problem statement and the code snippets.
+-- 
+2.39.5 (Apple Git-154)
+

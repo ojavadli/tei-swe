@@ -1,0 +1,37 @@
+From 44b700651ff6d2cdcaef82783e7c4071e277b920 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:14 -0700
+Subject: [PATCH 07/11] tei-v7 struct-07: Use a real JSONDecoder scan for
+ malformed LLM responses inst
+
+---
+ moatless/experience/exp_agent/exp_agent.py | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/moatless/experience/exp_agent/exp_agent.py b/moatless/experience/exp_agent/exp_agent.py
+index e561457..eec8792 100644
+--- a/moatless/experience/exp_agent/exp_agent.py
++++ b/moatless/experience/exp_agent/exp_agent.py
+@@ -19,11 +19,14 @@ class _JsonRepairProxy:
+     def loads(self, text, *args, **kwargs):
+         try:
+             return _json_repair.loads(text, *args, **kwargs)
+-        except Exception:
+-            match = re.search(r"(?:\\{.*\\}|\\[.*\\])", text, re.DOTALL)
+-            if not match:
+-                raise
+-            return json.loads(match.group(0))
++        except Exception as original_error:
++            decoder = json.JSONDecoder()
++            for match in re.finditer(r"[\\[{]", text):
++                try:
++                    return decoder.raw_decode(text[match.start():])[0]
++                except json.JSONDecodeError:
++                    continue
++            raise original_error
+ 
+ json_repair = _JsonRepairProxy()
+ from tqdm import tqdm
+-- 
+2.39.5 (Apple Git-154)
+

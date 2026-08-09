@@ -1,0 +1,31 @@
+From 1d5d13e6c0a49591e6ba7b01fef912f6c9aff621 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:54 -0700
+Subject: [PATCH 04/24] tei-v7 struct-07: Add a mandatory repository-inventory
+ and behavioral-contract
+
+---
+ src/agent/prompt/__init__.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index 44d9f38..16d89d2 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -3,8 +3,12 @@ from .mam import (
+ )
+ from .context_manager import RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT
+ from .problem_decoder import (
+-    ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT,
++    ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT as _BASE_PROBLEM_DECODER_PROMPT,
+ )
++ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT = _BASE_PROBLEM_DECODER_PROMPT + """
++
++Before proposing a fix, produce an explicit scope map: relevant files, symbols, callers, tests, and configuration surfaces. Separate confirmed facts from hypotheses, state the precise behavioral contract and non-goals, and identify any repository paths that must be inspected before implementation.
++"""
+ from .problem_solver import (
+     ISSUE_RESOLVE_PROBLEM_SOLVER_SYSTEM_PROMPT,
+ )
+-- 
+2.39.5 (Apple Git-154)
+

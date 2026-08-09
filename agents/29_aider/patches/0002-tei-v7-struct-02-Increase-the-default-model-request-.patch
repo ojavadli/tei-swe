@@ -1,0 +1,26 @@
+From c87735ee70f9d9693114bcb623f84856857f1fc3 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:55 -0700
+Subject: [PATCH 2/9] tei-v7 struct-02: Increase the default model request
+ deadline while preserving
+
+---
+ aider/models.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/aider/models.py b/aider/models.py
+index ca57d99..49bc752 100644
+--- a/aider/models.py
++++ b/aider/models.py
+@@ -25,7 +25,7 @@ from aider.utils import check_pip_install_extra
+ 
+ RETRY_TIMEOUT = int(os.environ.get("AIDER_RETRY_TIMEOUT", "180"))
+ 
+-request_timeout = 600
++request_timeout = int(os.environ.get("AIDER_REQUEST_TIMEOUT", "1200"))
+ 
+ DEFAULT_MODEL_NAME = "gpt-4o"
+ ANTHROPIC_BETA_HEADER = "prompt-caching-2024-07-31,pdfs-2024-09-25"
+-- 
+2.39.5 (Apple Git-154)
+

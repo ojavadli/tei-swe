@@ -1,0 +1,31 @@
+From 59c4f10f5bf431b4637b2b8fd6d00fbcadfafd13 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:09 -0700
+Subject: [PATCH 07/16] tei-v7 prompt-02: Repository-evidence gate
+
+---
+ agentless/test/generate_reproduction_tests.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/agentless/test/generate_reproduction_tests.py b/agentless/test/generate_reproduction_tests.py
+index 468ecc6..e6ce5fb 100644
+--- a/agentless/test/generate_reproduction_tests.py
++++ b/agentless/test/generate_reproduction_tests.py
+@@ -24,9 +24,11 @@ We are currently solving the following issue within our repository. Here is the
+ Before writing the test, decompose the issue into a behavior contract: (a) the input and setup that trigger the problem, (b) the observable behavior currently produced, (c) the exact intended behavior, and (d) relevant boundary cases. For each behavior, identify the smallest repository-native public or internal entry point and cite the existing file, fixture, or test convention that supports it. Generate a complete, minimal reproduction using only verified APIs, fixtures, imports, and conventions from this repository; never invent packages, helpers, command-line options, or unsupported versions.
+ 
+ The complete test should contain the following:
+-1. Necessary imports
+-2. Code to reproduce the issue described in the issue text
+-3. Express the expected pre-fix and post-fix behavior as explicit assertions, using the repository's existing testing style where possible
++1. Necessary imports that already occur in the repository or are required by the identified entry point
++2. Code to reproduce the issue using an existing fixture, helper, constructor, or call pattern whenever possible
++3. Explicit assertions for the intended post-fix behavior, plus the pre-fix failure condition when it can be expressed without brittle implementation details
++4. A short inline rationale, using repository symbols and file/test conventions, showing why this setup reaches the reported code path
++5. No assertion about undocumented behavior unless the issue text or existing tests establish that contract where possible
+ 4. Make the test fail on the buggy behavior and pass on the intended behavior; do not treat an arbitrary successful execution as resolution
+ 5. Print "Issue reproduced", "Issue resolved", or "Other issues" only as a concise summary after the assertions and exception handling
+ 
+-- 
+2.39.5 (Apple Git-154)
+

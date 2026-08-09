@@ -1,0 +1,83 @@
+{
+  "dimensions": {
+    "target_alignment": 0.66,
+    "reasoning_soundness": 0.61,
+    "execution_accuracy": 0.56,
+    "output_integrity": 0.68
+  },
+  "probe_scores": [
+    {
+      "instance_id": "astropy__astropy-14096",
+      "score": 0.85
+    },
+    {
+      "instance_id": "django__django-13410",
+      "score": 0.84
+    },
+    {
+      "instance_id": "django__django-14351",
+      "score": 0.14
+    },
+    {
+      "instance_id": "django__django-14534",
+      "score": 0.12
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incomplete end-to-end task execution",
+      "description": "The system resolves only two of the four fixed probes, with both failures representing inability to deliver an accepted repository change.",
+      "evidence_instance_ids": [
+        "django__django-14351",
+        "django__django-14534"
+      ]
+    },
+    {
+      "name": "Inconsistent performance across similar framework tasks",
+      "description": "Performance is not reliably transferable even within Django: one Django probe is resolved while two others remain unresolved.",
+      "evidence_instance_ids": [
+        "django__django-13410",
+        "django__django-14351",
+        "django__django-14534"
+      ]
+    },
+    {
+      "name": "Limited robustness across repository and task variations",
+      "description": "The resolved outcomes do not generalize across the heterogeneous benchmark workload, consistent with the system's reported 48.6% overall resolve rate.",
+      "evidence_instance_ids": [
+        "astropy__astropy-14096",
+        "django__django-14351",
+        "django__django-14534"
+      ]
+    }
+  ],
+  "why": "The system demonstrates meaningful task understanding and can produce successful changes, as shown by two resolved probes, but the 48.6% official resolve rate and two unresolved fixed probes require materially sub-perfect scores. Execution accuracy is weakest because the failures are end-to-end benchmark failures, while the available repository surfaces show substantial tooling and test infrastructure but do not establish consistently reliable completion.",
+  "aggregate": 0.6275,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "astropy__astropy-14096",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-13410",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-14351",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-14534",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

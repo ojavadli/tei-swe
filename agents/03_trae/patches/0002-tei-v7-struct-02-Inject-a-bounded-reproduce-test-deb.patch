@@ -1,0 +1,36 @@
+From 0abaee91c57a452209a595095d47b5b7c74ab4f8 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:40:26 -0700
+Subject: [PATCH 02/39] tei-v7 struct-02: Inject a bounded reproduce-test-debug
+ loop into the agent's
+
+---
+ tei/candidates.jsonl           | 1 +
+ trae_agent/agent/trae_agent.py | 5 +++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index e69de29..f4bb15f 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -0,0 +1 @@
++{"version_id": "struct-01", "phase": "structural", "technique": "Inject a mandatory repository-diagnosis phase into the agent's system instructions", "target_failure_mode": "Complex repository-specific diagnosis and implementation", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT", "replace": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT\n\nTRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + \"\"\"\n\nBefore editing, perform a repository-specific diagnosis: trace the relevant call path, identify the owning abstraction and nearby compatibility constraints, inspect analogous implementations, and state the smallest behavior change that satisfies the issue. Do not patch un"}, "dimensions": {"target_alignment": 0.9, "reasoning_soundness": 0.87, "execution_accuracy": 0.82, "output_integrity": 0.88}, "aggregate": 0.8675, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.96}, {"instance_id": "django__django-16938", "score": 0.29}, {"instance_id": "astropy__astropy-13033", "score": 0.26}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0325, "why": "The mandatory call-path and abstraction diagnosis directly addresses repository-specific failures, improving issue targeting and reasoning. It provides less direct benefit than an execution loop for validation, so gains on the difficult probes remain moderate."}
+diff --git a/trae_agent/agent/trae_agent.py b/trae_agent/agent/trae_agent.py
+index b077288..536b3f6 100644
+--- a/trae_agent/agent/trae_agent.py
++++ b/trae_agent/agent/trae_agent.py
+@@ -15,6 +15,11 @@ from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT
+ 
+ TRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + """
+ 
++Use an iterative validation loop after every substantive edit: run the narrowest reproducer or focused test, inspect the complete failure, revise the patch, and rerun it. Before finishing, run relevant regression tests and continue debugging until the result is passing or a concrete environmental blocker is documented.
++"""
++
++TRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + """
++
+ Before editing, perform a repository-specific diagnosis: trace the relevant call path, identify the owning abstraction and nearby compatibility constraints, inspect analogous implementations, and state the smallest behavior change that satisfies the issue. Do not patch until this diagnosis is supported by repository evidence.
+ """
+ from trae_agent.tools import tools_registry
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 567049a69e531fd444773f20f7de3eacb47734a6 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:21 -0700
+Subject: [PATCH 03/12] tei-v7 struct-03: Reserve context for repository
+ evidence and generated patche
+
+---
+ swebench/inference/run_api.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/swebench/inference/run_api.py b/swebench/inference/run_api.py
+index fe882dc..db6f597 100755
+--- a/swebench/inference/run_api.py
++++ b/swebench/inference/run_api.py
+@@ -37,7 +37,7 @@ dotenv.load_dotenv()
+ MODEL_LIMITS = {
+     "claude-instant-1": 100_000,
+     "claude-2": 100_000,
+-    "claude-3-opus-20240229": 200_000,
++    "claude-3-opus-20240229": 150_000,
+     "claude-3-sonnet-20240229": 200_000,
+     "claude-3-haiku-20240307": 200_000,
+     "gpt-3.5-turbo-16k-0613": 16_385,
+-- 
+2.39.5 (Apple Git-154)
+

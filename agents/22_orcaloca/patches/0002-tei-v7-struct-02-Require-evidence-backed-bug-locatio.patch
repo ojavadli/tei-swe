@@ -1,0 +1,34 @@
+From 872fe1d585228385d2235ae5b5a95e828c784b16 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:08 -0700
+Subject: [PATCH 02/50] tei-v7 struct-02: Require evidence-backed bug locations
+ with confidence and ca
+
+---
+ Orcar/prompts.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 34dd948..9bb8716 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -29,6 +29,16 @@ STEP_EXAMPLE = {
+ }
+ 
+ BUG_OUTPUT = {
++    "resolution_hypothesis": "",
++    "bug_locations": [
++        {
++            "file_path": "path/to/file",
++            "class_name": "class_name",
++            "method_name": "function_name",
++            "confidence": 0,
++            "evidence": [],
++            "causal_role": "root_cause|propagation|test_or_regression"
++        }
+     "bug_locations": [
+         {
+             "file_path": "path/to/file",
+-- 
+2.39.5 (Apple Git-154)
+

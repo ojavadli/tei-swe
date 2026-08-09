@@ -1,0 +1,79 @@
+{
+  "dimensions": {
+    "target_alignment": 0.47,
+    "reasoning_soundness": 0.4,
+    "execution_accuracy": 0.34,
+    "output_integrity": 0.45
+  },
+  "probe_scores": [
+    {
+      "instance_id": "matplotlib__matplotlib-23562",
+      "score": 0.88
+    },
+    {
+      "instance_id": "pydata__xarray-5131",
+      "score": 0.86
+    },
+    {
+      "instance_id": "sympy__sympy-16792",
+      "score": 0.12
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5413",
+      "score": 0.1
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Complex semantic reasoning failure",
+      "description": "The system did not reach a resolved patch on the SymPy instance, indicating difficulty tracing and implementing nontrivial behavioral changes across a complex codebase.",
+      "evidence_instance_ids": [
+        "sympy__sympy-16792"
+      ]
+    },
+    {
+      "name": "Failure to satisfy behavioral edge cases",
+      "description": "The unresolved Pytest instance suggests insufficient attention to exact expected behavior and regression-test requirements.",
+      "evidence_instance_ids": [
+        "pytest-dev__pytest-5413"
+      ]
+    },
+    {
+      "name": "Insufficient iterative validation and recovery",
+      "description": "Both unresolved probes show that the system can fail to recover from an initially incomplete or incorrect edit through testing and follow-up corrections.",
+      "evidence_instance_ids": [
+        "sympy__sympy-16792",
+        "pytest-dev__pytest-5413"
+      ]
+    }
+  ],
+  "why": "The recorded overall resolution rate is only 26.33%, and two of the four fixed probes were unresolved, so all dimensions are kept well below 1.0, with execution accuracy lowest. The two resolved probes demonstrate useful capability on some repository tasks, but the unresolved SymPy and Pytest cases indicate substantial weaknesses in deep reasoning, edge-case compliance, and test-driven correction.",
+  "aggregate": 0.415,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "matplotlib__matplotlib-23562",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "pydata__xarray-5131",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-16792",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5413",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

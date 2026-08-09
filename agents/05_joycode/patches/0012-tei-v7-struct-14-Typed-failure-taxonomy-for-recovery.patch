@@ -1,0 +1,30 @@
+From ef0fef586e58ea2207afadb7f23c1a299eee36da Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:21 -0700
+Subject: [PATCH 12/47] tei-v7 struct-14: Typed failure taxonomy for recovery
+ routing
+
+---
+ llm_server/client_manager.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index e015af9..e67addf 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -15,9 +15,12 @@ class FailureKind(Enum):
+     """Actionable execution failure classes used by the recovery controller."""
+     IMPLEMENTATION = "implementation"
+     REGRESSION_TEST = "regression_test"
++    TEST_DISCOVERY = "test_discovery"
++    DEPENDENCY_OR_RUNTIME = "dependency_or_runtime"
+     ENVIRONMENT = "environment"
+     TIMEOUT = "timeout"
+     PATCH_FORMAT = "patch_format"
++    INCOMPLETE_PATCH = "incomplete_patch"
+     UNKNOWN = "unknown"
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

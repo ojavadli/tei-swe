@@ -1,0 +1,48 @@
+From 32e86917478eb270d94a894f1fb622588f98d0ce Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:44 -0700
+Subject: [PATCH 06/47] tei-v7 struct-08: Make retry prompts failure-aware and
+ stateful. Pass the fail
+
+---
+ utils/dynamic_agent.py | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index d59520f..565df20 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -22,15 +22,24 @@ class PromptTemplate:
+     """Prompt template definitions"""
+     
+     @staticmethod
+-    def get_basic_retry_prompt(workspace_root: str, problem_statement: str) -> str:
+-        """Basic retry using instruction.py + system_prompt.py"""
++    def get_basic_retry_prompt(workspace_root: str, problem_statement: str,
++                               failure_context: str = "", retry_number: int = 1,
++                               modified_files: str = "") -> str:
++        """Build a retry prompt that forces diagnosis-driven recovery."""
+         from prompts.system_prompt import SYSTEM_PROMPT
+         from prompts.instruction import INSTRUCTION_PROMPT
+-        
++
+         base_prompt = SYSTEM_PROMPT.format(workspace_root=workspace_root) + "\n\n" + \
+-                     INSTRUCTION_PROMPT.format(location=workspace_root, pr_description=problem_statement)
+-        
+-        return base_prompt 
++            INSTRUCTION_PROMPT.format(location=workspace_root, pr_description=problem_statement)
++        recovery = (
++            f"\n\nRECOVERY ATTEMPT {retry_number}: Do not repeat the previous approach blindly.\n"
++            "First classify the failure as patch, test, environment, or output-integrity. "
++            "Use the evidence below, inspect the relevant implementation and tests, then "
++            "make the smallest corrected change. Re-run the narrow failing test before the full suite.\n"
++            f"Failure evidence:\n{failure_context or '(none supplied)'}\n"
++            f"Previously modified files: {modified_files or '(none recorded)'}"
++        )
++        return base_prompt + recovery 
+     
+     @staticmethod
+     def get_experience_retry_prompt(workspace_root: str, problem_statement: str, 
+-- 
+2.39.5 (Apple Git-154)
+

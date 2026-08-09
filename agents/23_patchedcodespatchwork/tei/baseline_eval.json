@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.62,
+    "reasoning_soundness": 0.57,
+    "execution_accuracy": 0.46,
+    "output_integrity": 0.54
+  },
+  "probe_scores": [
+    {
+      "instance_id": "sympy__sympy-20154",
+      "score": 0.78
+    },
+    {
+      "instance_id": "sympy__sympy-15011",
+      "score": 0.76
+    },
+    {
+      "instance_id": "django__django-11001",
+      "score": 0.18
+    },
+    {
+      "instance_id": "django__django-11910",
+      "score": 0.16
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Repository- and issue-type generalization failure",
+      "description": "The system resolved both sampled SymPy instances but failed both sampled Django instances, indicating weak transfer across repository conventions and issue domains.",
+      "evidence_instance_ids": [
+        "django__django-11001",
+        "django__django-11910"
+      ]
+    },
+    {
+      "name": "Unreliable multi-step patch execution",
+      "description": "Although the repository exposes planning, agentic roles, and code-edit tools, both Django probes remained unresolved, suggesting that planning does not reliably become a correct, applied, and validated patch.",
+      "evidence_instance_ids": [
+        "django__django-11001",
+        "django__django-11910"
+      ]
+    },
+    {
+      "name": "Insufficient completion or validation of final changes",
+      "description": "The unresolved outcomes are consistent with failures to finish the requested task or verify the resulting behavior, especially on the Django probes despite the system's structured prompt and tool surfaces.",
+      "evidence_instance_ids": [
+        "django__django-11001",
+        "django__django-11910"
+      ]
+    }
+  ],
+  "why": "The official 37.0% resolve rate indicates broad unreliability, and the fixed probes show only the two SymPy tasks resolved while both Django tasks failed. The prompt, planning, and agentic-tool code provides substantial capability surface, but the observed Django failures warrant materially lower execution and reasoning scores rather than near-perfect ratings.",
+  "aggregate": 0.5475,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "sympy__sympy-20154",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-15011",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-11001",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-11910",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": true,
+    "tier": "PROXY",
+    "reason": "gpu/local-weights required"
+  }
+}

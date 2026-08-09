@@ -1,0 +1,26 @@
+From 763ba2064b47ff7caf0dc27929d7b6f974dbc625 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:30 -0700
+Subject: [PATCH 20/51] tei-v7 struct-23: Increase relevance-stage timeout to
+ prevent silent loss of f
+
+---
+ codemonkeys/stages/context/relevance.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/stages/context/relevance.py b/codemonkeys/stages/context/relevance.py
+index f7aef96..3c46ce3 100644
+--- a/codemonkeys/stages/context/relevance.py
++++ b/codemonkeys/stages/context/relevance.py
+@@ -22,7 +22,7 @@ class RelevanceConfig(CodeMonkeysConfigWithLLM):
+         # relevance calls finish reliably and downstream agents receive feedback.
+         self.max_workers = 32
+         self.max_tokens = 8192
+-        self.timeout = 3600.0
++        self.timeout = 7200.0
+ 
+         # max problem statement is ~10k tokens, so we'll be under context length limit
+         self.max_file_tokens = 150_000
+-- 
+2.39.5 (Apple Git-154)
+

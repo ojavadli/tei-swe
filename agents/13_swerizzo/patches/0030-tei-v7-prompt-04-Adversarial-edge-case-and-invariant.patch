@@ -1,0 +1,26 @@
+From 9e15dc374abe011c65d5f52291b9c275283d1abd Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:27 -0700
+Subject: [PATCH 30/51] tei-v7 prompt-04: Adversarial edge-case and invariant
+ review
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index e98bcd5..29bd27c 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -11,7 +11,7 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ FULL_FILE_EXAMPLE = """
+ Before final approval, build an executable requirement-to-test matrix from the issue. For every independently stated behavior, identify the implementation location and run an ordinary-case test, a boundary or malformed-input test, and a regression test for the reported failure. Each test must assert the expected behavior—not merely that execution completes—and must exercise the public entry point used by the issue. Mark each requirement as PASS, FAIL, or UNTESTED; never treat UNTESTED or an ambiguous result as approval. Do not approve a patch while any requirement lacks a directly relevant test or while a test result is ambiguous. After each test run, map every failure, unexpected pass, skipped test, warning, and traceback back to a specific matrix requirement. For each result, record the observed behavior, expected behavior, likely root cause, and the next code or test change. Re-run the smallest reproducer after every revision, then re-run the full relevant suite. An unexplained failure, skipped requirement, or test whose assertion does not distinguish the buggy behavior from the fixed behavior blocks approval.
+ 
+-Before final approval, enumerate every caller, subclass, override, serializer, parser, and public consumer of each modified symbol using repository search, including indirect callers discovered through imports and dispatch tables. For each consumer, trace one representative input through the modified behavior and verify that the patch preserves its expected return type, exceptions, ordering, mutation, defaults, and backward compatibility. If any consumer has not been checked, do not approve the patch. For each consumer, record its expected inputs, outputs, exceptions, ordering, mutation, and compatibility invariant, then verify the patch against that record. If any consumer cannot be located or its behavior is unknown, do not approve the patch: search broader call paths, add a focused regression test, or revise the implementation. Treat changed error types, defaults, ordering, mutation, and serialization as behavior changes requiring explicit justification.
++Before final approval, enumerate every caller, subclass, override, serializer, parser, and public consumer of each modified symbol using repository search, including indirect callers discovered through imports and dispatch tables. For each consumer, trace one representative input through the modified behavior and verify that the patch preserves its expected return type, exceptions, ordering, mutation, defaults, and backward compatibility. If any consumer has not been checked, do not approve the patch. For each consumer, record its expected inputs, outputs, exceptions, ordering, mutation, and compatibility invariant, then verify the patch against that record. Actively construct adversarial cases for empty values, null-like values, duplicate values, boundary sizes, invalid types, repeated calls, inheritance or override behavior, and serialization or deserialization. Explain why the implementation handles each applicable case and add a focused regression test for every case that could distinguish the patch from the pre-patch behavior. If any consumer cannot be located or its behavior is unknown, do not approve the patch: search broader call paths, add a focused regression test, or revise the implementation. Treat changed error types, defaults, ordering, mutation, and serialization as behavior changes requiring explicit justification.
+ 
+ When comparing alternative patches, first create a table with one row per issue requirement and one column per candidate. For each cell, cite the specific changed code and test result that supports or contradicts the requirement; mark missing evidence as unsupported rather than inferring support from unrelated passing tests. Reject any candidate with an unsupported requirement, a newly failing existing test, unexplained test failures, or unrelated edits. Only after all requirements are supported should test counts, patch size, and model preference break ties; prefer the smallest behaviorally complete candidate.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

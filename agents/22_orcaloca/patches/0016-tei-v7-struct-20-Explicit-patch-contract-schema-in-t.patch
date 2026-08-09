@@ -1,0 +1,30 @@
+From bca3382d7fc6961db087c9e5a321756f9d35e01f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:49 -0700
+Subject: [PATCH 16/50] tei-v7 struct-20: Explicit patch-contract schema in the
+ planning exemplar
+
+---
+ Orcar/prompts.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index ce36af1..3cfa884 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -1,4 +1,12 @@
+ STEP_EXAMPLE = {
++    "patch_contract": {
++        "target_file": "repository-relative path",
++        "target_symbol": "exact function, method, class, or branch",
++        "edit_invariant": "the behavior-preserving constraint outside the bug",
++        "minimal_change": "one precise edit with no speculative refactor",
++        "regression_test": "exact test path or executable oracle",
++        "applyability_check": "the edit must be representable as an exact file/find/replace operation"
++    },
+     "issue_model": {
+         "observed_behavior": "",
+         "expected_behavior": "",
+-- 
+2.39.5 (Apple Git-154)
+

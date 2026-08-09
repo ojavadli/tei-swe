@@ -1,0 +1,30 @@
+From 7b87c60a23dc7c32eaae2e1a56ab8020ff371c50 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:55 -0700
+Subject: [PATCH 17/47] tei-v7 struct-19: Make repository preflight produce an
+ executable repair contr
+
+---
+ utils/dynamic_agent.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index 1c5bbcd..8c994e8 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -28,7 +28,11 @@ class PromptTemplate:
+         "the public API or command involved, and the smallest relevant test command. Record "
+         "exact file paths, symbols, and expected-vs-actual behavior. Do not import patterns "
+         "from another repository. Before patching, state one minimal hypothesis and one "
+-        "nearby regression test that would falsify it."
++        "nearby regression test that would falsify it. Also record the exact baseline test "
++        "result, the expected post-patch invariant, and the files that must remain untouched. "
++        "Do not edit until all six items are present: issue behavior, owning symbol, call "
++        "path, baseline command, regression test, and post-patch invariant."
++    )d falsify it."
+     )
+     
+     @staticmethod
+-- 
+2.39.5 (Apple Git-154)
+

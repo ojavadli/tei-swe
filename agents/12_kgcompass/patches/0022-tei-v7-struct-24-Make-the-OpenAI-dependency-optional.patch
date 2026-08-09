@@ -1,0 +1,39 @@
+From 31f1f95284ed7404d3ba9f0429efd133c0c0b087 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:39:01 -0700
+Subject: [PATCH 22/28] tei-v7 struct-24: Make the OpenAI dependency optional
+ at module import time
+
+---
+ kgcompass/llm_loc.py | 5 ++++-
+ tei/candidates.jsonl | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/kgcompass/llm_loc.py b/kgcompass/llm_loc.py
+index 1b40e52..a3c0ac2 100644
+--- a/kgcompass/llm_loc.py
++++ b/kgcompass/llm_loc.py
+@@ -3,7 +3,10 @@ import os
+ import re
+ import argparse
+ from datasets import load_dataset
+-import openai
++try:
++    import openai
++except ImportError:
++    openai = None
+ from utils import get_commit_method_by_signature, extract_json_code as _extract_json_code, create_github_client
+ 
+ def extract_json_code(text):
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index bf19d73..dbc346a 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -20,3 +20,4 @@
+ {"version_id": "struct-20", "phase": "structural", "technique": "Accept ordinary unescaped JSON objects during localization-result recovery", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "for match in re.finditer(r\"\\\\{.*?\\\\}\", candidate, flags=re.S):", "replace": "for match in re.finditer(r\"\\{.*?\\}\", candidate, flags=re.S):"}, "dimensions": {"target_alignment": 0.69, "reasoning_soundness": 0.62, "execution_accuracy": 0.58, "output_integrity": 0.68}, "aggregate": 0.6425, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.22}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.015, "why": "Recovery of ordinary JSON objects improves orchestration robustness and can preserve valid localization results, but the non-greedy regex remains brittle for nested objects and only modestly improves difficult repairs."}
+ {"version_id": "struct-21", "phase": "structural", "technique": "Make localization JSON recovery tolerate non-JSON decoding exceptions", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "            except json.JSONDecodeError:\n                continue", "replace": "            except (json.JSONDecodeError, TypeError, ValueError):\n                continue"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.62, "execution_accuracy": 0.58, "output_integrity": 0.66}, "aggregate": 0.635, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.21}, {"instance_id": "django__django-11964", "score": 0.21}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0075, "why": "Catching TypeError and other decoding-related failures prevents localization recovery from aborting, but JSONDecodeError already covers the principal decoding path, so the practical gain is small."}
+ {"version_id": "struct-22", "phase": "structural", "technique": "Convert patch-application exceptions into a controlled failed attempt", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "    result = _applable_patch(*args, **kwargs)", "replace": "    try:\n        result = _applable_patch(*args, **kwargs)\n    except (OSError, subprocess.CalledProcessError, ValueError):\n        result = False"}, "dimensions": {"target_alignment": 0.67, "reasoning_soundness": 0.61, "execution_accuracy": 0.56, "output_integrity": 0.65}, "aggregate": 0.6225, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.89}, {"instance_id": "django__django-12747", "score": 0.89}, {"instance_id": "django__django-13768", "score": 0.2}, {"instance_id": "django__django-11964", "score": 0.2}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": -0.005, "why": "Converting application exceptions into False avoids orchestration crashes, but silently swallowing patch failures does not produce a repair and can hide actionable errors, reducing execution reliability relative to baseline."}
++{"version_id": "struct-23", "phase": "structural", "technique": "Use a lower default generation temperature for deterministic code edits", "target_failure_mode": "Patch generation and application failures", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/repair.py", "find": "TEMPERATURE = float(os.getenv('TEMPERATURE', '0.2'))", "replace": "TEMPERATURE = float(os.getenv('TEMPERATURE', '0.1'))"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.63, "execution_accuracy": 0.6, "output_integrity": 0.64}, "aggregate": 0.6375, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.24}, {"instance_id": "django__django-11964", "score": 0.23}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.01, "why": "A low temperature should make edits more consistent and slightly improve application accuracy, especially on repeatable repairs, though it can reduce useful variation when the first repair strategy is wrong."}
+-- 
+2.39.5 (Apple Git-154)
+

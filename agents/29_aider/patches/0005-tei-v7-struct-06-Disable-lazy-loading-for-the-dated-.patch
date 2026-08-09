@@ -1,0 +1,26 @@
+From b215ce32a85d8eb8fbdf43737dcbabd0459be516 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:55 -0700
+Subject: [PATCH 5/9] tei-v7 struct-06: Disable lazy loading for the dated
+ GPT-4o fallback configura
+
+---
+ aider/resources/model-settings.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/aider/resources/model-settings.yml b/aider/resources/model-settings.yml
+index 83d0ae7..4baeb0c 100644
+--- a/aider/resources/model-settings.yml
++++ b/aider/resources/model-settings.yml
+@@ -53,7 +53,7 @@
+   edit_format: diff
+   weak_model_name: gpt-4o-mini
+   use_repo_map: true
+-  lazy: true
++  lazy: false
+   reminder: sys
+   examples_as_sys_msg: true
+ 
+-- 
+2.39.5 (Apple Git-154)
+

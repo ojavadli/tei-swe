@@ -1,0 +1,26 @@
+From cc84f1309ce4f555a0d532c149568280bc3b5fbc Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:00 -0700
+Subject: [PATCH 22/51] tei-v7 struct-25: Add an explicit requirement-to-test
+ coverage matrix to the a
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index dddd065..f9a0345 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -9,6 +9,8 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ 
+ 
+ FULL_FILE_EXAMPLE = """
++Before final approval, build a requirement-to-test matrix from the issue. For every independently stated behavior, record the implementation location, an ordinary-case test, a boundary or malformed-input test, and a regression test for the reported failure. Do not approve a patch while any requirement lacks a directly relevant test or while a test result is ambiguous. After each test run, map every failure back to the matrix and either revise the patch or explain why the failure is unrelated.
++
+ Before final approval, inspect all callers and consumers of each modified symbol. Record the invariant each caller relies on, explain why the patch preserves compatible callers, and identify any changed error, ordering, mutation, or serialization behavior. Reopen implementation if any caller impact is unknown.
+ 
+ When comparing alternative patches, score each candidate against every issue requirement separately before considering total test counts. Reject candidates that leave any requirement unsupported, introduce unrelated changes, or rely only on broad existing tests; prefer the smallest candidate that satisfies all requirements and preserves documented behavior.
+-- 
+2.39.5 (Apple Git-154)
+

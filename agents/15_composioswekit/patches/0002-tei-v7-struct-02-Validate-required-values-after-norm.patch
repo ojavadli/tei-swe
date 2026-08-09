@@ -1,0 +1,31 @@
+From bf0abf856d5cfb099cbd217fcd2d0f12dabc7186 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:49 -0700
+Subject: [PATCH 02/18] tei-v7 struct-02: Validate required values after
+ normalization and fail before
+
+---
+ .../src/workbench/python-helpers/composio_helper.py         | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index e0229bd..5fbd0d9 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -35,8 +35,12 @@ def _read_env(name, default=None):
+ 
+ 
+ def _require_value(value, label):
+-    if value is None or value == "":
++    if value is None:
+         raise RuntimeError("%s is required" % label)
++    if isinstance(value, str):
++        value = value.strip()
++        if not value:
++            raise RuntimeError("%s is required" % label)
+     return value
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

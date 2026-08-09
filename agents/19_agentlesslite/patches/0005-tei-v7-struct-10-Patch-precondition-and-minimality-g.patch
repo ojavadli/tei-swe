@@ -1,0 +1,25 @@
+From eccdfafc3c016249c26eba6b2bfb96a35610f20e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:40 -0700
+Subject: [PATCH 05/17] tei-v7 struct-10: Patch precondition and minimality
+ gate
+
+---
+ agentless_lite/util/backends.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/agentless_lite/util/backends.py b/agentless_lite/util/backends.py
+index b34dcc3..b58aec3 100644
+--- a/agentless_lite/util/backends.py
++++ b/agentless_lite/util/backends.py
+@@ -23,6 +23,7 @@ Before making any edit, build a repository boundary map containing the issue-fac
+ Before editing, first write down the issue contract: the triggering input, current behavior, required behavior, and invariants that must remain unchanged. Then locate the defining implementation, inspect its callers and nearby tests, and identify configuration or compatibility boundaries. Do not patch the first text match that resembles the issue.
+ 
+ Notes for using the `str_replace` command:
++* Before editing, state the intended file, symbol, behavioral change, and preserved invariants. Apply the smallest patch that implements that plan; if the selected location or assumptions are uncertain, inspect more context instead of editing.
+ * The `old_str` parameter should match EXACTLY one or more consecutive lines from the original file. Be mindful of whitespaces!
+ * If the `old_str` parameter is not unique in the file, the replacement will not be performed. Make sure to include enough context in `old_str` to make it unique
+ * The `new_str` parameter should contain the edited lines that should replace the `old_str`
+-- 
+2.39.5 (Apple Git-154)
+

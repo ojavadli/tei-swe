@@ -1,0 +1,25 @@
+From 4b51861ea38feb80452450458099c9a5b7548de5 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:09 -0700
+Subject: [PATCH 21/50] tei-v7 struct-25: Require a recorded baseline before
+ accepting any localizatio
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index a8d3681..612a344 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -1,6 +1,6 @@
+ STEP_EXAMPLE = {
+     "execution_gate": {
+-        "before_patch": "record the failing command, exit status, exception, and relevant output",
++        "before_patch": "record the exact failing command, exit status, exception, relevant output, repository revision, and a minimal reproducer whose failure is independently confirmed",
+         "after_patch": "run the smallest regression oracle first",
+         "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test"],
+         "acceptance_rule": "do not report resolved unless the original failure is fixed and compatibility checks pass",
+-- 
+2.39.5 (Apple Git-154)
+

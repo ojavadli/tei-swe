@@ -1,0 +1,108 @@
+From 2cadf65501acdc435a58402fdbc36c3238804e2a Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:41:09 -0700
+Subject: [PATCH 06/39] tei-v7 struct-08: Turn the existing edge-case reminder
+ into an explicit behavi
+
+---
+ tei/REPORT.md                  | 62 ++++++++++++++++++++++++++++++++++
+ tei/candidates.jsonl           |  3 ++
+ trae_agent/agent/trae_agent.py |  2 +-
+ 3 files changed, 66 insertions(+), 1 deletion(-)
+ create mode 100644 tei/REPORT.md
+
+diff --git a/tei/REPORT.md b/tei/REPORT.md
+new file mode 100644
+index 0000000..46d6af9
+--- /dev/null
++++ b/tei/REPORT.md
+@@ -0,0 +1,62 @@
++# TEI v7 — TRAE + Doubao-Seed-Code
++
++**Rank 3 of 30** · SWE-bench verified · officially resolved
++394 (78.8%) · repo [https://github.com/bytedance/trae-agent](https://github.com/bytedance/trae-agent) @ `e839e559ac`
++
++> **All scores below are PROXY** — `gpt-5.6-luna` rubric scores against diagnosed
++> failure modes and fixed probe instances. This agent was not executed
++> (n/a). PROXY scores are not
++> resolve-rate gains and must not be reported as such.
++
++## Score trajectory
++
++| Stage | Aggregate |
++|---|---|
++| Baseline (default agent) | **0.835** |
++| Best structural version (None) | **None** |
++| Best final version (None) | **None** |
++| Shipped | **None** |
++
++Baseline dimensions: `{"target_alignment": 0.86, "reasoning_soundness": 0.82, "execution_accuracy": 0.79, "output_integrity": 0.87}`
++Weakest dimension: **execution_accuracy**
++
++## Diagnosed failure modes
++
++- **Complex repository-specific diagnosis and implementation** — The agent can complete standard fixes but fails on at least some issues requiring deeper localization, design understanding, or coordinated changes across an unfamiliar codebase. (evidence: django__django-16938, astropy__astropy-13033)
++- **Insufficient validation and iterative debugging** — Tool-driven editing and testing do not consistently converge when the initial patch is incomplete or when failures require multiple debugging iterations. (evidence: django__django-16938, astropy__astropy-13033)
++- **Edge-case and regression handling** — The unresolved probes indicate difficulty preserving behavior while addressing nuanced framework or scientific-library edge cases, despite successful outcomes on two other instances. (evidence: django__django-16938, astropy__astropy-13033)
++
++## Proposals
++
++| Phase | Versions | Applied as real commits |
++|---|---|---|
++| A — structural | 6 | 5 |
++| B — prompt | 0 | 0 |
++| **total** | **6** | **5** |
++
++All 6 versions with their scores and why-records are in `tei/candidates.jsonl`.
++
++## Do-no-harm confirmation (tei_loop.gate.verify_candidate)
++
++```json
++{}
++```
++
++Paraphrase noise floor: `{}`
++
++
++## Top 3 why-records
++
++1. **struct-06 — Bias the selector toward minimal, behavior-preserving patches with explicit edge-case coverage** (targets _Complex repository-specific diagnosis and implementation_, score 0.885, Δ +0.05, proposed_not_applied)
++   > Reconstructing the intended contract, favoring minimal behavior-preserving changes, and requiring edge-case coverage gives the strongest combined improvement in selection quality and regression resistance. The minimality bias can occasionally under-select a broader necessary fix, limiting execution gains.
++
++2. **struct-04 — Make patch selection require behavioral evidence rather than surface-level plausibility** (targets _Insufficient validation and iterative debugging_, score 0.8725, Δ +0.0375, applied)
++   > Requiring behavioral evidence makes patch selection less vulnerable to plausible but incorrect candidates, improving target alignment and execution outcomes. The gain is limited because the selector still depends on the candidates' available tests and evidence.
++
++3. **struct-01 — Inject a mandatory repository-diagnosis phase into the agent's system instructions** (targets _Complex repository-specific diagnosis and implementation_, score 0.8675, Δ +0.0325, applied)
++   > The mandatory call-path and abstraction diagnosis directly addresses repository-specific failures, improving issue targeting and reasoning. It provides less direct benefit than an execution loop for validation, so gains on the difficult probes remain moderate.
++
++
++## Trajectory availability
++
++SWE-bench/experiments ships aggregate results only; logs/ and trajs/ are in a credentialed S3 bucket (archive README). No AWS access per owner directive, so 0 recorded trajectories were read.
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 1a300ab..42bc21f 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -2,3 +2,6 @@
+ {"version_id": "struct-02", "phase": "structural", "technique": "Inject a bounded reproduce-test-debug loop into the agent's system instructions", "target_failure_mode": "Insufficient validation and iterative debugging", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT", "replace": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT\n\nTRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + \"\"\"\n\nUse an iterative validation loop after every substantive edit: run the narrowest reproducer or focused test, inspect the complete failure, revise the patch, and rerun it. Before finishing, run relevant regression tests and continue debugging until the result is passing or"}, "dimensions": {"target_alignment": 0.87, "reasoning_soundness": 0.85, "execution_accuracy": 0.85, "output_integrity": 0.88}, "aggregate": 0.8625, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.97}, {"instance_id": "django__django-16938", "score": 0.3}, {"instance_id": "astropy__astropy-13033", "score": 0.29}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0275, "why": "The bounded reproduce-test-debug loop materially improves validation and iterative correction, especially for complex Django and Astropy behavior. It does not itself improve initial diagnosis or contract reconstruction as much as the more targeted reasoning changes."}
+ {"version_id": "struct-03", "phase": "structural", "technique": "Add an explicit compatibility and regression checklist to the agent's system instructions", "target_failure_mode": "Edge-case and regression handling", "expected_dimension": "target_alignment", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT", "replace": "from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT\n\nTRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + \"\"\"\n\nFor framework and scientific-library changes, check edge conditions explicitly: empty and null inputs, boundary values, subclass or alternate implementation paths, backwards-compatible defaults, error behavior, and interactions with existing public APIs. Preserve unrelate"}, "dimensions": {"target_alignment": 0.88, "reasoning_soundness": 0.85, "execution_accuracy": 0.82, "output_integrity": 0.9}, "aggregate": 0.8625, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.96}, {"instance_id": "django__django-16938", "score": 0.27}, {"instance_id": "astropy__astropy-13033", "score": 0.31}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0275, "why": "The explicit compatibility checklist improves regression awareness and scientific-library edge-case handling, with the clearest benefit on Astropy. It is less effective for discovering the correct repository-specific implementation or debugging a failing patch."}
+ {"version_id": "struct-04", "phase": "structural", "technique": "Make patch selection require behavioral evidence rather than surface-level plausibility", "target_failure_mode": "Insufficient validation and iterative debugging", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "evaluation/patch_selection/trae_selector/selector_agent.py", "find": "    init_prompt = f\"\"\"\\\n# ROLE: Act as an expert code evaluator. Given a codebase, an github issue and **{candidate_length} candidate patches** proposed by your colleagues, your responsibility is to **select the correct one** to solve the issue.\n\n# WORK PROCESS:", "replace": "    init_prompt = f\"\"\"\\\n# ROLE: Act as an expert code evaluator. Given a codebase, a GitHub issue, and **{candidate_length} candidate patches** proposed by your colleagues, select the patch that actually solves the issue.\n\n# EVIDENCE GATE:\nReject patches that are merely plausible. Prefer candidates with focused test evidence, regression evidence, and a clear explanation of why the failing behavior"}, "dimensions": {"target_alignment": 0.89, "reasoning_soundness": 0.87, "execution_accuracy": 0.84, "output_integrity": 0.89}, "aggregate": 0.8725, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.96}, {"instance_id": "django__django-16938", "score": 0.33}, {"instance_id": "astropy__astropy-13033", "score": 0.3}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0375, "why": "Requiring behavioral evidence makes patch selection less vulnerable to plausible but incorrect candidates, improving target alignment and execution outcomes. The gain is limited because the selector still depends on the candidates' available tests and evidence."}
++{"version_id": "struct-05", "phase": "structural", "technique": "Normalize candidate patch fields and provide safe fallbacks at the patch-selection boundary", "target_failure_mode": "Edge-case and regression handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "evaluation/patch_selection/trae_selector/selector_agent.py", "find": "class CandidatePatch:\n    def __init__(self, id, patch, cleaned_patch, is_success_regression, is_success_patch):\n        self.id = id\n        self.patch = patch\n        self.cleaned_patch = cleaned_patch\n        self.is_success_regression = is_success_regression\n        self.is_success_patch = is_success_patch", "replace": "class CandidatePatch:\n    def __init__(self, id, patch, cleaned_patch, is_success_regression, is_success_patch):\n        self.id = id\n        self.patch = patch if isinstance(patch, str) else \"\"\n        self.cleaned_patch = cleaned_patch.strip() if isinstance(cleaned_patch, str) else self.patch\n        self.is_success_regression = bool(is_success_regression)\n        self.is_success_patch = bool(is"}, "dimensions": {"target_alignment": 0.85, "reasoning_soundness": 0.79, "execution_accuracy": 0.77, "output_integrity": 0.91}, "aggregate": 0.83, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.94}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.94}, {"instance_id": "django__django-16938", "score": 0.21}, {"instance_id": "astropy__astropy-13033", "score": 0.19}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": -0.005, "why": "Field normalization and fallbacks improve structural output safety, but silently converting malformed fields to empty patches can hide upstream errors and distort patch selection. That tradeoff lowers reasoning and execution reliability and does not address the difficult repository-level failures."}
++{"version_id": "struct-06", "phase": "structural", "technique": "Bias the selector toward minimal, behavior-preserving patches with explicit edge-case coverage", "target_failure_mode": "Complex repository-specific diagnosis and implementation", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "evaluation/patch_selection/trae_selector/selector_agent.py", "find": "    init_prompt = f\"\"\"\\\n# ROLE: Act as an expert code evaluator. Given a codebase, an github issue and **{candidate_length} candidate patches** proposed by your colleagues, your responsibility is to **select the correct one** to solve the issue.", "replace": "    init_prompt = f\"\"\"\\\n# ROLE: Act as an expert code evaluator. Given a codebase, a GitHub issue, and **{candidate_length} candidate patches** proposed by your colleagues, select the correct implementation.\n\n# DECISION RULES:\nFirst reconstruct the issue's intended contract from the repository and tests. Select the smallest candidate that changes the owning abstraction, handles the reported edge c"}, "dimensions": {"target_alignment": 0.91, "reasoning_soundness": 0.89, "execution_accuracy": 0.84, "output_integrity": 0.9}, "aggregate": 0.885, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.97}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.97}, {"instance_id": "django__django-16938", "score": 0.35}, {"instance_id": "astropy__astropy-13033", "score": 0.34}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "find-block matched 0x (need exactly 1)", "delta_vs_baseline": 0.05, "why": "Reconstructing the intended contract, favoring minimal behavior-preserving changes, and requiring edge-case coverage gives the strongest combined improvement in selection quality and regression resistance. The minimality bias can occasionally under-select a broader necessary fix, limiting execution gains."}
++{"version_id": "struct-07", "phase": "structural", "technique": "Add a mandatory repository-diagnosis phase before editing, requiring the agent to map the issue to affected symbols, call paths, invariants, and existing tests before proposing a patch.", "target_failure_mode": "Complex repository-specific diagnosis and implementation", "expected_dimension": "reasoning_soundness", "evidence_instance_ids": ["scikit-learn__scikit-learn-15100", "pytest-dev__pytest-7432", "django__django-16938", "astropy__astropy-13033"], "patch_or_prompt": {"file": "trae_agent/agent/trae_agent.py", "find": "TRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + \"\"\"", "replace": "TRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + \"\"\"\n\nBefore editing, perform a repository-specific diagnosis: identify the issue's observable contract, locate the owning implementation and all alternate call paths, inspect nearby tests and subclasses, and state the invariant that the patch must preserve. Do not edit until this diagnosis identifies the smallest complete change surface and the"}, "dimensions": {"target_alignment": 0.91, "reasoning_soundness": 0.89, "execution_accuracy": 0.84, "output_integrity": 0.88}, "aggregate": 0.88, "probe_scores": [{"instance_id": "scikit-learn__scikit-learn-15100", "score": 0.96}, {"instance_id": "pytest-dev__pytest-7432", "score": 0.96}, {"instance_id": "django__django-16938", "score": 0.31}, {"instance_id": "astropy__astropy-13033", "score": 0.28}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "find-block matched 3x (need exactly 1)", "delta_vs_baseline": 0.045, "why": "The mandatory symbol, call-path, invariant, and test mapping directly addresses repository-specific failures and improves diagnosis before implementation. It adds useful structure without changing patch execution or output handling, so gains are strongest on Django and Astropy while remaining modest elsewhere."}
+diff --git a/trae_agent/agent/trae_agent.py b/trae_agent/agent/trae_agent.py
+index d558207..aac2890 100644
+--- a/trae_agent/agent/trae_agent.py
++++ b/trae_agent/agent/trae_agent.py
+@@ -15,7 +15,7 @@ from trae_agent.prompt.agent_prompt import TRAE_AGENT_SYSTEM_PROMPT
+ 
+ TRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + """
+ 
+-For framework and scientific-library changes, check edge conditions explicitly: empty and null inputs, boundary values, subclass or alternate implementation paths, backwards-compatible defaults, error behavior, and interactions with existing public APIs. Preserve unrelated behavior and add or run regression coverage for each affected path.
++For framework and scientific-library changes, build a behavior matrix before editing: normal inputs; empty and null inputs; minimum, maximum, and boundary values; subclasses and alternate implementations; omitted versus explicit defaults; expected exceptions and messages; and interactions with existing public APIs. For every row, state whether behavior must remain unchanged or intentionally change, then add or run a focused regression test for each affected row while preserving unrelated behavior.
+ """
+ 
+ TRAE_AGENT_SYSTEM_PROMPT = TRAE_AGENT_SYSTEM_PROMPT + """
+-- 
+2.39.5 (Apple Git-154)
+

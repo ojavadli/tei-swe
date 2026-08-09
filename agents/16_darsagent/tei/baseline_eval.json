@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.65,
+    "reasoning_soundness": 0.52,
+    "execution_accuracy": 0.47,
+    "output_integrity": 0.68
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-12453",
+      "score": 0.85
+    },
+    {
+      "instance_id": "django__django-15789",
+      "score": 0.85
+    },
+    {
+      "instance_id": "sympy__sympy-19007",
+      "score": 0.15
+    },
+    {
+      "instance_id": "sympy__sympy-16988",
+      "score": 0.15
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Failure to complete repository changes on difficult instances",
+      "description": "Both SymPy probes were unresolved, indicating that the agent frequently fails to carry an issue through to a correct completed patch.",
+      "evidence_instance_ids": [
+        "sympy__sympy-19007",
+        "sympy__sympy-16988"
+      ]
+    },
+    {
+      "name": "Insufficient issue-specific reasoning or generalization",
+      "description": "The unresolved SymPy outcomes suggest weaker analysis of domain-specific behavior and edge cases than is needed for reliable SWE-bench performance.",
+      "evidence_instance_ids": [
+        "sympy__sympy-19007",
+        "sympy__sympy-16988"
+      ]
+    },
+    {
+      "name": "Inadequate validation of proposed fixes",
+      "description": "The two unresolved outcomes are consistent with trajectories that do not reliably validate and refine changes until the task is actually solved.",
+      "evidence_instance_ids": [
+        "sympy__sympy-19007",
+        "sympy__sympy-16988"
+      ]
+    }
+  ],
+  "why": "The system officially resolves 47.0% of lite instances, and the fixed probes show a mixed result: both Django tasks resolved while both SymPy tasks remained unresolved. Its explicit command protocol and DARS trajectory design support moderate target alignment and output integrity, but the unresolved probes and overall failure rate require substantially lower reasoning and execution scores.",
+  "aggregate": 0.58,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-12453",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-15789",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-19007",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sympy__sympy-16988",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

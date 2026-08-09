@@ -1,0 +1,35 @@
+From 9e0f3b6dcee3cacce348b45a4528018134d2eb1e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:39:34 -0700
+Subject: [PATCH 03/27] tei-v7 struct-03: Make plan advancement idempotent at
+ the end of the plan
+
+---
+ patchwork/common/multiturn_strategy/planning_strategy.py | 3 ++-
+ tei/candidates.jsonl                                     | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/patchwork/common/multiturn_strategy/planning_strategy.py b/patchwork/common/multiturn_strategy/planning_strategy.py
+index 11b132d..175b4ca 100644
+--- a/patchwork/common/multiturn_strategy/planning_strategy.py
++++ b/patchwork/common/multiturn_strategy/planning_strategy.py
+@@ -32,7 +32,8 @@ class _Plan:
+         self.__cursor = 0
+ 
+     def advance(self) -> bool:
+-        self.__cursor += 1
++        if self.__cursor < len(self.__plan):
++            self.__cursor += 1
+         return self.__cursor < len(self.__plan)
+ 
+     def is_empty(self) -> bool:
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 90306d9..ebe2ff9 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -1 +1,2 @@
+ {"version_id": "struct-01", "phase": "structural", "technique": "Inject a repository-aware execution contract into every agent conversation", "target_failure_mode": "Repository- and issue-type generalization failure", "expected_dimension": "target_alignment", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "    def generate_reply(self, message: str) -> str:\n        self.history.append(dict(role=\"user\", content=message))\n        input_kwargs = dict(", "replace": "    def generate_reply(self, message: str) -> str:\n        if not self.history:\n            self.history.append({\n                \"role\": \"system\",\n                \"content\": \"Work repository-first: inspect the target repository's conventions, neighboring implementations, tests, and supported versions before editing. Prefer the smallest compatible patch and verify it with focused tests.\"\n         "}, "dimensions": {"target_alignment": 0.67, "reasoning_soundness": 0.62, "execution_accuracy": 0.5, "output_integrity": 0.57}, "aggregate": 0.59, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.81}, {"instance_id": "sympy__sympy-15011", "score": 0.79}, {"instance_id": "django__django-11001", "score": 0.23}, {"instance_id": "django__django-11910", "score": 0.21}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0425, "why": "The repository-aware contract directly addresses cross-repository generalization by requiring inspection of conventions, neighboring code, tests, and supported versions. It improves target selection and reasoning most, with smaller gains in execution and output discipline, but it remains prompt guidance rather than enforced behavior."}
++{"version_id": "struct-02", "phase": "structural", "technique": "Prepend an explicit reconnaissance step to every generated plan", "target_failure_mode": "Repository- and issue-type generalization failure", "expected_dimension": "target_alignment", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "    def __init__(self, initial_plan: Optional[list[str]] = None):\n        self.__plan = initial_plan or []\n        self.__cursor = 0", "replace": "    def __init__(self, initial_plan: Optional[list[str]] = None):\n        reconnaissance = \"Inspect repository structure, relevant symbols, neighboring implementations, and existing tests\"\n        self.__plan = [reconnaissance, *(initial_plan or [])]\n        self.__cursor = 0"}, "dimensions": {"target_alignment": 0.65, "reasoning_soundness": 0.6, "execution_accuracy": 0.47, "output_integrity": 0.55}, "aggregate": 0.5675, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.21}, {"instance_id": "django__django-11910", "score": 0.19}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.02, "why": "Adding reconnaissance makes plans more repository-aware and modestly improves issue targeting. However, it only prepends a textual step, does not ensure that reconnaissance is actually performed, and can consume planning capacity without improving patch execution or validation."}
+-- 
+2.39.5 (Apple Git-154)
+

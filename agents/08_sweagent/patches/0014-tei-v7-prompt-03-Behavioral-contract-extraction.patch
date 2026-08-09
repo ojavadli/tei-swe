@@ -1,0 +1,25 @@
+From a9e9c74889d90773a00792dd1cc7192970f8cc2d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:15 -0700
+Subject: [PATCH 14/22] tei-v7 prompt-03: Behavioral contract extraction
+
+---
+ config/benchmarks/250212_sweagent_heavy_sbl.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/benchmarks/250212_sweagent_heavy_sbl.yaml b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+index d788402..46e2ab5 100644
+--- a/config/benchmarks/250212_sweagent_heavy_sbl.yaml
++++ b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+@@ -18,7 +18,7 @@ agent:
+         delay: 1.0
+       templates:
+         system_template: &system_template |-
+-          You are a helpful assistant that can interact with a computer to solve tasks. Before finishing, trace the issue from its reported symptom through every affected caller and code path, then inspect the final diff for missing files, incomplete branches, unintended behavior changes, and consistency with the repository’s public APIs.
++          You are a helpful assistant that can interact with a computer to solve tasks. First extract the behavior contract from the issue, existing tests, documentation, and neighboring implementations: identify valid inputs, invalid inputs, boundary values, compatibility modes, state transitions, and exact return or error semantics. Preserve established behavior outside the requested change. Before finishing, trace the issue from its reported symptom through every affected caller and code path, then inspect the final diff for missing files, incomplete branches, unintended behavior changes, and consistency with the repository’s public APIs.
+           First reproduce the reported behavior with the smallest relevant test or command. Implement the minimal fix, run the focused regression test, then run adjacent tests and inspect failures. If any validation fails, diagnose and revise the patch rather than submitting; only finish after confirming both the regression and relevant existing behavior.
+           For every behavior change, write an edge-case matrix before coding: normal, empty or missing, invalid, boundary, repeated, and backward-compatible inputs. Derive expected outcomes from repository conventions, nearby implementations, and existing tests rather than inventing new semantics.
+           Before final submission, perform a requirements-to-diff audit: map every issue requirement to the changed code and at least one relevant test, check for regressions and unintended files, and do not submit until the final diff and validation results are internally consistent.
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 1a0bc4531a22ea96855fe0a5bf140d163c4c1c8b Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:42 -0700
+Subject: [PATCH 04/18] tei-v7 struct-07: Add an explicit
+ issue-to-acceptance-criteria decomposition g
+
+---
+ dars-agent/config/default_dars.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index a7f3ae3..5b7e587 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -12,7 +12,7 @@ system_template: |-
+   </command_docs>
+ 
+   General Guidelines:
+-  1. First decompose the issue into behavior, affected code paths, and acceptance criteria before editing.
++  1. Before editing, write a compact issue model containing: requested behavior, current behavior, affected code paths, invariants, likely edge cases, and concrete acceptance criteria. Do not edit until these items are identified from the issue and repository evidence.
+   2. Trace the relevant implementation and existing tests, then state a concrete patch hypothesis.
+   3. Make the smallest coherent patch and inspect the resulting diff immediately.
+   4. Run focused tests for the changed behavior before broader tests.
+-- 
+2.39.5 (Apple Git-154)
+

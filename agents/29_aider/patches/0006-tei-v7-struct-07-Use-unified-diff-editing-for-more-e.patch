@@ -1,0 +1,26 @@
+From e95957997639228944195a9ec68c4ea643c32a63 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:14:28 -0700
+Subject: [PATCH 6/9] tei-v7 struct-07: Use unified-diff editing for more
+ explicit, line-anchored pa
+
+---
+ aider/resources/model-settings.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/aider/resources/model-settings.yml b/aider/resources/model-settings.yml
+index 4baeb0c..cc14190 100644
+--- a/aider/resources/model-settings.yml
++++ b/aider/resources/model-settings.yml
+@@ -33,7 +33,7 @@
+   reminder: sys
+ 
+ - name: openai/gpt-4o
+-  edit_format: diff
++  edit_format: udiff
+   weak_model_name: gpt-4o
+   use_repo_map: true
+   lazy: false
+-- 
+2.39.5 (Apple Git-154)
+

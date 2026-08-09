@@ -1,0 +1,29 @@
+From 101a3d9cd23f0ed94c29ee6fc4909782c280dfa0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:49 -0700
+Subject: [PATCH 17/50] tei-v7 struct-21: Execution-gate schema with staged
+ validation checkpoints
+
+---
+ Orcar/prompts.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 3cfa884..c1648fd 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -1,4 +1,11 @@
+ STEP_EXAMPLE = {
++    "execution_gate": {
++        "before_patch": "record the failing command, exit status, exception, and relevant output",
++        "after_patch": "run the smallest regression oracle first",
++        "compatibility_checks": ["nearby valid input", "boundary or nested input", "focused repository test"],
++        "acceptance_rule": "do not report resolved unless the original failure is fixed and compatibility checks pass",
++        "recovery_rule": "if a check fails, revert the hypothesis and localize again rather than widening the patch"
++    },
+     "patch_contract": {
+         "target_file": "repository-relative path",
+         "target_symbol": "exact function, method, class, or branch",
+-- 
+2.39.5 (Apple Git-154)
+

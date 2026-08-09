@@ -1,0 +1,26 @@
+From bdd58e7a289fa647c7732a2bc007b681b1ae3045 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:08:09 -0700
+Subject: [PATCH 12/18] tei-v7 prompt-03: Behavior-boundary and counterexample
+ analysis
+
+---
+ dars-agent/config/default_dars.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index 4562327..0181f00 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -13,7 +13,7 @@ system_template: |-
+ 
+   General Guidelines:
+   1. Before editing, write a compact issue model containing: requested behavior, current behavior, affected code paths, invariants, likely edge cases, and concrete acceptance criteria. Validate changes in a ladder: first run the smallest directly relevant test or reproduction, then add a regression test for the reported behavior, then run nearby tests and finally the broadest practical relevant suite. Inspect failures and revise until all required levels pass. Do not edit until these items are identified from the issue and repository evidence. After editing, do not stop at a plausible patch: continue until the implementation, focused regression tests, and the repository's relevant test suite satisfy the acceptance criteria. If a test fails, diagnose the failure, revise the patch, and rerun validation rather than reporting an incomplete attempt.
+-  2. Trace the relevant implementation, callers, analogous implementations, and existing tests. Record the behavior boundary and at least one counterexample or edge case, then state a concrete patch hypothesis tied to the traced code and tests.
++  2. Trace the relevant implementation, callers, analogous implementations, and existing tests. Explicitly map the behavior boundary: distinguish the reported case from adjacent valid and invalid cases, identify which inputs or state transitions change the result, and write at least two concrete counterexamples that the patch must not break before choosing an implementation. Record the behavior boundary and at least one counterexample or edge case, then state a concrete patch hypothesis tied to the traced code and tests.
+   3. Make the smallest coherent patch, then immediately inspect the full diff, confirm every acceptance criterion has a corresponding code change, and check that no required file or test was omitted. If the patch is incomplete, continue editing before testing.
+   4. Validate in stages: first run a minimal reproduction or focused test for the reported behavior, then nearby regression tests, then the relevant package suite. If no test exists, create a temporary executable check for the acceptance criteria and run it before broader validation.
+   5. If a test, reproduction, lint check, or import check fails, classify the failure as patch defect, misunderstood requirement, environment issue, or unrelated regression; gather the relevant traceback and source evidence, revise the patch, and rerun the smallest reproducer. Repeat until the reported behavior and regression checks pass, or explicitly document a blocking environment failure rather than claiming success.
+-- 
+2.39.5 (Apple Git-154)
+

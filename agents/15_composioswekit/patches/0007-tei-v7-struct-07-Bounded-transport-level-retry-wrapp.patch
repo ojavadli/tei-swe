@@ -1,0 +1,39 @@
+From 77e8396de0eb6be79952d0b8c81b626b4f2a763a Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:05:38 -0700
+Subject: [PATCH 07/18] tei-v7 struct-07: Bounded transport-level retry wrapper
+
+---
+ .../workbench/python-helpers/composio_helper.py  | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index a38b3ac..8d0c794 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -8,6 +8,22 @@ import urllib.request
+ import uuid
+ from typing import Any, Dict, Literal, Optional
+ 
++_ORIGINAL_URLOPEN = urllib.request.urlopen
++
++
++def _urlopen_with_retry(*args, **kwargs):
++    attempts = max(1, int(os.environ.get("COMPOSIO_HTTP_RETRIES", "3")))
++    for attempt in range(attempts):
++        try:
++            return _ORIGINAL_URLOPEN(*args, **kwargs)
++        except (urllib.error.HTTPError, urllib.error.URLError):
++            if attempt + 1 == attempts:
++                raise
++            time.sleep(min(8.0, 0.5 * (2**attempt)) + random.random() * 0.25)
++
++
++urllib.request.urlopen = _urlopen_with_retry
++
+ 
+ # Config is injected by the SDK via an `_INTERNAL` dict in a prologue prepended
+ # at runtime. When running this file directly (e.g. pytest), default to empty.
+-- 
+2.39.5 (Apple Git-154)
+

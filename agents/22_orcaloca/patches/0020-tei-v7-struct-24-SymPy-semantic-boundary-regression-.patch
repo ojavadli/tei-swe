@@ -1,0 +1,36 @@
+From d16fb32a708aa9d7f44a4f8eebf999c768da7137 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:49 -0700
+Subject: [PATCH 20/50] tei-v7 struct-24: SymPy semantic-boundary regression
+ matrix
+
+---
+ Orcar/prompts.py | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index a229b5f..a8d3681 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -15,6 +15,18 @@ STEP_EXAMPLE = {
+         "applyability_check": "the edit must be representable as an exact file/find/replace operation"
+     },
+     "issue_model": {
++        "semantic_regression_matrix": {
++            "required_cases": [
++                "minimal reproducer",
++                "nearby valid input",
++                "nested or composite expression",
++                "symbolic or unevaluated form",
++                "assumption or canonicalization boundary",
++                "incompatible or exception-producing input"
++            ],
++            "per_case_fields": ["input", "expected result or exception", "semantic invariant", "observed result", "test command"],
++            "acceptance_rule": "a fix is incomplete if it passes only the minimal reproducer while violating an invariant on any boundary case"
++        },
+         "context_selection_contract": {
+             "must_include": ["failing entry point", "causal implementation symbol", "relevant caller/callee edge", "nearest semantic test or oracle"],
+             "may_include": ["one normalization or assumption helper", "one analogous working path"],
+-- 
+2.39.5 (Apple Git-154)
+

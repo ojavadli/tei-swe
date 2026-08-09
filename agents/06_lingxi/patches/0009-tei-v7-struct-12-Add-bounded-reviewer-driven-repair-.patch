@@ -1,0 +1,31 @@
+From cfd0b621b4bed26bd8d9bf6daf00725d2173f5c7 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:55 -0700
+Subject: [PATCH 09/24] tei-v7 struct-12: Add bounded reviewer-driven repair
+ iterations with explicit
+
+---
+ src/agent/prompt/__init__.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index d9f3f2c..05d1aa3 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -35,8 +35,12 @@ ISSUE_RESOLVE_SOLUTION_MAPPER_SYSTEM_PROMPT = _BASE_SOLUTION_MAPPER_PROMPT + """
+ Construct a dependency-closure map for the proposed change before editing: entry points, data-flow or control-flow edges, subclasses/overrides, public APIs, compatibility branches, and affected tests. Mark each candidate file as in-scope or explicitly out-of-scope with evidence, and reject a patch plan that leaves an unexplained edge in the closure.
+ """
+ from .supervisor import (
+-    ISSUE_RESOLVE_SUPERVISOR_SYSTEM_PROMPT,
++    ISSUE_RESOLVE_SUPERVISOR_SYSTEM_PROMPT as _BASE_SUPERVISOR_PROMPT,
+ )
++ISSUE_RESOLVE_SUPERVISOR_SYSTEM_PROMPT = _BASE_SUPERVISOR_PROMPT + """
++
++Treat validation feedback as a repair loop: after each implementation, require a focused test or reproduction, classify every failure as code, test, environment, or unresolved diagnosis, and send code or diagnosis failures back for one targeted edit. Re-run the failed check after editing. Do not finalize while the reported reproduction fails; stop only after passing validation or after documenting a concrete blocker and the exact evidence.
++"""
+ 
+ __all__ = [
+     "ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT",
+-- 
+2.39.5 (Apple Git-154)
+

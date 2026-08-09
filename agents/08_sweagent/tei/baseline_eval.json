@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.74,
+    "reasoning_soundness": 0.69,
+    "execution_accuracy": 0.64,
+    "output_integrity": 0.76
+  },
+  "probe_scores": [
+    {
+      "instance_id": "sphinx-doc__sphinx-10449",
+      "score": 0.84
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24570",
+      "score": 0.81
+    },
+    {
+      "instance_id": "django__django-13112",
+      "score": 0.32
+    },
+    {
+      "instance_id": "pydata__xarray-6599",
+      "score": 0.29
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incorrect or incomplete repository changes",
+      "description": "The system can fail to turn an otherwise plausible approach into a patch that resolves the issue, as shown by unresolved outcomes on both Django and xarray.",
+      "evidence_instance_ids": [
+        "django__django-13112",
+        "pydata__xarray-6599"
+      ]
+    },
+    {
+      "name": "Insufficient validation and iteration",
+      "description": "The retry/tool-driven setup does not reliably detect and repair remaining defects before submission, evidenced by two unresolved probe instances despite the system's generally capable agent configuration.",
+      "evidence_instance_ids": [
+        "django__django-13112",
+        "pydata__xarray-6599"
+      ]
+    },
+    {
+      "name": "Difficulty with repository-specific edge cases",
+      "description": "Performance is not uniformly reliable across projects: Sphinx and Matplotlib were resolved, while Django and xarray were not, indicating recurring sensitivity to project semantics and edge-case behavior.",
+      "evidence_instance_ids": [
+        "django__django-13112",
+        "pydata__xarray-6599"
+      ]
+    }
+  ],
+  "why": "The two resolved probes show strong task targeting and usable output, but the two unresolved probes directly demonstrate substantial gaps in execution accuracy and reasoning reliability. Those failures are consistent with, and calibrated to, the system's approximately 66.6% overall resolve rate rather than near-perfect performance.",
+  "aggregate": 0.7075,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "sphinx-doc__sphinx-10449",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24570",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-13112",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "pydata__xarray-6599",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

@@ -1,0 +1,26 @@
+From 0976728d10cd997c743a29eff9a69e30c1b6008e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:20:23 -0700
+Subject: [PATCH 01/13] tei-v7 prompt-01: Evidence-first ranked localization
+
+---
+ ExpeRepair-v1.0/agents/agent_search.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/ExpeRepair-v1.0/agents/agent_search.py b/ExpeRepair-v1.0/agents/agent_search.py
+index b53774b..f19e7db 100644
+--- a/ExpeRepair-v1.0/agents/agent_search.py
++++ b/ExpeRepair-v1.0/agents/agent_search.py
+@@ -9,8 +9,7 @@ GENERAL_SYSTEM_PROMPT_W_REPO = ("As a software developer maintaining the GitHub
+                                 "you are responsible for analyzing a submitted issue and identifying the exact location in the repository where the issue occurs.")
+ 
+ 
+-SELECT_FILE_PROMPT_INITIAL = """Please review the issue description and thoroughly analyze the issue to uncover all possible causes.
+-Then, review the file structure and identify TEN files that are most likely to require edits to resolve the issue.
++SELECT_FILE_PROMPT_INITIAL = """First decompose the issue into: (a) the externally observed incorrect behavior, (b) the expected behavior, (c) the triggering code path, and (d) the smallest likely fix. Trace that behavior from the public API or user-visible entry point through the repository structure. Identify the concrete classes, functions, methods, or configuration entries that must be inspected, and use filenames only when supported by this trace. Then rank TEN candidate editable files by the strength of repository evidence that they contain the defect or required fix. Do not select files merely because their names resemble issue keywords.
+ 
+ IMPORTANT:
+ 1. Select files ONLY FROM THE PROVIDED LIST and specify their FULL PATHS, starting from the root directory. Do not include any test files.
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,1210 @@
+{
+  "k": 5,
+  "results": [
+    {
+      "agent": "01_livesweagent",
+      "system": "live-SWE-agent + Claude 4.5 Opus medium (20251101)",
+      "files_shown": [
+        "config/livesweagent_swebench.yaml",
+        "config/livesweagent_swebench_pro.yaml",
+        "tei/candidates.jsonl",
+        "tei/baseline_eval.json"
+      ],
+      "n_applied": 24,
+      "rubric_delta": 0.0425,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 explicitly requires repository-aware contract extraction, faithful reproduction, focused patching, regression testing, comprehensive edge-case matrice",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.91,
+          "reason": "Version 2 explicitly requires repository-aware contract extraction, faithful reproduction, focused patching, regression checks, broad edge-case matrices, and va",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 1 provides substantially stronger repository-aware planning, explicit acceptance criteria, reproducer-driven implementation, broad test-matrix verificat",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 provides substantially stronger repository-aware planning, explicit acceptance criteria, hypothesis-driven reproduction, broad edge-case matrices, and",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 explicitly requires repository-aware contract extraction, faithful reproduction, focused patching, regression checks, broad edge-case matrices, and in",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "02_sonarfoundationagent",
+      "skipped": "no applied patches (nothing real to compare)"
+    },
+    {
+      "agent": "03_trae",
+      "system": "TRAE + Doubao-Seed-Code",
+      "files_shown": [
+        "trae_agent/agent/trae_agent.py",
+        "evaluation/patch_selection/trae_selector/selector_agent.py",
+        "tei/candidates.jsonl",
+        "tei/REPORT.md"
+      ],
+      "n_applied": 39,
+      "rubric_delta": 0.055,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.86,
+          "reason": "Version 1 adds substantially stronger repository localization, hypothesis testing, iterative validation, failure classification, compatibility checks, and candi",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.94,
+          "reason": "Version 2 adds explicit repository localization, hypothesis testing, staged validation, failure classification, compatibility checks, and safer candidate-patch ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 1 adds substantially stronger repository diagnosis, hypothesis-driven validation, failure classification, regression checks, and candidate-patch sanitiz",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.97,
+          "reason": "Version 1 adds repository-localization, hypothesis-driven debugging, staged validation, compatibility checks, and substantially stronger candidate-patch sanitiz",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "baseline",
+          "confidence": 0.94,
+          "reason": "Although version 2 adds stronger diagnosis and validation guidance, its CandidatePatch constructor calls re.sub without importing re, creating an immediate runt",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 4,
+      "baseline": 1,
+      "tie": 0
+    },
+    {
+      "agent": "04_acoder",
+      "skipped": "no applied patches (nothing real to compare)"
+    },
+    {
+      "agent": "05_joycode",
+      "system": "JoyCode + Claude 4 Sonnet + GPT-4.1",
+      "files_shown": [
+        "search_zip/zip_traj.py",
+        "utils/dynamic_agent.py",
+        "llm_server/client_manager.py"
+      ],
+      "n_applied": 46,
+      "rubric_delta": 0.0575,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 explicitly adds repository-specific preflight requirements, requirement-to-diff auditing, verification validity checks, failure classification, recove",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 adds explicit acceptance-matrix and diff auditing, repository-aware verification requirements, structured failure classification, and recovery policie",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 adds explicit requirement-to-diff mapping, repository-aware compatibility checks, mandatory path-exercising verification, and structured failure class",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.95,
+          "reason": "Version 1 adds explicit requirement-to-diff tracing, compatibility audits, real-path verification, structured failure classification, and recovery policies, mak",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 adds explicit requirement-to-diff tracing, repository-aware verification, test-discovery safeguards, failure classification, and recovery policies, ma",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0,
+      "post_repair": true
+    },
+    {
+      "agent": "06_lingxi",
+      "system": "Lingxi-v1.5_claude-4-sonnet-20250514",
+      "files_shown": [
+        "src/agent/supervisor_graph_demo.py",
+        "src/agent/tool_set/dev_knowledge.py",
+        "src/agent/prompt/__init__.py"
+      ],
+      "n_applied": 24,
+      "rubric_delta": 0.0675,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.87,
+          "reason": "Version 1 adds stronger behavioral-contract, evidence-tracing, verification, failure-recovery, historical-analogy safeguards, and richer context tools while ret",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 adds reviewer integration, summarization support, and substantially stronger contract-driven investigation, reproduction, evidence tracing, focused te",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 adds summarization and reviewer support plus substantially stronger evidence-based contracts, reproduction, scope tracing, staged verification, regres",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 adds stronger historical-analogy validation, explicit behavioral contracts and evidence requirements, execution-model tracing, scoped impact analysis,",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 is more likely to succeed end-to-end because it adds stronger historical-analogy validation, explicit behavioral contracts and evidence requirements, ",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "07_moatlesstools",
+      "system": "Moatless Tools + Claude 4 Sonnet",
+      "files_shown": [
+        "moatless/utils/completion_parser.py"
+      ],
+      "n_applied": 3,
+      "rubric_delta": 0.055,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.82,
+          "reason": "Version 1 is more robust because it preserves valid falsey responses and prefers the structured response object when available, whereas Version 2 can discard em",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.92,
+          "reason": "Version 2 more robustly prioritizes structured response objects, preserves empty-string outputs, and avoids truthiness-based omission of valid responses, while ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.95,
+          "reason": "Version 1 is more robust because it prefers the structured response object when available and preserves explicitly empty responses, whereas Version 2 can select",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.86,
+          "reason": "Version 1 is more robust because it prefers the structured response object when available and distinguishes missing values from falsey valid responses, improvin",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.78,
+          "reason": "Version 2 more robustly distinguishes a missing response from valid empty values and consistently prefers the parsed response object, whereas Version 1 can sile",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0,
+      "post_repair": true
+    },
+    {
+      "agent": "08_sweagent",
+      "system": "SWE-agent + Claude 4 Sonnet",
+      "files_shown": [
+        "config/benchmarks/250212_sweagent_heavy_sbl.yaml"
+      ],
+      "n_applied": 22,
+      "rubric_delta": 0.06,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 1 provides substantially stronger acceptance-contract planning, execution-path analysis, layered regression validation, diff/status checks, and explicit",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 1 provides substantially stronger acceptance-contract guidance, execution-path analysis, layered validation, regression testing, diff inspection, and ex",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 2 explicitly requires an acceptance contract, behavior-matrix coverage, focused reproduction, layered validation, diff/status inspection, and iterative ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.96,
+          "reason": "Version 2 provides substantially stronger acceptance-contract planning, execution-path analysis, layered regression testing, diff validation, and explicit failu",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 2 provides substantially stronger acceptance-contract, execution-path, edge-case, layered-test, diff-integrity, and failure-recovery guidance than Versi",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "09_agentscope",
+      "system": "AgentScope",
+      "files_shown": [
+        "src/agentscope/app/_tool/_agent_create.py"
+      ],
+      "n_applied": 20,
+      "rubric_delta": 0.0775,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 explicitly requires repository-specific investigation, incremental reproduction, focused and broader validation, diff review, and evidence-based failu",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 adds explicit repository-specific investigation, requirement tracing, iterative reproduction, focused and broader validation, diff review, and structu",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 explicitly requires repository-specific investigation, incremental reproduction, focused and broader validation, diff review, and evidence-based failu",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 explicitly requires repository fingerprinting, issue-to-code mapping, iterative focused validation, broader checks, diff review, truthful test reporti",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 adds explicit repository-specific investigation, requirement tracing, iterative reproduction, focused and broader validation, diff review, and structu",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "10_entropo",
+      "system": "EntroPO + R2E + Qwen3-Coder-30B-A3B-Instruct",
+      "files_shown": [
+        "src/r2egym/agenthub/agent/agent.py",
+        "src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py"
+      ],
+      "n_applied": 17,
+      "rubric_delta": 0.06,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.82,
+          "reason": "Version 1 provides a more aligned context budget and a substantially richer condensation checkpoint that preserves requirements, evidence, verification, and fai",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.86,
+          "reason": "Version 2 aligns the agent and verifier around a safer 40k-token budget and replaces condensed history with explicit requirements, evidence, compatibility, test",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.8,
+          "reason": "Version 1 preserves a substantially larger context budget and uses a detailed condensation checkpoint that explicitly retains hypotheses, evidence, requirements",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.82,
+          "reason": "Version 2 better aligns the context limits and uses a detailed condensation checkpoint that explicitly preserves requirements, uncertainty handling, regression ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.82,
+          "reason": "Version 2 provides a much more actionable condensation checkpoint that explicitly preserves requirements, uncertainties, verification, regression testing, and d",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "11_experepair",
+      "system": "ExpeRepair-v1.0 + Claude 4 Sonnet",
+      "files_shown": [
+        "ExpeRepair-v1.0/inference/validation.py",
+        "ExpeRepair-v1.0/agents/agent_search.py"
+      ],
+      "n_applied": 13,
+      "rubric_delta": 0.07,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 provides substantially stronger end-to-end issue reconstruction, behavior-owner localization, patch applicability checks, regression verification, sco",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 is substantially more robust: it reconstructs an independent behavioral oracle, verifies applicability and execution, checks the behavior-owning code ",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 is substantially more likely to resolve issues correctly because it requires behavior-based localization, independent oracle reconstruction, applicabi",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 is substantially more robust: it reconstructs an independent behavioral oracle, verifies patch applicability and execution, checks ownership, regressi",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 provides substantially stronger end-to-end safeguards: independent behavioral-oracle reconstruction, patch applicability and scope checks, reachabilit",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "12_kgcompass",
+      "system": "KGCompass + Claude 4 Sonnet (20250514)",
+      "files_shown": [
+        "tei/candidates.jsonl",
+        "kgcompass/repair_claude.py",
+        "kgcompass/llm_loc.py",
+        "tei/baseline_eval.json"
+      ],
+      "n_applied": 28,
+      "rubric_delta": 0.0625,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.88,
+          "reason": "Version 2 is more robust end-to-end through broader location discovery, API retries/timeouts, safer parsing and dependency fallbacks, explicit instance validati",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 1 is more robust end-to-end because it broadens KG-location discovery, adds API retries/timeouts and safer target/config/dependency fallbacks, whereas V",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 2 is more robust end-to-end through broader KG-location discovery, API retries/timeouts, dependency/configuration fallbacks, explicit instance validatio",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.96,
+          "reason": "Version 1 is more robust end-to-end because it tolerates missing dependencies/configuration, searches multiple KG layouts, validates target loading, retries loc",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.87,
+          "reason": "Version 2 adds broader location discovery, API retries/timeouts, explicit missing-instance validation, language normalization, and more tolerant dependency/conf",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "13_swerizzo",
+      "system": "SWE-Rizzo",
+      "files_shown": [
+        "codemonkeys/prompts/editing_state_machine_prompts.py",
+        "codemonkeys/stages/context/relevance.py"
+      ],
+      "n_applied": 51,
+      "rubric_delta": 0.09,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 2 adds substantially stronger requirement decomposition, acceptance-gate testing, causal failure classification, regression reruns, and adversarial over",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 1 visibly adds extensive requirement decomposition, focused testing, adversarial overfitting checks, regression verification, and causal failure handlin",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 adds substantially stronger requirement decomposition, acceptance gates, focused and regression testing, failure classification, adversarial overfitti",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 1 adds substantially stronger requirement decomposition, acceptance-gate testing, adversarial overfitting checks, failure classification, and conservati",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.88,
+          "reason": "Version 2 adds explicit requirement decomposition, acceptance gates, focused and regression testing, failure classification, and adversarial overfitting checks ",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "14_agentless15",
+      "system": "Agentless-1.5 + Claude-3.5 Sonnet (20241022)",
+      "files_shown": [
+        "agentless/util/api_requests.py",
+        "agentless/test/generate_reproduction_tests.py",
+        "agentless/test/select_regression_tests.py"
+      ],
+      "n_applied": 16,
+      "rubric_delta": 0.075,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.95,
+          "reason": "Version 2 correctly counts all message content, demands evidence-backed reproductions and regression-test selection, and improves empty-output, fenced-output, a",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 is substantially more robust: it counts all message contents safely, demands evidence-backed minimal reproductions with explicit failure oracles, and ",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 improves token accounting, demands evidence-backed reproductions and regression selection, and adds substantially more robust empty-output, fenced-lis",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.97,
+          "reason": "Version 2 correctly counts all message content, demands evidence-backed reproductions and regression selections, and robustly parses model output while explicit",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 improves token accounting, demands evidence-backed reproductions and regression selection, and makes response parsing robust to empty, fenced, and num",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "15_composioswekit",
+      "system": "Composio SWE-Kit (2024-10-25)",
+      "files_shown": [
+        "ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts",
+        "README.md",
+        "ts/packages/experimental/src/workbench/python-helpers/composio_helper.py"
+      ],
+      "n_applied": 18,
+      "rubric_delta": 0.0575,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 2 visibly adds HTTP timeouts, retries with backoff, broader transient-failure detection, environment/internal configuration handling, and explicit verif",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.92,
+          "reason": "Version 2 visibly adds acceptance-gated verification guidance plus HTTP timeouts, retries, broader transient-failure detection, and more flexible configuration ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.88,
+          "reason": "Version 2 visibly adds acceptance-gated verification guidance, broader configuration handling, timeouts, retries, and expanded transient-failure detection, maki",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.82,
+          "reason": "Version 2 adds explicit reproduce-and-verify guidance plus HTTP timeouts, retries, broader transient-failure detection, and more flexible configuration handling",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.86,
+          "reason": "Version 2 visibly adds acceptance-gated verification guidance, configurable environment handling, HTTP timeouts, retries, and broader transient-failure detectio",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "16_darsagent",
+      "system": "DARS Agent",
+      "files_shown": [
+        "dars-agent/sweagent/agent/models.py",
+        "dars-agent/config/default_dars.yaml"
+      ],
+      "n_applied": 18,
+      "rubric_delta": 0.065,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 combines a more deterministic temperature with substantially stronger instructions for tracing behavior, reproducing issues, validating fixes, handlin",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 combines a more conservative temperature with explicit call-path tracing, reproduction and regression-test requirements, failure classification, rerun",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 provides a lower default temperature for more consistent behavior and substantially stronger guidance for tracing implementations, reproducing issues,",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 combines a more conservative model temperature with substantially stronger guidance to trace behavior boundaries, reproduce issues, verify fixes, run ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 1 combines a more conservative temperature with substantially stronger instructions for tracing behavior, reproducing issues, validating patches, runnin",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "17_codeshellagent",
+      "skipped": "no applied patches (nothing real to compare)"
+    },
+    {
+      "agent": "18_codefusecgm",
+      "system": "CodeFuse-CGM",
+      "files_shown": [
+        "reranker/qwen_api.py",
+        "reranker/reranker.py"
+      ],
+      "n_applied": 22,
+      "rubric_delta": 0.05,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 1 combines deterministic, longer generation with retries for empty or failed responses and a substantially stronger reranking prompt requiring evidence,",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.96,
+          "reason": "Version 1 combines deterministic sampling, longer output capacity, retries for transient failures and empty responses, and a substantially stronger evidence-bas",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "baseline",
+          "confidence": 0.87,
+          "reason": "Version 2 improves sampling determinism and retries but visibly removes the required extraction format and appears to leave the prompt unterminated, making end-",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 2 adds evidence-driven localization and verification guidance, deterministic sampling with a longer budget, and retries for transient or empty model res",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 combines a substantially more rigorous, implementation-focused localization prompt with deterministic generation, a longer output budget, and retries ",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 4,
+      "baseline": 1,
+      "tie": 0
+    },
+    {
+      "agent": "19_agentlesslite",
+      "system": "Agentless Lite + O3 Mini (20250214)",
+      "files_shown": [
+        "agentless_lite/util/backends.py"
+      ],
+      "n_applied": 17,
+      "rubric_delta": 0.06,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 provides substantially stronger guidance for repository analysis, scoped edits, consistency checks, diff auditing, validation, and explicit handling o",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 explicitly requires evidence-backed planning, complete branch/caller coverage, invariant and diff audits, validation matrices, focused tests or static",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 2 adds explicit repository mapping, requirement checklists, scope control, diff audits, edge-case validation, test selection, and uncertainty reporting,",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 provides substantially stronger repository mapping, explicit requirement tracing, minimal-edit safeguards, diff auditing, validation matrices, focused",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 provides substantially stronger issue-to-code planning, scope control, consistency checks, diff auditing, edge-case validation, and explicit failure/u",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "20_sweexp",
+      "system": "SWE-Exp",
+      "files_shown": [
+        "moatless/experience/exp_agent/select_agent.py",
+        "moatless/experience/exp_agent/exp_agent.py"
+      ],
+      "n_applied": 10,
+      "rubric_delta": 0.07,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 fixes the visible invalid nested-quote f-string that would prevent version 1 from parsing, while also adding deterministic execution, bounded workers,",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.91,
+          "reason": "Version 2 fixes an apparent f-string syntax error, makes imports and environment loading more robust, adds deterministic bounded concurrency, improves JSON-repa",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 is substantially more robust, with valid string construction, deterministic and bounded concurrency, reliable repository-root and environment loading,",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 fixes the visible invalid nested-quote f-string that would prevent select_agent.py from importing and adds deterministic execution, bounded concurrenc",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 fixes an apparent syntax error, makes imports and environment loading more reliable, adds deterministic bounded concurrency, and improves JSON parsing",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0,
+      "post_repair": true
+    },
+    {
+      "agent": "21_swerl",
+      "system": "SWE-RL (Llama3-SWE-RL-70B + Agentless Mini) (20250226)",
+      "files_shown": [
+        "src/swerl/agentless_mini/repair.py"
+      ],
+      "n_applied": 10,
+      "rubric_delta": 0.0525,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 1 is more robust end-to-end because it recovers Python blocks from varied or malformed model output, deduplicates commands, normalizes file-path keys, f",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 2 is more robust end-to-end because it tolerates malformed or variably formatted code blocks, increases input capacity, filters invalid command groups, ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.86,
+          "reason": "Version 2 is more robust end-to-end because it tolerates malformed or variably formatted code-fence output, normalizes edited-file paths, filters invalid comman",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 2 is more robust end-to-end because it tolerates malformed or variably formatted code blocks, increases the input budget, filters invalid command groups",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.72,
+          "reason": "Version 2 adds resilient parsing, fallback extraction, deduplication, path normalization, and a larger input budget, although its pre-normalization lookup intro",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "22_orcaloca",
+      "system": "OrcaLoca + Agentless-1.5 + Claude-3.5 Sonnet (20241022)",
+      "files_shown": [
+        "Orcar/code_scorer.py",
+        "Orcar/prompts.py"
+      ],
+      "n_applied": 49,
+      "rubric_delta": 0.065,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 explicitly requires causal evidence, competing hypotheses, executable reproduction, regression tests, falsification, and failure-aware static fallback",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.94,
+          "reason": "Version 2 adds concrete reproduction gates, falsifiable candidate comparisons, uncertainty tracking, regression checks, and explicit failure handling, making co",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 explicitly requires concrete reproduction, falsifiable causal comparisons, uncertainty tracking, focused regression tests, post-edit verification, and",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 2 adds explicit reproduction, falsification, regression-testing, uncertainty tracking, and failure-handling requirements, making end-to-end validation s",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 explicitly requires reproducible failure evidence, competing-hypothesis falsification, focused regression tests, exact outputs and configuration track",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0,
+      "post_repair": true
+    },
+    {
+      "agent": "23_patchedcodespatchwork",
+      "system": "Patched.Codes Patchwork",
+      "files_shown": [
+        "patchwork/steps/PreparePrompt/PreparePrompt.py",
+        "patchwork/common/multiturn_strategy/agentic_strategy.py",
+        "tei/candidates.jsonl",
+        "tei/REPORT.md"
+      ],
+      "n_applied": 27,
+      "rubric_delta": 0.07,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.96,
+          "reason": "Version 2 is more robust through normalized prompt IDs and paths, encoding and load-error handling, safer tool setup, and explicit repository-inspection, minima",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.96,
+          "reason": "Version 2 is more likely to succeed end-to-end because it adds repository-aware inspection and focused-validation guidance, deterministic tool filtering/order, ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 1 provides repository-aware system guidance, deterministic tool ordering, prompt-history safeguards, and substantially more robust template path, encodi",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 adds repository-aware reconnaissance and focused-test guidance, deterministic valid-tool ordering, prompt-ID/path normalization, encoding and I/O fail",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 adds repository-aware system guidance, deterministic tool ordering, prompt-history safeguards, and substantially more robust template path, encoding, ",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "24_swefixer",
+      "system": "SWE-Fixer (Qwen2.5-7b retriever + Qwen2.5-72b editor)",
+      "files_shown": [
+        "utils/oai.py"
+      ],
+      "n_applied": 13,
+      "rubric_delta": 0.07,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.86,
+          "reason": "Version 2 improves timeout tolerance, selects an appropriate editor model, handles empty model lists, encourages repository-grounded minimal patches, and visibl",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 2 is more robust through a longer timeout, explicit model selection, endpoint validation, deterministic prompting for repository tracing and minimal pat",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.97,
+          "reason": "Version 1 adds targeted model selection, repository-tracing and evidence-grounded prompts, longer timeout, model-availability checks, and retry handling, making",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 2 is more robust through a longer timeout, explicit empty-model handling, targeted model selection, retries, and repository-tracing prompts that encoura",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.97,
+          "reason": "Version 1 is more likely to succeed end-to-end because it selects an appropriate editor model, adds repository-tracing guidance, validates model availability, r",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "25_codeshelltester",
+      "skipped": "no applied patches (nothing real to compare)"
+    },
+    {
+      "agent": "26_aegiso3mini10",
+      "system": "Aegis - o3-mini_1.0",
+      "files_shown": [
+        "issue_reviewer/prompt_templates.py"
+      ],
+      "n_applied": 19,
+      "rubric_delta": 0.0625,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 1 provides substantially stronger end-to-end guidance for reproducing failures, diagnosing root causes, constraining patches, validating acceptance crit",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 explicitly requires reproduction, evidence-based diagnosis, scoped patches, focused and regression testing, diff inspection, and classified failure ha",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.94,
+          "reason": "Version 1 explicitly enforces reproduction, evidence-based diagnosis, scoped patch contracts, regression testing, diff inspection, and classification of failure",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 explicitly requires reproduction, evidence-based diagnosis, constrained patch planning, focused and regression testing, diff inspection, and explicit ",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 1 explicitly enforces reproduction, evidence-based diagnosis, scoped patch contracts, regression testing, diff inspection, and clear failure classificat",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "27_agentless",
+      "system": "Agentless + RepoGraph + GPT-4o",
+      "files_shown": [
+        "agentless/repair/repair.py",
+        "agentless/util/api_requests.py"
+      ],
+      "n_applied": 8,
+      "rubric_delta": 0.0625,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 provides substantially stronger requirement tracing and dependency-closure guidance while also improving API timeout/retry resilience and token-counti",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.97,
+          "reason": "Version 2 adds substantially stronger requirement tracing, dependency-closure and verification guidance while also improving token accounting and API timeout/re",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.97,
+          "reason": "Version 2 adds substantially stronger requirement tracing, dependency-closure and verification guidance while also improving API timeout/retry behavior and cons",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 adds substantially stronger requirement/dependency/test-oriented repair guidance and improves API timeout, retry, encoding fallback, and complete-prom",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 provides substantially stronger requirement tracing, dependency-closure and test-oriented verification guidance, while also improving API robustness w",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0,
+      "post_repair": true
+    },
+    {
+      "agent": "28_coder",
+      "system": "CodeR + GPT 4 (1106)",
+      "files_shown": [
+        "config/roles/reproducer.yml",
+        "config/roles/fault_localizer.yml",
+        "config/roles/verifier.yml"
+      ],
+      "n_applied": 12,
+      "rubric_delta": 0.045,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 2 is substantially more robust because it requires evidence-driven localization, explicit reproducer tracing, minimal transactional edits, categorized f",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 provides substantially stronger issue modeling, evidence-based localization, minimal transactional patching, explicit failure classification, and mult",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.99,
+          "reason": "Version 1 provides substantially stronger issue-specific reproduction, evidence-based localization, minimal-edit discipline, explicit failure classification, an",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 adds concrete behavioral contracts, evidence-based localization, transactional minimal edits, explicit failure classification, hypothesis control, and",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.98,
+          "reason": "Version 2 is substantially more robust because it requires evidence-based localization, explicit behavioral boundaries, transactional minimal edits, failure cla",
+          "patched_shown_as": "2"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "29_aider",
+      "system": "Aider + GPT 4o & Claude 3 Opus",
+      "files_shown": [
+        "aider/models.py",
+        "aider/resources/model-settings.yml"
+      ],
+      "n_applied": 9,
+      "rubric_delta": 0.05,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.82,
+          "reason": "Version 2 is more robust for end-to-end issue resolution because it uses the stronger Claude 3 Opus default, allows substantially longer retry/request windows v",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 1 provides substantially longer, environment-configurable request and retry timeouts and uses Claude Opus by default, while its non-lazy GPT-4o configur",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.86,
+          "reason": "Version 1 is more robust for difficult end-to-end issue resolution because it defaults to the stronger Claude Opus model, permits configurable and substantially",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.78,
+          "reason": "Version 2 combines the generally stronger coding-oriented Claude 3 Opus default with substantially longer, configurable request and retry timeouts, a stronger f",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.91,
+          "reason": "Version 1 provides a stronger default model, substantially longer and configurable request/retry timeouts, and non-lazy repository handling, making end-to-end c",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    },
+    {
+      "agent": "30_rag",
+      "system": "RAG + Claude 3 Opus",
+      "files_shown": [
+        "swebench/inference/run_api.py"
+      ],
+      "n_applied": 12,
+      "rubric_delta": 0.0625,
+      "votes": [
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 1 explicitly enforces acceptance criteria, repository-grounded root-cause analysis, focused validation, minimal changes, and a strict final diff while a",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 2 adds explicit acceptance, evidence, root-cause, minimal-change, and validation requirements plus more tolerant retry defaults, making end-to-end resol",
+          "patched_shown_as": "2"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.9,
+          "reason": "Version 1 explicitly enforces acceptance-contract tracing, falsifiable diagnosis, focused verification, minimal changes, diff-only output, and adds bounded expo",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.86,
+          "reason": "Version 1 visibly adds rigorous acceptance-contract, evidence-based diagnosis, focused verification, exact-diff output requirements, and bounded exponential ret",
+          "patched_shown_as": "1"
+        },
+        {
+          "vote": "patched",
+          "confidence": 0.93,
+          "reason": "Version 1 explicitly enforces acceptance-contract reasoning, evidence-based root-cause analysis, focused validation, exact diff output, and more robust retry be",
+          "patched_shown_as": "1"
+        }
+      ],
+      "patched": 5,
+      "baseline": 0,
+      "tie": 0
+    }
+  ],
+  "budget": {
+    "calls": 25,
+    "input_tokens": 44586,
+    "output_tokens": 5876,
+    "cost_nominal_usd": 0.1145,
+    "cost_conservative_usd": 0.229,
+    "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+    "scale_downs": []
+  }
+}

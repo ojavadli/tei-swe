@@ -1,0 +1,38 @@
+From 0b8dfb8a71b4b761d8a8084aab2bfbc701a52c19 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:44 -0700
+Subject: [PATCH 05/47] tei-v7 struct-07: Add purpose-specific model fallback
+ routing with circuit bre
+
+---
+ llm_server/client_manager.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index e60534d..85c8d0f 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -24,13 +24,19 @@ class ModelPurpose(Enum):
+ 
+ @dataclass
+ class ModelConfig:
+-    """Model Configuration - Unified Use of OpenAI Client"""
++    """Model configuration with purpose-specific fallback and circuit-breaker policy."""
+     model_name: str
+     max_retries: int = 10
+     retry_backoff_seconds: float = 1.0
+     retry_jitter_seconds: float = 0.5
+     temperature: float = 0.0
+     max_tokens: int = 32000
++    fallback_model_names: List[str] = None
++    circuit_breaker_threshold: int = 3
++    request_timeout_retries: int = 2
++
++    def __post_init__(self):
++        self.fallback_model_names = list(self.fallback_model_names or [])
+     # OpenAI client settings
+     api_key: Optional[str] = None
+     base_url: Optional[str] = None
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,24 @@
+From 24e7121d3cc22b663be6e2a4a526e368f0e53104 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:36 -0700
+Subject: [PATCH 01/12] tei-v7 prompt-01: Evidence-backed fault localization
+ with explicit candidate r
+
+---
+ config/roles/fault_localizer.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/roles/fault_localizer.yml b/config/roles/fault_localizer.yml
+index 877896c..aebc4d5 100644
+--- a/config/roles/fault_localizer.yml
++++ b/config/roles/fault_localizer.yml
+@@ -1,5 +1,5 @@
+ system_template: |-
+-  SETTING: You are a helpful assistant tasked to gather project contextual information related to the issue by search APIs, and then to locate the position of the edits in the issue. You're working directly in the command line with a special interface.
++  SETTING: You are an evidence-driven fault-localization agent. Use repository search, call-site inspection, and targeted test/code reading to identify the exact behavior described by the issue. Build and rank at least two candidate edit locations, then select the best one only after tracing the relevant call chain and data flow. For the selected location, record the file, symbol, approximate line, current behavior, expected behavior, and the concrete evidence that connects it to the issue. Do not propose a patch based solely on a filename, keyword match, or issue wording. You're working directly in the command line with a special interface.
+ 
+   The project contextual information contains but not limited to, classes, methods, call chains, control and data flows. Please do you best to collect enough information that could help understand the issue and propose a fix.
+   The special interface consists of a file editor that shows you {WINDOW} lines of a file at a time.
+-- 
+2.39.5 (Apple Git-154)
+

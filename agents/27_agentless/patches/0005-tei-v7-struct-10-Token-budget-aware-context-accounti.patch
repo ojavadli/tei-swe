@@ -1,0 +1,51 @@
+From 8ff3c3f7d090189e4813ff8018d7f3d24276ab4f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:29 -0700
+Subject: [PATCH 5/9] tei-v7 struct-10: Token-budget-aware context accounting
+
+---
+ agentless/util/api_requests.py | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
+
+diff --git a/agentless/util/api_requests.py b/agentless/util/api_requests.py
+index 4266483..d18954e 100644
+--- a/agentless/util/api_requests.py
++++ b/agentless/util/api_requests.py
+@@ -9,19 +9,24 @@ client = openai.OpenAI()
+ 
+ 
+ def num_tokens_from_messages(message, model="gpt-3.5-turbo-0301"):
+-    """Return an estimate of the tokens consumed by the complete prompt."""
++    """Return a conservative token estimate for the complete prompt."""
+     try:
+         encoding = tiktoken.encoding_for_model(model)
+-    except KeyError:
++    except (KeyError, TypeError):
+         encoding = tiktoken.get_encoding("cl100k_base")
+-    if isinstance(message, list):
+-        num_tokens = 0
+-        for item in message:
+-            num_tokens += 4
+-            for value in item.values():
+-                num_tokens += len(encoding.encode(str(value)))
+-        return num_tokens + 2
+-    return len(encoding.encode(str(message)))
++    if not isinstance(message, list):
++        return len(encoding.encode(str(message)))
++    total = 2
++    for item in message:
++        total += 4
++        if not isinstance(item, dict):
++            total += len(encoding.encode(str(item)))
++            continue
++        for key, value in item.items():
++            total += len(encoding.encode(str(key)))
++            total += len(encoding.encode(str(value)))
++        total += 1
++    return total
+ 
+ 
+ def create_chatgpt_config(
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,59 @@
+From 5f5d6b9b781f989d7115e6ed099368ba65770c0c Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 21:45:55 -0700
+Subject: [PATCH 50/50] tei-v7 repair: close bug_locations list, drop
+ duplicated legacy block (prompt-29/30)
+
+---
+ .DS_Store        | Bin 0 -> 8196 bytes
+ Orcar/prompts.py |  11 -----------
+ 2 files changed, 11 deletions(-)
+ create mode 100644 .DS_Store
+
+diff --git a/.DS_Store b/.DS_Store
+new file mode 100644
+index 0000000000000000000000000000000000000000..912669c7e1018e5c332dfa7cb9f514503fec6806
+GIT binary patch
+literal 8196
+zcmeHML2DC16n@jDCRhpuh4#3Io;(P>3d$N%ys21^f|{gFB8eN4RM6A@1TP-NtCxE6
+z2lVK@AP6F@Ui9K`@Ov}U-FeyF_9kN9z|33beQ)14-%NIS8zM5zgYGubCJ{Bz*{-i*
+zC~55HUT8~xW((FJo`${c-A*zZ7mzxk3aA3AfGVI0r~?0r0(fV0YgD}VomWRyKowX>
+z1^D?8p|g#>O`Wxm4h*&gfURNLHe9ds1#IMP>}~2SJZQ#+!n#o7OAO<}F&}wc>}~3-
+z3n$}?592c%U!fSA9ruqcoJ{Pjj;eqvP*i|x_ZnTN9t~(F>i4Z{-$UOhX|>wJq>Z`8
+z&9&p+>6K5nrN4Wwf7}ng4cvH*P^zEhr9K@{TVy9XEh0h=Kd%0K_t|lnyU!@enN*_$
+zANSB{&{LYw3`*?dsxzm@#@Znm6)+*EyZgV+IF;aXR_EaauZ{aor!M%+(5JLF$BJ$p
+zS)BwT<n-}X#;HzosGLzXO7NjE^SKNbFTiGqU1MGYO6a-Vz3!bVT*z(mHse-$&u}L%
+z!b+Y;%yWhAVLv<II1%hFH6KcE$mwwB(T5Xvu7dcGNjXB~uScAJ8QSd8K;$-GPjXL~
+zcl`eMGyj|NabeD)SL9o=Z@m?pZ;Ej$b3S;3oPjsYd;BHa1A)lTMma*{H@qlXMdm(E
+z!vyE-F^-D+HN6yE7*~l5c_rU6UKRHZ^|=@=_&OFkssf9wz_MHXCfENv)!+XYSt4D#
+zD)8ScU}~-1RujwgwRK^^Tx&<@PtdtBE_K$1U|<N(+j1N>`@;~|k@v;krq05HrXK>V
+L3_7R+e^r4$i<vrb
+
+literal 0
+HcmV?d00001
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index f3c9b84..7ada026 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -109,17 +109,6 @@ BUG_OUTPUT = {
+             ],
+             "causal_role": "root_cause|propagation|test_or_regression"
+         }
+-    "bug_locations": [
+-        {
+-            "file_path": "path/to/file",
+-            "class_name": "class_name",
+-            "method_name": "function_name",
+-        },
+-        {
+-            "file_path": "path/to/file",
+-            "class_name": "class_name",
+-            "method_name": "function_name",
+-        },
+     ]
+ }
+ 
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,33 @@
+From 2a9b21e2f03097418da8abd07864af010c915782 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:21 -0700
+Subject: [PATCH 04/12] tei-v7 struct-04: Validate and normalize extracted
+ patches before writing pred
+
+---
+ swebench/inference/run_api.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/swebench/inference/run_api.py b/swebench/inference/run_api.py
+index db6f597..888a27b 100755
+--- a/swebench/inference/run_api.py
++++ b/swebench/inference/run_api.py
+@@ -26,7 +26,14 @@ def retry(*args, **kwargs):
+     kwargs.setdefault("wait", wait_random_exponential(multiplier=1, max=30))
+     return _retry(*args, **kwargs)
+ from datasets import load_dataset, load_from_disk
+-from swebench.inference.make_datasets.utils import extract_diff
++from swebench.inference.make_datasets.utils import extract_diff as _extract_diff
++
++
++def extract_diff(text):
++    diff = _extract_diff(text)
++    if not diff or "diff --git" not in diff:
++        return ""
++    return diff[diff.find("diff --git"):].strip()
+ from argparse import ArgumentParser
+ import logging
+ 
+-- 
+2.39.5 (Apple Git-154)
+

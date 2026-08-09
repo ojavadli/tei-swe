@@ -1,0 +1,26 @@
+From 4563371e51846335a8de521a8548cb6485e6b2cc Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:43 -0700
+Subject: [PATCH 08/50] tei-v7 struct-09: Turn observation feedback into
+ evidence-delta guidance for i
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index fbb26ff..68b51fa 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -10,7 +10,7 @@ STEP_EXAMPLE = {
+             "semantic invariants that must remain true after the fix"
+         ]
+     },
+-    "observation_feedback": "observation",
++    "observation_feedback": "For every observation, record newly supported and contradicted hypotheses, the exact symbol or call edge it establishes, and the next action with the highest expected information gain.",
+     "potential_bug_locations": [
+         {
+             "file_path": "path/to/file",
+-- 
+2.39.5 (Apple Git-154)
+

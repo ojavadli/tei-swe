@@ -1,0 +1,30 @@
+From 2cbe5eee394fee280a3b5df61e6aee039c014b56 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:49 -0700
+Subject: [PATCH 05/18] tei-v7 struct-05: Prefer explicit runtime model
+ configuration over a hard-code
+
+---
+ .../src/workbench/python-helpers/composio_helper.py         | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index 4999e21..a3cb105 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -17,7 +17,11 @@ except NameError:
+     _INTERNAL = {}
+ 
+ 
+-DEFAULT_INVOKE_LLM_MODEL = _INTERNAL.get("invoke_llm_model", "openai/gpt-oss-120b")
++DEFAULT_INVOKE_LLM_MODEL = (
++    os.environ.get("INVOKE_LLM_MODEL", "").strip()
++    or (str(_INTERNAL.get("invoke_llm_model", "")).strip() if isinstance(_INTERNAL, dict) else "")
++    or "openai/gpt-oss-120b"
++)
+ RATE_LIMIT_PATTERNS = (
+     "rate limit",
+     "ratelimit",
+-- 
+2.39.5 (Apple Git-154)
+

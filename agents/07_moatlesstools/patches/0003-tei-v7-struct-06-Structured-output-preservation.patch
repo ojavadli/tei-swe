@@ -1,0 +1,25 @@
+From c18538797da0881f8c0ff21ee97d13382c43ab8d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:05:45 -0700
+Subject: [PATCH 3/4] tei-v7 struct-06: Structured-output preservation
+
+---
+ moatless/utils/completion_parser.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/moatless/utils/completion_parser.py b/moatless/utils/completion_parser.py
+index ea57b60..d340d64 100644
+--- a/moatless/utils/completion_parser.py
++++ b/moatless/utils/completion_parser.py
+@@ -29,7 +29,7 @@ def parse_completion(completion_data: Dict[str, Any]) -> CompletionDTO:
+     original_response = completion_data.get("original_response_obj")\n    if original_response is None:\n        original_response = completion_data.get("original_response")
+     if original_response is not None:
+         if isinstance(original_response, str):
+-            completion_dto.output = CompletionOutput(content=original_response)
++            completion_dto.output = CompletionOutput(\n                content=original_response\n                if isinstance(original_response, str)\n                else json.dumps(original_response, ensure_ascii=False)\n            )
+         # Handle Anthropic format
+         if "content" in original_response:
+             completion_dto.output = parse_anthropic_response(completion_dto, original_response)
+-- 
+2.39.5 (Apple Git-154)
+

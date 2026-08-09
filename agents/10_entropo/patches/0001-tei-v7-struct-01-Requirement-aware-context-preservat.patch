@@ -1,0 +1,43 @@
+From ca96c793ee06d39b50b1643c03dc78ffa84dafbb Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:15:37 -0700
+Subject: [PATCH 01/17] tei-v7 struct-01: Requirement-aware context
+ preservation
+
+---
+ .../verifiers/prepare_ef_verifier_input.py      | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index f10481f..127d248 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -25,12 +25,21 @@ def deepswe_condense_thoughts(
+     placeholder = "<Execution result condensed for saving context>"
+     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+ 
+-    # Check initial token count
+-    if len(tokenizer.encode(input_str)) <= max_tokens:
++    # Preserve requirement, patch, and test evidence while removing only low-value history.
++    if len(tokenizer.encode(input_str, add_special_tokens=False)) <= max_tokens:
+         return input_str
+-
+-    # Regex to match content between [USER] and [/USER]
+     pattern = re.compile(r"(\[USER\])(.*?)(\[/USER\])", re.DOTALL)
++    blocks = list(pattern.finditer(input_str))
++    if not blocks:
++        return input_str
++    priority = re.compile(r"(test|pytest|traceback|failure|error|patch|diff|requirement)", re.I)
++    removable = [m for m in blocks[1:] if not priority.search(m.group(2))]
++    for match in removable:
++        candidate = input_str[:match.start(2)] + "<Earlier reasoning condensed>" + input_str[match.end(2):]
++        if len(tokenizer.encode(candidate, add_special_tokens=False)) <= max_tokens:
++            return candidate
++        input_str = candidate
++    return input_str
+ 
+     new_str = input_str
+     # Continue condensing until token count is below the threshold or nothing changes.
+-- 
+2.39.5 (Apple Git-154)
+

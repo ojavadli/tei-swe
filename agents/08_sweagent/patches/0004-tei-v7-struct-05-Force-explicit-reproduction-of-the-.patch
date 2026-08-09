@@ -1,0 +1,26 @@
+From 022dc0293cdf253c61c97cf46ae80fdde46eeaf6 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:08:39 -0700
+Subject: [PATCH 04/22] tei-v7 struct-05: Force explicit reproduction of the
+ reported behavior before
+
+---
+ config/benchmarks/250212_sweagent_heavy_sbl.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/benchmarks/250212_sweagent_heavy_sbl.yaml b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+index 8f21d68..9a225e9 100644
+--- a/config/benchmarks/250212_sweagent_heavy_sbl.yaml
++++ b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+@@ -29,7 +29,7 @@ agent:
+           <pr_description>
+           {{problem_statement}}
+ 
+-          Before submitting, inspect the final git diff for missing files, accidental changes, syntax errors, and incomplete branches. Add or update a focused regression test when appropriate, run it after the final code edit, and submit only after confirming the working tree contains the complete intended fix.
++          First turn the report into a concrete reproduction or failing assertion. Ensure the implementation addresses the exact reported contract, including documented negative and boundary cases. Add a regression test that fails before the patch and passes afterward, then inspect the final git diff for missing files, accidental changes, syntax errors, and incomplete branches before submitting.
+           </pr_description>
+ 
+           Can you help me implement the necessary changes to the repository so that the requirements specified in the <pr_description> are met?
+-- 
+2.39.5 (Apple Git-154)
+

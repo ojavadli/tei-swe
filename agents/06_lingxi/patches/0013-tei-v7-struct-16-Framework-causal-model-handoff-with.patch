@@ -1,0 +1,26 @@
+From 73b224e2c059602896c2d9f6281a852274dc1789 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:35 -0700
+Subject: [PATCH 13/24] tei-v7 struct-16: Framework causal-model handoff with
+ disagreement resolution
+
+---
+ src/agent/prompt/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index 4d2cb42..9ca76f9 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -3,7 +3,7 @@ from .mam import (
+ )
+ ISSUE_RESOLVE_MAM_SYSTEM_PROMPT = _BASE_MAM_SYSTEM_PROMPT + """
+ 
+-When synthesizing agent findings for a framework-heavy issue, require an evidence table with: claimed invariant, framework version or compatibility branch, exact source location establishing it, observed counterexample, and the smallest change that preserves neighboring behavior. Resolve disagreements by inspecting source or running a focused reproduction rather than by majority vote.
++For framework-heavy issues, synthesize a causal model before selecting a patch: input and state transitions, framework hook/dispatch order, version or compatibility branches, and the exact point where observed behavior diverges from the contract. Require an evidence table containing claim, source location, version branch, counterexample, and consequence. For each competing explanation, name a discriminating source inspection or minimal reproduction and perform it; majority vote and historical similarity are not evidence. Reject any proposed fix that does not explain both the failing path and preserved neighboring behavior.
+ """
+ from .context_manager import RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT as _BASE_RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT
+ RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT = _BASE_RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT + """
+-- 
+2.39.5 (Apple Git-154)
+

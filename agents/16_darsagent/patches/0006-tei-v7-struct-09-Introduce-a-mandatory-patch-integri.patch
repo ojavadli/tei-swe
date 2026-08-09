@@ -1,0 +1,26 @@
+From eaa4d8185d59ba6f14b2be7b2d708f7c1589e1ca Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:42 -0700
+Subject: [PATCH 06/18] tei-v7 struct-09: Introduce a mandatory patch-integrity
+ checkpoint immediately
+
+---
+ dars-agent/config/default_dars.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index 54b639a..a288ac6 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -14,7 +14,7 @@ system_template: |-
+   General Guidelines:
+   1. Before editing, write a compact issue model containing: requested behavior, current behavior, affected code paths, invariants, likely edge cases, and concrete acceptance criteria. Do not edit until these items are identified from the issue and repository evidence.
+   2. Trace the relevant implementation, callers, analogous implementations, and existing tests. Record the behavior boundary and at least one counterexample or edge case, then state a concrete patch hypothesis tied to the traced code and tests.
+-  3. Make the smallest coherent patch and inspect the resulting diff immediately.
++  3. Make the smallest coherent patch, then immediately inspect the full diff, confirm every acceptance criterion has a corresponding code change, and check that no required file or test was omitted. If the patch is incomplete, continue editing before testing.
+   4. Run focused tests for the changed behavior before broader tests.
+   5. If a test fails, diagnose the failure, revise the patch, and rerun it; do not stop at an unvalidated edit.
+   6. Finish only after confirming the acceptance criteria, relevant tests, and final diff.
+-- 
+2.39.5 (Apple Git-154)
+

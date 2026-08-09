@@ -1,0 +1,25 @@
+From 8c66eef20e2bb0f43137ded2ada859809e309810 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:09:50 -0700
+Subject: [PATCH 1/9] tei-v7 struct-01: Dependency-closure localization prompt
+
+---
+ agentless/repair/repair.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless/repair/repair.py b/agentless/repair/repair.py
+index 20f7fd9..ebd8617 100644
+--- a/agentless/repair/repair.py
++++ b/agentless/repair/repair.py
+@@ -35,7 +35,7 @@ from agentless.util.preprocess_data import (
+ from agentless.util.utils import load_jsonl, load_json
+ 
+ repair_relevant_file_instruction = """
+-Below are some code segments, each from a relevant file. One or more of these files may contain bugs.
++Below are code segments selected from potentially relevant files. Before proposing a patch, trace each candidate symbol's callers, callees, overrides, configuration sources, and test coverage. Identify the complete dependency closure of the reported behavior, including files that may need coordinated changes. Explain why each selected file is in scope and explicitly identify likely relevant files that are not shown.
+ """
+ repair_relevant_file_with_scope_instruction = """
+ Below are some code segments, each from a relevant file. One or more of these files may contain bugs.
+-- 
+2.39.5 (Apple Git-154)
+

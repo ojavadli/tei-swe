@@ -1,0 +1,35 @@
+From e5737860b904a4c7a030180ae3cdef0443fad0d0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:02:01 -0700
+Subject: [PATCH 01/16] tei-v7 struct-01: Correct multi-message token
+ accounting and reserve prompt he
+
+---
+ agentless/util/api_requests.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/agentless/util/api_requests.py b/agentless/util/api_requests.py
+index c9cad08..95fb179 100644
+--- a/agentless/util/api_requests.py
++++ b/agentless/util/api_requests.py
+@@ -13,10 +13,14 @@ def num_tokens_from_messages(message, model="gpt-3.5-turbo-0301"):
+     except KeyError:
+         encoding = tiktoken.get_encoding("cl100k_base")
+     if isinstance(message, list):
+-        # use last message.
+-        num_tokens = len(encoding.encode(message[0]["content"]))
++        # Account for every message because prompts may contain system, issue,
++        # repository, and tool-context messages.
++        num_tokens = sum(
++            len(encoding.encode(str(item.get("content", ""))))
++            for item in message
++        )
+     else:
+-        num_tokens = len(encoding.encode(message))
++        num_tokens = len(encoding.encode(str(message)))
+     return num_tokens
+ 
+ 
+-- 
+2.39.5 (Apple Git-154)
+

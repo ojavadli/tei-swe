@@ -1,0 +1,26 @@
+From 0b38ce61ff7476fbd8f3a917aa6d6b738cf50943 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:35 -0700
+Subject: [PATCH 10/24] tei-v7 struct-13: Contract-first repository scope map
+ with explicit search com
+
+---
+ src/agent/prompt/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index 05d1aa3..9000a2c 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -11,7 +11,7 @@ from .problem_decoder import (
+ )
+ ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT = _BASE_PROBLEM_DECODER_PROMPT + """
+ 
+-Before proposing a fix, produce an explicit scope map: relevant files, symbols, callers, tests, and configuration surfaces. Separate confirmed facts from hypotheses, state the precise behavioral contract and non-goals, and identify any repository paths that must be inspected before implementation.
++Before proposing a fix, create a scope ledger with: issue symptom, expected contract, non-goals, relevant files, symbols, callers, tests, configuration/compatibility surfaces, and likely generated or vendored files. For every ledger item, label it confirmed, falsified, or uninspected. Search for each symbol's definition and all call sites, inspect the nearest tests, and record exact file:line evidence. Do not hand off to implementation while any high-impact ledger item is uninspected; instead perform the missing search or state why the item is irrelevant.
+ """
+ from .problem_solver import (
+     ISSUE_RESOLVE_PROBLEM_SOLVER_SYSTEM_PROMPT as _BASE_PROBLEM_SOLVER_PROMPT,
+-- 
+2.39.5 (Apple Git-154)
+

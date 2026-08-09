@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.48,
+    "reasoning_soundness": 0.43,
+    "execution_accuracy": 0.37,
+    "output_integrity": 0.46
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-11848",
+      "score": 0.72
+    },
+    {
+      "instance_id": "django__django-11583",
+      "score": 0.68
+    },
+    {
+      "instance_id": "django__django-12286",
+      "score": 0.12
+    },
+    {
+      "instance_id": "sympy__sympy-12236",
+      "score": 0.09
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Failure to produce a correct end-to-end patch",
+      "description": "The system did not resolve the Django 12286 or SymPy 12236 probes, indicating that issue understanding did not reliably translate into executable, test-passing changes.",
+      "evidence_instance_ids": [
+        "django__django-12286",
+        "sympy__sympy-12236"
+      ]
+    },
+    {
+      "name": "Insufficient issue-specific reasoning on harder tasks",
+      "description": "The unresolved outcomes suggest weaknesses in diagnosing or planning solutions for at least some repository-specific issues despite the available browsing and editing workflow.",
+      "evidence_instance_ids": [
+        "django__django-12286",
+        "sympy__sympy-12236"
+      ]
+    },
+    {
+      "name": "Unreliable completion and validation of results",
+      "description": "The agent architecture exposes tools and result-saving infrastructure, but the unresolved probes show that the final submitted state was not consistently validated into a successful resolution.",
+      "evidence_instance_ids": [
+        "django__django-12286",
+        "sympy__sympy-12236"
+      ]
+    }
+  ],
+  "why": "The system resolved both Django 11848 and Django 11583 but failed on Django 12286 and SymPy 12236 in the fixed probes, consistent with a capable but unreliable agent rather than near-uniform success. Its LangGraph, editor, search, and repository-environment surfaces support reasonable task alignment, but the recorded 30.33% overall resolve rate warrants low-to-moderate scores, especially for execution accuracy.",
+  "aggregate": 0.435,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-11848",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-11583",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-12286",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sympy__sympy-12236",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

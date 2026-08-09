@@ -1,0 +1,26 @@
+From c6cac59238dea6eabee7d5317f5f26eee84abc3e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:08 -0700
+Subject: [PATCH 01/17] tei-v7 struct-01: Add a mandatory repository-traversal
+ protocol to the editing
+
+---
+ agentless_lite/util/backends.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/agentless_lite/util/backends.py b/agentless_lite/util/backends.py
+index fba1902..ee3ac42 100644
+--- a/agentless_lite/util/backends.py
++++ b/agentless_lite/util/backends.py
+@@ -17,6 +17,8 @@ from agentless_lite.util.repair import create_diff_from_response, fake_git_repo
+ STR_REPLACE_EDITOR_DESCRIPTION = """Custom editing tool for editing files
+ * State is persistent across command calls and discussions with the user
+ 
++Before editing, first locate the defining implementation, inspect its callers and nearby tests, and identify configuration or compatibility boundaries. Do not patch the first text match that resembles the issue.
++
+ Notes for using the `str_replace` command:
+ * The `old_str` parameter should match EXACTLY one or more consecutive lines from the original file. Be mindful of whitespaces!
+ * If the `old_str` parameter is not unique in the file, the replacement will not be performed. Make sure to include enough context in `old_str` to make it unique
+-- 
+2.39.5 (Apple Git-154)
+

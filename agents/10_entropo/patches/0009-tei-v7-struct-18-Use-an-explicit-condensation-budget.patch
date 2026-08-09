@@ -1,0 +1,26 @@
+From 93cae39e0ae3500f47223fce3a77a9dbdebb3ec2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:17:01 -0700
+Subject: [PATCH 09/17] tei-v7 struct-18: Use an explicit condensation budget
+ below the model context
+
+---
+ src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index 4b13d22..8ce9f72 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
+ 
+ def deepswe_condense_thoughts(
+     input_str: str,
+-    max_tokens: int = 46000,
++    max_tokens: int = 40000,
+     tokenizer_name="Qwen/Qwen3-Coder-30B-A3B-Instruct",
+ ) -> str:
+     """
+-- 
+2.39.5 (Apple Git-154)
+

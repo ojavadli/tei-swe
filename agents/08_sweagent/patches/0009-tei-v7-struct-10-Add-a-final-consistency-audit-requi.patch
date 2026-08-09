@@ -1,0 +1,25 @@
+From ad99090756487bdc8e693111bd6932199bff0ac0 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:09:11 -0700
+Subject: [PATCH 09/22] tei-v7 struct-10: Add a final consistency audit
+ requiring the agent to compare
+
+---
+ config/benchmarks/250212_sweagent_heavy_sbl.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/config/benchmarks/250212_sweagent_heavy_sbl.yaml b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+index 5ab3968..260aa45 100644
+--- a/config/benchmarks/250212_sweagent_heavy_sbl.yaml
++++ b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+@@ -19,6 +19,7 @@ agent:
+       templates:
+         system_template: &system_template |-
+           You are a helpful assistant that can interact with a computer to solve tasks.
++          Before final submission, perform a requirements-to-diff audit: map every issue requirement to the changed code and at least one relevant test, check for regressions and unintended files, and do not submit until the final diff and validation results are internally consistent.
+           Validation is iterative, not one-shot: run focused tests after the edit, inspect every failure and traceback, classify the cause, repair actionable defects, and rerun the focused tests. Then run the narrowest broader regression set relevant to the changed code before submitting.
+           Before editing, trace the reported behavior from its public entry point to the authoritative implementation and inspect relevant callers, overrides, and tests. Make the smallest coherent production change while preserving established API and error-handling contracts.
+           Before submission, inspect the complete git diff and verify that the authoritative production implementation is changed, the patch is non-empty, and the implementation—not only tests or documentation—addresses the reported behavior.
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From e5019699b7c1dcc34e3a58e2e1932e7a8945cc12 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:11:12 -0700
+Subject: [PATCH 8/9] tei-v7 prompt-07: Acceptance-contract decomposition with
+ traceability
+
+---
+ agentless/repair/repair.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/agentless/repair/repair.py b/agentless/repair/repair.py
+index 825fba6..90c578e 100644
+--- a/agentless/repair/repair.py
++++ b/agentless/repair/repair.py
+@@ -34,7 +34,7 @@ from agentless.util.preprocess_data import (
+ )
+ from agentless.util.utils import load_jsonl, load_json
+ 
+-repair_relevant_file_instruction = """Treat the issue report as an acceptance contract: enumerate every required behavior, input category, boundary condition, compatibility constraint, and explicitly mentioned regression, then map each item to a concrete code change and preserve all unrelated existing behavior. Before producing edits, extract normal-case, boundary-case, backward-compatibility, and regression requirements. For each requirement, identify the existing test or propose a focused executable test and state the exact observable result expected after the patch. Reject any patch whose behavior is justified only by syntax or lint success."""Before editing, build an explicit dependency-closure map for the reported behavior. Trace every relevant symbol's callers, callees, overrides, serializers, configuration sources, and tests. Check sibling implementations and version-specific branches. Do not patch only the first matching location: list all files and code paths that must change together, and explain why each selected file is in or out of scope."""
++repair_relevant_file_instruction = """Treat the issue report as an acceptance contract: enumerate every required behavior, input category, boundary condition, compatibility constraint, and explicitly mentioned regression; create a numbered requirement-to-code traceability table; for each requirement, identify the exact implementation branch, data flow, and expected observable result; implement every mapped change and preserve all unrelated existing behavior. Before producing edits, extract normal-case, boundary-case, backward-compatibility, and regression requirements. For each requirement, identify the existing test or propose a focused executable test and state the exact observable result expected after the patch. Reject any patch whose behavior is justified only by syntax or lint success."""Before editing, build an explicit dependency-closure map for the reported behavior. Trace every relevant symbol's callers, callees, overrides, serializers, configuration sources, and tests. Check sibling implementations and version-specific branches. Do not patch only the first matching location: list all files and code paths that must change together, and explain why each selected file is in or out of scope."""
+ Below are code segments selected from potentially relevant files. Before proposing a patch, trace each candidate symbol's callers, callees, overrides, configuration sources, and test coverage. Identify the complete dependency closure of the reported behavior, including files that may need coordinated changes. Explain why each selected file is in scope and explicitly identify likely relevant files that are not shown.
+ """
+ repair_relevant_file_with_scope_instruction = """
+-- 
+2.39.5 (Apple Git-154)
+

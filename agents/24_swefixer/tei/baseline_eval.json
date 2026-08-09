@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.52,
+    "reasoning_soundness": 0.46,
+    "execution_accuracy": 0.36,
+    "output_integrity": 0.58
+  },
+  "probe_scores": [
+    {
+      "instance_id": "sphinx-doc__sphinx-9698",
+      "score": 0.78
+    },
+    {
+      "instance_id": "django__django-15499",
+      "score": 0.76
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "score": 0.12
+    },
+    {
+      "instance_id": "django__django-13279",
+      "score": 0.1
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incorrect or incomplete repository modification",
+      "description": "The system was unresolved on both probes below, indicating a recurring failure to turn its analysis into a patch that satisfies the benchmark tests.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-9230",
+        "django__django-13279"
+      ]
+    },
+    {
+      "name": "Insufficient issue-specific reasoning",
+      "description": "The unresolved outcomes on both a Sphinx issue and a Django issue suggest difficulty reliably grounding the solution in the repository-specific requirements rather than producing a generally plausible response.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-9230",
+        "django__django-13279"
+      ]
+    },
+    {
+      "name": "Insufficient validation before submission",
+      "description": "Because the system resolves only 32.8% of verified instances overall and failed these two recorded probes, it appears to lack reliable test-driven verification or correction of its generated changes.",
+      "evidence_instance_ids": [
+        "sphinx-doc__sphinx-9230",
+        "django__django-13279"
+      ]
+    }
+  ],
+  "why": "The two resolved probes show that SWE-Fixer can successfully align with and solve some issues, but the two unresolved probes in this fixed set and its 32.8% official resolve rate require substantially lower scores, especially for execution accuracy. The exposed client surface mainly delegates generation to a selected chat model, and the available evidence does not demonstrate reliable repository-level validation or patch correctness.",
+  "aggregate": 0.48,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "sphinx-doc__sphinx-9698",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-15499",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-13279",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

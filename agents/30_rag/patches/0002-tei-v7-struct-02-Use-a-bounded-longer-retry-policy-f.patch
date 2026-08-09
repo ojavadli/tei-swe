@@ -1,0 +1,36 @@
+From f37f18fd66557c1cd5268ed9f16f3f35797da984 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:20 -0700
+Subject: [PATCH 02/12] tei-v7 struct-02: Use a bounded, longer retry policy
+ for transient model/API f
+
+---
+ swebench/inference/run_api.py | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/swebench/inference/run_api.py b/swebench/inference/run_api.py
+index f71e5e8..fe882dc 100755
+--- a/swebench/inference/run_api.py
++++ b/swebench/inference/run_api.py
+@@ -18,11 +18,13 @@ from anthropic import HUMAN_PROMPT as _HUMAN_PROMPT, AI_PROMPT as _AI_PROMPT, An
+ 
+ HUMAN_PROMPT = _HUMAN_PROMPT + "\n\n[BEGIN SWE-BENCH TASK]\n"
+ AI_PROMPT = "\n[END SWE-BENCH TASK]\n" + _AI_PROMPT
+-from tenacity import (
+-    retry,
+-    stop_after_attempt,
+-    wait_random_exponential,
+-)
++from tenacity import retry as _retry, stop_after_attempt, wait_random_exponential
++
++
++def retry(*args, **kwargs):
++    kwargs.setdefault("stop", stop_after_attempt(5))
++    kwargs.setdefault("wait", wait_random_exponential(multiplier=1, max=30))
++    return _retry(*args, **kwargs)
+ from datasets import load_dataset, load_from_disk
+ from swebench.inference.make_datasets.utils import extract_diff
+ from argparse import ArgumentParser
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,31 @@
+From f28a5e4d965e4e27850a2d3b9621b82d4f4e26f1 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:11 -0700
+Subject: [PATCH 13/13] tei-v7 struct-18: Make model selection capability-aware
+ instead of substring-b
+
+---
+ utils/oai.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index 0a78b1c..ffb2aaa 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -20,8 +20,11 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=900, te
+             models = client.models.list().data
+             if not models:
+                 raise RuntimeError("No model is available from the configured endpoint")
+-            editor_models = [model.id for model in models if "72b" in model.id.lower()]
+-            model_name = editor_models[0] if editor_models else models[0].id
++            editor_models = [
++                model.id for model in models
++                if any(tag in model.id.lower() for tag in ("72b", "editor", "coder"))
++            ]
++            model_name = sorted(editor_models, key=lambda name: ("72b" not in name.lower(), name))[0] if editor_models else models[0].id
+             if system_prompt is None or system_prompt == "":
+                 message = [
+                     {
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,27 @@
+From aee74e960c99e65554dad8feaa43988f0aa8ad61 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:00 -0700
+Subject: [PATCH 15/51] tei-v7 struct-17: Preserve complete model output before
+ relevance parsing
+
+---
+ codemonkeys/stages/context/relevance.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/codemonkeys/stages/context/relevance.py b/codemonkeys/stages/context/relevance.py
+index 112cce0..f7aef96 100644
+--- a/codemonkeys/stages/context/relevance.py
++++ b/codemonkeys/stages/context/relevance.py
+@@ -30,6 +30,9 @@ class RelevanceConfig(CodeMonkeysConfigWithLLM):
+ 
+ def _parse_response(response: str) -> RelevanceDecision:
+     response = response.strip()
++    # Normalize only surrounding whitespace; retain the complete rationale so
++    # candidate/context selection can compare evidence instead of a truncated
++    # or reformatted decision.
+     not_relevant_match = re.search(
+         r"RELEVANCE:\s*Not\s+Relevant",
+         response,
+-- 
+2.39.5 (Apple Git-154)
+

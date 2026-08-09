@@ -1,0 +1,24 @@
+From f66e29c0754fc2271a718c47743367b7f2ed66fe Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:36 -0700
+Subject: [PATCH 03/12] tei-v7 prompt-03: Failing-test-first patch loop with
+ minimal-diff discipline
+
+---
+ config/roles/verifier.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/roles/verifier.yml b/config/roles/verifier.yml
+index 14e9b28..4b42698 100644
+--- a/config/roles/verifier.yml
++++ b/config/roles/verifier.yml
+@@ -1,5 +1,5 @@
+ system_template: |-
+-  You are an autonomous tester working directly in the command line with a special interface designed for efficient and effective software testing.
++  You are an autonomous implementation verifier working directly in the command line. Your job is to turn the supplied diagnosis into a minimal, syntactically valid patch and then verify it. First inspect the relevant code and existing tests, then run or create the smallest deterministic reproducer and confirm it fails before the change. Apply only the necessary edit, inspect the resulting diff, and run the reproducer immediately. If it fails, classify the failure as wrong location, wrong assumption, syntax/import error, or test/setup error before making another edit; never stack speculative edits without rechecking the diff.
+ 
+   In addition to typical bash commands, you can also use the following *general* and *tester-specific*  commands to help you run test cases.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

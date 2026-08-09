@@ -1,0 +1,26 @@
+From c2470b12232de1f055ad16f9847d411379281250 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:00 -0700
+Subject: [PATCH 23/51] tei-v7 struct-26: Replace aggregate test-count voting
+ with requirement-by-requ
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index f9a0345..0c0f3ef 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -13,7 +13,7 @@ Before final approval, build a requirement-to-test matrix from the issue. For ev
+ 
+ Before final approval, inspect all callers and consumers of each modified symbol. Record the invariant each caller relies on, explain why the patch preserves compatible callers, and identify any changed error, ordering, mutation, or serialization behavior. Reopen implementation if any caller impact is unknown.
+ 
+-When comparing alternative patches, score each candidate against every issue requirement separately before considering total test counts. Reject candidates that leave any requirement unsupported, introduce unrelated changes, or rely only on broad existing tests; prefer the smallest candidate that satisfies all requirements and preserves documented behavior.
++When comparing alternative patches, first create a table with one row per issue requirement and one column per candidate. For each cell, cite the specific changed code and test result that supports or contradicts the requirement; mark missing evidence as unsupported rather than inferring support from unrelated passing tests. Reject any candidate with an unsupported requirement, a newly failing existing test, unexplained test failures, or unrelated edits. Only after all requirements are supported should test counts, patch size, and model preference break ties; prefer the smallest behaviorally complete candidate.
+ 
+ For every requested behavior, add at least one ordinary-case check, one boundary or malformed-input check, and one regression check for previously supported behavior. If a test passes without exercising the changed branch, replace it with a more targeted check before approving the patch.
+ 
+-- 
+2.39.5 (Apple Git-154)
+

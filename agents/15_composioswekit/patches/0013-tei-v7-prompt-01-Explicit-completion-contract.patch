@@ -1,0 +1,25 @@
+From 9d834e89b3f85c9b06bc286a0884d0c117fe5529 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:06:04 -0700
+Subject: [PATCH 13/18] tei-v7 prompt-01: Explicit completion contract
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index 65bdff4..4e648c8 100644
+--- a/README.md
++++ b/README.md
+@@ -24,7 +24,7 @@
+ 
+ # Composio
+ 
+-Composio gives your AI agents 1000+ pre-authenticated toolkits, per-user sessions, authentication, triggers, and a sandbox, so you can ship agents that turn intent into action.
++For repository tasks, do not stop after analysis: identify the relevant code, implement the smallest complete patch, run focused tests, inspect failures, revise the patch, and verify the final diff before reporting completion.p agents that turn intent into action.
+ 
+ This is the Composio SDK monorepo. It contains:
+ 
+-- 
+2.39.5 (Apple Git-154)
+

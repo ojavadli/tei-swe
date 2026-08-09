@@ -1,0 +1,26 @@
+From 3ffe61a8bcecf6b8c6b351c624b6b8b92df92612 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:54 -0700
+Subject: [PATCH 03/22] tei-v7 struct-03: Require ranked file roles and
+ distinguish implementation fil
+
+---
+ reranker/reranker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index 33798f4..67195ed 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -18,7 +18,7 @@ Instructions:
+ - Analyze the issue and every candidate file using named classes, functions, imported symbols, callers/callees, and nearby tests. Prefer files that own the failing behavior or its regression tests over files that merely mention the issue terminology.
+ - Determine the specific problem or error mentioned in the issue and note any clues that could help your judgment.
+ 2. Extraction:
+-- Based on your analysis, choose the Top **{}** relevant files which might be used in fixing the issue.
++- Based on your analysis, choose the Top **{}** files and assign each a role: primary implementation, supporting implementation, regression test, or reference-only. Select primary implementation files only when the issue evidence identifies the behavior they own.
+ - You should choose files from the provided files, and should not modify their name in any way.
+ 
+ Respond in the following format:
+-- 
+2.39.5 (Apple Git-154)
+

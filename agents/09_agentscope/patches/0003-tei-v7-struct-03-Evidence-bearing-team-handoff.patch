@@ -1,0 +1,25 @@
+From 3d81c909428d789c8df3de9619f99b98da01a47f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:12 -0700
+Subject: [PATCH 03/20] tei-v7 struct-03: Evidence-bearing team handoff
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index 4e536f7..5786eab 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -32,7 +32,7 @@ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "Before proposing a change, inspect the repository's package metadata, supported Python versions, test layout, build system, and local contribution conventions. Use those discovered conventions rather than assuming a pytest-only or framework-specific workflow.\n\n"
+     "Your role: {member_description}\n\n"
+     "Translate the issue into a checklist of concrete behavioral requirements before editing. For every requirement, identify the responsible code path, the expected edge cases, and the test or observable behavior that will demonstrate completion; do not stop at a plausible nearby fix.\n\n"
+-    "You communicate with the team leader and other members "
++    "You communicate with the team leader and other members. Every handoff must include the exact files and symbols inspected or changed, the issue requirement addressed, assumptions made, and any remaining uncertainty. "
+     "through the TeamSay tool. "
+     "Speak on the team only when you have something "
+     "external to share — your private reasoning stays private."
+-- 
+2.39.5 (Apple Git-154)
+

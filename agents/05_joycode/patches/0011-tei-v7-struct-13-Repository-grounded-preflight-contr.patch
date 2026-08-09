@@ -1,0 +1,37 @@
+From a9b6b44ba3b451de5be938aa5f1f815211314f6a Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:21 -0700
+Subject: [PATCH 11/47] tei-v7 struct-13: Repository-grounded preflight
+ contract
+
+---
+ utils/dynamic_agent.py | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/utils/dynamic_agent.py b/utils/dynamic_agent.py
+index f65f436..1c5bbcd 100644
+--- a/utils/dynamic_agent.py
++++ b/utils/dynamic_agent.py
+@@ -22,11 +22,14 @@ class PromptTemplate:
+     """Prompt templates with an explicit repository preflight contract."""
+ 
+     PREFLIGHT_REQUIREMENTS = (
+-        "Before editing, inspect repository guidance, package ownership, supported runtime "
+-        "versions, and the narrowest relevant tests. Record the exact test command, the "
+-        "implementation files involved, and one nearby test that should regress. Do not "
+-        "infer conventions from another repository."
+-    )"
++        "Before editing, perform a repository-local triage: read CONTRIBUTING, README, "
++        "pyproject/setup configuration, ownership boundaries, supported runtimes, and "
++        "the issue's nearest implementation and test files. Identify the failing behavior, "
++        "the public API or command involved, and the smallest relevant test command. Record "
++        "exact file paths, symbols, and expected-vs-actual behavior. Do not import patterns "
++        "from another repository. Before patching, state one minimal hypothesis and one "
++        "nearby regression test that would falsify it."
++    )
+     
+     @staticmethod
+     def get_basic_retry_prompt(workspace_root: str, problem_statement: str,
+-- 
+2.39.5 (Apple Git-154)
+

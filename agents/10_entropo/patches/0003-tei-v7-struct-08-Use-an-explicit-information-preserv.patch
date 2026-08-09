@@ -1,0 +1,26 @@
+From 8e61ba7c023e81fa231ab12a3001d9b98c75d9c6 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:22 -0700
+Subject: [PATCH 03/17] tei-v7 struct-08: Use an explicit,
+ information-preserving condensation marker
+
+---
+ src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index 87ea54d..3605cba 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -22,7 +22,7 @@ def deepswe_condense_thoughts(
+ 
+     The first [USER] block is left intact.
+     """
+-    placeholder = "<Execution result condensed for saving context>"
++    placeholder = "<Older execution history condensed: retain the task requirements and current patch; re-run the relevant regression test before making further changes.>"
+     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+ 
+     # Preserve requirement, patch, and test evidence while removing only low-value history.
+-- 
+2.39.5 (Apple Git-154)
+

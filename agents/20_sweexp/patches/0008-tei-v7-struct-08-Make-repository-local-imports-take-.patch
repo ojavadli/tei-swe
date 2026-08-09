@@ -1,0 +1,25 @@
+From d2fb37e542b460c1140eefeb2ab029dc376bf6ff Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:14 -0700
+Subject: [PATCH 08/11] tei-v7 struct-08: Make repository-local imports take
+ precedence over installed
+
+---
+ moatless/experience/exp_agent/select_agent.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/moatless/experience/exp_agent/select_agent.py b/moatless/experience/exp_agent/select_agent.py
+index c2f3264..d6cd1fd 100644
+--- a/moatless/experience/exp_agent/select_agent.py
++++ b/moatless/experience/exp_agent/select_agent.py
+@@ -1,6 +1,6 @@
+ import sys
+ import os
+-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
++sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
+ from dotenv import load_dotenv
+ current_dir = os.path.dirname(os.path.abspath(__file__))
+ env_path = os.path.abspath(os.path.join(current_dir, "../../..", ".env"))
+-- 
+2.39.5 (Apple Git-154)
+

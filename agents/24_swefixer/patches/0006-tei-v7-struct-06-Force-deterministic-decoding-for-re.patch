@@ -1,0 +1,26 @@
+From ffebd1d9a33fe84ddb40bbd4dc6f199b20896c04 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:08 -0700
+Subject: [PATCH 06/13] tei-v7 struct-06: Force deterministic decoding for
+ repository edits
+
+---
+ utils/oai.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index 15f4710..e775880 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -50,7 +50,7 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=300, te
+                     response = client.chat.completions.create(
+                         model=model_name,
+                         messages=message,
+-                        temperature=temp,
++                        temperature=0,
+                         top_p=1,
+                         timeout=timeout,
+                     )
+-- 
+2.39.5 (Apple Git-154)
+

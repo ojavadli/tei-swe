@@ -1,0 +1,26 @@
+From 1e515d70a28d8c926780d069debf4ec42ae5befc Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:20:23 -0700
+Subject: [PATCH 02/13] tei-v7 prompt-02: Implementation-versus-ancillary file
+ filtering
+
+---
+ ExpeRepair-v1.0/agents/agent_search.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ExpeRepair-v1.0/agents/agent_search.py b/ExpeRepair-v1.0/agents/agent_search.py
+index f19e7db..9c4dc6d 100644
+--- a/ExpeRepair-v1.0/agents/agent_search.py
++++ b/ExpeRepair-v1.0/agents/agent_search.py
+@@ -13,7 +13,7 @@ SELECT_FILE_PROMPT_INITIAL = """First decompose the issue into: (a) the external
+ 
+ IMPORTANT:
+ 1. Select files ONLY FROM THE PROVIDED LIST and specify their FULL PATHS, starting from the root directory. Do not include any test files.
+-2. If multiple files share the same name but are in different directories, and the issue description does not specify a particular one, include all relevant ones.
++2. Resolve duplicate filenames by inspecting their directory role and the issue's execution path. Prefer the file imported or called by the affected production code; exclude alternate backends, generated copies, vendored code, documentation, and unrelated tests unless repository evidence shows that the issue is implemented there. Include multiple same-named files only when the issue demonstrably affects multiple execution paths, and state the evidence for each selection.
+ 3. Separate each file path with a new line. Wrap the list in triple backticks (```).
+ 
+ Explain your reasoning, then provide your answer in the following format:
+-- 
+2.39.5 (Apple Git-154)
+

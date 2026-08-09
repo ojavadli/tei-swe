@@ -1,0 +1,25 @@
+From 5b4ff310bf2d7dbdd7cbe543c48be7d5df062a3c Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:22 -0700
+Subject: [PATCH 15/47] tei-v7 struct-17: Explicit final-diff completeness
+ audit
+
+---
+ llm_server/client_manager.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index 50e6896..19211c8 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -34,6 +34,7 @@ class ModelPurpose(Enum):
+     RETRY_AGENT = "retry_agent"
+     FAILURE_ANALYSIS = "failure_analysis"
+     PATCH_REVIEW = "patch_review"
++    FINAL_DIFF_AUDIT = "final_diff_audit"
+     TEST_RESULT_REVIEW = "test_result_review"
+     FINAL_DIFF_AUDIT = "final_diff_audit"
+ 
+-- 
+2.39.5 (Apple Git-154)
+

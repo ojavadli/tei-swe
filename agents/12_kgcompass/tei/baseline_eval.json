@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.68,
+    "reasoning_soundness": 0.62,
+    "execution_accuracy": 0.57,
+    "output_integrity": 0.64
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-15213",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-12747",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-13768",
+      "score": 0.2
+    },
+    {
+      "instance_id": "django__django-11964",
+      "score": 0.2
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Fault-localization or context-selection misses",
+      "description": "The system depends on KG-derived locations and an additional LLM localization stage; the unresolved outcomes indicate that this pipeline does not reliably identify sufficient repair context.",
+      "evidence_instance_ids": [
+        "django__django-13768",
+        "django__django-11964"
+      ]
+    },
+    {
+      "name": "Patch generation and application failures",
+      "description": "The repair path relies on generated edit commands, diff parsing, syntax checks, and patch application, creating multiple opportunities for a plausible repair to fail execution or tests.",
+      "evidence_instance_ids": [
+        "django__django-13768",
+        "django__django-11964"
+      ]
+    },
+    {
+      "name": "Brittle output and orchestration handling",
+      "description": "The default system uses separate localization and repair scripts with strict structured parsing and multi-API/configuration plumbing; failures in formatting, parsing, or workflow coordination can prevent otherwise useful model output from becoming a valid submission.",
+      "evidence_instance_ids": [
+        "django__django-13768",
+        "django__django-11964"
+      ]
+    }
+  ],
+  "why": "The system resolved 2 of the 4 fixed probes, consistent with its recorded 58.33% overall resolve rate, so its dimensions should remain materially below near-perfect performance. The repository shows a capable but layered pipeline\u2014KG localization, LLM localization, strict edit parsing, syntax checking, and patch application\u2014whose unresolved probes most strongly expose execution and reliability weaknesses.",
+  "aggregate": 0.6275,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-15213",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-12747",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-13768",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-11964",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

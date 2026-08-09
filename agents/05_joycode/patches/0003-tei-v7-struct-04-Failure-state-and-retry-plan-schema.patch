@@ -1,0 +1,29 @@
+From 085e702075e899dff9b02fcf6d08b471d000e6a2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:10 -0700
+Subject: [PATCH 03/47] tei-v7 struct-04: Failure-state and retry-plan schema
+
+---
+ search_zip/zip_traj.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/search_zip/zip_traj.py b/search_zip/zip_traj.py
+index 0bb3ecb..11a4ff1 100644
+--- a/search_zip/zip_traj.py
++++ b/search_zip/zip_traj.py
+@@ -21,7 +21,11 @@ Return your analysis in JSON format with the following fields:
+ - strategy: The core solution strategy at an abstract level
+ - specific_techniques: Specific techniques or methods used in this solution
+ - tools_used: Tools and commands heavily utilized during execution
+-- reasoning_pattern: The problem-solving pattern observed in the trajectory
++- reasoning_pattern: The problem-solving pattern observed
++- failure_type: One of [wrong_location, incomplete_fix, regression, test_misread, environment, timeout, unknown]
++- failed_expectation: The precise expected behavior or validation step that failed
++- recovery_plan: Two or three concrete next actions, including which test or inspection should be run
++- confidence: A number from 0 to 1 supported by trajectory evidenceerved in the trajectory
+ - assumptions_made: Key assumptions made during the solution process
+ - components_touched: Main components, functions, or modules that were modified
+ 
+-- 
+2.39.5 (Apple Git-154)
+

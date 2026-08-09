@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.48,
+    "reasoning_soundness": 0.43,
+    "execution_accuracy": 0.38,
+    "output_integrity": 0.56
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-15851",
+      "score": 0.78
+    },
+    {
+      "instance_id": "sympy__sympy-12481",
+      "score": 0.74
+    },
+    {
+      "instance_id": "astropy__astropy-14995",
+      "score": 0.12
+    },
+    {
+      "instance_id": "django__django-11848",
+      "score": 0.15
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incorrect or incomplete fault localization",
+      "description": "The system's localization stage is prompt-driven and the unresolved Astropy and Django probes indicate that it often fails to identify the correct edit locations or relevant call paths.",
+      "evidence_instance_ids": [
+        "astropy__astropy-14995",
+        "django__django-11848"
+      ]
+    },
+    {
+      "name": "Patch implementation and test-execution failures",
+      "description": "Despite dedicated reproducer and verifier roles, the low overall 28.33% resolve rate and both unresolved probes indicate frequent failures converting understanding into a correct patch that passes the relevant tests.",
+      "evidence_instance_ids": [
+        "astropy__astropy-14995",
+        "django__django-11848"
+      ]
+    },
+    {
+      "name": "Insufficient validation or generalization",
+      "description": "The one-submission setting and unresolved probes suggest that verification does not reliably catch incomplete fixes, regressions, or behavior outside the reproduced case.",
+      "evidence_instance_ids": [
+        "astropy__astropy-14995",
+        "django__django-11848"
+      ]
+    }
+  ],
+  "why": "CodeR has a structured multi-agent workflow with explicit localization, reproduction, and verification roles, and it demonstrably resolves the two resolved probes. However, its official 28.33% SWE-bench lite rate means failures dominate overall, so the dimensions remain moderate rather than high, with execution accuracy weakest because the unresolved probes show that the workflow often does not produce a correct tested patch.",
+  "aggregate": 0.4625,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-15851",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-12481",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "astropy__astropy-14995",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "django__django-11848",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": false,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "no source code in linked repo"
+  }
+}

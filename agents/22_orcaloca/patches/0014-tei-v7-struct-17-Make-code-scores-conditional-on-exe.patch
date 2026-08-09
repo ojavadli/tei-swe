@@ -1,0 +1,26 @@
+From 8d8bbc792f8992d970508fdd3f15ef7e8f32238b Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:14 -0700
+Subject: [PATCH 14/50] tei-v7 struct-17: Make code scores conditional on
+ execution-path and test cons
+
+---
+ Orcar/code_scorer.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/code_scorer.py b/Orcar/code_scorer.py
+index 5b016df..a2d65e8 100644
+--- a/Orcar/code_scorer.py
++++ b/Orcar/code_scorer.py
+@@ -22,7 +22,7 @@ CODE_SCORER_SYSTEM_PROMPT = (
+ )
+ 
+ CODE_SCORER_ORDER_PROMPT = (
+-    "Score this code from 0 to 100 using: 40 points for direct causal evidence, "
++    "First reject any candidate that lacks a concrete failing execution path, a falsifiable explanation of the violated semantic invariant, or a regression-test oracle; only then score surviving candidates from 0 to 100 using: 40 points for direct causal evidence, "
+     "25 for matching the failing execution path, 20 for consistency with tests "
+     "and expected behavior, and 15 for being a plausible minimal edit. Compare "
+     "it mentally against at least one alternative location; subtract points "
+-- 
+2.39.5 (Apple Git-154)
+

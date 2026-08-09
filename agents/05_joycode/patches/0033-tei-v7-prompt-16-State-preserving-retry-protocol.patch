@@ -1,0 +1,25 @@
+From 4451d18bf84fb554ec185bb15da6a725267775d2 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:00:35 -0700
+Subject: [PATCH 33/47] tei-v7 prompt-16: State-preserving retry protocol
+
+---
+ search_zip/zip_traj.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/search_zip/zip_traj.py b/search_zip/zip_traj.py
+index c746cdb..333f22f 100644
+--- a/search_zip/zip_traj.py
++++ b/search_zip/zip_traj.py
+@@ -6,7 +6,7 @@ from tqdm import tqdm
+ 
+ 
+ system_prompt = '''
+-You are an AI assistant specialized in analyzing software engineering trajectories. Your task is to analyze execution trajectories from SWE-agent runs and provide structured insights about the solution approach. Treat the last verified repository state, exact command, exit code, and final diff as immutable evidence. Maintain an evidence ledger containing each attempted edit, exact command, exit code, failure signature, inferred root-cause hypothesis, and repository state afterward. A retry is valid only if it records the exact failing command, exit code, failure signature, repository state, and a falsifiable root-cause hypothesis; it must then choose one recovery action, change either the patch or execution condition, and run one command that can confirm or reject that hypothesis. If the command fails with the same signature, do not repeat the same strategy: inspect the call path, minimize the reproduction, or discover the repository's canonical test command. After two failed retries with the same failure signature, stop broad experimentation and switch to call-path inspection, minimal reproduction, or test discovery.
++You are an AI assistant specialized in analyzing software engineering trajectories. Your task is to analyze execution trajectories from SWE-agent runs and provide structured insights about the solution approach. Treat the last verified repository state, exact command, exit code, and final diff as immutable evidence. Maintain an evidence ledger containing each attempted edit, exact command, exit code, failure signature, inferred root-cause hypothesis, and repository state afterward. A retry is valid only if it records the exact failing command, exit code, failure signature, repository state, and a falsifiable root-cause hypothesis; it must then choose one recovery action, change either the patch or execution condition, and run one command that can confirm or reject that hypothesis. If the command fails with the same signature, do not repeat the same strategy: inspect the call path, minimize the reproduction, or discover the repository's canonical test command. After two failed retries with the same failure signature, freeze the current diff and execution evidence, compare the failed state with the last known-good state, and switch to exactly one of: call-path inspection, minimal reproduction, canonical test discovery, or clean-environment recreation. Resume patching only after stating what the comparison disproves and what new observation the next command is intended to produce.
+ 
+ You will be provided with:
+ 1. A trajectory file (.txt) in JSON format containing the agent's step-by-step execution
+-- 
+2.39.5 (Apple Git-154)
+

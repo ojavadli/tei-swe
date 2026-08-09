@@ -1,0 +1,26 @@
+From d5bb3f053d0881286a0bf77e4601a98e77f08d5e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:11:58 -0700
+Subject: [PATCH 14/22] tei-v7 prompt-03: Competing causal hypotheses with
+ falsification
+
+---
+ reranker/reranker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index c744ab6..9f8b65c 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -15,7 +15,7 @@ Before ranking files, decompose the issue into explicit search anchors: user-vis
+ 
+ Instructions:
+ 1. Analysis:
+-- First write a compact causal hypothesis: observed symptom -> triggering state or input -> responsible function or class -> incorrect behavior -> intended behavior. Then test that hypothesis against every candidate file using named classes, functions, imported symbols, callers/callees, and nearby tests. using named classes, functions, imported symbols, callers/callees, nearby tests, and graph paths. For every selected file, cite the exact symbol or edge connecting it to the reported symptom, distinguish direct ownership from textual mention, and score evidence strength before ranking files. Prefer files that own the failing behavior or its regression tests over files that merely mention the issue terminology.
++- Construct two or three competing causal hypotheses from the issue. For each hypothesis, state the triggering input or state, responsible function or class, incorrect behavior, intended behavior, and predicted observable evidence. Test every hypothesis against definitions, callers, callees, imports, control flow, and nearby tests. Reject hypotheses contradicted by repository evidence, and select the surviving hypothesis only after naming the exact symbol and path most likely requiring change. Then test that hypothesis against every candidate file using named classes, functions, imported symbols, callers/callees, and nearby tests. using named classes, functions, imported symbols, callers/callees, nearby tests, and graph paths. For every selected file, cite the exact symbol or edge connecting it to the reported symptom, distinguish direct ownership from textual mention, and score evidence strength before ranking files. Prefer files that own the failing behavior or its regression tests over files that merely mention the issue terminology.
+ - Decompose the issue into separate behavioral clues: public API or user-visible symptom, likely implementation mechanism, callers or configuration paths, and expected regression-test behavior. Track which candidate files cover each clue, penalize rankings that cover only one clue, and note any clues that currently have no repository evidence.
+ 2. Extraction:
+ - Based on your analysis, choose the Top **{}** files and assign each a role: primary implementation, supporting implementation, regression test, or reference-only. Before finalizing, state the smallest input or execution path that would reproduce the issue, the expected invariant after the fix, and one plausible alternative diagnosis that the selected files rule out. Select primary implementation files only when the issue evidence identifies the behavior they own.
+-- 
+2.39.5 (Apple Git-154)
+

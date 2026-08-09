@@ -1,0 +1,25 @@
+From b65c8608e703caa787472ec5c9a924334825db98 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:02 -0700
+Subject: [PATCH 12/12] tei-v7 prompt-12: Three-gate submission checklist
+
+---
+ config/roles/verifier.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/roles/verifier.yml b/config/roles/verifier.yml
+index 454f292..c649db2 100644
+--- a/config/roles/verifier.yml
++++ b/config/roles/verifier.yml
+@@ -6,7 +6,7 @@ system_template: |-
+   COMMANDS:
+   {command_docs}
+ 
+-  Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION. After the patch, validate in three layers: (1) the original reproducer now passes, (2) the new or nearest existing regression tests pass, and (3) a focused neighboring-case matrix exercises both the changed path and an unaffected path. Inspect the final diff for unintended changes, run the narrowest relevant test command before broader tests, and report each layer separately with its exact command and result. Treat a passing reproducer alone as insufficient evidence of correctness. 
++  Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION. Before submission, complete and report three independent gates: (1) rerun the original reproducer and confirm the previously failing assertion now passes; (2) run the nearest existing regression test or add/run a focused regression test that asserts the issue's public behavior; and (3) run a neighboring-case matrix containing both changed-path boundaries and an unaffected control path. Also run the narrowest relevant package/module test command when feasible. Do not submit if a gate was skipped, if only the reproducer passes, or if the final diff contains unrelated edits; instead explain the blocker and continue investigating. Inspect the final diff for unintended changes, run the narrowest relevant test command before broader tests, and report each layer separately with its exact command and result. Treat a passing reproducer alone as insufficient evidence of correctness. 
+   If you'd like to add the line '        print(x)' you must fully write that out, with all those spaces before the code! Indentation is important and code that is not indented correctly will fail and require fixing before it can be run.
+ 
+   RESPONSE FORMAT:
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.66,
+    "reasoning_soundness": 0.55,
+    "execution_accuracy": 0.48,
+    "output_integrity": 0.62
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-13012",
+      "score": 0.8
+    },
+    {
+      "instance_id": "sympy__sympy-20154",
+      "score": 0.78
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25747",
+      "score": 0.22
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-12973",
+      "score": 0.18
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "repository-specific localization and diagnosis failures",
+      "description": "Both unresolved scikit-learn probes indicate recurring difficulty identifying the relevant code paths and accurately diagnosing the issue in unfamiliar repository contexts.",
+      "evidence_instance_ids": [
+        "scikit-learn__scikit-learn-25747",
+        "scikit-learn__scikit-learn-12973"
+      ]
+    },
+    {
+      "name": "incomplete or incorrect patch execution",
+      "description": "The two unresolved outcomes are consistent with the RAG-only system failing to translate retrieved context into a correct, applicable repository change.",
+      "evidence_instance_ids": [
+        "scikit-learn__scikit-learn-25747",
+        "scikit-learn__scikit-learn-12973"
+      ]
+    },
+    {
+      "name": "insufficient validation of proposed fixes",
+      "description": "The unresolved scikit-learn results suggest weak confirmation that edits satisfy the task's behavioral requirements, especially where repository-specific edge cases matter.",
+      "evidence_instance_ids": [
+        "scikit-learn__scikit-learn-25747",
+        "scikit-learn__scikit-learn-12973"
+      ]
+    }
+  ],
+  "why": "The system resolves two of the four fixed probes, but its officially resolved rate is only 42.4%, so its dimensions are kept well below near-perfect performance. The successful Django and SymPy outcomes show useful task alignment and output production, while both unresolved scikit-learn outcomes directly support lower reasoning and execution scores.",
+  "aggregate": 0.5775,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-13012",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "sympy__sympy-20154",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25747",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-12973",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": false,
+    "tier": "A-candidate",
+    "reason": "cli entry point plausible; execution still requires SWE-bench task infra"
+  }
+}

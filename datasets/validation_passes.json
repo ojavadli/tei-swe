@@ -1,0 +1,1797 @@
+{
+ "a5": {
+  "subsample": [
+   "01_livesweagent",
+   "07_moatlesstools",
+   "13_swerizzo",
+   "19_agentlesslite",
+   "25_codeshelltester"
+  ],
+  "records": [
+   {
+    "agent": "01_livesweagent",
+    "n_repeats": 5,
+    "aggregates": [
+     0.855,
+     0.8475,
+     0.8375,
+     0.83,
+     0.8475
+    ],
+    "aggregate_sd": 0.009778803607803985,
+    "per_probe_sds": [
+     0.02073644135332769,
+     0.023452078799117124,
+     0.02949576240750523,
+     0.049699094559156706,
+     0.046043457732885366,
+     0.057879184513951146
+    ]
+   },
+   {
+    "agent": "07_moatlesstools",
+    "n_repeats": 5,
+    "aggregates": [
+     0.78,
+     0.785,
+     0.77,
+     0.7725,
+     0.7825
+    ],
+    "aggregate_sd": 0.0064710895527724,
+    "per_probe_sds": [
+     0.026076809620810572,
+     0.03435112807463532,
+     0.053665631459994964,
+     0.0273861278752583
+    ]
+   },
+   {
+    "agent": "13_swerizzo",
+    "n_repeats": 5,
+    "aggregates": [
+     0.705,
+     0.705,
+     0.7225,
+     0.74,
+     0.7025
+    ],
+    "aggregate_sd": 0.01610512340840642,
+    "per_probe_sds": [
+     0.03162277660168382,
+     0.030331501776206193,
+     0.028809720581775874,
+     0.03114482300479487
+    ]
+   },
+   {
+    "agent": "19_agentlesslite",
+    "n_repeats": 5,
+    "aggregates": [
+     0.5325,
+     0.5,
+     0.5075,
+     0.53,
+     0.49
+    ],
+    "aggregate_sd": 0.018658108157045297,
+    "per_probe_sds": [
+     0.041472882706655424,
+     0.05310367218940701,
+     0.05549774770204643,
+     0.0433589667773576
+    ]
+   },
+   {
+    "agent": "25_codeshelltester",
+    "n_repeats": 5,
+    "aggregates": [
+     0.43,
+     0.415,
+     0.4,
+     0.4025,
+     0.44
+    ],
+    "aggregate_sd": 0.017320508075688763,
+    "per_probe_sds": [
+     0.016733200530681527,
+     0.01788854381999828,
+     0.03577708763999663,
+     0.019493588689617924
+    ]
+   }
+  ],
+  "pooled_per_probe_sd": 0.03739226949760897,
+  "pooled_aggregate_sd": 0.014456832294800964,
+  "mde_measured_n4": 0.07403291651199977,
+  "mde_measured_n6": 0.06044762320815561,
+  "mde_assumed_note": "original MDE used per_query_sd=0.15 (gate default)"
+ },
+ "budget": {
+  "calls": 244,
+  "input_tokens": 206473,
+  "output_tokens": 65419,
+  "cost_nominal_usd": 0.9123,
+  "cost_conservative_usd": 1.8246,
+  "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; billed cost unreadable (key lacks api.usage.read)",
+  "scale_downs": []
+ },
+ "a3": {
+  "rescore": [
+   {
+    "agent": "01_livesweagent",
+    "idx": 7,
+    "vid": "struct-08",
+    "luna": 0.88,
+    "terra": 0.905,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.0575
+   },
+   {
+    "agent": "01_livesweagent",
+    "idx": 16,
+    "vid": "struct-17",
+    "luna": 0.865,
+    "terra": 0.8675,
+    "luna_delta": 0.0175,
+    "terra_delta": 0.02
+   },
+   {
+    "agent": "01_livesweagent",
+    "idx": 24,
+    "vid": "struct-25",
+    "luna": 0.86,
+    "terra": 0.8875,
+    "luna_delta": 0.0125,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "01_livesweagent",
+    "idx": 25,
+    "vid": "struct-26",
+    "luna": 0.8725,
+    "terra": 0.8775,
+    "luna_delta": 0.025,
+    "terra_delta": 0.03
+   },
+   {
+    "agent": "01_livesweagent",
+    "idx": 31,
+    "vid": "prompt-02",
+    "luna": 0.8775,
+    "terra": 0.8675,
+    "luna_delta": 0.03,
+    "terra_delta": 0.02
+   },
+   {
+    "agent": "01_livesweagent",
+    "idx": 35,
+    "vid": "prompt-06",
+    "luna": 0.8775,
+    "terra": 0.875,
+    "luna_delta": 0.03,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "02_sonarfoundationagent",
+    "idx": 21,
+    "vid": "struct-22",
+    "luna": 0.855,
+    "terra": 0.87,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.0625
+   },
+   {
+    "agent": "02_sonarfoundationagent",
+    "idx": 27,
+    "vid": "struct-28",
+    "luna": 0.8375,
+    "terra": 0.835,
+    "luna_delta": 0.03,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "02_sonarfoundationagent",
+    "idx": 28,
+    "vid": "struct-29",
+    "luna": 0.8275,
+    "terra": 0.83,
+    "luna_delta": 0.02,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "02_sonarfoundationagent",
+    "idx": 36,
+    "vid": "prompt-07",
+    "luna": 0.8625,
+    "terra": 0.8425,
+    "luna_delta": 0.055,
+    "terra_delta": 0.035
+   },
+   {
+    "agent": "02_sonarfoundationagent",
+    "idx": 37,
+    "vid": "prompt-08",
+    "luna": 0.8425,
+    "terra": 0.84,
+    "luna_delta": 0.035,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "02_sonarfoundationagent",
+    "idx": 48,
+    "vid": "prompt-19",
+    "luna": 0.84,
+    "terra": 0.8475,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "02_sonarfoundationagent",
+    "idx": 55,
+    "vid": "prompt-26",
+    "luna": 0.8625,
+    "terra": 0.8725,
+    "luna_delta": 0.055,
+    "terra_delta": 0.065
+   },
+   {
+    "agent": "03_trae",
+    "idx": 2,
+    "vid": "struct-03",
+    "luna": 0.8625,
+    "terra": 0.8575,
+    "luna_delta": 0.0275,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "03_trae",
+    "idx": 3,
+    "vid": "struct-04",
+    "luna": 0.8725,
+    "terra": 0.365,
+    "luna_delta": 0.0375,
+    "terra_delta": -0.47
+   },
+   {
+    "agent": "03_trae",
+    "idx": 17,
+    "vid": "struct-18",
+    "luna": 0.8775,
+    "terra": 0.87,
+    "luna_delta": 0.0425,
+    "terra_delta": 0.035
+   },
+   {
+    "agent": "03_trae",
+    "idx": 19,
+    "vid": "struct-20",
+    "luna": 0.875,
+    "terra": 0.8625,
+    "luna_delta": 0.04,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "03_trae",
+    "idx": 27,
+    "vid": "struct-28",
+    "luna": 0.8425,
+    "terra": 0.2225,
+    "luna_delta": 0.0075,
+    "terra_delta": -0.6125
+   },
+   {
+    "agent": "03_trae",
+    "idx": 40,
+    "vid": "prompt-11",
+    "luna": 0.8475,
+    "terra": 0.8525,
+    "luna_delta": 0.0125,
+    "terra_delta": 0.0175
+   },
+   {
+    "agent": "03_trae",
+    "idx": 52,
+    "vid": "prompt-23",
+    "luna": 0.8875,
+    "terra": 0.8725,
+    "luna_delta": 0.0525,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "03_trae",
+    "idx": 57,
+    "vid": "prompt-28",
+    "luna": 0.87,
+    "terra": 0.885,
+    "luna_delta": 0.035,
+    "terra_delta": 0.05
+   },
+   {
+    "agent": "04_acoder",
+    "idx": 17,
+    "vid": "struct-18",
+    "luna": 0.845,
+    "terra": 0.82,
+    "luna_delta": 0.07,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "04_acoder",
+    "idx": 18,
+    "vid": "struct-19",
+    "luna": 0.8175,
+    "terra": 0.8025,
+    "luna_delta": 0.0425,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "04_acoder",
+    "idx": 20,
+    "vid": "struct-21",
+    "luna": 0.835,
+    "terra": 0.8225,
+    "luna_delta": 0.06,
+    "terra_delta": 0.0475
+   },
+   {
+    "agent": "04_acoder",
+    "idx": 39,
+    "vid": "prompt-10",
+    "luna": 0.8225,
+    "terra": 0.825,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.05
+   },
+   {
+    "agent": "04_acoder",
+    "idx": 51,
+    "vid": "prompt-22",
+    "luna": 0.8225,
+    "terra": 0.8225,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.0475
+   },
+   {
+    "agent": "04_acoder",
+    "idx": 53,
+    "vid": "prompt-24",
+    "luna": 0.8225,
+    "terra": 0.7975,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "04_acoder",
+    "idx": 54,
+    "vid": "prompt-25",
+    "luna": 0.805,
+    "terra": 0.7975,
+    "luna_delta": 0.03,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "04_acoder",
+    "idx": 58,
+    "vid": "prompt-29",
+    "luna": 0.8225,
+    "terra": 0.8225,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.0475
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 0,
+    "vid": "struct-01",
+    "luna": 0.86,
+    "terra": 0.8275,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.0
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 3,
+    "vid": "struct-04",
+    "luna": 0.8675,
+    "terra": 0.85,
+    "luna_delta": 0.04,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 6,
+    "vid": "struct-07",
+    "luna": 0.84,
+    "terra": 0.7975,
+    "luna_delta": 0.0125,
+    "terra_delta": -0.03
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 8,
+    "vid": "struct-09",
+    "luna": 0.8625,
+    "terra": 0.845,
+    "luna_delta": 0.035,
+    "terra_delta": 0.0175
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 9,
+    "vid": "struct-10",
+    "luna": 0.8575,
+    "terra": 0.7025,
+    "luna_delta": 0.03,
+    "terra_delta": -0.125
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 11,
+    "vid": "struct-12",
+    "luna": 0.86,
+    "terra": 0.8625,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.035
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 18,
+    "vid": "struct-19",
+    "luna": 0.86,
+    "terra": 0.86,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 34,
+    "vid": "prompt-05",
+    "luna": 0.88,
+    "terra": 0.865,
+    "luna_delta": 0.0525,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 35,
+    "vid": "prompt-06",
+    "luna": 0.8725,
+    "terra": 0.8675,
+    "luna_delta": 0.045,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 42,
+    "vid": "prompt-13",
+    "luna": 0.87,
+    "terra": 0.8625,
+    "luna_delta": 0.0425,
+    "terra_delta": 0.035
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 44,
+    "vid": "prompt-15",
+    "luna": 0.8675,
+    "terra": 0.8675,
+    "luna_delta": 0.04,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 52,
+    "vid": "prompt-23",
+    "luna": 0.8625,
+    "terra": 0.86,
+    "luna_delta": 0.035,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "05_joycode",
+    "idx": 55,
+    "vid": "prompt-26",
+    "luna": 0.8675,
+    "terra": 0.86,
+    "luna_delta": 0.04,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "06_lingxi",
+    "idx": 21,
+    "vid": "prompt-04",
+    "luna": 0.7775,
+    "terra": 0.7975,
+    "luna_delta": 0.01,
+    "terra_delta": 0.03
+   },
+   {
+    "agent": "06_lingxi",
+    "idx": 24,
+    "vid": "prompt-07",
+    "luna": 0.805,
+    "terra": 0.795,
+    "luna_delta": 0.0375,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "06_lingxi",
+    "idx": 28,
+    "vid": "prompt-11",
+    "luna": 0.8125,
+    "terra": 0.8075,
+    "luna_delta": 0.045,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "06_lingxi",
+    "idx": 32,
+    "vid": "prompt-15",
+    "luna": 0.8175,
+    "terra": 0.8075,
+    "luna_delta": 0.05,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "06_lingxi",
+    "idx": 34,
+    "vid": "prompt-17",
+    "luna": 0.835,
+    "terra": 0.805,
+    "luna_delta": 0.0675,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "07_moatlesstools",
+    "idx": 11,
+    "vid": "struct-12",
+    "luna": 0.8275,
+    "terra": 0.8275,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "07_moatlesstools",
+    "idx": 21,
+    "vid": "prompt-04",
+    "luna": 0.82,
+    "terra": 0.8,
+    "luna_delta": 0.025,
+    "terra_delta": 0.005
+   },
+   {
+    "agent": "07_moatlesstools",
+    "idx": 28,
+    "vid": "prompt-11",
+    "luna": 0.825,
+    "terra": 0.8175,
+    "luna_delta": 0.03,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "07_moatlesstools",
+    "idx": 30,
+    "vid": "prompt-13",
+    "luna": 0.83,
+    "terra": 0.825,
+    "luna_delta": 0.035,
+    "terra_delta": 0.03
+   },
+   {
+    "agent": "07_moatlesstools",
+    "idx": 35,
+    "vid": "prompt-18",
+    "luna": 0.85,
+    "terra": 0.8225,
+    "luna_delta": 0.055,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "08_sweagent",
+    "idx": 11,
+    "vid": "struct-12",
+    "luna": 0.755,
+    "terra": 0.745,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "08_sweagent",
+    "idx": 30,
+    "vid": "prompt-13",
+    "luna": 0.7425,
+    "terra": 0.74,
+    "luna_delta": 0.035,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 0,
+    "vid": "struct-01",
+    "luna": 0.6625,
+    "terra": 0.6625,
+    "luna_delta": 0.025,
+    "terra_delta": 0.025
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 1,
+    "vid": "struct-02",
+    "luna": 0.6725,
+    "terra": 0.665,
+    "luna_delta": 0.035,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 5,
+    "vid": "struct-06",
+    "luna": 0.705,
+    "terra": 0.6825,
+    "luna_delta": 0.0675,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 6,
+    "vid": "struct-07",
+    "luna": 0.6625,
+    "terra": 0.67,
+    "luna_delta": 0.025,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 14,
+    "vid": "struct-15",
+    "luna": 0.6875,
+    "terra": 0.6825,
+    "luna_delta": 0.05,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 15,
+    "vid": "struct-16",
+    "luna": 0.665,
+    "terra": 0.675,
+    "luna_delta": 0.0275,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 18,
+    "vid": "prompt-01",
+    "luna": 0.6625,
+    "terra": 0.6775,
+    "luna_delta": 0.025,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 26,
+    "vid": "prompt-09",
+    "luna": 0.6975,
+    "terra": 0.675,
+    "luna_delta": 0.06,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 29,
+    "vid": "prompt-12",
+    "luna": 0.69,
+    "terra": 0.6825,
+    "luna_delta": 0.0525,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "09_agentscope",
+    "idx": 30,
+    "vid": "prompt-13",
+    "luna": 0.6525,
+    "terra": 0.67,
+    "luna_delta": 0.015,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "10_entropo",
+    "idx": 0,
+    "vid": "struct-01",
+    "luna": 0.655,
+    "terra": 0.6075,
+    "luna_delta": 0.025,
+    "terra_delta": -0.0225
+   },
+   {
+    "agent": "10_entropo",
+    "idx": 5,
+    "vid": "struct-06",
+    "luna": 0.6475,
+    "terra": 0.65,
+    "luna_delta": 0.0175,
+    "terra_delta": 0.02
+   },
+   {
+    "agent": "10_entropo",
+    "idx": 6,
+    "vid": "struct-07",
+    "luna": 0.65,
+    "terra": 0.6525,
+    "luna_delta": 0.02,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "10_entropo",
+    "idx": 20,
+    "vid": "prompt-03",
+    "luna": 0.6575,
+    "terra": 0.675,
+    "luna_delta": 0.0275,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "10_entropo",
+    "idx": 23,
+    "vid": "prompt-06",
+    "luna": 0.69,
+    "terra": 0.7025,
+    "luna_delta": 0.06,
+    "terra_delta": 0.0725
+   },
+   {
+    "agent": "10_entropo",
+    "idx": 30,
+    "vid": "prompt-13",
+    "luna": 0.6475,
+    "terra": 0.685,
+    "luna_delta": 0.0175,
+    "terra_delta": 0.055
+   },
+   {
+    "agent": "10_entropo",
+    "idx": 31,
+    "vid": "prompt-14",
+    "luna": 0.66,
+    "terra": 0.67,
+    "luna_delta": 0.03,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "11_experepair",
+    "idx": 3,
+    "vid": "struct-04",
+    "luna": 0.7525,
+    "terra": 0.7375,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "11_experepair",
+    "idx": 11,
+    "vid": "struct-12",
+    "luna": 0.74,
+    "terra": 0.745,
+    "luna_delta": 0.035,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "11_experepair",
+    "idx": 14,
+    "vid": "struct-15",
+    "luna": 0.7375,
+    "terra": 0.6475,
+    "luna_delta": 0.0325,
+    "terra_delta": -0.0575
+   },
+   {
+    "agent": "11_experepair",
+    "idx": 24,
+    "vid": "prompt-07",
+    "luna": 0.7325,
+    "terra": 0.735,
+    "luna_delta": 0.0275,
+    "terra_delta": 0.03
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 6,
+    "vid": "struct-07",
+    "luna": 0.645,
+    "terra": 0.6125,
+    "luna_delta": 0.0175,
+    "terra_delta": -0.015
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 9,
+    "vid": "struct-10",
+    "luna": 0.655,
+    "terra": 0.61,
+    "luna_delta": 0.0275,
+    "terra_delta": -0.0175
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 11,
+    "vid": "struct-12",
+    "luna": 0.64,
+    "terra": 0.58,
+    "luna_delta": 0.0125,
+    "terra_delta": -0.0475
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 18,
+    "vid": "struct-19",
+    "luna": 0.65,
+    "terra": 0.66,
+    "luna_delta": 0.0225,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 20,
+    "vid": "struct-21",
+    "luna": 0.635,
+    "terra": 0.6875,
+    "luna_delta": 0.0075,
+    "terra_delta": 0.06
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 27,
+    "vid": "struct-28",
+    "luna": 0.6275,
+    "terra": 0.6725,
+    "luna_delta": 0.0,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 29,
+    "vid": "struct-30",
+    "luna": 0.6675,
+    "terra": 0.5525,
+    "luna_delta": 0.04,
+    "terra_delta": -0.075
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 36,
+    "vid": "prompt-07",
+    "luna": 0.6575,
+    "terra": 0.65,
+    "luna_delta": 0.03,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 38,
+    "vid": "prompt-09",
+    "luna": 0.6525,
+    "terra": 0.6375,
+    "luna_delta": 0.025,
+    "terra_delta": 0.01
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 42,
+    "vid": "prompt-13",
+    "luna": 0.6625,
+    "terra": 0.6925,
+    "luna_delta": 0.035,
+    "terra_delta": 0.065
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 46,
+    "vid": "prompt-17",
+    "luna": 0.5975,
+    "terra": 0.565,
+    "luna_delta": -0.03,
+    "terra_delta": -0.0625
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 51,
+    "vid": "prompt-22",
+    "luna": 0.665,
+    "terra": 0.66,
+    "luna_delta": 0.0375,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "12_kgcompass",
+    "idx": 59,
+    "vid": "prompt-30",
+    "luna": 0.665,
+    "terra": 0.6875,
+    "luna_delta": 0.0375,
+    "terra_delta": 0.06
+   },
+   {
+    "agent": "13_swerizzo",
+    "idx": 27,
+    "vid": "struct-28",
+    "luna": 0.7425,
+    "terra": 0.5375,
+    "luna_delta": 0.0175,
+    "terra_delta": -0.1875
+   },
+   {
+    "agent": "13_swerizzo",
+    "idx": 30,
+    "vid": "prompt-01",
+    "luna": 0.765,
+    "terra": 0.75,
+    "luna_delta": 0.04,
+    "terra_delta": 0.025
+   },
+   {
+    "agent": "13_swerizzo",
+    "idx": 31,
+    "vid": "prompt-02",
+    "luna": 0.77,
+    "terra": 0.7875,
+    "luna_delta": 0.045,
+    "terra_delta": 0.0625
+   },
+   {
+    "agent": "13_swerizzo",
+    "idx": 51,
+    "vid": "prompt-22",
+    "luna": 0.7825,
+    "terra": 0.755,
+    "luna_delta": 0.0575,
+    "terra_delta": 0.03
+   },
+   {
+    "agent": "13_swerizzo",
+    "idx": 52,
+    "vid": "prompt-23",
+    "luna": 0.795,
+    "terra": 0.78,
+    "luna_delta": 0.07,
+    "terra_delta": 0.055
+   },
+   {
+    "agent": "13_swerizzo",
+    "idx": 58,
+    "vid": "prompt-29",
+    "luna": 0.7575,
+    "terra": 0.765,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "14_agentless15",
+    "idx": 4,
+    "vid": "struct-05",
+    "luna": 0.665,
+    "terra": 0.635,
+    "luna_delta": 0.075,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "14_agentless15",
+    "idx": 32,
+    "vid": "prompt-15",
+    "luna": 0.635,
+    "terra": 0.625,
+    "luna_delta": 0.045,
+    "terra_delta": 0.035
+   },
+   {
+    "agent": "16_darsagent",
+    "idx": 3,
+    "vid": "struct-04",
+    "luna": 0.6225,
+    "terra": 0.6325,
+    "luna_delta": 0.0425,
+    "terra_delta": 0.0525
+   },
+   {
+    "agent": "16_darsagent",
+    "idx": 10,
+    "vid": "struct-11",
+    "luna": 0.6175,
+    "terra": 0.635,
+    "luna_delta": 0.0375,
+    "terra_delta": 0.055
+   },
+   {
+    "agent": "18_codefusecgm",
+    "idx": 6,
+    "vid": "struct-07",
+    "luna": 0.625,
+    "terra": 0.6425,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.05
+   },
+   {
+    "agent": "18_codefusecgm",
+    "idx": 7,
+    "vid": "struct-08",
+    "luna": 0.615,
+    "terra": 0.62,
+    "luna_delta": 0.0225,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "18_codefusecgm",
+    "idx": 13,
+    "vid": "prompt-02",
+    "luna": 0.605,
+    "terra": 0.6375,
+    "luna_delta": 0.0125,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "18_codefusecgm",
+    "idx": 20,
+    "vid": "prompt-09",
+    "luna": 0.625,
+    "terra": 0.605,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.0125
+   },
+   {
+    "agent": "18_codefusecgm",
+    "idx": 21,
+    "vid": "prompt-10",
+    "luna": 0.6275,
+    "terra": 0.605,
+    "luna_delta": 0.035,
+    "terra_delta": 0.0125
+   },
+   {
+    "agent": "19_agentlesslite",
+    "idx": 2,
+    "vid": "struct-03",
+    "luna": 0.605,
+    "terra": 0.61,
+    "luna_delta": 0.0275,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "19_agentlesslite",
+    "idx": 10,
+    "vid": "struct-11",
+    "luna": 0.62,
+    "terra": 0.615,
+    "luna_delta": 0.0425,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "19_agentlesslite",
+    "idx": 14,
+    "vid": "prompt-03",
+    "luna": 0.6025,
+    "terra": 0.6,
+    "luna_delta": 0.025,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "20_sweexp",
+    "idx": 1,
+    "vid": "struct-02",
+    "luna": 0.5275,
+    "terra": 0.4725,
+    "luna_delta": 0.01,
+    "terra_delta": -0.045
+   },
+   {
+    "agent": "20_sweexp",
+    "idx": 2,
+    "vid": "struct-03",
+    "luna": 0.5375,
+    "terra": 0.52,
+    "luna_delta": 0.02,
+    "terra_delta": 0.0025
+   },
+   {
+    "agent": "20_sweexp",
+    "idx": 13,
+    "vid": "prompt-02",
+    "luna": 0.5525,
+    "terra": 0.555,
+    "luna_delta": 0.035,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "20_sweexp",
+    "idx": 22,
+    "vid": "prompt-11",
+    "luna": 0.5875,
+    "terra": 0.555,
+    "luna_delta": 0.07,
+    "terra_delta": 0.0375
+   },
+   {
+    "agent": "21_swerl",
+    "idx": 9,
+    "vid": "struct-10",
+    "luna": 0.5775,
+    "terra": 0.585,
+    "luna_delta": 0.0225,
+    "terra_delta": 0.03
+   },
+   {
+    "agent": "21_swerl",
+    "idx": 21,
+    "vid": "prompt-10",
+    "luna": 0.5975,
+    "terra": 0.5975,
+    "luna_delta": 0.0425,
+    "terra_delta": 0.0425
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 3,
+    "vid": "struct-04",
+    "luna": 0.63,
+    "terra": 0.585,
+    "luna_delta": 0.0175,
+    "terra_delta": -0.0275
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 11,
+    "vid": "struct-12",
+    "luna": 0.6375,
+    "terra": 0.67,
+    "luna_delta": 0.025,
+    "terra_delta": 0.0575
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 13,
+    "vid": "struct-14",
+    "luna": 0.6475,
+    "terra": 0.6375,
+    "luna_delta": 0.035,
+    "terra_delta": 0.025
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 20,
+    "vid": "struct-21",
+    "luna": 0.6525,
+    "terra": 0.665,
+    "luna_delta": 0.04,
+    "terra_delta": 0.0525
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 24,
+    "vid": "struct-25",
+    "luna": 0.64,
+    "terra": 0.6525,
+    "luna_delta": 0.0275,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 28,
+    "vid": "struct-29",
+    "luna": 0.6175,
+    "terra": 0.6225,
+    "luna_delta": 0.005,
+    "terra_delta": 0.01
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 38,
+    "vid": "prompt-09",
+    "luna": 0.6475,
+    "terra": 0.6525,
+    "luna_delta": 0.035,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 39,
+    "vid": "prompt-10",
+    "luna": 0.6375,
+    "terra": 0.66,
+    "luna_delta": 0.025,
+    "terra_delta": 0.0475
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 41,
+    "vid": "prompt-12",
+    "luna": 0.6575,
+    "terra": 0.6575,
+    "luna_delta": 0.045,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 43,
+    "vid": "prompt-14",
+    "luna": 0.645,
+    "terra": 0.6575,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 48,
+    "vid": "prompt-19",
+    "luna": 0.6425,
+    "terra": 0.66,
+    "luna_delta": 0.03,
+    "terra_delta": 0.0475
+   },
+   {
+    "agent": "22_orcaloca",
+    "idx": 54,
+    "vid": "prompt-25",
+    "luna": 0.66,
+    "terra": 0.7125,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.1
+   },
+   {
+    "agent": "23_patchedcodespatchwork",
+    "idx": 4,
+    "vid": "struct-05",
+    "luna": 0.565,
+    "terra": 0.575,
+    "luna_delta": 0.0175,
+    "terra_delta": 0.0275
+   },
+   {
+    "agent": "23_patchedcodespatchwork",
+    "idx": 10,
+    "vid": "struct-11",
+    "luna": 0.5625,
+    "terra": 0.57,
+    "luna_delta": 0.015,
+    "terra_delta": 0.0225
+   },
+   {
+    "agent": "23_patchedcodespatchwork",
+    "idx": 28,
+    "vid": "struct-29",
+    "luna": 0.5625,
+    "terra": 0.565,
+    "luna_delta": 0.015,
+    "terra_delta": 0.0175
+   },
+   {
+    "agent": "23_patchedcodespatchwork",
+    "idx": 34,
+    "vid": "prompt-05",
+    "luna": 0.58,
+    "terra": 0.5975,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.05
+   },
+   {
+    "agent": "24_swefixer",
+    "idx": 3,
+    "vid": "struct-04",
+    "luna": 0.525,
+    "terra": 0.51,
+    "luna_delta": 0.045,
+    "terra_delta": 0.03
+   },
+   {
+    "agent": "24_swefixer",
+    "idx": 10,
+    "vid": "struct-11",
+    "luna": 0.4825,
+    "terra": 0.3775,
+    "luna_delta": 0.0025,
+    "terra_delta": -0.1025
+   },
+   {
+    "agent": "24_swefixer",
+    "idx": 11,
+    "vid": "struct-12",
+    "luna": 0.485,
+    "terra": 0.395,
+    "luna_delta": 0.005,
+    "terra_delta": -0.085
+   },
+   {
+    "agent": "24_swefixer",
+    "idx": 14,
+    "vid": "struct-15",
+    "luna": 0.5225,
+    "terra": 0.555,
+    "luna_delta": 0.0425,
+    "terra_delta": 0.075
+   },
+   {
+    "agent": "24_swefixer",
+    "idx": 20,
+    "vid": "prompt-03",
+    "luna": 0.5325,
+    "terra": 0.5225,
+    "luna_delta": 0.0525,
+    "terra_delta": 0.0425
+   },
+   {
+    "agent": "25_codeshelltester",
+    "idx": 22,
+    "vid": "prompt-11",
+    "luna": 0.445,
+    "terra": 0.4475,
+    "luna_delta": 0.0525,
+    "terra_delta": 0.055
+   },
+   {
+    "agent": "26_aegiso3mini10",
+    "idx": 4,
+    "vid": "struct-05",
+    "luna": 0.4675,
+    "terra": 0.4925,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.0575
+   },
+   {
+    "agent": "26_aegiso3mini10",
+    "idx": 7,
+    "vid": "struct-08",
+    "luna": 0.4625,
+    "terra": 0.495,
+    "luna_delta": 0.0275,
+    "terra_delta": 0.06
+   },
+   {
+    "agent": "26_aegiso3mini10",
+    "idx": 11,
+    "vid": "struct-12",
+    "luna": 0.4575,
+    "terra": 0.4925,
+    "luna_delta": 0.0225,
+    "terra_delta": 0.0575
+   },
+   {
+    "agent": "26_aegiso3mini10",
+    "idx": 15,
+    "vid": "prompt-04",
+    "luna": 0.4775,
+    "terra": 0.48,
+    "luna_delta": 0.0425,
+    "terra_delta": 0.045
+   },
+   {
+    "agent": "27_agentless",
+    "idx": 4,
+    "vid": "struct-05",
+    "luna": 0.4525,
+    "terra": 0.3925,
+    "luna_delta": 0.0125,
+    "terra_delta": -0.0475
+   },
+   {
+    "agent": "27_agentless",
+    "idx": 8,
+    "vid": "struct-09",
+    "luna": 0.445,
+    "terra": 0.4575,
+    "luna_delta": 0.005,
+    "terra_delta": 0.0175
+   },
+   {
+    "agent": "27_agentless",
+    "idx": 9,
+    "vid": "struct-10",
+    "luna": 0.4575,
+    "terra": 0.47,
+    "luna_delta": 0.0175,
+    "terra_delta": 0.03
+   },
+   {
+    "agent": "27_agentless",
+    "idx": 12,
+    "vid": "prompt-01",
+    "luna": 0.4675,
+    "terra": 0.4825,
+    "luna_delta": 0.0275,
+    "terra_delta": 0.0425
+   },
+   {
+    "agent": "27_agentless",
+    "idx": 14,
+    "vid": "prompt-03",
+    "luna": 0.4875,
+    "terra": 0.515,
+    "luna_delta": 0.0475,
+    "terra_delta": 0.075
+   },
+   {
+    "agent": "28_coder",
+    "idx": 1,
+    "vid": "struct-02",
+    "luna": 0.465,
+    "terra": 0.47,
+    "luna_delta": 0.0025,
+    "terra_delta": 0.0075
+   },
+   {
+    "agent": "29_aider",
+    "idx": 3,
+    "vid": "struct-04",
+    "luna": 0.39,
+    "terra": 0.4325,
+    "luna_delta": -0.025,
+    "terra_delta": 0.0175
+   },
+   {
+    "agent": "29_aider",
+    "idx": 5,
+    "vid": "struct-06",
+    "luna": 0.42,
+    "terra": 0.425,
+    "luna_delta": 0.005,
+    "terra_delta": 0.01
+   },
+   {
+    "agent": "29_aider",
+    "idx": 20,
+    "vid": "prompt-09",
+    "luna": 0.455,
+    "terra": 0.455,
+    "luna_delta": 0.04,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "30_rag",
+    "idx": 8,
+    "vid": "struct-09",
+    "luna": 0.24,
+    "terra": 0.2425,
+    "luna_delta": 0.03,
+    "terra_delta": 0.0325
+   },
+   {
+    "agent": "30_rag",
+    "idx": 13,
+    "vid": "prompt-02",
+    "luna": 0.245,
+    "terra": 0.25,
+    "luna_delta": 0.035,
+    "terra_delta": 0.04
+   },
+   {
+    "agent": "30_rag",
+    "idx": 18,
+    "vid": "prompt-07",
+    "luna": 0.2425,
+    "terra": 0.245,
+    "luna_delta": 0.0325,
+    "terra_delta": 0.035
+   }
+  ],
+  "summary": {
+   "n": 150,
+   "pearson_r": 0.27882018037823836,
+   "pearson_p": 0.0005501977331565188,
+   "spearman_rho": 0.5017870558964159,
+   "sign_agreement": 0.8733333333333333,
+   "terra_optimism": 0.8866666666666667,
+   "luna_optimism_sample": 0.9866666666666667
+  },
+  "blind": [
+   {
+    "agent": "05_joycode",
+    "patched": 3,
+    "baseline": 2,
+    "tie": 0
+   },
+   {
+    "agent": "06_lingxi",
+    "patched": 5,
+    "baseline": 0,
+    "tie": 0
+   },
+   {
+    "agent": "07_moatlesstools",
+    "patched": 5,
+    "baseline": 0,
+    "tie": 0
+   },
+   {
+    "agent": "09_agentscope",
+    "patched": 5,
+    "baseline": 0,
+    "tie": 0
+   },
+   {
+    "agent": "11_experepair",
+    "patched": 5,
+    "baseline": 0,
+    "tie": 0
+   },
+   {
+    "agent": "15_composioswekit",
+    "patched": 1,
+    "baseline": 4,
+    "tie": 0
+   },
+   {
+    "agent": "18_codefusecgm",
+    "patched": 5,
+    "baseline": 0,
+    "tie": 0
+   },
+   {
+    "agent": "19_agentlesslite",
+    "patched": 5,
+    "baseline": 0,
+    "tie": 0
+   },
+   {
+    "agent": "22_orcaloca",
+    "patched": 1,
+    "baseline": 4,
+    "tie": 0
+   },
+   {
+    "agent": "24_swefixer",
+    "patched": 5,
+    "baseline": 0,
+    "tie": 0
+   }
+  ]
+ },
+ "a2": {
+  "records": [
+   {
+    "agent": "08_sweagent",
+    "n_traces_scored": 6,
+    "traj_mean": 0.5754,
+    "proxy_baseline": 0.7075,
+    "diff_traj_minus_proxy": -0.1321,
+    "traces": [
+     {
+      "file": "trajectories/demonstrations/ctf/rev/rock.traj",
+      "dims": {
+       "target_alignment": 0.2,
+       "reasoning_soundness": 0.25,
+       "execution_accuracy": 0.3,
+       "output_integrity": 0.0
+      },
+      "aggregate": 0.1875,
+      "why": "It correctly identified that the binary required input and successfully decompiled it, but stopped before analyzing the validation logic, deriving an input, or producing a flag."
+     },
+     {
+      "file": "trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__xml_sys-env_cursors_window100__t-0.20__p-0.95__c-2.00__install-1/marshmallow-code__marshmallow-1867.traj",
+      "dims": {
+       "target_alignment": 0.82,
+       "reasoning_soundness": 0.68,
+       "execution_accuracy": 0.78,
+       "output_integrity": 0.05
+      },
+      "aggregate": 0.5825,
+      "why": "The agent correctly reproduced the reported bug and began locating the relevant implementation, but the trace ends before diagnosing, modifying, testing, or presenting a completed fix."
+     },
+     {
+      "file": "trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj",
+      "dims": {
+       "target_alignment": 0.7,
+       "reasoning_soundness": 0.75,
+       "execution_accuracy": 0.85,
+       "output_integrity": 0.1
+      },
+      "aggregate": 0.6,
+      "why": "It correctly reproduces the truncation and locates the relevant implementation, but stops before changing code, adding tests, or providing a solution."
+     },
+     {
+      "file": "trajectories/demonstrations/ctf/crypto/katy.traj",
+      "dims": {
+       "target_alignment": 0.82,
+       "reasoning_soundness": 0.68,
+       "execution_accuracy": 0.42,
+       "output_integrity": 0.48
+      },
+      "aggregate": 0.6,
+      "why": "The agent correctly identifies the binary, seed hash, and LCG as the relevant attack surface, but makes partially unverified claims, creates an empty script, and stops before extracting the flag or de"
+     },
+     {
+      "file": "tests/test_data/trajectories/gpt4__swe-agent-test-repo__default_from_url__t-0.00__p-0.95__c-3.00__install-1/6e44b9__sweagenttestrepo-1c2844.traj",
+      "dims": {
+       "target_alignment": 0.99,
+       "reasoning_soundness": 0.99,
+       "execution_accuracy": 0.99,
+       "output_integrity": 0.99
+      },
+      "aggregate": 0.99,
+      "why": "The agent correctly identified the missing colon, made the minimal appropriate edit, verified the script runs successfully, and submitted a clean, well-formed diff."
+     },
+     {
+      "file": "trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace_from_source/marshmallow-code__marshmallow-1867.traj",
+      "dims": {
+       "target_alignment": 0.12,
+       "reasoning_soundness": 0.1,
+       "execution_accuracy": 0.85,
+       "output_integrity": 0.9
+      },
+      "aggregate": 0.4925,
+      "why": "The agent correctly listed the repository as an initial step, but the trace stops before reproducing, analyzing, fixing, or testing the reported bug, while the single command and response format were "
+     }
+    ],
+    "label": "TRAJ"
+   },
+   {
+    "agent": "16_darsagent",
+    "n_traces_scored": 1,
+    "traj_mean": 0.625,
+    "proxy_baseline": 0.58,
+    "diff_traj_minus_proxy": 0.045,
+    "traces": [
+     {
+      "file": "dars-agent/trajectories/demonstrations/marshmallow-code__marshmallow-1867-aider/marshmallow-code__marshmallow-1867.traj",
+      "dims": {
+       "target_alignment": 0.85,
+       "reasoning_soundness": 0.65,
+       "execution_accuracy": 0.9,
+       "output_integrity": 0.1
+      },
+      "aggregate": 0.625,
+      "why": "The agent correctly reproduced the reported bug and located the relevant serialization code with accurate commands, but stopped before diagnosing, modifying, testing, or presenting a complete fix."
+     }
+    ],
+    "label": "TRAJ"
+   },
+   {
+    "agent": "27_agentless",
+    "n_traces_scored": 6,
+    "traj_mean": 0.4992,
+    "proxy_baseline": 0.44,
+    "diff_traj_minus_proxy": 0.0592,
+    "traces": [
+     {
+      "file": "SWE-agent/inspector/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__default__t-0.20__p-0.95__c-2.00__install-1___install_from_source/marshmallow-code__marshmallow-1867.traj",
+      "dims": {
+       "target_alignment": 0.0,
+       "reasoning_soundness": 0.0,
+       "execution_accuracy": 0.0,
+       "output_integrity": 0.0
+      },
+      "aggregate": 0.0,
+      "why": "The trace only inspects setup.py and installs dependencies, without identifying or addressing the target issue, testing a hypothesis, modifying code, or producing a solution."
+     },
+     {
+      "file": "SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__default__t-0.20__p-0.95__c-2.00__install-1___install_from_source/marshmallow-code__marshmallow-1867.traj",
+      "dims": {
+       "target_alignment": 0.0,
+       "reasoning_soundness": 0.0,
+       "execution_accuracy": 0.0,
+       "output_integrity": 0.0
+      },
+      "aggregate": 0.0,
+      "why": "The trace only lists files, inspects setup.py, and begins installation without identifying the issue, investigating relevant code, implementing a fix, or producing a final solution."
+     },
+     {
+      "file": "SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__xml_sys-env_window100__t-0.20__p-0.95__c-2.00__install-1/marshmallow-code__marshmallow-1867.traj",
+      "dims": {
+       "target_alignment": 0.99,
+       "reasoning_soundness": 0.9,
+       "execution_accuracy": 0.55,
+       "output_integrity": 0.0
+      },
+      "aggregate": 0.61,
+      "why": "It correctly reproduced the precision bug and located the relevant implementation, but stopped before making a fix, adding tests, or delivering a completed patch."
+     },
+     {
+      "file": "SWE-agent/tests/test_data/trajectories/gpt4__swe-bench-dev-easy_first_only__default__t-0.00__p-0.95__c-3.00__install-1/pydicom__pydicom-1458.traj",
+      "dims": {
+       "target_alignment": 0.88,
+       "reasoning_soundness": 0.86,
+       "execution_accuracy": 0.8,
+       "output_integrity": 0.94
+      },
+      "aggregate": 0.87,
+      "why": "The agent correctly reproduced the reported Float Pixel Data failure and identified the relevant handler, but the trace ends before implementing or testing any fix."
+     },
+     {
+      "file": "SWE-agent/tests/test_data/trajectories/gpt4__klieret__swe-agent-test-repo__default_from_url__t-0.00__p-0.95__c-3.00__install-1/klieret__swe-agent-test-repo-i1.traj",
+      "dims": {
+       "target_alignment": 0.99,
+       "reasoning_soundness": 0.99,
+       "execution_accuracy": 0.99,
+       "output_integrity": 0.99
+      },
+      "aggregate": 0.99,
+      "why": "The agent identified the correct file and syntax defect, applied the minimal valid fix, verified the script runs successfully, and submitted a clean well-formed diff."
+     },
+     {
+      "file": "SWE-agent/inspector/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__default_sys-env_window100__t-0.20__p-0.95__c-2.00__install-1/marshmallow-code__marshmallow-1867.traj",
+      "dims": {
+       "target_alignment": 0.65,
+       "reasoning_soundness": 0.6,
+       "execution_accuracy": 0.85,
+       "output_integrity": 0.0
+      },
+      "aggregate": 0.525,
+      "why": "The trace correctly reproduces the bug and locates the suspected serialization code, but it never reasons through or implements a fix, runs regression tests, or produces a completed patch."
+     }
+    ],
+    "label": "TRAJ"
+   },
+   {
+    "agent": "28_coder",
+    "n_traces_scored": 6,
+    "traj_mean": 0.4033,
+    "proxy_baseline": 0.4625,
+    "diff_traj_minus_proxy": -0.0592,
+    "traces": [
+     {
+      "file": "trajs/django__django-14997.traj",
+      "dims": {
+       "target_alignment": 0.0,
+       "reasoning_soundness": 0.0,
+       "execution_accuracy": 0.0,
+       "output_integrity": 0.0
+      },
+      "aggregate": 0.0,
+      "why": "The trace only created an empty reproduce.py after an irrelevant generic plan, without investigating the issue, modifying the repository, testing a fix, or producing a meaningful final result."
+     },
+     {
+      "file": "trajs/pytest-dev__pytest-5692.traj",
+      "dims": {
+       "target_alignment": 0.9,
+       "reasoning_soundness": 0.65,
+       "execution_accuracy": 0.02,
+       "output_integrity": 0.0
+      },
+      "aggregate": 0.3925,
+      "why": "It identified the correct file and missing JUnit attributes, but provided no actual edit, test execution, or patch output in the recorded trajectory."
+     },
+     {
+      "file": "trajs/django__django-15498.traj",
+      "dims": {
+       "target_alignment": 0.55,
+       "reasoning_soundness": 0.35,
+       "execution_accuracy": 0.05,
+       "output_integrity": 0.15
+      },
+      "aggregate": 0.275,
+      "why": "It identified the empty If-Modified-Since parsing path and likely relevant functions, but the trace shows no actual edits, tests, or submitted patch and includes unsupported claims that the issue was "
+     },
+     {
+      "file": "trajs/pylint-dev__pylint-6506.traj",
+      "dims": {
+       "target_alignment": 0.95,
+       "reasoning_soundness": 0.88,
+       "execution_accuracy": 0.82,
+       "output_integrity": 0.65
+      },
+      "aggregate": 0.825,
+      "why": "The trace targets the correct exception-handling path, gives a coherent diagnosis, and reports a reproducing fix validated by the reproducer, but provides limited evidence of broader testing and ends "
+     },
+     {
+      "file": "trajs/django__django-11001.traj",
+      "dims": {
+       "target_alignment": 0.9,
+       "reasoning_soundness": 0.72,
+       "execution_accuracy": 0.52,
+       "output_integrity": 0.64
+      },
+      "aggregate": 0.695,
+      "why": "The trace correctly targets SQLCompiler.get_order_by() and the duplicate-detection regex, but relies on a simulated reproducer without demonstrating the actual patch or repository tests, and the recor"
+     },
+     {
+      "file": "trajs/sympy__sympy-13915.traj",
+      "dims": {
+       "target_alignment": 0.42,
+       "reasoning_soundness": 0.24,
+       "execution_accuracy": 0.12,
+       "output_integrity": 0.15
+      },
+      "aggregate": 0.2325,
+      "why": "It reproduced the symptom and focused on the relevant substitution code, but the debugging remained speculative, the attempted change was abandoned without a validated fix or tests, and the reported o"
+     }
+    ],
+    "label": "TRAJ"
+   }
+  ]
+ }
+}

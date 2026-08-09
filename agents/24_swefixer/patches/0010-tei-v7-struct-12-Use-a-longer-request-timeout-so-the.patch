@@ -1,0 +1,26 @@
+From 1a35eee4f13ed2838316e421bc938e62d2251b6d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:43 -0700
+Subject: [PATCH 10/13] tei-v7 struct-12: Use a longer request timeout so the
+ editor can finish reposi
+
+---
+ utils/oai.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index 36a0d38..b3167b6 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -11,7 +11,7 @@ def load_openai_client(api_key, base_url):
+     return OpenAI(api_key=api_key, base_url=base_url)
+ 
+ 
+-def get_model_prediction(client, input_text, system_prompt=None, timeout=300, temp=0):
++def get_model_prediction(client, input_text, system_prompt=None, timeout=900, temp=0):
+     def make_request(result_queue):
+         temp = 0
+         if temp != 0:
+-- 
+2.39.5 (Apple Git-154)
+

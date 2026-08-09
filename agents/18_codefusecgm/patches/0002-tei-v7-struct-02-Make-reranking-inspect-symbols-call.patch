@@ -1,0 +1,26 @@
+From 71778f41c2b760d7031284ad235f4cf81ed854ce Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:10:54 -0700
+Subject: [PATCH 02/22] tei-v7 struct-02: Make reranking inspect symbols, call
+ relationships, and test
+
+---
+ reranker/reranker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reranker/reranker.py b/reranker/reranker.py
+index 2fdcbda..33798f4 100644
+--- a/reranker/reranker.py
++++ b/reranker/reranker.py
+@@ -15,7 +15,7 @@ Map each issue symptom to concrete repository evidence before selecting files. I
+ 
+ Instructions:
+ 1. Analysis:
+-- Analyze the provided issue description and files, and pay attention to the relevance of the provided files with the given issue, especially those might be modified during fixing the issue.
++- Analyze the issue and every candidate file using named classes, functions, imported symbols, callers/callees, and nearby tests. Prefer files that own the failing behavior or its regression tests over files that merely mention the issue terminology.
+ - Determine the specific problem or error mentioned in the issue and note any clues that could help your judgment.
+ 2. Extraction:
+ - Based on your analysis, choose the Top **{}** relevant files which might be used in fixing the issue.
+-- 
+2.39.5 (Apple Git-154)
+

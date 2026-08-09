@@ -1,0 +1,28 @@
+From 1852ec05f1e9777dfc5808cc5354228066ed54b5 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:44 -0700
+Subject: [PATCH 09/47] tei-v7 struct-11: Separate candidate patch validation
+ from repository mutation
+
+---
+ llm_server/client_manager.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/llm_server/client_manager.py b/llm_server/client_manager.py
+index a22ce21..e015af9 100644
+--- a/llm_server/client_manager.py
++++ b/llm_server/client_manager.py
+@@ -51,6 +51,10 @@ class ModelConfig:
+     api_key: Optional[str] = None
+     base_url: Optional[str] = None
+     timeout: Optional[int] = None
++    # Patch-attempt isolation and validation policy
++    isolate_patch_attempts: bool = True
++    require_clean_focused_test: bool = True
++    preserve_failed_attempt_artifacts: bool = True
+ 
+ 
+ class UnifiedModelManager:
+-- 
+2.39.5 (Apple Git-154)
+

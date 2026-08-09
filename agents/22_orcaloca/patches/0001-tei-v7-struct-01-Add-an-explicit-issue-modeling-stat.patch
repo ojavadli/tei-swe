@@ -1,0 +1,28 @@
+From 98ff838b55115eb3611b8ee84fd1ed1aa0ef4403 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:08 -0700
+Subject: [PATCH 01/50] tei-v7 struct-01: Add an explicit issue-modeling state
+ to every search step
+
+---
+ Orcar/prompts.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 38d4354..34dd948 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -1,4 +1,10 @@
+ STEP_EXAMPLE = {
++    "issue_model": {
++        "observed_behavior": "",
++        "expected_behavior": "",
++        "constraints": [],
++        "likely_execution_path": []
++    },
+     "observation_feedback": "observation",
+     "potential_bug_locations": [
+         {
+-- 
+2.39.5 (Apple Git-154)
+

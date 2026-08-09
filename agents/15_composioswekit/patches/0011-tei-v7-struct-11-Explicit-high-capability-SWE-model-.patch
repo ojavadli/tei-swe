@@ -1,0 +1,28 @@
+From c796751e848f79e599796fa371fc7329760213c1 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:05:38 -0700
+Subject: [PATCH 11/18] tei-v7 struct-11: Explicit high-capability SWE model
+ fallback
+
+---
+ .../src/workbench/python-helpers/composio_helper.py            | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index e821ea8..92a6de7 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -50,8 +50,9 @@ else:
+ 
+ DEFAULT_INVOKE_LLM_MODEL = (
+     os.environ.get("INVOKE_LLM_MODEL", "").strip()
++    or os.environ.get("COMPOSIO_SWE_MODEL", "").strip()
+     or (str(_INTERNAL.get("invoke_llm_model", "")).strip() if isinstance(_INTERNAL, dict) else "")
+-    or "openai/gpt-oss-120b"
++    or "openai/gpt-4.1"
+ )
+ RATE_LIMIT_PATTERNS = (
+     "rate limit",
+-- 
+2.39.5 (Apple Git-154)
+

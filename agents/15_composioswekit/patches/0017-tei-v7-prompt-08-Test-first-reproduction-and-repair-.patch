@@ -1,0 +1,26 @@
+From aeea82fd5d3f7eb83f28713f56cd197a48e79091 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:06:33 -0700
+Subject: [PATCH 17/18] tei-v7 prompt-08: Test-first reproduction and repair
+ loop
+
+---
+ .../src/workbench/python-helpers/composio_helper.py             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+index c207e91..44c3936 100644
+--- a/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
++++ b/ts/packages/experimental/src/workbench/python-helpers/composio_helper.py
+@@ -36,7 +36,7 @@ def _urlopen_with_retry(*args, **kwargs):
+ urllib.request.urlopen = _urlopen_with_retry
+ 
+ 
+-# Repository-task execution rule: reproduce the reported behavior with a focused test or
++# Repository-task execution rule: before editing, reproduce the reported behavior with a focused test or existing regression test; after editing, rerun it, run an adjacent test, investigate every failure, and do not finish until the patch and verification both succeed.
+ # existing regression test before editing; after editing, run that test and at least one
+ # adjacent test, then iterate until the implementation and tests pass.
+ try:
+-- 
+2.39.5 (Apple Git-154)
+

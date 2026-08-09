@@ -1,0 +1,26 @@
+From 2939b599b575fc53e31147c7721223225bcf050f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:01:02 -0700
+Subject: [PATCH 34/50] tei-v7 prompt-12: Executable falsification before edit
+ commitment
+
+---
+ Orcar/code_scorer.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/code_scorer.py b/Orcar/code_scorer.py
+index 8d6326d..b63ccdf 100644
+--- a/Orcar/code_scorer.py
++++ b/Orcar/code_scorer.py
+@@ -12,7 +12,7 @@ logger = get_logger(__name__)
+ 
+ CODE_SCORER_SYSTEM_PROMPT = (
+     "You are a repository-level debugging expert. "
+-    "Score a candidate only if it establishes a complete, executable repair chain: "
++    "Score a candidate only if it establishes a complete, executable repair chain and survives a falsification check: before committing to an edit, state the smallest command or test that distinguishes this candidate from the strongest alternative, predict its result for both the failing and a nearby valid case, and downgrade the candidate if the repository evidence cannot support those predictions: "
+     "minimal reproducer -> observed failure -> violated semantic invariant -> "
+     "causal symbol and call edge -> minimal edit -> regression test or executable "
+     "oracle. Reject candidates supported only by naming similarity, stack proximity, "
+-- 
+2.39.5 (Apple Git-154)
+

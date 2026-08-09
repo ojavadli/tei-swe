@@ -1,0 +1,30 @@
+From aaf9ad26a2f0cbe7a2076a54d3d02805ee3dd3f6 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:35 -0700
+Subject: [PATCH 11/24] tei-v7 struct-14: Evidence-ranked relevant-file
+ retrieval with negative-scope
+
+---
+ src/agent/prompt/__init__.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index 9000a2c..4d2cb42 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -5,7 +5,11 @@ ISSUE_RESOLVE_MAM_SYSTEM_PROMPT = _BASE_MAM_SYSTEM_PROMPT + """
+ 
+ When synthesizing agent findings for a framework-heavy issue, require an evidence table with: claimed invariant, framework version or compatibility branch, exact source location establishing it, observed counterexample, and the smallest change that preserves neighboring behavior. Resolve disagreements by inspecting source or running a focused reproduction rather than by majority vote.
+ """
+-from .context_manager import RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT
++from .context_manager import RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT as _BASE_RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT
++RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT = _BASE_RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT + """
++
++Return a ranked file map rather than an unqualified list. For each candidate file, give the symbol, why it can affect the symptom, and exact evidence; also list plausible files searched and excluded, with the exclusion evidence. Follow references from the issue-mentioned API through its callers, tests, and compatibility branches until the behavioral path is closed. Mark files as confirmed, probable, or excluded and never silently omit an issue-mentioned path.
++"""
+ from .problem_decoder import (
+     ISSUE_RESOLVE_PROBLEM_DECODER_SYSTEM_PROMPT as _BASE_PROBLEM_DECODER_PROMPT,
+ )
+-- 
+2.39.5 (Apple Git-154)
+

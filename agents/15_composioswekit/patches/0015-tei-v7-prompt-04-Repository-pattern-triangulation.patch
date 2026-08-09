@@ -1,0 +1,26 @@
+From 16620df36c9de7fb2b556ebe24ec01a531ecfb96 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:06:04 -0700
+Subject: [PATCH 15/18] tei-v7 prompt-04: Repository pattern triangulation
+
+---
+ .../cli/test/src/commands/tools/tools.search.cmd.test.ts       | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts b/ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts
+index a962603..71ac85d 100644
+--- a/ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts
++++ b/ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts
+@@ -10,6 +10,9 @@ import type { TestLiveInput } from 'test/__utils__/services/test-layer';
+ import type { Tools } from 'src/models/tools';
+ import { ToolsSearchInputError } from 'src/commands/tools/commands/tools.search.cmd';
+ 
++// Before changing behavior, triangulate the intended contract from the issue, the
++// implementation, neighboring commands, and existing tests; preserve established
++// interfaces and add coverage for the requested behavior.
+ const testTools: Tools = [
+   {
+     name: 'Send Email',
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,27 @@
+From b16245bc65bdf4b9b19d9fd90a93ee97bd34a7d1 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:06:33 -0700
+Subject: [PATCH 18/18] tei-v7 prompt-09: Contract triangulation matrix
+
+---
+ .../cli/test/src/commands/tools/tools.search.cmd.test.ts      | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts b/ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts
+index 71ac85d..547bf43 100644
+--- a/ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts
++++ b/ts/packages/cli/test/src/commands/tools/tools.search.cmd.test.ts
+@@ -10,9 +10,7 @@ import type { TestLiveInput } from 'test/__utils__/services/test-layer';
+ import type { Tools } from 'src/models/tools';
+ import { ToolsSearchInputError } from 'src/commands/tools/commands/tools.search.cmd';
+ 
+-// Before changing behavior, triangulate the intended contract from the issue, the
+-// implementation, neighboring commands, and existing tests; preserve established
+-// interfaces and add coverage for the requested behavior.
++// Before changing behavior, build a contract matrix from the issue, current implementation, neighboring commands, existing tests, and public interfaces. Record expected inputs, outputs, errors, and compatibility constraints; resolve conflicts using the narrowest behavior supported by tests and surrounding conventions, then add a regression test.
+ const testTools: Tools = [
+   {
+     name: 'Send Email',
+-- 
+2.39.5 (Apple Git-154)
+

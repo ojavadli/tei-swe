@@ -1,0 +1,29 @@
+From a945f8bae58a7267fa21851812aad7dfb5d41302 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:43 -0700
+Subject: [PATCH 09/50] tei-v7 struct-10: Add a mandatory patch-and-validation
+ plan to bug-location ou
+
+---
+ Orcar/prompts.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 68b51fa..3c17511 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -35,6 +35,11 @@ STEP_EXAMPLE = {
+ 
+ BUG_OUTPUT = {
+     "resolution_hypothesis": "",
++    "patch_plan": {
++        "minimal_edit": "",
++        "regression_test_or_oracle": "",
++        "validation_commands": []
++    },
+     "bug_locations": [
+         {
+             "file_path": "path/to/file",
+-- 
+2.39.5 (Apple Git-154)
+

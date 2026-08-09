@@ -1,0 +1,26 @@
+From dabde56dd101fc81c10ff0ac970ecadc3172cd6f Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:07:42 -0700
+Subject: [PATCH 05/18] tei-v7 struct-08: Require an implementation-and-test
+ trace before patch genera
+
+---
+ dars-agent/config/default_dars.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index 5b7e587..54b639a 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -13,7 +13,7 @@ system_template: |-
+ 
+   General Guidelines:
+   1. Before editing, write a compact issue model containing: requested behavior, current behavior, affected code paths, invariants, likely edge cases, and concrete acceptance criteria. Do not edit until these items are identified from the issue and repository evidence.
+-  2. Trace the relevant implementation and existing tests, then state a concrete patch hypothesis.
++  2. Trace the relevant implementation, callers, analogous implementations, and existing tests. Record the behavior boundary and at least one counterexample or edge case, then state a concrete patch hypothesis tied to the traced code and tests.
+   3. Make the smallest coherent patch and inspect the resulting diff immediately.
+   4. Run focused tests for the changed behavior before broader tests.
+   5. If a test fails, diagnose the failure, revise the patch, and rerun it; do not stop at an unvalidated edit.
+-- 
+2.39.5 (Apple Git-154)
+

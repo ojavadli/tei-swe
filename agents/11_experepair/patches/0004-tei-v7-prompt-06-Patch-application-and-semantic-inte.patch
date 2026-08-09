@@ -1,0 +1,26 @@
+From d0bc1f0ff0e958f98fb4e7c755b451bb249f8f60 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:20:23 -0700
+Subject: [PATCH 04/13] tei-v7 prompt-06: Patch application and semantic
+ integrity checklist
+
+---
+ ExpeRepair-v1.0/inference/validation.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ExpeRepair-v1.0/inference/validation.py b/ExpeRepair-v1.0/inference/validation.py
+index 61b741a..2255715 100644
+--- a/ExpeRepair-v1.0/inference/validation.py
++++ b/ExpeRepair-v1.0/inference/validation.py
+@@ -17,7 +17,7 @@ Your task is to:
+    - If a test is invalid, exclude it from consideration and do not use its result to judge the patch.
+    - If a test is valid, determine its expected correct behavior based on the issue description, as well as the functionalities and conventions of the codebase.
+ 
+-2. Evaluate and Score Candidate Patches:
++2. Evaluate and Score Candidate Patches. For each candidate, first verify that the proposed diff is syntactically coherent, targets files that exist in the repository, applies cleanly without depending on omitted edits, and changes the implementation path implicated by the issue. Then determine whether the resulting behavior satisfies the confirmed issue requirement and relevant existing behavior. Penalize patches that are only tests, modify unrelated files, bypass the defect, rely on impossible APIs, or would fail to apply. Separate an application/execution failure from a semantically incorrect patch, and do not score an unapplied or incomplete diff as a successful repair:
+    - For each valid test input, compare the output produced by each patch against the expected correct behavior.
+    - Additionally, refer to the pre-patch (original buggy version) output to confirm whether the issue was originally present and whether each patch resolves it.
+    - Assess each candidate patch based on the criteria below.
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,26 @@
+From 248d7abcbfa2227f419877acbce0d56b806a6115 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:08:32 -0700
+Subject: [PATCH 16/18] tei-v7 prompt-09: Add a mandatory minimal-reproduction
+ checkpoint
+
+---
+ dars-agent/config/default_dars.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dars-agent/config/default_dars.yaml b/dars-agent/config/default_dars.yaml
+index d5b1272..75080ce 100644
+--- a/dars-agent/config/default_dars.yaml
++++ b/dars-agent/config/default_dars.yaml
+@@ -12,7 +12,7 @@ system_template: |-
+   </command_docs>
+ 
+   General Guidelines:
+-  Treat every failing test, unexpected output, or unchanged reproduction as evidence against the current hypothesis. For each failure, classify whether the defect is in the patch, the test setup, or the inferred contract; inspect the relevant traceback and call path; make the smallest justified revision; and rerun the reproduction before expanding test scope.
++  Treat every failing test, unexpected output, or unchanged reproduction as evidence against the current hypothesis. For each failure, classify whether the defect is in the patch, the test setup, or the inferred contract; inspect the relevant traceback and call path; make the smallest justified revision; and rerun the exact original reproduction immediately. Record the observed pre-fix result and the post-fix result, including exception type, value, or structural output where relevant. If the original reproduction cannot be rerun, do not claim completion: repair the test setup or create an equivalent focused check first.
+   1. Before editing, write a compact issue model containing: requested behavior, current behavior, affected code paths, invariants, likely edge cases, and concrete acceptance criteria. Before finishing, perform a final audit: confirm the reported reproduction now passes, confirm regression coverage exists for the behavior boundary and key edge cases, confirm no unrelated behavior was changed, inspect the final diff for omissions or accidental edits, and only then summarize the completed patch and test results. Validate changes in a ladder: first run the smallest directly relevant test or reproduction, then add a regression test for the reported behavior, then run nearby tests and finally the broadest practical relevant suite. Inspect failures and revise until all required levels pass. Do not edit until these items are identified from the issue and repository evidence. After editing, do not stop at a plausible patch: continue until the implementation, focused regression tests, and the repository's relevant test suite satisfy the acceptance criteria. If a test fails, diagnose the failure, revise the patch, and rerun validation rather than reporting an incomplete attempt.
+   2. Trace the relevant implementation, callers, analogous implementations, and existing tests. Explicitly map the behavior boundary: distinguish the reported case from adjacent valid and invalid cases, identify which inputs or state transitions change the result, and write at least two concrete counterexamples that the patch must not break before choosing an implementation. Record the behavior boundary and at least one counterexample or edge case, including the expected semantic result and why it follows from the repository's existing contract, then state a concrete patch hypothesis. For symbolic, typed, or stateful code, inspect the relevant assumptions, sentinel values, unevaluated/intermediate forms, normalization rules, and error behavior rather than treating values as ordinary concrete inputs. tied to the traced code and tests.
+   3. Make the smallest coherent patch, then immediately inspect the full diff, confirm every acceptance criterion has a corresponding code change, and check that no required file or test was omitted. If the patch is incomplete, continue editing before testing.
+-- 
+2.39.5 (Apple Git-154)
+

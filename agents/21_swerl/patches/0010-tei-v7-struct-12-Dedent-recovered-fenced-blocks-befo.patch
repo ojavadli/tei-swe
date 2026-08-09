@@ -1,0 +1,27 @@
+From ab9d5d0efad9da9fb464e0567415f94e697da8cf Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:18:45 -0700
+Subject: [PATCH 10/10] tei-v7 struct-12: Dedent recovered fenced blocks before
+ sending them to the st
+
+---
+ src/swerl/agentless_mini/repair.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/swerl/agentless_mini/repair.py b/src/swerl/agentless_mini/repair.py
+index ed1bbf9..a1df8d3 100644
+--- a/src/swerl/agentless_mini/repair.py
++++ b/src/swerl/agentless_mini/repair.py
+@@ -29,7 +29,8 @@ def _resilient_extract_python_blocks(raw_output: str):
+     blocks = re.findall(r"```(?:python)?\s*(.*?)```", raw_output, flags=re.IGNORECASE | re.DOTALL)
+     for block in blocks:
+         try:
+-            recovered.extend(_primary_extract_python_blocks(block))
++            normalized = re.sub(r"(?m)^[ \t]+", "", block)
++            recovered.extend(_primary_extract_python_blocks(normalized))
+         except Exception:
+             continue
+     unique = {}
+-- 
+2.39.5 (Apple Git-154)
+

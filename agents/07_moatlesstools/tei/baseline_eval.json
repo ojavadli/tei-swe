@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.83,
+    "reasoning_soundness": 0.77,
+    "execution_accuracy": 0.74,
+    "output_integrity": 0.84
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-11276",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-14608",
+      "score": 0.88
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5840",
+      "score": 0.28
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "score": 0.3
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Failure to converge on repository-specific fixes",
+      "description": "The system can resolve some Django tasks but does not reliably translate investigation into a correct patch on other repositories.",
+      "evidence_instance_ids": [
+        "pytest-dev__pytest-5840",
+        "mwaskom__seaborn-3187"
+      ]
+    },
+    {
+      "name": "Insufficient iterative verification",
+      "description": "The strict single-action workflow supports controlled execution, but the unresolved probes indicate that investigation, editing, and validation do not consistently converge on passing behavior.",
+      "evidence_instance_ids": [
+        "pytest-dev__pytest-5840",
+        "mwaskom__seaborn-3187"
+      ]
+    },
+    {
+      "name": "Brittle cross-repository generalization",
+      "description": "The recorded outcomes show successful handling of both Django probes but failures on the pytest and seaborn probes, suggesting weaknesses that emerge across different codebase conventions and test ecosystems.",
+      "evidence_instance_ids": [
+        "pytest-dev__pytest-5840",
+        "mwaskom__seaborn-3187"
+      ]
+    }
+  ],
+  "why": "The default system officially resolves 70.8% of verified SWE-bench instances, so its aggregate capability is substantial but clearly not near-perfect. The fixed probes reinforce that split: both Django instances resolved, while the pytest and seaborn instances remained unresolved; the prompt and completion infrastructure support disciplined tool use and output handling, but execution accuracy is the main limiting factor.",
+  "aggregate": 0.795,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-11276",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-14608",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5840",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  }
+}

@@ -1,0 +1,25 @@
+From efce5b0daa51946ea4528b9dc8c904b34eebeddb Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:04:08 -0700
+Subject: [PATCH 14/24] tei-v7 prompt-01: Contract-to-code scope map
+
+---
+ src/agent/prompt/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/agent/prompt/__init__.py b/src/agent/prompt/__init__.py
+index 9ca76f9..f51f865 100644
+--- a/src/agent/prompt/__init__.py
++++ b/src/agent/prompt/__init__.py
+@@ -3,7 +3,7 @@ from .mam import (
+ )
+ ISSUE_RESOLVE_MAM_SYSTEM_PROMPT = _BASE_MAM_SYSTEM_PROMPT + """
+ 
+-For framework-heavy issues, synthesize a causal model before selecting a patch: input and state transitions, framework hook/dispatch order, version or compatibility branches, and the exact point where observed behavior diverges from the contract. Require an evidence table containing claim, source location, version branch, counterexample, and consequence. For each competing explanation, name a discriminating source inspection or minimal reproduction and perform it; majority vote and historical similarity are not evidence. Reject any proposed fix that does not explain both the failing path and preserved neighboring behavior.
++Before proposing a patch, convert the issue into an explicit behavioral contract: triggering inputs, expected output or state, actual output or state, relevant version and compatibility constraints, and preserved behavior that must not change. Build a ranked scope map of repository files and symbols, including callers, callees, framework hooks, tests, configuration, and documentation that may define the contract. For every included file, cite inspected evidence and the behavior it controls; record plausible files searched and excluded with the reason for exclusion. Trace the failing execution path end to end and identify the smallest justified patch surface. Do not edit until the contract, scope map, and failure-path trace are mutually consistent.
+ """
+ from .context_manager import RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT as _BASE_RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT
+ RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT = _BASE_RELEVANT_FILE_EXPLANATION_SYSTEM_PROMPT + """
+-- 
+2.39.5 (Apple Git-154)
+

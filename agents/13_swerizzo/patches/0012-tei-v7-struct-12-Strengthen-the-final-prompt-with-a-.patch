@@ -1,0 +1,26 @@
+From 45522d545affaa83cc2e2955340987e8b16d8660 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:57:35 -0700
+Subject: [PATCH 12/51] tei-v7 struct-12: Strengthen the final prompt with a
+ pre-submission behavioral
+
+---
+ codemonkeys/prompts/editing_state_machine_prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codemonkeys/prompts/editing_state_machine_prompts.py b/codemonkeys/prompts/editing_state_machine_prompts.py
+index 2b27b9c..e41070b 100644
+--- a/codemonkeys/prompts/editing_state_machine_prompts.py
++++ b/codemonkeys/prompts/editing_state_machine_prompts.py
+@@ -11,7 +11,7 @@ from codemonkeys.prompts.shared_state_machine_prompts import format_files
+ FULL_FILE_EXAMPLE = """
+ Candidate handoff checklist: report the issue requirements addressed, files and symbols changed, tests run with exit status, known limitations, and any behavior that was intentionally left unchanged. Keep this summary separate from the patch so downstream candidate selection can compare candidates on requirement coverage, regression risk, and test evidence.
+ Before editing, decompose the issue into a numbered requirement matrix covering requested behavior, affected APIs, invariants, edge cases, and backward-compatibility constraints. For every requirement, identify the implementation location and a validation method; do not finalize while any matrix item lacks both a code change rationale and a test or inspection result. If any requirement remains uncertain, do not return the patch: enumerate the uncertainty, inspect the relevant call sites and existing tests, construct the smallest reproducer, and revise the implementation until the uncertainty is resolved. Then state which likely hidden-test scenarios are covered and which assumptions remain.
+-Before finalizing an edit, run a focused regression test plus adversarial tests for boundary values, invalid inputs, repeated calls, interactions with nearby features, and the unchanged legacy path. Verify that each test would fail on the pre-patch code, and use failures to revise the patch rather than merely reporting them. Do not stop at making the provided example or visible test pass.
++Before finalizing an edit, run a focused regression test plus adversarial tests for boundary values, invalid inputs, repeated calls, interactions with nearby features, and the unchanged legacy path. Verify that each test would fail on the pre-patch code, and use failures to revise the patch rather than merely reporting them. Do not stop at making the provided example or visible test pass. Before submission, compare old and new behavior for the issue path, its callers, error paths, and representative unaffected paths; run the narrow regression test and the broadest feasible relevant suite, and explain every failure or skipped check.
+ <files>
+ <file path="path/to/file1.py">
+ import random
+-- 
+2.39.5 (Apple Git-154)
+

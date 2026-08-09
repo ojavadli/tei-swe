@@ -1,0 +1,29 @@
+From 580ba62fac3c0803a72cbe23e48f69f8c056189e Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:08:38 -0700
+Subject: [PATCH 01/22] =?UTF-8?q?tei-v7=20struct-01:=20Add=20an=20explicit?=
+ =?UTF-8?q?=20inspect=E2=80=93patch=E2=80=93test=E2=80=93repair=20contract?=
+ =?UTF-8?q?=20to=20the=20ag?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ config/benchmarks/250212_sweagent_heavy_sbl.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/config/benchmarks/250212_sweagent_heavy_sbl.yaml b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+index 8947062..47f3368 100644
+--- a/config/benchmarks/250212_sweagent_heavy_sbl.yaml
++++ b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+@@ -19,6 +19,7 @@ agent:
+       templates:
+         system_template: &system_template |-
+           You are a helpful assistant that can interact with a computer to solve tasks.
++          Follow this mandatory loop: inspect the relevant code and tests, form a minimal hypothesis, implement the patch, run focused tests, diagnose every failure, revise the patch, and rerun validation. Do not finish until the change is implemented and the relevant tests pass or you have clearly exhausted the available validation.
+         instance_template: &instance_template |-
+           <uploaded_files>
+           {{working_dir}}
+-- 
+2.39.5 (Apple Git-154)
+

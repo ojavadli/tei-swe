@@ -1,0 +1,46 @@
+From 122e464baa1a72ef9e9fbff9af762e9572d146b4 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:40:54 -0700
+Subject: [PATCH 15/27] tei-v7 struct-18: Prompt-template format normalization
+
+---
+ patchwork/steps/PreparePrompt/PreparePrompt.py | 12 +++++++++---
+ tei/candidates.jsonl                           |  1 +
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/patchwork/steps/PreparePrompt/PreparePrompt.py b/patchwork/steps/PreparePrompt/PreparePrompt.py
+index 3596ce3..66cc17a 100644
+--- a/patchwork/steps/PreparePrompt/PreparePrompt.py
++++ b/patchwork/steps/PreparePrompt/PreparePrompt.py
+@@ -19,10 +19,16 @@ def _find_by_prompt_template_file(prompt_template_file: str | None, prompt_id: s
+         return None
+ 
+     try:
+-        with open(prompt_template_file, "r") as fp:
++        with open(prompt_template_file, "r", encoding="utf-8") as fp:
+             prompt_templates = json.load(fp)
+-    except json.JSONDecodeError as e:
+-        logger.warning(f"Invalid Json at PromptTemplateFile[{prompt_template_file}]")
++    except (OSError, json.JSONDecodeError) as e:
++        logger.warning(f"Unable to load PromptTemplateFile[{prompt_template_file}]: {e}")
++        return None
++
++    if isinstance(prompt_templates, dict):
++        prompt_templates = prompt_templates.get("prompts", [prompt_templates])
++    if not isinstance(prompt_templates, list):
++        logger.warning(f"PromptTemplateFile[{prompt_template_file}] must contain a list or prompt object")
+         return None
+ 
+     prompt_templates = next((prompt for prompt in prompt_templates if prompt.get("id") == prompt_id), None)
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index 0ba8c4e..0852b37 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -14,3 +14,4 @@
+ {"version_id": "struct-14", "phase": "structural", "technique": "Transactional edit-and-verify agent protocol", "target_failure_mode": "Unreliable multi-step patch execution", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/agentic_strategy.py", "find": "        if not self.history:\n            self.history.append({\n                \"role\": \"system\",\n                \"content\": \"Work repository-first: inspect the target repository's conventions, neighboring implementations, tests, and supported versions before editing. Prefer the smallest compatible patch and verify it with focused tests.\"\n            })", "replace": "        if not self.history:\n            self.history.append({\n                \"role\": \"system\",\n                \"content\": \"Execute as a transaction: (1) inspect and reproduce the issue, (2) identify the smallest change, (3) apply the edit, (4) reread the diff and affected files, (5) run focused tests or an explicit substitute, and (6) only then report completion. After every tool result, check w"}, "dimensions": {"target_alignment": 0.63, "reasoning_soundness": 0.6, "execution_accuracy": 0.53, "output_integrity": 0.6}, "aggregate": 0.59, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.81}, {"instance_id": "sympy__sympy-15011", "score": 0.79}, {"instance_id": "django__django-11001", "score": 0.23}, {"instance_id": "django__django-11910", "score": 0.21}], "score_label": "PROXY", "decision": "proposed_not_applied", "apply_note": "find-block matched 0x (need exactly 1)", "delta_vs_baseline": 0.0425, "why": "The transactional sequence adds reproduction, minimal-edit discipline, diff rereading, and focused testing, making it the strongest direct intervention for unreliable multi-step execution. The protocol is somewhat prompt-dependent and cannot fully solve repository misdiagnosis."}
+ {"version_id": "struct-15", "phase": "structural", "technique": "Evidence-gated plan completion", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "output_integrity", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "    @property\n    def completion_is_credible(self) -> bool:\n        return not self.is_plan_completed or bool(self.validation_evidence.strip())", "replace": "    @property\n    def completion_is_credible(self) -> bool:\n        if not self.is_plan_completed:\n            return True\n        evidence = self.validation_evidence.strip().lower()\n        required_markers = (\"file\", \"change\", \"test\", \"diff\", \"validation\")\n        return bool(evidence) and any(marker in evidence for marker in required_markers)"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.57, "execution_accuracy": 0.46, "output_integrity": 0.55}, "aggregate": 0.55, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.78}, {"instance_id": "sympy__sympy-15011", "score": 0.76}, {"instance_id": "django__django-11001", "score": 0.18}, {"instance_id": "django__django-11910", "score": 0.16}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0025, "why": "The completion check is weak because it accepts evidence containing any one of several generic markers rather than requiring meaningful validation. It adds little protection and can create false confidence, so scores remain essentially at baseline."}
+ {"version_id": "struct-16", "phase": "structural", "technique": "Strict execution-result serialization", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "output_integrity", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "    @field_validator(\"json_data\")\n    @classmethod\n    def json_data_must_not_be_blank(cls, value: str) -> str:\n        if not value.strip():\n            raise ValueError(\"json_data must contain the execution result\")\n        return value", "replace": "    @field_validator(\"json_data\")\n    @classmethod\n    def json_data_must_be_valid_object(cls, value: str) -> str:\n        if not value.strip():\n            raise ValueError(\"json_data must contain the execution result\")\n        try:\n            parsed = json.loads(value)\n        except JSONDecodeError as exc:\n            raise ValueError(\"json_data must contain valid JSON\") from exc\n        if no"}, "dimensions": {"target_alignment": 0.61, "reasoning_soundness": 0.56, "execution_accuracy": 0.45, "output_integrity": 0.62}, "aggregate": 0.56, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.19}, {"instance_id": "django__django-11910", "score": 0.17}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0125, "why": "Strict JSON parsing and object validation materially improve serialization reliability and make execution results harder to omit or corrupt. The object-only constraint may reject otherwise usable result forms, slightly harming execution flexibility and offering no meaningful target or reasoning improvement."}
++{"version_id": "struct-17", "phase": "structural", "technique": "Step-level validation evidence propagation", "target_failure_mode": "Insufficient completion or validation of final changes", "expected_dimension": "execution_accuracy", "evidence_instance_ids": ["sympy__sympy-20154", "sympy__sympy-15011", "django__django-11001", "django__django-11910"], "patch_or_prompt": {"file": "patchwork/common/multiturn_strategy/planning_strategy.py", "find": "class StepCompletedResult(BaseModel):\n    is_step_completed: bool", "replace": "class StepCompletedResult(BaseModel):\n    is_step_completed: bool\n    validation_evidence: str = \"\"\n\n    @property\n    def completion_is_credible(self) -> bool:\n        return not self.is_step_completed or bool(self.validation_evidence.strip())"}, "dimensions": {"target_alignment": 0.62, "reasoning_soundness": 0.57, "execution_accuracy": 0.48, "output_integrity": 0.58}, "aggregate": 0.5625, "probe_scores": [{"instance_id": "sympy__sympy-20154", "score": 0.79}, {"instance_id": "sympy__sympy-15011", "score": 0.77}, {"instance_id": "django__django-11001", "score": 0.19}, {"instance_id": "django__django-11910", "score": 0.17}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.015, "why": "Requiring nonempty evidence for completed steps is a useful but shallow guard against unsupported completion claims. It improves handoff integrity modestly, while the lack of evidence quality checks limits gains in execution and validation."}
+-- 
+2.39.5 (Apple Git-154)
+

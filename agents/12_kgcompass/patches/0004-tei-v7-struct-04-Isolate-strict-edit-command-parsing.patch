@@ -1,0 +1,45 @@
+From 6df235c9c88b65c4c994fb3d21ba17082a8c8f16 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:36:59 -0700
+Subject: [PATCH 04/28] tei-v7 struct-04: Isolate strict edit-command parsing
+ failures behind a non-cr
+
+---
+ kgcompass/repair.py  | 9 ++++++++-
+ tei/candidates.jsonl | 1 +
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/kgcompass/repair.py b/kgcompass/repair.py
+index b22d14d..278b7fe 100644
+--- a/kgcompass/repair.py
++++ b/kgcompass/repair.py
+@@ -17,10 +17,17 @@ from utils import (
+     format_entity_content,
+     extract_python_blocks,
+     split_edit_multifile_commands,
+-    parse_diff_edit_commands_strict,
++    parse_diff_edit_commands_strict as _parse_diff_edit_commands_strict,
+     check_syntax,
+     applable_patch,
+ )
++
++def parse_diff_edit_commands_strict(*args, **kwargs):
++    try:
++        return _parse_diff_edit_commands_strict(*args, **kwargs)
++    except (ValueError, TypeError, IndexError):
++        return []
++
+ from benchmark import create_benchmark_manager
+ 
+ 
+diff --git a/tei/candidates.jsonl b/tei/candidates.jsonl
+index dd54260..0ed704c 100644
+--- a/tei/candidates.jsonl
++++ b/tei/candidates.jsonl
+@@ -1,2 +1,3 @@
+ {"version_id": "struct-01", "phase": "structural", "technique": "Search all KG-location layouts instead of assuming one exact directory depth", "target_failure_mode": "Fault-localization or context-selection misses", "expected_dimension": "target_alignment", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "kg_location_files = glob.glob(f\"tests/{self.instance_id}_*/kg_locations/{self.instance_id}.json\")", "replace": "kg_location_files = sorted(set(\n            glob.glob(f\"tests/{self.instance_id}_*/kg_locations/{self.instance_id}.json\")\n            + glob.glob(f\"tests/**/{self.instance_id}.json\", recursive=True)\n            + glob.glob(f\"**/kg_locations/{self.instance_id}.json\", recursive=True)\n        ))"}, "dimensions": {"target_alignment": 0.73, "reasoning_soundness": 0.63, "execution_accuracy": 0.59, "output_integrity": 0.65}, "aggregate": 0.65, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.92}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.29}, {"instance_id": "django__django-11964", "score": 0.25}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0225, "why": "Broadening KG-location discovery directly addresses context-selection failures and should recover layouts missed by the fixed path assumption. The recursive searches add some false-positive and performance risk, so the gains are meaningful but limited."}
+ {"version_id": "struct-02", "phase": "structural", "technique": "Make the localization API client retry transient failures and tolerate slow responses", "target_failure_mode": "Fault-localization or context-selection misses", "expected_dimension": "target_alignment", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "self.client = openai.OpenAI(api_key=BAILIAN_API_KEY, base_url=DEEPSEEK_BASE_URL)", "replace": "self.client = openai.OpenAI(\n            api_key=BAILIAN_API_KEY,\n            base_url=DEEPSEEK_BASE_URL,\n            max_retries=4,\n            timeout=180.0,\n        )"}, "dimensions": {"target_alignment": 0.7, "reasoning_soundness": 0.63, "execution_accuracy": 0.58, "output_integrity": 0.65}, "aggregate": 0.64, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.91}, {"instance_id": "django__django-12747", "score": 0.91}, {"instance_id": "django__django-13768", "score": 0.23}, {"instance_id": "django__django-11964", "score": 0.22}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": 0.0125, "why": "Retries and a longer timeout improve resilience to transient localization-service failures, but do not improve localization quality or patch correctness. The additional waiting can also make orchestration less efficient."}
++{"version_id": "struct-03", "phase": "structural", "technique": "Convert JSON-extraction exceptions into an explicit empty result rather than aborting orchestration", "target_failure_mode": "Brittle output and orchestration handling", "expected_dimension": "output_integrity", "evidence_instance_ids": ["django__django-15213", "django__django-12747", "django__django-13768", "django__django-11964"], "patch_or_prompt": {"file": "kgcompass/llm_loc.py", "find": "from utils import get_commit_method_by_signature, extract_json_code, create_github_client", "replace": "from utils import get_commit_method_by_signature, extract_json_code as _extract_json_code, create_github_client\n\ndef extract_json_code(text):\n    try:\n        return _extract_json_code(text)\n    except (ValueError, TypeError, json.JSONDecodeError):\n        return {}"}, "dimensions": {"target_alignment": 0.68, "reasoning_soundness": 0.6, "execution_accuracy": 0.56, "output_integrity": 0.66}, "aggregate": 0.625, "probe_scores": [{"instance_id": "django__django-15213", "score": 0.9}, {"instance_id": "django__django-12747", "score": 0.9}, {"instance_id": "django__django-13768", "score": 0.21}, {"instance_id": "django__django-11964", "score": 0.21}], "score_label": "PROXY", "decision": "applied", "apply_note": "applied+committed", "delta_vs_baseline": -0.0025, "why": "Returning an empty object prevents JSON extraction failures from aborting the run and modestly improves orchestration integrity. However, it silently converts malformed model output into missing context, which can weaken reasoning and leave failed probes unresolved."}
+-- 
+2.39.5 (Apple Git-154)
+

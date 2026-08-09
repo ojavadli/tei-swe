@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.59,
+    "reasoning_soundness": 0.55,
+    "execution_accuracy": 0.46,
+    "output_integrity": 0.62
+  },
+  "probe_scores": [
+    {
+      "instance_id": "sympy__sympy-16450",
+      "score": 0.82
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24627",
+      "score": 0.8
+    },
+    {
+      "instance_id": "django__django-17084",
+      "score": 0.2
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9281",
+      "score": 0.18
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incorrect or incomplete code repair",
+      "description": "The system fails to produce a patch that resolves the issue on some repositories, indicating weak end-to-end repair accuracy.",
+      "evidence_instance_ids": [
+        "django__django-17084",
+        "sphinx-doc__sphinx-9281"
+      ]
+    },
+    {
+      "name": "Insufficient issue-to-code alignment",
+      "description": "Unresolved instances suggest that localization or interpretation of the requested behavioral change is not consistently reliable across projects.",
+      "evidence_instance_ids": [
+        "django__django-17084",
+        "sphinx-doc__sphinx-9281"
+      ]
+    },
+    {
+      "name": "Fragile generated-edit pipeline",
+      "description": "The repair path depends on extracting and splitting structured Python edit commands, so failures in producing applicable edits can prevent otherwise plausible reasoning from becoming a valid repository patch.",
+      "evidence_instance_ids": [
+        "django__django-17084",
+        "sphinx-doc__sphinx-9281"
+      ]
+    }
+  ],
+  "why": "The archive shows only two of four fixed probes resolved, consistent with the system's broader 41.2% verified resolve rate rather than near-perfect performance. The two successful probes support moderately strong capability, but the Django and Sphinx failures indicate substantial weaknesses in alignment and, most clearly, executable patch correctness.",
+  "aggregate": 0.555,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "sympy__sympy-16450",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24627",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-17084",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9281",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": false,
+    "needs_gpu": true,
+    "tier": "PROXY",
+    "reason": "gpu/local-weights required"
+  }
+}

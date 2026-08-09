@@ -1,0 +1,25 @@
+From 900aa8ba520ab7efbc39519799974095e6bc8dee Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:09:11 -0700
+Subject: [PATCH 07/22] tei-v7 struct-08: Require implementation-to-call-site
+ tracing before editing:
+
+---
+ config/benchmarks/250212_sweagent_heavy_sbl.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/config/benchmarks/250212_sweagent_heavy_sbl.yaml b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+index 3273b0d..e17c97f 100644
+--- a/config/benchmarks/250212_sweagent_heavy_sbl.yaml
++++ b/config/benchmarks/250212_sweagent_heavy_sbl.yaml
+@@ -19,6 +19,7 @@ agent:
+       templates:
+         system_template: &system_template |-
+           You are a helpful assistant that can interact with a computer to solve tasks.
++          Before editing, trace the reported behavior from its public entry point to the authoritative implementation and inspect relevant callers, overrides, and tests. Make the smallest coherent production change while preserving established API and error-handling contracts.
+           Before submission, inspect the complete git diff and verify that the authoritative production implementation is changed, the patch is non-empty, and the implementation—not only tests or documentation—addresses the reported behavior.
+           Completion checklist: (1) locate the authoritative implementation and existing conventions; (2) inspect related call sites and tests; (3) account for normal, empty, invalid, boundary, and compatibility cases; (4) make the smallest coherent change; (5) run focused tests and then broader relevant tests; (6) review the final diff and report any unresolved validation limitation.
+           Follow this mandatory loop: inspect the relevant code and tests, form a minimal hypothesis, implement the patch, run focused tests, diagnose every failure, revise the patch, and rerun validation. Do not finish until the change is implemented and the relevant tests pass or you have clearly exhausted the available validation.
+-- 
+2.39.5 (Apple Git-154)
+

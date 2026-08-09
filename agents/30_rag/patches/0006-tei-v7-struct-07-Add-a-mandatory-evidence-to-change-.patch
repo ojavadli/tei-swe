@@ -1,0 +1,26 @@
+From becd5372179c46d0e83714558dd4fa3220a70116 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:56 -0700
+Subject: [PATCH 06/12] tei-v7 struct-07: Add a mandatory evidence-to-change
+ workflow before editing:
+
+---
+ swebench/inference/run_api.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/swebench/inference/run_api.py b/swebench/inference/run_api.py
+index 9b10b5d..eda4757 100755
+--- a/swebench/inference/run_api.py
++++ b/swebench/inference/run_api.py
+@@ -16,7 +16,7 @@ import tiktoken
+ import openai
+ from anthropic import HUMAN_PROMPT as _HUMAN_PROMPT, AI_PROMPT as _AI_PROMPT, Anthropic
+ 
+-HUMAN_PROMPT = _HUMAN_PROMPT + "\n\n[BEGIN SWE-BENCH TASK]\n"
++HUMAN_PROMPT = _HUMAN_PROMPT + "\n\n[BEGIN SWE-BENCH TASK]\n\nWORKFLOW REQUIREMENTS:\n1. Extract the requested behavior and every acceptance criterion.\n2. Locate the relevant implementation, callers, and existing tests using repository evidence.\n3. State the smallest supported root-cause hypothesis before editing.\n4. Make the minimal production change, preserving established APIs and conventions.\n5. Validate each criterion with focused tests before producing the final patch.\n"
+ AI_PROMPT = "\n[END SWE-BENCH TASK]\n" + _AI_PROMPT
+ from tenacity import retry as _retry, stop_after_attempt, wait_random_exponential
+ 
+-- 
+2.39.5 (Apple Git-154)
+

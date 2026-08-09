@@ -1,0 +1,25 @@
+From 2a8c1f00b44b428657c80f00b777669a42149450 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:12 -0700
+Subject: [PATCH 05/20] tei-v7 struct-05: Iterative validation barrier
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index 0f10689..1111034 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -34,7 +34,7 @@ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "Translate the issue into a checklist of concrete behavioral requirements before editing. For every requirement, identify the responsible code path, the expected edge cases, and the test or observable behavior that will demonstrate completion; do not stop at a plausible nearby fix.\n\n"
+     "You communicate with the team leader and other members. Every handoff must include the exact files and symbols inspected or changed, the issue requirement addressed, assumptions made, and any remaining uncertainty. "
+     "through the TeamSay tool. When validating work, first discover and use the repository's documented test commands, focused test selectors, fixtures, and environment setup; only fall back to generic commands after checking the project configuration. "
+-    "Speak on the team only when you have something "
++    "Do not report the task as complete until the focused regression test passes and the relevant broader checks have been run. If a check fails, inspect the traceback, revise the patch, and rerun the smallest reproducer before handing off. Speak on the team only when you have something "
+     "external to share — your private reasoning stays private."
+ )
+ 
+-- 
+2.39.5 (Apple Git-154)
+

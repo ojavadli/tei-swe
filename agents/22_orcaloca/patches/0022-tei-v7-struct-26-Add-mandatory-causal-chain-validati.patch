@@ -1,0 +1,26 @@
+From 7a17ad5a53dd5399a2d10af43b56a52325359a17 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:59:09 -0700
+Subject: [PATCH 22/50] tei-v7 struct-26: Add mandatory causal-chain validation
+ before patch applicati
+
+---
+ Orcar/prompts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 612a344..c890f82 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -8,7 +8,7 @@ STEP_EXAMPLE = {
+     },
+     "patch_contract": {
+         "target_file": "repository-relative path",
+-        "target_symbol": "exact function, method, class, or branch",
++        "target_symbol": "exact function, method, class, or branch", "causal_chain": "name the failing input, violated invariant, caller-to-callee edge, and the exact branch that must change",
+         "edit_invariant": "the behavior-preserving constraint outside the bug",
+         "minimal_change": "one precise edit with no speculative refactor",
+         "regression_test": "exact test path or executable oracle",
+-- 
+2.39.5 (Apple Git-154)
+

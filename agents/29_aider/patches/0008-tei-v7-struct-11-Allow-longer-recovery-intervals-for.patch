@@ -1,0 +1,26 @@
+From a894b52a3fd7497d027679ec814ceddf4951c455 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:14:28 -0700
+Subject: [PATCH 8/9] tei-v7 struct-11: Allow longer recovery intervals for
+ transient model and test
+
+---
+ aider/models.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/aider/models.py b/aider/models.py
+index e98282b..d5b0d93 100644
+--- a/aider/models.py
++++ b/aider/models.py
+@@ -23,7 +23,7 @@ from aider.openrouter import OpenRouterModelManager
+ from aider.sendchat import ensure_alternating_roles, sanity_check_messages
+ from aider.utils import check_pip_install_extra
+ 
+-RETRY_TIMEOUT = int(os.environ.get("AIDER_RETRY_TIMEOUT", "180"))
++RETRY_TIMEOUT = int(os.environ.get("AIDER_RETRY_TIMEOUT", "300"))
+ 
+ request_timeout = int(os.environ.get("AIDER_REQUEST_TIMEOUT", "1200"))
+ 
+-- 
+2.39.5 (Apple Git-154)
+

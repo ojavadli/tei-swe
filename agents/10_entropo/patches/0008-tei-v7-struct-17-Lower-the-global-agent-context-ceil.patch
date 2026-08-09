@@ -1,0 +1,26 @@
+From bb336f0564474811b9d0e1c6814107fd357232af Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:17:01 -0700
+Subject: [PATCH 08/17] tei-v7 struct-17: Lower the global agent context
+ ceiling to avoid hard-limit d
+
+---
+ src/r2egym/agenthub/agent/agent.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/agent/agent.py b/src/r2egym/agenthub/agent/agent.py
+index 251765e..6d47813 100644
+--- a/src/r2egym/agenthub/agent/agent.py
++++ b/src/r2egym/agenthub/agent/agent.py
+@@ -28,7 +28,7 @@ from r2egym.agenthub.tools import (
+ )
+ import traceback
+ logger = get_logger(__name__)  # Logger for this module
+-MAX_CONTEXT_TOKENS = 48000
++MAX_CONTEXT_TOKENS = 40000
+ 
+ ##############################################################################
+ # AgentArgs Dataclass
+-- 
+2.39.5 (Apple Git-154)
+

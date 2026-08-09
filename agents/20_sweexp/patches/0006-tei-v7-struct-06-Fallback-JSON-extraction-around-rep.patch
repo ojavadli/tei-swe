@@ -1,0 +1,41 @@
+From e97b863ba2495028e965127accdea710b3b025ea Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:15:40 -0700
+Subject: [PATCH 06/11] tei-v7 struct-06: Fallback JSON extraction around
+ repaired model output
+
+---
+ moatless/experience/exp_agent/exp_agent.py | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/moatless/experience/exp_agent/exp_agent.py b/moatless/experience/exp_agent/exp_agent.py
+index c048f19..e561457 100644
+--- a/moatless/experience/exp_agent/exp_agent.py
++++ b/moatless/experience/exp_agent/exp_agent.py
+@@ -10,7 +10,22 @@ load_dotenv(os.path.join(PROJECT_ROOT, ".env"), override=False)
+ import re
+ import logging
+ import json
+-import json_repair
++import json_repair as _json_repair
++
++class _JsonRepairProxy:
++    def __getattr__(self, name):
++        return getattr(_json_repair, name)
++
++    def loads(self, text, *args, **kwargs):
++        try:
++            return _json_repair.loads(text, *args, **kwargs)
++        except Exception:
++            match = re.search(r"(?:\\{.*\\}|\\[.*\\])", text, re.DOTALL)
++            if not match:
++                raise
++            return json.loads(match.group(0))
++
++json_repair = _JsonRepairProxy()
+ from tqdm import tqdm
+ from typing import Dict, Any, List, Tuple
+ from pydantic import BaseModel, Field, PrivateAttr, model_validator, ValidationError
+-- 
+2.39.5 (Apple Git-154)
+

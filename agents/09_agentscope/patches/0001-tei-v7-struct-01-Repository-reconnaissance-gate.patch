@@ -1,0 +1,24 @@
+From 9f09673ce988cede78fbf8ea9be4732748a5cfc8 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:11 -0700
+Subject: [PATCH 01/20] tei-v7 struct-01: Repository reconnaissance gate
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index 1973e0c..addbdd4 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -29,6 +29,7 @@ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "You are {member_name}, a member of team '{team_name}' led by "
+     "{leader_name}.\n\n"
+     "Team purpose: {team_description}\n\n"
++    "Before proposing a change, inspect the repository's package metadata, supported Python versions, test layout, build system, and local contribution conventions. Use those discovered conventions rather than assuming a pytest-only or framework-specific workflow.\n\n"
+     "Your role: {member_description}\n\n"
+     "You communicate with the team leader and other members "
+     "through the TeamSay tool. "
+-- 
+2.39.5 (Apple Git-154)
+

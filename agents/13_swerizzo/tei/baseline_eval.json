@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "target_alignment": 0.82,
+    "reasoning_soundness": 0.7,
+    "execution_accuracy": 0.57,
+    "output_integrity": 0.81
+  },
+  "probe_scores": [
+    {
+      "instance_id": "django__django-15741",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-12419",
+      "score": 0.9
+    },
+    {
+      "instance_id": "django__django-12774",
+      "score": 0.2
+    },
+    {
+      "instance_id": "sympy__sympy-17630",
+      "score": 0.2
+    }
+  ],
+  "weakest_dimension": "execution_accuracy",
+  "failure_modes": [
+    {
+      "name": "Incomplete or incorrect issue fixes",
+      "description": "The system's iterative editing and testing workflow does not reliably produce a behaviorally correct patch on harder instances, as shown by unresolved outcomes.",
+      "evidence_instance_ids": [
+        "django__django-12774",
+        "sympy__sympy-17630"
+      ]
+    },
+    {
+      "name": "Insufficient test-feedback coverage",
+      "description": "Although the system explicitly generates and executes tests, the available evidence shows that this feedback loop can still fail to expose or resolve the cases required by the benchmark.",
+      "evidence_instance_ids": [
+        "django__django-12774",
+        "sympy__sympy-17630"
+      ]
+    },
+    {
+      "name": "Candidate convergence or selection failure",
+      "description": "Repeated sampling and test/model-based selection improve coverage but do not guarantee that a correct candidate is generated or selected, producing unresolved final outcomes.",
+      "evidence_instance_ids": [
+        "django__django-12774",
+        "sympy__sympy-17630"
+      ]
+    }
+  ],
+  "why": "The repository shows strong alignment with SWE-bench through relevance filtering, structured edits, iterative test execution, and candidate selection, and two of four fixed probes were resolved. However, the system's officially reported 56.6% resolve rate and the two unresolved probes indicate substantial execution and reasoning failures, so the execution dimension is the limiting factor despite relatively strong output structure and task alignment.",
+  "aggregate": 0.725,
+  "score_label": "PROXY",
+  "probes": [
+    {
+      "instance_id": "django__django-15741",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-12419",
+      "archive_outcome": "resolved"
+    },
+    {
+      "instance_id": "django__django-12774",
+      "archive_outcome": "unresolved_by_this_system"
+    },
+    {
+      "instance_id": "sympy__sympy-17630",
+      "archive_outcome": "unresolved_by_this_system"
+    }
+  ],
+  "runnability": {
+    "has_code": true,
+    "needs_docker": true,
+    "needs_gpu": false,
+    "tier": "PROXY",
+    "reason": "docker required"
+  }
+}

@@ -1,0 +1,26 @@
+From a45f36078dcaa7023b7bac84cc893b060ef525f1 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:14:28 -0700
+Subject: [PATCH 9/9] tei-v7 struct-12: Increase the per-request timeout for
+ long repository-analysi
+
+---
+ aider/models.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/aider/models.py b/aider/models.py
+index d5b0d93..6de3cb7 100644
+--- a/aider/models.py
++++ b/aider/models.py
+@@ -25,7 +25,7 @@ from aider.utils import check_pip_install_extra
+ 
+ RETRY_TIMEOUT = int(os.environ.get("AIDER_RETRY_TIMEOUT", "300"))
+ 
+-request_timeout = int(os.environ.get("AIDER_REQUEST_TIMEOUT", "1200"))
++request_timeout = int(os.environ.get("AIDER_REQUEST_TIMEOUT", "1800"))
+ 
+ DEFAULT_MODEL_NAME = "claude-3-opus"
+ ANTHROPIC_BETA_HEADER = "prompt-caching-2024-07-31,pdfs-2024-09-25"
+-- 
+2.39.5 (Apple Git-154)
+

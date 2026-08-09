@@ -1,0 +1,25 @@
+From 213ae4fa34fd61f7bdc41d43ae36c50697aa35fc Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:13:40 -0700
+Subject: [PATCH 02/17] tei-v7 struct-07: Repository boundary mapping gate
+
+---
+ agentless_lite/util/backends.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/agentless_lite/util/backends.py b/agentless_lite/util/backends.py
+index ee3ac42..974bcdc 100644
+--- a/agentless_lite/util/backends.py
++++ b/agentless_lite/util/backends.py
+@@ -15,6 +15,8 @@ from agentless_lite.util.logging import setup_logging
+ from agentless_lite.util.repair import create_diff_from_response, fake_git_repo
+ 
+ STR_REPLACE_EDITOR_DESCRIPTION = """Custom editing tool for editing files
++
++Before making any edit, build a repository boundary map containing the issue-facing entry point, defining implementation, direct callers, configuration or compatibility boundaries, and the nearest relevant tests. Select the edit location from this map, not from a first textual match.
+ * State is persistent across command calls and discussions with the user
+ 
+ Before editing, first locate the defining implementation, inspect its callers and nearby tests, and identify configuration or compatibility boundaries. Do not patch the first text match that resembles the issue.
+-- 
+2.39.5 (Apple Git-154)
+

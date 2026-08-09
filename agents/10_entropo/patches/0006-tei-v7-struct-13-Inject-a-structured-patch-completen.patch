@@ -1,0 +1,26 @@
+From c6ce35468f371729d3d741e88d3c066f79ea36db Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:17:01 -0700
+Subject: [PATCH 06/17] tei-v7 struct-13: Inject a structured
+ patch-completeness checklist into conden
+
+---
+ src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index c266b58..1a7ee58 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -22,7 +22,7 @@ def deepswe_condense_thoughts(
+ 
+     The first [USER] block is left intact.
+     """
+-    placeholder = "<Older execution history condensed: retain the task requirements and current patch; re-run the relevant regression test before making further changes.>"
++    placeholder = "<Older execution history condensed. Before finishing, verify: (1) every stated requirement is implemented, (2) all affected call sites and edge cases are covered, (3) the current diff is minimal and complete, and (4) the relevant regression test is run and passes. Retain the task requirements and current patch as authoritative.>"
+     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+ 
+     # Preserve requirement, patch, and test evidence while removing only low-value history.
+-- 
+2.39.5 (Apple Git-154)
+

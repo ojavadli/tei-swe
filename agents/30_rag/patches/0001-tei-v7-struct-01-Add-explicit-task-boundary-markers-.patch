@@ -1,0 +1,29 @@
+From 0efeed5d59a827b6413b1b757d0dfa63972a285c Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:16:20 -0700
+Subject: [PATCH 01/12] tei-v7 struct-01: Add explicit task-boundary markers to
+ the Anthropic prompt p
+
+---
+ swebench/inference/run_api.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/swebench/inference/run_api.py b/swebench/inference/run_api.py
+index 48f8304..f71e5e8 100755
+--- a/swebench/inference/run_api.py
++++ b/swebench/inference/run_api.py
+@@ -14,7 +14,10 @@ from tqdm.auto import tqdm
+ import numpy as np
+ import tiktoken
+ import openai
+-from anthropic import HUMAN_PROMPT, AI_PROMPT, Anthropic
++from anthropic import HUMAN_PROMPT as _HUMAN_PROMPT, AI_PROMPT as _AI_PROMPT, Anthropic
++
++HUMAN_PROMPT = _HUMAN_PROMPT + "\n\n[BEGIN SWE-BENCH TASK]\n"
++AI_PROMPT = "\n[END SWE-BENCH TASK]\n" + _AI_PROMPT
+ from tenacity import (
+     retry,
+     stop_after_attempt,
+-- 
+2.39.5 (Apple Git-154)
+

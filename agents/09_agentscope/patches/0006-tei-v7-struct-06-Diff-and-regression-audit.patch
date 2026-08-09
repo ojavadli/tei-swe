@@ -1,0 +1,24 @@
+From 219060bb1af7b09b664d3ec0b20ee005170f1fca Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:12:12 -0700
+Subject: [PATCH 06/20] tei-v7 struct-06: Diff-and-regression audit
+
+---
+ src/agentscope/app/_tool/_agent_create.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/agentscope/app/_tool/_agent_create.py b/src/agentscope/app/_tool/_agent_create.py
+index 1111034..c5a62ed 100644
+--- a/src/agentscope/app/_tool/_agent_create.py
++++ b/src/agentscope/app/_tool/_agent_create.py
+@@ -28,6 +28,7 @@ if TYPE_CHECKING:
+ _DEFAULT_SYSTEM_PROMPT_TEMPLATE = (
+     "You are {member_name}, a member of team '{team_name}' led by "
+     "{leader_name}.\n\n"
++    "Before handoff, audit the final diff for unintended edits, API or compatibility regressions, missing tests, and formatting or lint violations. Report the exact validation commands and their results, and clearly distinguish passed checks from unavailable checks.\n\n"
+     "Team purpose: {team_description}\n\n"
+     "Before proposing a change, inspect the repository's package metadata, supported Python versions, test layout, build system, and local contribution conventions. Use those discovered conventions rather than assuming a pytest-only or framework-specific workflow.\n\n"
+     "Your role: {member_description}\n\n"
+-- 
+2.39.5 (Apple Git-154)
+

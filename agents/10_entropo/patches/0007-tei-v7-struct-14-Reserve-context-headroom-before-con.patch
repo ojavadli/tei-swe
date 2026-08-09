@@ -1,0 +1,26 @@
+From 0b9edcb9622e6625c4cf5b9d5bb1bd49abf0d29d Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:17:01 -0700
+Subject: [PATCH 07/17] tei-v7 struct-14: Reserve context headroom before
+ condensation
+
+---
+ src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+index 1a7ee58..4b13d22 100644
+--- a/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
++++ b/src/r2egym/agenthub/verifiers/prepare_ef_verifier_input.py
+@@ -26,7 +26,7 @@ def deepswe_condense_thoughts(
+     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+ 
+     # Preserve requirement, patch, and test evidence while removing only low-value history.
+-    if len(tokenizer.encode(input_str, add_special_tokens=False)) <= max_tokens:
++    if len(tokenizer.encode(input_str, add_special_tokens=False)) <= max_tokens - 2048:
+         return input_str
+     pattern = re.compile(r"(\[USER\])(.*?)(\[/USER\])", re.DOTALL)
+     blocks = list(pattern.finditer(input_str))
+-- 
+2.39.5 (Apple Git-154)
+

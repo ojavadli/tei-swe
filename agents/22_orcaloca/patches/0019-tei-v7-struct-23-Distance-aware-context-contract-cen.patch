@@ -1,0 +1,31 @@
+From 32c659c6907b1e5d2c14fc84a40d3a9c0cbd9b0a Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 12:58:49 -0700
+Subject: [PATCH 19/50] tei-v7 struct-23: Distance-aware context contract
+ centered on the causal slice
+
+---
+ Orcar/prompts.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Orcar/prompts.py b/Orcar/prompts.py
+index 8124bdb..a229b5f 100644
+--- a/Orcar/prompts.py
++++ b/Orcar/prompts.py
+@@ -15,6 +15,13 @@ STEP_EXAMPLE = {
+         "applyability_check": "the edit must be representable as an exact file/find/replace operation"
+     },
+     "issue_model": {
++        "context_selection_contract": {
++            "must_include": ["failing entry point", "causal implementation symbol", "relevant caller/callee edge", "nearest semantic test or oracle"],
++            "may_include": ["one normalization or assumption helper", "one analogous working path"],
++            "must_exclude": ["unrelated search hits", "duplicated generated code", "generic utilities without evidence"],
++            "selection_reason": "for every retained context item, state which hypothesis it can confirm or falsify",
++            "budget_rule": "prefer a complete short causal slice over many disconnected ranked snippets"
++        },
+         "hypothesis_ledger": {
+             "leading_hypothesis": "one falsifiable causal explanation",
+             "supporting_evidence": [],
+-- 
+2.39.5 (Apple Git-154)
+

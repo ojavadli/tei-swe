@@ -1,0 +1,43 @@
+From 63c95024a365e36750d251134b025a62e3e3f6c4 Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:03:07 -0700
+Subject: [PATCH 05/13] tei-v7 struct-05: Retry transient model/API failures
+ before exposing a failed
+
+---
+ utils/oai.py | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
+
+diff --git a/utils/oai.py b/utils/oai.py
+index 76e8d11..15f4710 100755
+--- a/utils/oai.py
++++ b/utils/oai.py
+@@ -45,12 +45,19 @@ def get_model_prediction(client, input_text, system_prompt=None, timeout=300, te
+                     },
+                     {"role": "user", "content": input_text},
+                 ]
+-            response = client.chat.completions.create(
+-                model=model_name,
+-                messages=message,
+-                temperature=temp,
+-                top_p=1,
+-            )
++            for attempt in range(3):
++                try:
++                    response = client.chat.completions.create(
++                        model=model_name,
++                        messages=message,
++                        temperature=temp,
++                        top_p=1,
++                        timeout=timeout,
++                    )
++                    break
++                except Exception:
++                    if attempt == 2:
++                        raise
+             draft = response.choices[0].message.content
+             review = client.chat.completions.create(
+                 model=model_name,
+-- 
+2.39.5 (Apple Git-154)
+

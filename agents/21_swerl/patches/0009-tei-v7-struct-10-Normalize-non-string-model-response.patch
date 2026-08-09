@@ -1,0 +1,25 @@
+From 78079c27ee6dc12f174ff268d4d70fb807b64ccd Mon Sep 17 00:00:00 2001
+From: Orkhan Javadli <ojavadli@gmail.com>
+Date: Sat, 8 Aug 2026 13:18:45 -0700
+Subject: [PATCH 09/10] tei-v7 struct-10: Normalize non-string model responses
+ before extraction
+
+---
+ src/swerl/agentless_mini/repair.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/swerl/agentless_mini/repair.py b/src/swerl/agentless_mini/repair.py
+index 5834b9e..ed1bbf9 100644
+--- a/src/swerl/agentless_mini/repair.py
++++ b/src/swerl/agentless_mini/repair.py
+@@ -20,6 +20,7 @@ _primary_extract_python_blocks = utils.data.extract_python_blocks
+ 
+ 
+ def _resilient_extract_python_blocks(raw_output: str):
++    raw_output = "" if raw_output is None else str(raw_output)
+     try:
+         commands = _primary_extract_python_blocks(raw_output)
+     except Exception:
+-- 
+2.39.5 (Apple Git-154)
+
