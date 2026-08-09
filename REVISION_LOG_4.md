@@ -1,0 +1,18 @@
+# REVISION_LOG_4 — style-and-consistency pass (GEPA/GPA exemplars)
+
+Spend: **$0 LLM** (two exemplar-PDF reads; zero web fetches needed).
+
+| Step | Landed |
+|---|---|
+| 1 exemplar pattern | GEPA.pdf + GPA.pdf read; extracted arc (context→insight→method+mechanism→quantified results vs named baselines→release; flowing prose; no citations in abstract; numbered contributions in intro). |
+| 2 abstract | Rewritten GEPA-shaped, ≈212 words, zero `\citep` inside, flowing prose, mandated content order; cost states accounting rate + honest mixed-model list-price BOUND (\swCostListLo–\swCostListHi), never the all-Luna point; comparison clause uses "hundreds to thousands of executed rollouts per single benchmark where counts are reported" and "our review … found no comparable placebo-plus-blinded validation"; banned "less than a single executed optimization run" removed. |
+| 3 intro | New opening: field practice + the population-owner gap BEFORE any TEI numbers; "price of a sandwich" removed; contributions already explicit/numbered (GPA-style) — item 1 recalibrated per 4a; main claim everywhere = cheap population-scale bias-controlled optimization+validation, never end-task SWE-bench gains. |
+| 4a | Contributions: → "a supplementary cross-provider check replicated the placebo separation but not the overall patch-preference effect (Appendix)". |
+| 4b | Discussion: "improves real third-party agents"→"optimizes and validates … at a population scale and cost no contemporary optimizer reports"; "improvement is a property of the code"→"the blinded preference for its patches is a property of the changed code rather than of its narrative". |
+| 4c | Universal-absence → "our review of the compared systems' papers found no comparable placebo-plus-blinded validation of the selection signal" (abstract + §Compare prose). |
+| 4d | Final "second family" sweep: methods line fixed; TEI_SWEBENCH_REPORT.md occurrence fixed; grep-clean. |
+| 4e | "raised/improved all 30" → "rubric scores increased across all 30 optimization trajectories; 26 systems received shipped changes" (abstract, intro, conclusion); patched-code language reserved for the 26. |
+| 4f | All "credentialed storage"/"anonymous 403" claims removed; §set states exactly what the unsigned downloader retrieved per the logs: **1,874 trajectory files across six of nine attempted submissions + 300 in the initial verification; three submissions uploaded none** (first draft said 2,173 — corrected against the logs before compile). |
+| 5 costs | Single source = ledger table. §Compare prose: \swCallsAll (1,271) + list-bound + \swLLMTotal; §Repro: \swCallsAll calls, \swLLMTotal ($14.12) @ accounting, \swLLMTotalCons ($28.24) 2× bound, list bound $1.52–$15.20, + $2.49 execution arm; stale \swCostNom/\swCalls usages in body eliminated; new macros swCallsAll/swLunaCalls(1,071)/swLLMTotalCons emitted from the same STAGES structure the table prints — abstract cost reproducible by calculator from Table spend. |
+| 6 release sync | README rewritten to mirror the new abstract's opening + comparison sentences and a 3-line cost ledger; canonical convention retained; links to placebo/random/blinded datasets + comparison_qualification.md present; tei-loop README verified already canonical (1 match, no stale "Improving 26/26"). Repo matches PDF: RELEASE_CHECKSUM `32ac7d81…`, local ≡ release. |
+| 7 ship | `consistency_audit.py` extended with the banned-phrase list (scoped to live claim surfaces; REVISION_LOGs may quote history) — it caught 1 live straggler (report file "second judge family") before ship; compile 0 errors / 0 undefined; **audit PASSED over 7 surfaces**; pushed @ e648cc0. |
