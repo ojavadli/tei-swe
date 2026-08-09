@@ -89,3 +89,28 @@ missing canonical sentence) — caught one real regression during this pass (a
 stale TEI-SWE.pdf produced by a `grep -c … && cp` short-circuit) before it
 could ship. Final compile: **0 errors, 0 undefined, 0 PENDING/?? markers**,
 89 pages; release checksum recorded; secrets audit clean.
+
+## Addendum — abstract value pass (2026-08-09, $0 LLM)
+
+**Step-0 qualification** (full record: `comparison_qualification.md`, quotes +
+URLs): kept GEPA, MIPROv2, Maestro, ACE; **added HiveMind/CG-OPO**
+(arXiv:2512.06432, AAAI 2026 — 1 own-scaffold scenario, no $ reported, no
+controls); **dropped PromptWizard** ("across 45 tasks" — wins a naive
+coverage-count read, so TEI does not beat it on every shown axis) and
+**MetaSPO** (own paper unverifiable; appears only as a baseline in SePO).
+
+**Abstract** rewritten in the mandated 6-step order (≈246 words): cost hook
+with both ledgers → stacked deliverables → canonical sentence verbatim + sham
+(calibrated gloss) + random-arm + VERIFIED do-no-harm → qualified-comparator
+sentence (coverage / cost profile / controls only; no quality deltas) →
+mid-flow scoping clause → release close with `tei_audit` one-liner.
+
+**Comparison table**: 7 columns (HiveMind added, verbatim-quote discipline;
+evidence row now uses the canonical pre/post pairing; cost row corrected to
+\swLLMTotal; caption points to the qualification file). `hivemind2026` bib
+entry with the fetched author list.
+
+**Mirrors**: README carries the abstract's first + comparison sentences;
+repo description updated. Consistency audit PASSED over 7 surfaces; compile
+0 errors / 0 undefined; released PDF checksum-matched (RELEASE_CHECKSUM
+regenerated: 72f1ad78…). Pushed @ 581f85f.
