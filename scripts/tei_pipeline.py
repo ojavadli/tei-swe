@@ -316,7 +316,8 @@ Each candidate must target ONE diagnosed failure mode and be {what}
 JSON: {{"candidates":[{{"technique":"...","target_failure_mode":"...","expected_dimension":"one of {DIMS}",
 "file":"...|null","find":"...|null","replace":"...|null","why":"why this should help"}}]}}"""
     out = call_json(prompt, max_out=8000)
-    return out if isinstance(out, list) else out.get("candidates", [])
+    out = out if isinstance(out, list) else out.get("candidates", [])
+    return [c for c in out if isinstance(c, dict)]   # luna occasionally emits bare strings
 
 
 FAMILY_GLOSS = {
@@ -379,7 +380,8 @@ mode, and be {what}
 JSON: {{"candidates":[{{"technique":"...","target_failure_mode":"...","expected_dimension":"one of {DIMS}",
 "file":"...|null","find":"...|null","replace":"...|null","why":"why this should help"}}]}}"""
     out = call_json(prompt, max_out=8000)
-    return out if isinstance(out, list) else out.get("candidates", [])
+    out = out if isinstance(out, list) else out.get("candidates", [])
+    return [c for c in out if isinstance(c, dict)]   # luna occasionally emits bare strings
 
 
 def eval_candidates(ob, phase, baseline, cands, probes):
@@ -463,7 +465,7 @@ def run_phase(agent_dir, ob, phase, baseline, probes, iters, batch, has_code, js
                     continue
                 scored = eval_candidates(ob, phase, baseline, cands, probes)
                 break
-            except (ValueError, RuntimeError) as e:
+            except (ValueError, RuntimeError, AttributeError, TypeError, KeyError) as e:
                 print(f"    .. batch attempt {attempt+1}/3 failed ({str(e)[:80]})", flush=True)
                 cands = scored = None
         if not cands or scored is None:
@@ -573,13 +575,27 @@ ABLATION_AGENTS = ["01_livesweagent", "04_acoder", "09_agentscope", "21_swerl",
 
 
 def load_candidates(tei_dir):
+    """Load the immutable store. A process killed mid-write can leave ONE
+    truncated final line; that line is quarantined to candidates.trimmed (the
+    unfinished version simply re-runs). A bad line anywhere else is corruption
+    and raises."""
     p = os.path.join(tei_dir, "candidates.jsonl")
     recs = []
-    if os.path.isfile(p):
-        for line in open(p):
-            line = line.strip()
-            if line:
-                recs.append(json.loads(line))
+    if not os.path.isfile(p):
+        return recs
+    lines = open(p).read().splitlines()
+    for i, line in enumerate(lines):
+        if not line.strip():
+            continue
+        try:
+            recs.append(json.loads(line))
+        except json.JSONDecodeError:
+            if i == len(lines) - 1:
+                open(p + ".trimmed", "a").write(line + "\n")
+                open(p, "w").write("\n".join(lines[:i]) + ("\n" if i else ""))
+                print(f"    !! trimmed truncated final line in {p} (quarantined)", flush=True)
+                break
+            raise RuntimeError(f"corrupt non-final line {i + 1} in {p}")
     return recs
 
 
@@ -670,8 +686,10 @@ def extend_main(a):
             result = run_extension(os.path.join(AGENTS, d), d, a.struct_iters, a.prompt_iters,
                                    a.batch, a.var0, use_bcl=(a.bcl == "on"),
                                    arm="bcl-extension" if a.bcl == "on" else "extension-bestsofar")
-        except (ValueError, RuntimeError, OSError) as e:
-            print(f"  !! {d} extension failed: {str(e)[:160]}", flush=True)
+        except SystemExit:
+            raise                       # fatal API/key errors must stop the shard
+        except Exception as e:          # one agent's malformed output must not kill the shard
+            print(f"  !! {d} extension failed: {type(e).__name__}: {str(e)[:160]}", flush=True)
             continue
         if result:
             state["agents"][d] = {"done": True, **{k: result[k] for k in
