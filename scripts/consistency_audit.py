@@ -52,7 +52,14 @@ def check(name, text):
               "compile-clean", "$0.05 at", "whole study is $1.52",
               "whole study is \\$1.52",
               "13 of 30", "on record", "consistently prefers",
-              "$0.06 at", "active in the study pipeline", "30/0/0"]
+              "$0.06 at", "active in the study pipeline", "30/0/0",
+              # D4 additions (mission: full-scale finalization) — enforced after
+              # the Phase-B recompute regenerates all claim surfaces
+              "equivalence at measured power", "no paired regression",
+              "1/6", "≈6", "all-in", "30/30", "next rung",
+              "up to 30", "up to 100",
+              "prioritized experience replay", "hierarchical Bayesian",
+              "attention"]
     for b in BANNED:
         if b in text:
             errs.append(f"{name}: banned phrase present: {b!r}")
