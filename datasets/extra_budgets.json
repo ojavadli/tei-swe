@@ -16,6 +16,14 @@
    "output_tokens": 0,
    "cost_nominal_usd": 2.4879,
    "cost_conservative_usd": 2.4879
+  },
+  {
+   "pass": "Definitive recorded rollout cost of the scored trajectories: baseline $9.14 (36 trajs) + patched $8.54 (36 trajs). Discarded rollouts from interrupted sessions add an unrecorded amount; total Phase-2 spend is bounded by the pre-registered cap 72 x $0.35 = $25.20 plus re-roll allowance, well under the $40 mission cap.",
+   "calls": 0,
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cost_nominal_usd": 17.683,
+   "cost_conservative_usd": 17.683
   }
  ]
 }

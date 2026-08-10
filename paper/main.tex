@@ -60,9 +60,10 @@ shows 26/26 strict majorities, 24 unanimous (128/130 votes). A
 pre-registered sham placebo draws \swShamShare{} of votes against
 \swBlindShare{} for real patches, rejecting the changed-code / style
 explanation; diagnosis-guided proposals beat budget-matched unguided
-generation on \swRandTeiWins/\swRandN{} agents; and a six-instance
-execution micro-arm observed no paired regression (baseline 1/6; patched
-1/6). Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
+generation on \swRandTeiWins/\swRandN{} agents; and a pre-registered
+36-instance paired execution arm observed no paired regression
+(\swExecWins{}W/\swExecLoss{}L paired; execution-rung equivalence at
+measured power). Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
 HiveMind---report hundreds to thousands of executed rollouts per single
 benchmark where counts are reported, and our review of their papers found no
 comparable placebo-plus-blinded validation of the selection signal; TEI
@@ -756,7 +757,28 @@ Audit trail released & \textbf{\swVersions{} why-records + votes} & code & code 
 
 \section{From Blinded to Executed: the Micro-Arm}
 \label{sec:gap}
-\EXECpara{} The remaining path is mechanical and priced: the gate's own
+\EXECpara{}
+
+\textbf{The pre-registered powered arm (Phase 2).} Registered and publicly
+tagged (\texttt{prereg-exec}) before execution: 36 fixed-seed instances
+SWE-agent attempted per the archive, stratified 18 recorded-resolved / 18
+recorded-unresolved, pilot instances excluded, both arms at
+\texttt{gpt-4o-mini} under a \$0.35/instance cap, scored by the official
+harness. Result---the pre-registered \emph{null} branch fired: baseline
+\swExecBase/\swExecN{} resolved, patched \swExecPatch/\swExecN{}
+(\swExecWins{}W/\swExecLoss{}L paired; exact sign
+$p{=}\swExecSign$; patched-rate Clopper--Pearson 95\% CI
+[\swExecCIlo,\swExecCIhi]; cost-limit exits \swExecCostB{} baseline vs
+\swExecCostP{} patched), reported as execution-rung equivalence at the
+measured power, with all other claims unchanged. The weak
+\texttt{gpt-4o-mini} backbone under a tight cap resolves almost nothing in
+either arm on this harder stratified set---the paired design absorbs that,
+and do-no-harm again holds where it can be measured. The two secondary
+onboarding attempts hit their pre-registered walls inside the 45-minute
+timeboxes: KGCompass onboards to a live Neo4j and a working CLI but requires
+a per-instance knowledge-graph mining stage before any repair; aider's
+SWE-bench runner depends on the deprecated \texttt{swebench\_docker}
+package. The remaining path is mechanical and priced: the gate's own
 arithmetic (\texttt{queries\_needed}) puts a certified $0.10$ execution gain
 at $\approx$36 paired instances per comparison; the \swApplied{} committed
 patches are ready-made candidates; and the four trajectory-bearing repos

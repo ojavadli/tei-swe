@@ -1,0 +1,72 @@
+{
+ "instances": [
+  "django__django-11299",
+  "django__django-12754",
+  "django__django-14500",
+  "django__django-15554",
+  "django__django-16485",
+  "matplotlib__matplotlib-24970",
+  "pydata__xarray-3095",
+  "pytest-dev__pytest-7205",
+  "scikit-learn__scikit-learn-10844",
+  "scikit-learn__scikit-learn-11578",
+  "scikit-learn__scikit-learn-13142",
+  "scikit-learn__scikit-learn-13779",
+  "scikit-learn__scikit-learn-14087",
+  "sphinx-doc__sphinx-7440",
+  "sphinx-doc__sphinx-7910",
+  "sympy__sympy-13372",
+  "sympy__sympy-13551",
+  "sympy__sympy-13615",
+  "astropy__astropy-14182",
+  "django__django-14140",
+  "django__django-14404",
+  "django__django-15280",
+  "django__django-15695",
+  "django__django-15987",
+  "django__django-16560",
+  "matplotlib__matplotlib-24149",
+  "matplotlib__matplotlib-26208",
+  "pytest-dev__pytest-5840",
+  "pytest-dev__pytest-6197",
+  "pytest-dev__pytest-7521",
+  "sphinx-doc__sphinx-10614",
+  "sphinx-doc__sphinx-8548",
+  "sphinx-doc__sphinx-9602",
+  "sympy__sympy-12489",
+  "sympy__sympy-15976",
+  "sympy__sympy-21612"
+ ],
+ "baseline_resolved": 3,
+ "patched_resolved": 3,
+ "n": 36,
+ "paired_wins": [
+  "django__django-16485"
+ ],
+ "paired_losses": [
+  "scikit-learn__scikit-learn-10844"
+ ],
+ "both_resolved": [
+  "pytest-dev__pytest-7205",
+  "scikit-learn__scikit-learn-11578"
+ ],
+ "sign_p": 1.0,
+ "patched_rate_CP95": [
+  0.018,
+  0.225
+ ],
+ "cost": {
+  "baseline": {
+   "cost_limit_exits": 25,
+   "rollout_cost_usd": 2.469958949999998,
+   "rollout_cost_usd_traj_summed": 9.14
+  },
+  "patched": {
+   "cost_limit_exits": 23,
+   "rollout_cost_usd": 5.0898855,
+   "rollout_cost_usd_traj_summed": 8.543
+  }
+ },
+ "prereg_branch_fired": "NULL (execution-rung equivalence at measured power)",
+ "spend_note": "Definitive recorded rollout cost of the scored trajectories: baseline $9.14 (36 trajs) + patched $8.54 (36 trajs). Discarded rollouts from interrupted sessions add an unrecorded amount; total Phase-2 spend is bounded by the pre-registered cap 72 x $0.35 = $25.20 plus re-roll allowance, well under the $40 mission cap."
+}

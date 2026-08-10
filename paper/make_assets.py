@@ -463,6 +463,19 @@ if ext:
         M["swExtShamMaj"] = f"{sh_[0]}/{sh_[1]}"; M["swExtShamVotes"] = f"{sh_[2]}/{sh_[3]}"
     if rp:
         M["swExtRepMaj"] = f"{rp[0]}/{rp[1]}"; M["swExtRepVotes"] = f"{rp[2]}/{rp[3]}"
+e36 = jload(os.path.join(ROOT, "exec36_result.json"))
+if e36 and "prereg_branch_fired" in e36:
+    M["swExecN"] = str(e36["n"])
+    M["swExecBase"] = str(e36["baseline_resolved"])
+    M["swExecPatch"] = str(e36["patched_resolved"])
+    M["swExecWins"] = str(len(e36["paired_wins"]))
+    M["swExecLoss"] = str(len(e36["paired_losses"]))
+    M["swExecSign"] = fmt_p(e36["sign_p"])
+    M["swExecCIlo"] = f"{100*e36['patched_rate_CP95'][0]:.0f}\\%"
+    M["swExecCIhi"] = f"{100*e36['patched_rate_CP95'][1]:.0f}\\%"
+    M["swExecCostB"] = f"{(e36['cost']['baseline']['cost_limit_exits'] if e36['cost']['baseline']['cost_limit_exits'] is not None else 0)}"
+    M["swExecCostP"] = f"{(e36['cost']['patched']['cost_limit_exits'] if e36['cost']['patched']['cost_limit_exits'] is not None else 0)}"
+    M["swExecBranch"] = e36["prereg_branch_fired"].split(" (")[0]
 sy_pre = jload(os.path.join(ROOT, "syntax_audit_prerepair.json")) or []
 M["swSynFiles"] = str(len(sy_pre))
 M["swSynAgents"] = str(len({r["agent"] for r in sy_pre}))
