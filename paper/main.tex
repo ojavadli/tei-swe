@@ -53,17 +53,22 @@ SWE-bench leaderboard (TEI-SWE-30), TEI produced \swVersions{} audited
 candidate versions and \swApplied{} committed patches; rubric scores
 increased across all \swN{} optimization trajectories, and 26 systems
 received shipped changes, at \swCostPerAgent{} per agent under a conservative
-accounting rate (whole-study list-price equivalent bounded between
-\swCostListLo{} and \swCostListHi). Pre-repair confirmatory result: 24/26
-patched agents (118/130 votes); after defect repair, the adaptive retest
-shows 26/26 strict majorities, 24 unanimous (128/130 votes). A
+accounting rate (original-study list-price equivalent bounded between
+\swCostListLo{} and \swCostListHi). Pre-repair confirmatory result:
+\swBlindPreMajP/26 patched agents (\swBlindPreVotesP/130 votes); after
+repairing the one import-time defect---flagged independently by all five of
+that agent's blinded votes and confirmed by a uniform static sweep of all 30
+agents as the only such defect---the adaptive retest shows \swBlindMajP/26
+strict majorities, \swBlindPerfect{} unanimous (\swBlindVotesP/130 votes),
+with \swBlindMajB{} agents preferring the baseline. A
 pre-registered sham placebo draws \swShamShare{} of votes against
 \swBlindShare{} for real patches, rejecting the changed-code / style
 explanation; diagnosis-guided proposals beat budget-matched unguided
 generation on \swRandTeiWins/\swRandN{} agents; and a pre-registered
-36-instance paired execution arm observed no paired regression
-(\swExecWins{}W/\swExecLoss{}L paired; execution-rung equivalence at
-measured power). Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
+36-instance paired execution arm observed no net resolve-rate change
+(\swExecPatch/\swExecN{} vs \swExecBase/\swExecN; \swExecWins{} win /
+\swExecLoss{} loss)---no detectable execution-rung difference at the
+preregistered sample size. Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
 HiveMind---report hundreds to thousands of executed rollouts per single
 benchmark where counts are reported, and our review of their papers found no
 comparable placebo-plus-blinded validation of the selection signal; TEI
@@ -99,10 +104,12 @@ distribution-free margins, with agent-level results carried as exact
 Clopper--Pearson intervals. The loop is applied to \swN{} real systems frozen at recorded SHAs
 from the SWE-bench leaderboard
 archive~\citep{swebench2024,swebenchverified2024,swebenchexperiments},
-spanning \swRateMin--\swRateMax{} official resolve rates. Each system ran up
-to 30 structural-fix and 30 prompt-optimization gated iterations (budget
-scaling fixed a priori: \swItersFull/\swItersMid/\swItersLow{} agents at
-60/36/24 versions), at \swCostPerAgent{} per agent across every evaluation
+spanning \swRateMin--\swRateMax{} official resolve rates. Every system ran
+100 structural-fix and 100 prompt-optimization gated iterations: an initial
+capped run (budget scaling fixed a priori) was extended, under the
+preregistered \texttt{prereg-100} protocol with a Bayesian credit-ledger
+proposer (\S\ref{sec:method}), to exactly 200 scored versions per agent for
+all 30 agents, at \swCostPerAgent{} per agent across every evaluation
 pass. The loop produced \swVersions{} scored candidate versions carrying
 auditable why-records, applied \swApplied{} of them as syntax-clean commits,
 and rubric scores increased across all \swN{} optimization trajectories:
@@ -121,13 +128,20 @@ scoring~\citep{llmjudge2023,selfpreference2024}. We therefore re-evaluated the
 real artifacts---the applied diffs---under blinding: the judge sees the actual
 before/after contents of the changed regions, in randomized order, with no
 why-record, no scores, and no statement of which state is newer, five
-independent times per agent. Pre-repair confirmatory result: 24/26
-patched agents (118/130 votes); after defect repair, the adaptive retest
-shows 26/26 strict majorities, 24 unanimous (128/130 votes). A second model
-of the same GPT-5.6 family concurs (blinded, 8/10 subsampled agents).
+independent times per agent. Pre-repair confirmatory result:
+\swBlindPreMajP/26 patched agents (\swBlindPreVotesP/130 votes); after
+repairing the one import-time defect---flagged independently by all five of
+that agent's blinded votes and confirmed by a uniform static sweep of all 30
+agents as the only such defect---the adaptive retest shows \swBlindMajP/26
+strict majorities, \swBlindPerfect{} unanimous (\swBlindVotesP/130 votes),
+with \swBlindMajB{} agents preferring the baseline. A second model
+of the same GPT-5.6 family concurs (blinded, 8/10 subsampled agents, at the
+original 30+30 bests).
 Whatever the loop is producing, it is code that bias-controlled evaluation
-prefers---at \$0.35 per agent for the rubric-rung optimization
-run, plus \$0.03 per agent for the blinded confirmation itself.
+mostly prefers---at \$0.35 per agent for the original rubric-rung
+optimization run (\swPhaseBTotal{} in total for the preregistered 100+100
+extension across all 30 agents), plus \$0.03 per agent for each blinded
+confirmation pass.
 
 Working at this scale largely without execution access (SWE-bench's
 ground-truth harness needs per-instance containers the study host initially
@@ -170,7 +184,7 @@ from public artifacts by a hostile reviewer?
   cross-provider check replicated the placebo separation but not the overall
   patch-preference effect (Appendix~\ref{app:ext})---with executed do-no-harm
   on the one harness-runnable system, at
-  \swCostPerAgent{} per agent all-in (accounting rate; list-price equivalent
+  \swCostPerAgent{} per agent across all evaluation passes (accounting rate; list-price equivalent
   bounded \swCostPerAgentListLo--\swCostPerAgentListHi{} per agent).
   \item \textbf{The validation ladder and released \texttt{tei-audit} tooling}
   --- rubric $<$ blinded A/B $<$ syntax pre-gate $<$ execution, every claim at
@@ -204,8 +218,8 @@ is trusted; claim at the rung you reached. This study's results per rung:
 Rung & What it checks & Marginal cost here & This study \\
 \midrule
 4. Execution & real outcomes (resolve rate) & harness + rollouts & \EXECladder \\
-3. Syntax pre-gate & \texttt{ast.parse} of patched files & \$0 & \swSynPost{} errors / 41 files (post-repair) \\
-2. Blinded A/B & preference w/o narrative or direction & \$0.03/agent & 24/26 pre-repair (118/130); 26/26 after repair (128/130) \\
+3. Syntax pre-gate & \texttt{ast.parse} of patched files & \$0 & \swSynPost{} errors / 41 files (original); \swSynExtFail/\swSynExtChanged{} files (extension, gate inline) \\
+2. Blinded A/B & preference w/o narrative or direction & \$0.03/agent & \swBlindPreMajP/26 pre-repair (\swBlindPreVotesP/130); \swBlindMajP/26 after repair (\swBlindVotesP/130) \\
 1. Rubric (anchored) & judged dimensions vs.\ diagnosis & \$0.35/agent & $\Delta$ \swDeltaFBP{} (patched $n{=}26$); null control \swDeltaFBnull{} \\
 \bottomrule
 \end{tabular}}
@@ -308,7 +322,7 @@ ships no \texttt{timeout(1)}, so a first \texttt{git ls-remote} sweep returned
 exit 127 for all URLs---``every repository unreachable''---until a control
 probe exposed it; verification was re-run with in-process timeouts.}
 \label{tab:selection}\footnotesize
-\input{tables/selection}
+\resizebox{\textwidth}{!}{\input{tables/selection}}
 \end{table}
 
 \paragraph{Why \swN{} and not 31.}
@@ -362,7 +376,7 @@ keyword; the stricter entry-point screen (\texttt{tier\_a\_assessment.txt})
 leaves 3 (\texttt{SWE-agent}, \texttt{KGCompass}, \texttt{aider}); exactly
 1 (\texttt{SWE-agent}) was executed end-to-end in \S\ref{sec:gap}.}
 \label{tab:runnability}\footnotesize
-\input{tables/runnability}
+\resizebox{\textwidth}{!}{\input{tables/runnability}}
 \end{table}
 
 \section{Method: the Gated Loop and the Ladder}
@@ -376,10 +390,12 @@ Evaluation dimensions (target alignment, reasoning soundness, execution
 accuracy, output integrity), anchored on the repository's real content and the
 archive's recorded per-instance outcomes; it names the weakest dimension and
 three failure modes with probe-instance evidence. \textbf{(2)~Phase A}
-(up to 30 iterations): concrete structural fixes---exact find/replace blocks against
+(100 gated iterations; the first tranche ran under the original capped
+budget, the remainder under the preregistered \texttt{prereg-100} extension):
+concrete structural fixes---exact find/replace blocks against
 real files---each targeting a diagnosed failure mode; uniquely-matching
 patches are applied and committed. \textbf{(3)~Select} the best; \textbf{(4)
-Phase B} (up to 30 iterations): prompt-surface optimization on top.
+Phase B} (100 gated iterations): prompt-surface optimization on top.
 \textbf{(5)~Sequential decision gating} (the v7 decision layer,
 unchanged)---our name for the gate machinery: sequential paired evaluation
 with an exact futility bound (a candidate is killed the moment a win is
@@ -400,9 +416,47 @@ this study and active in the deployed gate going forward): any candidate
 whose patch leaves a changed file unparseable is auto-rejected at zero LLM
 cost (\texttt{ast.parse}; committed as
 \texttt{tei\_loop.gate.static\_pregate}). It did \emph{not} run during
-this study's optimization pass---six parse-breaking patches landed and were
+the original optimization pass---six parse-breaking patches landed and were
 repaired (\S\ref{sec:ladder}), the discovery that motivated it---and it
-\emph{was} active for the random-proposal control arm.
+\emph{was} active for the random-proposal control arm and inline throughout
+the 100$+$100 extension (\swSynExtFail{} parse failures in
+\swSynExtChanged{} extension-changed files).
+
+\paragraph{The TEI Bayesian Credit Ledger (extension proposer).}
+The preregistered 100$+$100 extension (tag \texttt{prereg-100}) replaces the
+naive best-so-far proposal context with a named mechanism, the \emph{TEI
+Bayesian Credit Ledger}: two-head Bayesian \emph{bandit} credit assignment
+with Thompson selection---a Jeffreys Beta($\tfrac12,\tfrac12$) reliability
+head on $P(\Delta{>}0)$ and a conjugate Normal magnitude head on the mean
+$\Delta$ (Normal--Inverse-Gamma update, with the empirical global variance
+of the 1{,}140 prefix deltas as the prior scale), per technique-family
+$\times$ weakest-dimension cell, sparse cells borrowing their
+technique-level aggregate posterior (Bayesian shrinkage via empirical-prior
+smoothing; explicitly \emph{not} hierarchical partial pooling across agents,
+which is named future work)---plus evidence-prioritized historical
+\emph{retrieval} (why-records ranked by closed-form Bayesian surprise
+computed at insertion, $|\Delta|$ impact, embedding relevance to the current
+diagnosis, and recency, diversified by greedy submodular facility-location
+over why-record embeddings) and delta-updated semantic memory (at most 12
+falsifiable lessons maintained by add/increment/refute/merge operations
+only, in the style of ACE~\citep{ace2026}). The technique family for each
+proposal slot is \emph{chosen} by the Thompson draw and stated to the
+proposer model, which instantiates the concrete fix---the mathematics
+steers, the model writes---and every draw is logged with a posterior
+snapshot hash. This is bandit credit assignment, not Gaussian-process
+``Bayesian optimization''; retrieval, not attention. GEPA's reflective
+evolution keeps raw scores on a Pareto frontier with no posterior credit
+model~\citep{gepa2025}; ACE is the cited precedent for the lesson store.
+\textbf{Preregistered mini-ablation (published whatever it showed):} five
+fixed-seed agents additionally ran a parallel $+30/+30$ arm with the
+original best-so-far proposer, from an identical frozen prefix, in isolated
+worktrees. At the end of the matched window the ledger arm leads on
+\swAblWins{} of \swAblN{} agents and trails on \swAblLoss{} (exact sign test
+$p{=}\swAblSign$; mean per-iteration best-so-far difference
+\swAblMeanDiff). \emph{On the rubric substrate at this sample size the
+ledger does not detectably outperform the simple proposer, and every claim
+about the ledger in this paper is scoped to this ablation result}
+(Appendix~\ref{app:ledger}).
 
 \paragraph{Evaluation substrates and rung labels.}
 Two endpoint classes are never conflated: \emph{executed} outcomes
@@ -460,7 +514,7 @@ cost); Table~\ref{tab:spend}.
 \caption{Spend and scale-down record, all passes included (optimization run,
 blinded passes, repairs, replication, trajectory and noise passes).}
 \label{tab:spend}\footnotesize
-\input{tables/spend}
+\resizebox{\textwidth}{!}{\input{tables/spend}}
 \end{table}
 
 \begin{table}[t]\centering
@@ -468,7 +522,7 @@ blinded passes, repairs, replication, trajectory and noise passes).}
 Mtok --- a conservative rate; the accounting-rate LLM subtotal is $\approx$\swAcctMult$\times$ the all-Luna list-price bound (verified list
 price of \$0.20/\$1.20; list-price figures shown where they differ).}
 \label{tab:costs}\footnotesize
-\input{tables/costs}
+\resizebox{\textwidth}{!}{\input{tables/costs}}
 \end{table}
 
 \paragraph{Run integrity.}
@@ -499,11 +553,11 @@ gate's \emph{assumed} noise constant (the measured-noise MDE is in \S\ref{sec:po
 \label{tab:pertask}
 \scriptsize
 \setlength{\tabcolsep}{3.2pt}
-\input{tables/pertask}
+\resizebox{\textwidth}{!}{\input{tables/pertask}}
 \end{table}
 
 \paragraph{R1 --- the delivered capability, in four ledgers.}
-All \swN{} agents complete both phases at \swCostPerAgent{} each all-in
+All \swN{} agents complete both phases at \swCostPerAgent{} each across all passes
 (accounting rate; \swCostPerAgentListLo--\swCostPerAgentListHi{} at list prices, all-Luna to all-Terra):
 \swVersions{} versions scored (\swStructN{} structural, \swPromptN{} prompt),
 \swApplied{} applied as commits, every candidate carrying a why-record.
@@ -530,7 +584,7 @@ their declared target dimension most.
 \caption{Apply anatomy of \swVersions{} proposals (structural discipline of
 the loop).}
 \label{tab:apply}\footnotesize
-\input{tables/apply}
+\resizebox{\textwidth}{!}{\input{tables/apply}}
 \end{table}
 
 \subparagraph{(b) Prompt optimization.}
@@ -589,13 +643,13 @@ within-study null control of R2f; their deltas are statistically
 indistinguishable from the patched set's (Table~\ref{tab:nullcontrol}).}
 \label{tab:contrasts}\footnotesize
 \setlength{\tabcolsep}{3.6pt}
-\input{tables/contrasts}
+\resizebox{\textwidth}{!}{\input{tables/contrasts}}
 \end{table}
 
 \begin{table}[t]\centering
 \caption{Evaluation-dimension means at baseline and shipped (\textsc{rubric}; patched systems, $n{=}26$).}
 \label{tab:dims}\footnotesize
-\input{tables/dims}
+\resizebox{\textwidth}{!}{\input{tables/dims}}
 \end{table}
 
 \paragraph{R2 --- the headline: the gains survive blinding, and the controls certify it.}
@@ -603,15 +657,26 @@ For every agent with applied patches (\swBlindAgents{} of \swN; the other
 \swNoSource{} have no diff to compare), the judge was shown the real
 before/after contents of the changed regions---baseline SHA vs.\ branch
 HEAD---in randomized order, stripped of why-records, scores, and any indication
-of which state is newer, \swBlindK{} independent times. \textbf{Pre-repair
-confirmatory result: 24/26 patched agents (118/130 votes)} (strict
-majorities; exact 95\% CI \swBlindPreCI). The same protocol also caught 6
-defective files, which the pipeline repaired---\textbf{after defect repair,
-the adaptive retest shows 26/26 strict majorities, 24 unanimous (128/130
-votes)} (Table~\ref{tab:pertask}, Blind column: 24 agents at
-\swBlindK/\swBlindK, two at 4/1; agent-level share lower bound
-\swBlindPostCIlo)---and the defect class is permanently closed by the
-contributed syntax pre-gate (\S\ref{sec:ladder}). Pooled across
+of which state is newer, \swBlindK{} independent times---re-run in full
+after the preregistered 100+100 extension, protocol unchanged, at the new
+bests. \textbf{Pre-repair confirmatory result: \swBlindPreMajP/26 patched
+agents (\swBlindPreVotesP/130 votes)} (strict majorities; exact 95\% CI
+\swBlindPreCI). All five votes for one agent independently flagged the same
+import-time defect (an import alias misspelled by the proposer); a uniform
+static sweep of all 30 agents confirmed it as the only defect of its class,
+and \textbf{after repairing it the adaptive retest shows \swBlindMajP/26
+strict majorities, \swBlindPerfect{} unanimous (\swBlindVotesP/130 votes)},
+with \swBlindMajB{} agents preferring the baseline (agent-level share lower
+bound \swBlindPostCIlo). Each baseline-majority verdict was objectively
+audited before any repair decision: two are preference-style readings, one
+is an excerpt-window artifact (an import \emph{rename} whose removal half
+alone was visible), and one disputes added strict validation; none is
+verifiable damage, so all four stand as honest losses. The original
+30$+$30 campaign showed the same shape (24/26 pre-repair, 118/130; 26/26
+after repairing six syntax-defective files, 128/130), and that class is
+permanently closed by the contributed syntax pre-gate, which ran inline
+throughout the extension (\S\ref{sec:ladder}): all \swSynExtChanged{}
+changed \texttt{.py} files parse clean (\swSynExtFail{} failures). Pooled across
 votes the preference is \swBlindVotesP/\swBlindVotesN{} (share \swBlindShare,
 exact 95\% CI \swBlindShareCI)---reported descriptively, since the five votes
 within an agent share one diff (a cluster-aware reading treats the agent as the
@@ -624,7 +689,14 @@ unit, which is exactly what the confirmatory count does).
 \TRAJpara
 
 \paragraph{R2d --- the pre-registered placebo certifies substance.}
-\SHAMpara
+{\sloppy\SHAMpara\par}
+Re-anchored at the post-extension bests on the preregistered fixed-seed
+10-agent subsample (seed \swShamReSeed; one member is zero-applied and
+skips by convention), the placebo collapses further: sham annotations draw
+\swShamReVotes{} votes (share \swShamReShare; \swShamReMaj{} agent
+majorities)---the judge now calls essentially every null comparison a
+tie---while real patches retain their majorities under the identical
+protocol.
 
 \paragraph{R2e --- diagnosis beats budget-matched random proposals.}
 \RANDpara
@@ -636,7 +708,9 @@ rubric rung. On \texttt{Sonar Foundation Agent}, \texttt{ACoder},
 changed---every proposal returned null patch fields---yet their anchored
 rubric trajectories moved as much as the patched set's
 (Table~\ref{tab:nullcontrol}): final$-$baseline \swDeltaFBnull{} on the
-null four versus \swDeltaFBP{} on the 26 patched systems. Anchored rubric
+null four versus \swDeltaFBP{} on the 26 patched systems---and on the
+structural phase the ordering even inverts (\swDeltaSBnull{} zero-applied
+vs.\ \swDeltaSBP{} patched). Anchored rubric
 scoring cannot distinguish a described change from an applied one. This is
 precisely why the validation ladder exists, and why every outcome-facing
 claim in this paper is carried by the blinded rung---real code, randomized
@@ -648,12 +722,13 @@ patched systems ($n{=}26$) as primary and the all-30 figures parenthetical.
 \caption{The within-study null control: rubric-rung deltas for systems
 where no code changed vs.\ systems that received patches.}
 \label{tab:nullcontrol}\footnotesize
-\input{tables/nullcontrol}
+\resizebox{\textwidth}{!}{\input{tables/nullcontrol}}
 \end{table}
 
 \paragraph{R3 --- the gains clear measured noise, not just assumed noise.}
-Every shipped gain exceeds its agent's paraphrase noise floor
-(\swExceedFloor/\swN): undirected rewordings, scored under identical
+Every patched system's shipped gain exceeds its paraphrase noise floor
+(\swExceedFloorP/\swBlindAgents{} patched; the four null-control agents'
+identical-looking rubric movement is exactly what R2f diagnoses): undirected rewordings, scored under identical
 calibration, move at most \swParaMax{} (mean \swParaMean{} over \swParaN{}
 paraphrases), an order of magnitude below the shipped deltas
 (\swDeltaMin--\swDeltaMax; Fig.~\ref{fig:floor}). \MDEresultpara{}
@@ -744,8 +819,8 @@ qualification evidence with verbatim quotes: \texttt{comparison\_qualification.m
  & \textbf{TEI-SWE (this work)} & GEPA & MIPROv2 & Maestro & ACE & HiveMind \\
 \midrule
 Reported optimization/evaluation scope & \textbf{30 third-party systems} & 6 tasks & 7 LM programs & 2 benchmarks + 2 applications & agent + finance benchmarks & 1 multi-agent trading scenario \\
-Total optimizer cost & \textbf{\swLLMTotal{} (\swCalls{} calls, all passes)} & rollout counts n.r.\ (\$ n.r.) & n.r. & ``far fewer than GEPA'' (n.r.) & n.r. & n.r. \\
-Improvement evidence & 24/26 pre-repair blinded (118/130); 26/26 after repair (128/130) & +10\%+ vs MIPROv2; +6\% avg vs GRPO & up to +13\% & +4.9\% vs GEPA & +10.6\% agents & ``superior'' vs static \\
+Total optimizer cost & \textbf{\swLLMCombined{} incl.\ the 100$+$100 extension (\swCalls{} + \swCallsPhaseB{} recorded calls)} & rollout counts n.r.\ (\$ n.r.) & n.r. & ``far fewer than GEPA'' (n.r.) & n.r. & n.r. \\
+Improvement evidence & \swBlindPreMajP/26 pre-repair blinded (\swBlindPreVotesP/130); \swBlindMajP/26 after repair (\swBlindVotesP/130) & +10\%+ vs MIPROv2; +6\% avg vs GRPO & up to +13\% & +4.9\% vs GEPA & +10.6\% agents & ``superior'' vs static \\
 \quad substrate & \textbf{blinded-proxy + static} (exec: \S\ref{sec:gap}) & executed & executed & executed & executed & executed \\
 Executed lineage (same loop) & v3 +0.025 ($p{=}.024$, 0 regr.); v6 +0.026 & --- & --- & --- & --- & --- \\
 Bias-controlled validation of signal & \textbf{yes: placebo + blinded A/B + random control} & none reported & none reported & none reported & none reported & none reported \\
@@ -766,11 +841,11 @@ recorded-unresolved, pilot instances excluded, both arms at
 \texttt{gpt-4o-mini} under a \$0.35/instance cap, scored by the official
 harness. Result---the pre-registered \emph{null} branch fired: baseline
 \swExecBase/\swExecN{} resolved, patched \swExecPatch/\swExecN{}
-(\swExecWins{}W/\swExecLoss{}L paired; exact sign
+(\swExecWins{} win / \swExecLoss{} loss paired; exact sign
 $p{=}\swExecSign$; patched-rate Clopper--Pearson 95\% CI
 [\swExecCIlo,\swExecCIhi]; cost-limit exits \swExecCostB{} baseline vs
-\swExecCostP{} patched), reported as execution-rung equivalence at the
-measured power, with all other claims unchanged. The weak
+\swExecCostP{} patched), reported as no detectable execution-rung difference at the preregistered
+sample size, with all other claims unchanged. The weak
 \texttt{gpt-4o-mini} backbone under a tight cap resolves almost nothing in
 either arm on this harder stratified set---the paired design absorbs that,
 and do-no-harm again holds where it can be measured. The two secondary
@@ -876,29 +951,82 @@ protocol design, and review. Both authors approved the final manuscript.
 
 \section{Conclusion}
 \label{sec:conclusion}
-For about half a dollar per agent, a gated Target--Evaluate--Improve loop
-drove rubric-score increases across all \swN{} optimization trajectories of
-a frozen, reviewer-reproducible slice of the
-SWE-bench leaderboard---\swApplied{} committed patches, every agent's judged
-quality up, and, decisively, the blinded record: \textbf{pre-repair confirmatory result:
-24/26 patched agents (118/130 votes); after defect repair, the adaptive
-retest shows 26/26 strict majorities, 24 unanimous (128/130 votes)}
+For under two dollars per agent, a gated Target--Evaluate--Improve loop ran
+\swVersions{} audited candidate versions---100 structural and 100 prompt
+iterations on every one of \swN{} systems in a frozen,
+reviewer-reproducible slice of the SWE-bench
+leaderboard---\swApplied{} committed patches, every agent's judged
+quality up, and, decisively, the blinded record: \textbf{pre-repair
+confirmatory result: \swBlindPreMajP/26 patched agents
+(\swBlindPreVotesP/130 votes); after repairing the one import-time defect,
+the adaptive retest shows \swBlindMajP/26 strict majorities,
+\swBlindPerfect{} unanimous (\swBlindVotesP/130 votes)}
 ($p\swBlindSign$ pooled)---with the pre-registered sham placebo rejecting the
-generic changed-code / style explanation for that preference, replication by
-a second model within the family, and measured noise floors cleared on
-\swExceedFloor/\swN{} agents\MDEconc. The validation ladder that produced those guarantees also
+generic changed-code / style explanation both in the original arm and,
+re-anchored at the new bests, drawing \swShamReVotes{} votes on the
+seed-\swShamReSeed{} subsample, replication by
+a second model within the family, and measured noise floors cleared on \swExceedFloorP/\swBlindAgents{}
+patched agents\MDEconc. The validation ladder that produced those guarantees also
 paid for itself in method: its free static rung caught a rare patch-damage
 mode that anchored scoring missed, now permanently closed by a syntax pre-gate
 contributed to the deployed gate. Claims are stated at the rung that
 supports them---bias-controlled evidence of genuine improvement at the
 blinded rung, verified outcomes reserved for the execution rung whose price
-this paper quotes exactly. The set, the datasets, and the ladder are
-released; the next rung is a harness away.
+this paper quotes exactly. The set, the datasets, and the ladder are released; the execution rung now
+carries two preregistered paired arms, and scaling it is priced, mechanical
+work rather than an open question.
 
 \small
 \bibliographystyle{unsrtnat}
 \bibliography{references}
 
 \input{appendix}
+
+\section{Ledger Evolution and Extension Curves}
+\label{app:ledger}
+Pre-committed reporting for the preregistered 100$+$100 extension
+(\texttt{BUDGET\_100.md}, tag \texttt{prereg-100}), published whatever it
+shows. Figure~\ref{fig:curves} gives every agent's best-so-far trajectory
+over the full 100 structural and 100 prompt iterations (dashed verticals
+mark the original-run prefix boundary). Figure~\ref{fig:ablation} shows the
+preregistered mini-ablation: five fixed-seed agents ran a parallel
+$+30/+30$ arm with the original best-so-far proposer from an identical
+frozen prefix in isolated worktrees; at the matched window's end the ledger
+arm leads on \swAblWins{} of \swAblN{} and trails on \swAblLoss{} (exact
+sign test $p{=}\swAblSign$)---the preregistered comparison fires its null
+branch, and every ledger claim in this paper is scoped accordingly.
+Table~\ref{tab:ledger} shows the credit ledger's evolution on three agents:
+the family-level posteriors before and after the extension, with the
+lesson-store delta-operation counts. The full per-slot Thompson draw logs
+(posterior snapshot hashes included), lesson operations, and retrieval
+selections ship in each agent's \texttt{tei/ledger\_log.jsonl}; the defect
+investigations behind the blinded re-run are recorded in
+\texttt{defect\_audit\_100.json} and \texttt{nameerror\_sweep\_100.json}.
+
+\begin{figure}[p]\centering
+\includegraphics[width=\textwidth]{figures/curves_grid.png}
+\caption{Best-so-far rubric aggregate vs.\ iteration for all 30 agents
+(\textsc{rubric} substrate; blue structural, red prompt; dashed verticals =
+prefix boundary between the original capped run and the preregistered
+extension).}
+\label{fig:curves}
+\end{figure}
+
+\begin{figure}[p]\centering
+\includegraphics[width=\textwidth]{figures/ablation_curves.png}
+\caption{Preregistered mini-ablation, matched $+30/+30$ window past the
+shared frozen prefix: Bayesian-credit-ledger proposer (green) vs.\ the
+original best-so-far proposer (gray), per agent and phase.}
+\label{fig:ablation}
+\end{figure}
+
+\begin{table}[p]\centering
+\caption{Ledger evolution exhibits (three agents): top family-level
+posteriors (mean $\Delta$, $P(\Delta{>}0)$, $n$) before vs.\ after the
+extension; lesson delta-operation counts in the caption rows. Full logs in
+\texttt{tei/ledger\_log.jsonl}.}
+\label{tab:ledger}\footnotesize
+\resizebox{\textwidth}{!}{\input{tables/ledger_exhibit}}
+\end{table}
 
 \end{document}

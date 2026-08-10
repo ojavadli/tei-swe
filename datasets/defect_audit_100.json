@@ -1,0 +1,31 @@
+{
+ "design": "post-100+100 blinded re-run flagged 4 baseline-majority agents; each objectively audited before any repair decision (repairs require verifiable damage, never judge opinion alone)",
+ "agents": {
+  "07_moatlesstools": {
+   "blinded": "1 patched / 4 baseline",
+   "judge_claim": "'visibly contains a fatal erroneous raise that rejects ...'",
+   "objective_audit": "diff adds 6 ValueError raises validating completion-payload shape; no removed imports; file parses; whether a raise rejects VALID payloads is semantic judgment not verifiable statically",
+   "decision": "NO REPAIR - stands as honest loss"
+  },
+  "12_kgcompass": {
+   "blinded": "2 patched / 3 baseline",
+   "judge_claim": "baseline 'more visibly provides the complete dataset-driven workflow'",
+   "objective_audit": "preference-style reasoning; no defect claim to verify",
+   "decision": "NO REPAIR - stands as honest loss"
+  },
+  "15_composioswekit": {
+   "blinded": "2 patched / 3 baseline",
+   "judge_claim": "baseline 'contains substantive executable tests ... robust helper'",
+   "objective_audit": "preference-style reasoning; no defect claim to verify",
+   "decision": "NO REPAIR - stands as honest loss"
+  },
+  "19_agentlesslite": {
+   "blinded": "2 patched / 3 baseline",
+   "judge_claim": "'visibly removes repair-function imports'",
+   "objective_audit": "FALSE ALARM: the import was RENAMED, not removed - backends.py line 34 reads 'from agentless_lite.util.repair import create_diff_from_response as _create_diff_from_response, fake_git_repo'; fake_git_repo still used (line 313); file parses; the 2,600-char excerpt window showed only the '-' half of the rename",
+   "decision": "NO REPAIR - instrument limitation documented; stands as honest loss"
+  }
+ },
+ "syntax_audit": "46 changed .py files across 30 agents, 0 parse failures (syntax_audit_100.json)",
+ "conclusion": "no defect-repair round after the 100+100 extension; the new canonical blinded sentence therefore carries no pre/post-repair split"
+}

@@ -1,0 +1,20 @@
+{
+ "design": "module-level undefined-name sweep (import-time NameError class) over base..HEAD changed .py files, all 30 agents",
+ "findings": [
+  {
+   "agent": "12_kgcompass",
+   "file": "kgcompass/repair_claude.py",
+   "line": 61,
+   "name": "tokens",
+   "verdict": "FALSE POSITIVE of the checker: 'tokens' is a method parameter of a class nested in a module-level try block (legitimate tiktoken fallback, struct-29)"
+  },
+  {
+   "agent": "13_swerizzo",
+   "file": "codemonkeys/prompts/editing_state_machine_prompts.py",
+   "line": 7,
+   "name": "BASE_TEST_INSTRUCTIONS",
+   "verdict": "CONFIRMED: alias imported as BASE_TEST_SCRIPT_INSTRUCTIONS (line 4) but referenced as BASE_TEST_INSTRUCTIONS (line 7); deterministic import-time NameError"
+  }
+ ],
+ "conclusion": "exactly one true import-time defect across all 30 agents: 13_swerizzo"
+}

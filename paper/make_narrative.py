@@ -156,7 +156,11 @@ if a1 and a1.get("status") == "ok":
     cmd("EXECsentence",
         f"; an execution micro-arm on {a1['n_agents']} runnable system(s) "
         f"({a1['summary']})")
-    cmd("EXECladder", a1.get("ladder", "micro-arm complete"))
+    e36 = j("exec36_result.json")
+    if e36 and "prereg_branch_fired" in e36:
+        cmd("EXECladder", f"two preregistered arms: pilot 1/6=1/6; powered {e36['patched_resolved']}/{e36['n']} vs {e36['baseline_resolved']}/{e36['n']} (no detectable difference)")
+    else:
+        cmd("EXECladder", a1.get("ladder", "micro-arm complete"))
     cmd("EXECpara", a1["para"])
 elif a1 and a1.get("status") == "wall":
     cmd("EXECsentence", "")

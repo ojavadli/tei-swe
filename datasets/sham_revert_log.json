@@ -1,0 +1,135 @@
+{
+ "affected": [
+  "01_livesweagent",
+  "03_trae",
+  "05_joycode",
+  "12_kgcompass",
+  "20_sweexp",
+  "22_orcaloca",
+  "23_patchedcodespatchwork"
+ ],
+ "results": [
+  {
+   "agent": "01_livesweagent",
+   "status": "REVERT-FAILED: ld be overwritten by merge:\n\ttei/candidates.jsonl\n\ttei/onboarding.json\nPlease commit your changes or stash them before you merge.\nAborting\nfatal: revert failed\n"
+  },
+  {
+   "agent": "03_trae",
+   "status": "REVERT-FAILED: es would be overwritten by merge:\n\ttei/REPORT.md\n\ttei/candidates.jsonl\nPlease commit your changes or stash them before you merge.\nAborting\nfatal: revert failed\n"
+  },
+  {
+   "agent": "05_joycode",
+   "status": "reverted",
+   "sham_sha": "db54c54",
+   "revert_sha": "8975ca2a3e96",
+   "files_touched": 4,
+   "ast_failures": []
+  },
+  {
+   "agent": "12_kgcompass",
+   "status": "REVERT-FAILED: ld be overwritten by merge:\n\ttei/candidates.jsonl\n\ttei/onboarding.json\nPlease commit your changes or stash them before you merge.\nAborting\nfatal: revert failed\n"
+  },
+  {
+   "agent": "20_sweexp",
+   "status": "reverted",
+   "sham_sha": "2b2b7aa",
+   "revert_sha": "34392e934f93",
+   "files_touched": 3,
+   "ast_failures": []
+  },
+  {
+   "agent": "22_orcaloca",
+   "status": "reverted",
+   "sham_sha": "6369aa2",
+   "revert_sha": "aba63e20182d",
+   "files_touched": 3,
+   "ast_failures": []
+  },
+  {
+   "agent": "23_patchedcodespatchwork",
+   "status": "REVERT-FAILED: en by merge:\n\ttei/REPORT.md\n\ttei/candidates.jsonl\n\ttei/onboarding.json\nPlease commit your changes or stash them before you merge.\nAborting\nfatal: revert failed\n"
+  }
+ ],
+ "surgical_cleanup": [
+  {
+   "agent": "01_livesweagent",
+   "sham_sha": "bd11359",
+   "files_cleaned": [
+    [
+     "config/livesweagent_swebench.yaml",
+     5
+    ],
+    [
+     "config/livesweagent_swebench_pro.yaml",
+     5
+    ]
+   ],
+   "annotations_left": 0,
+   "ast_failures": [],
+   "commit_rc": 0,
+   "head": "052b450ff389"
+  },
+  {
+   "agent": "03_trae",
+   "sham_sha": "2572c8d",
+   "files_cleaned": [
+    [
+     "evaluation/patch_selection/trae_selector/selector_agent.py",
+     17
+    ],
+    [
+     "trae_agent/agent/trae_agent.py",
+     17
+    ]
+   ],
+   "annotations_left": 0,
+   "ast_failures": [],
+   "commit_rc": 0,
+   "head": "d4b905c84be0"
+  },
+  {
+   "agent": "12_kgcompass",
+   "sham_sha": "3bfbd39",
+   "files_cleaned": [
+    [
+     "kgcompass/llm_loc.py",
+     54
+    ],
+    [
+     "kgcompass/repair.py",
+     84
+    ],
+    [
+     "kgcompass/repair_claude.py",
+     33
+    ]
+   ],
+   "annotations_left": 0,
+   "ast_failures": [],
+   "commit_rc": 0,
+   "head": "72d438ab6b2c"
+  },
+  {
+   "agent": "23_patchedcodespatchwork",
+   "sham_sha": "c6aba3e",
+   "files_cleaned": [
+    [
+     "patchwork/common/multiturn_strategy/agentic_strategy.py",
+     22
+    ],
+    [
+     "patchwork/common/multiturn_strategy/planning_strategy.py",
+     66
+    ],
+    [
+     "patchwork/steps/PreparePrompt/PreparePrompt.py",
+     16
+    ]
+   ],
+   "annotations_left": 0,
+   "ast_failures": [],
+   "commit_rc": 0,
+   "head": "5c9270e15e4c"
+  }
+ ]
+}

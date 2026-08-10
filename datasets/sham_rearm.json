@@ -1,0 +1,311 @@
+{
+ "k": 5,
+ "seed": 21,
+ "subsample": [
+  "06_lingxi",
+  "07_moatlesstools",
+  "10_entropo",
+  "14_agentless15",
+  "16_darsagent",
+  "17_codeshellagent",
+  "21_swerl",
+  "23_patchedcodespatchwork",
+  "24_swefixer",
+  "29_aider"
+ ],
+ "results": [
+  {
+   "agent": "06_lingxi",
+   "files_shammed": 3,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The visible differences are only nonfunctional maintenance comments and newline formatting, with no meaningful changes to robustness, verifi"
+    },
+    {
+     "vote": "tie",
+     "reason": "The visible differences are only nonfunctional maintenance comments and an apparent newline/placement artifact around an existing print stat"
+    },
+    {
+     "vote": "tie",
+     "reason": "The visible differences are only nonfunctional maintenance comments and formatting/EOF presentation, with no meaningful change to verificati"
+    },
+    {
+     "vote": "tie",
+     "reason": "The visible differences are only non-functional maintenance comments and formatting, with no meaningful change to robustness, verification, "
+    },
+    {
+     "vote": "tie",
+     "reason": "The visible differences are only nonfunctional maintenance comments and formatting/newline placement, with no meaningful changes to agent be"
+    }
+   ],
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5
+  },
+  {
+   "agent": "07_moatlesstools",
+   "files_shammed": 1,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The only visible difference is a large set of non-functional maintenance comments, so neither version offers any meaningful advantage in rob"
+    },
+    {
+     "vote": "tie",
+     "reason": "The versions are functionally identical in the shown code, with Version 1 differing only by nonfunctional maintenance comments."
+    },
+    {
+     "vote": "tie",
+     "reason": "The shown difference consists only of non-functional comments, so neither version has any visible advantage in robustness, verification, or "
+    },
+    {
+     "vote": "tie",
+     "reason": "The shown functional code is identical, and Version 2 only adds non-functional maintenance comments, so neither offers better robustness, ve"
+    },
+    {
+     "vote": "tie",
+     "reason": "The shown differences are only non-functional comments, so neither version has any visible advantage in robustness, verification, or failure"
+    }
+   ],
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5
+  },
+  {
+   "agent": "10_entropo",
+   "files_shammed": 2,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The shown differences are only nonfunctional maintenance comments, with identical behavior, verification, and failure handling in both versi"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only visible difference is the addition of non-functional maintenance comments in version 2, so robustness, verification, and failure ha"
+    },
+    {
+     "vote": "tie",
+     "reason": "The shown differences add only nonfunctional maintenance comments, leaving robustness, verification behavior, and failure handling identical"
+    },
+    {
+     "vote": "tie",
+     "reason": "The shown differences are only non-functional maintenance comments, with identical behavior, verification, and failure handling in both vers"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only visible differences are nonfunctional maintenance comments, so neither version offers a meaningful advantage in robustness, verific"
+    }
+   ],
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5
+  },
+  {
+   "agent": "14_agentless15",
+   "files_shammed": 3,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The only visible difference is nonfunctional maintenance comments appended to version 2, with identical behavior, robustness, verification, "
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are appended no-functional-change comments, so neither version offers any visible improvement in robustness, verificati"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are nonfunctional maintenance comments, so robustness, verification behavior, and failure handling are identical."
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are appended comments explicitly stating routine maintenance with no functional change, so robustness, verification, an"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only visible differences are non-functional maintenance comments, so neither version offers any meaningful advantage in robustness, veri"
+    }
+   ],
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5
+  },
+  {
+   "agent": "16_darsagent",
+   "files_shammed": 2,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The executable logic and prompt content are effectively identical, while the differences are only newline placement and harmless maintenance"
+    },
+    {
+     "vote": "tie",
+     "reason": "The functional code and prompt content are effectively identical, while the added maintenance comments do not change execution, verification"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are end-of-file newline placement and appended comments, which do not materially change execution, verification, or fai"
+    },
+    {
+     "vote": "tie",
+     "reason": "The visible differences are only comment/annotation additions and formatting or line-order artifacts, with no substantive change to model se"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are end-of-file newline placement and inert comments, with no substantive change to agent behavior, verification, or fa"
+    }
+   ],
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5
+  },
+  {
+   "agent": "17_codeshellagent",
+   "skipped": "zero applied versions"
+  },
+  {
+   "agent": "21_swerl",
+   "files_shammed": 1,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The only difference is a series of nonfunctional maintenance comments in version 1, so robustness, verification, and failure handling are id"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only difference is a series of comments explicitly stating no functional change, so robustness, verification, and failure handling are i"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only visible difference is a set of nonfunctional maintenance comments in version 1, with identical execution, verification, and failure"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only visible difference is a set of non-functional maintenance comments, so robustness, verification, and failure handling are identical"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only difference is non-functional maintenance comments appended to version 2, with identical visible behavior, verification, and failure"
+    }
+   ],
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5
+  },
+  {
+   "agent": "23_patchedcodespatchwork",
+   "files_shammed": 3,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The shown functional code is identical in both versions, and Version 1 differs only by non-functional maintenance comments."
+    },
+    {
+     "vote": "tie",
+     "reason": "The shown functional code is identical in both versions, and Version 2 only adds comments explicitly stating there is no functional change."
+    },
+    {
+     "vote": "tie",
+     "reason": "The shown functional code is identical in both versions, and Version 1 only adds nonfunctional maintenance annotations."
+    },
+    {
+     "vote": "tie",
+     "reason": "The visible functional code is identical in both versions, and Version 1 only adds non-functional maintenance comments."
+    },
+    {
+     "vote": "tie",
+     "reason": "The visible functional code is identical in both versions, and Version 2 only adds non-functional maintenance comments."
+    }
+   ],
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5
+  },
+  {
+   "agent": "24_swefixer",
+   "files_shammed": 1,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The only substantive difference is formatting and nonfunctional comments, while timeout and result-queue behavior are identical."
+    },
+    {
+     "vote": "baseline",
+     "reason": "Version 1 preserves the clear successful-result return immediately after timeout handling, while Version 2 adds extensive nonfunctional clut"
+    },
+    {
+     "vote": "tie",
+     "reason": "The executable logic is equivalent in both versions, and version 2 only adds nonfunctional comments without changing verification or failure"
+    },
+    {
+     "vote": "tie",
+     "reason": "Both versions show the same timeout and queue-return behavior, while Version 2 only adds nonfunctional comments and no meaningful robustness"
+    },
+    {
+     "vote": "tie",
+     "reason": "The visible changes are only formatting/placement and nonfunctional comments, with identical timeout and result-queue behavior."
+    }
+   ],
+   "sham": 0,
+   "baseline": 1,
+   "tie": 4
+  },
+  {
+   "agent": "29_aider",
+   "files_shammed": 2,
+   "skipped_files": [],
+   "votes": [
+    {
+     "vote": "tie",
+     "reason": "The only visible differences are nonfunctional maintenance comments, so neither version offers any meaningful advantage in robustness, verif"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only visible differences are repeated comments labeled as having no functional change, while the executable code and model settings are "
+    },
+    {
+     "vote": "tie",
+     "reason": "The shown differences consist only of non-functional maintenance comments, with identical behavior, model settings, verification, and failur"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are non-functional maintenance comments, so neither version visibly improves robustness, verification, or failure handl"
+    },
+    {
+     "vote": "tie",
+     "reason": "The only differences are non-functional maintenance comments, so neither version has any visible advantage in robustness, verification, or f"
+    }
+   ],
+   "sham": 0,
+   "baseline": 0,
+   "tie": 5
+  }
+ ],
+ "pooled": {
+  "sham_votes": 0,
+  "all_votes": 45,
+  "share": 0.0,
+  "agents_majority_sham": 0,
+  "n_agents": 9
+ },
+ "budget": {
+  "calls": 45,
+  "input_tokens": 63775,
+  "output_tokens": 6655,
+  "embedding_calls": 0,
+  "embedding_tokens": 0,
+  "cost_nominal_usd": 0.1463,
+  "cost_conservative_usd": 0.2925,
+  "pricing_assumption": "nominal $1.25/$10.0 per Mtok, conservative $2.5/$20.0; embeddings $0.02/$0.04 per Mtok; billed cost unreadable (key lacks api.usage.read)",
+  "scale_downs": []
+ },
+ "design": "re-anchored at post-100+100 bests per BUDGET_100.md (tag prereg-100)"
+}

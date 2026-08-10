@@ -25,6 +25,7 @@ def total_budget():
                     glob.glob(os.path.join(ROOT, "blind_reval.json")) +
                     glob.glob(os.path.join(ROOT, "validation_passes.json")) +
                     glob.glob(os.path.join(ROOT, "sham_arm.json")) +
+                    glob.glob(os.path.join(ROOT, "sham_rearm.json")) +
                     glob.glob(os.path.join(ROOT, "random_arm.json"))):
         try:
             d = json.load(open(f))

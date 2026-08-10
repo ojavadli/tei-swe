@@ -20,7 +20,11 @@ AGENTS = os.path.join(ROOT, "agents")
 def commits_on_branch(p):
     r = subprocess.run(["git", "log", "--oneline", "--grep=^tei-v7"], cwd=p,
                        capture_output=True, text=True)
-    return len([l for l in r.stdout.splitlines() if l.strip()])
+    # "tei-v7 repair:" commits are the documented syntax-defect repairs, not
+    # applied versions; excluded from the applied-record comparison
+    return len([l for l in r.stdout.splitlines()
+                if l.strip() and "tei-v7 repair:" not in l
+                and "tei-v7 sham-cleanup:" not in l])
 
 
 def main():

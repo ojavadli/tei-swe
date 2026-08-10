@@ -1,0 +1,24 @@
+{
+ "n_agents": 26,
+ "votes": {
+  "patched": 110,
+  "baseline": 20,
+  "tie": 0
+ },
+ "strict_majorities_patched": 22,
+ "unanimous_patched": 17,
+ "baseline_majorities": [
+  "07_moatlesstools",
+  "12_kgcompass",
+  "15_composioswekit",
+  "19_agentlesslite"
+ ],
+ "pre_repair": {
+  "strict_majorities": 21,
+  "votes_patched": 105,
+  "unanimous": 16,
+  "votes_baseline": 25,
+  "baseline_majorities": 5
+ },
+ "canonical_sentence": "Pre-repair confirmatory result: 21/26 patched agents (105/130 votes); after repairing the one import-time defect (a misspelled alias flagged independently by all five of that agent's votes and confirmed by a uniform static sweep of all 30 agents as the only such defect), the adaptive retest shows 22/26 strict majorities, 17 unanimous (110/130 votes), with 4 agents preferring the baseline."
+}

@@ -63,6 +63,13 @@ assert len(A) == 30, f"expected 30 agents, got {len(A)}"
 
 manifest = jload(os.path.join(ROOT, "manifest.json"))
 budget = total_budget()
+# ORIGINAL-STUDY accounting scope: frozen as published (release fcc0ff1). The
+# Phase-B merged blinded protocol overwrote blind_reval.json's budget field, so
+# the original totals are constants here, not re-derivable file sums; Phase-B
+# spend is metered separately in _b2_spend.json (exact cumulative meters,
+# including sessions killed before their final budget block).
+budget.update({"calls": 1271, "input_tokens": 1685341, "output_tokens": 1201567,
+               "cost_nominal_usd": 34.29, "cost_conservative_usd": 68.58})
 
 def _b(path, key="budget"):
     d = jload(os.path.join(ROOT, path)) or {}
@@ -71,34 +78,47 @@ def _b(path, key="budget"):
 def _cost(x):
     return (x.get("cost_nominal_usd", 0) or 0)
 
+def _orig_states():
+    return [f for f in glob.glob(os.path.join(ROOT, "_state*.json"))
+            if "_state100_" not in os.path.basename(f)]
+
 _vp_all = jload(os.path.join(ROOT, "validation_passes.json")) or {}
 STAGES = [
     ("Optimization run (rubric rung; within its \\$25 cap)",
-     sum(_cost(_b(os.path.basename(f))) for f in glob.glob(os.path.join(ROOT, "_state*.json")))
+     sum(_cost(_b(os.path.basename(f))) for f in _orig_states())
      + _cost(_b("_run_state.json"))),
     ("Noise-floor post-pass", _cost(_b("_post_pass_budget.json"))),
     ("Blinded pass 1 (pre-repair)", 0.6815),
-    ("Blinded adaptive retest (5 repaired agents)", _cost(_b("blind_reval.json"))),
+    # frozen from the published table (fcc0ff1): blind_reval.json now carries the
+    # Phase-B re-run's budget, not the original retest's
+    ("Blinded adaptive retest (5 repaired agents)", 0.11),
     ("Measured-noise / family-replication / TRAJ passes", _cost(_b("validation_passes.json"))),
     ("TRAJ widening (downloaded submission traces)",
      sum(_cost(x) for x in _vp_all.get("budgets_extra", []))),
     ("Sham placebo arm (pre-registered)", _cost(_b("sham_arm.json"))),
     ("Random-proposal control arm", _cost(_b("random_arm.json"))),
 ]
-LLM_TOTAL = sum(v for _, v in STAGES)
-_sham_b = _b("sham_arm.json"); _rand_b = _b("random_arm.json")
-_extra_calls = sum((x.get("calls", 0) or 0) for x in _vp_all.get("budgets_extra", []))
-CALLS_ALL = ((_b("_run_state.json").get("calls", 0) or 0)
-             + sum((_b(os.path.basename(f)).get("calls", 0) or 0)
-                   for f in glob.glob(os.path.join(ROOT, "_state*.json")))
-             + (_b("_post_pass_budget.json").get("calls", 0) or 0)
-             + 131  # blinded pass 1 (extra ledger)
-             + (_b("blind_reval.json").get("calls", 0) or 0)
-             + (_b("validation_passes.json").get("calls", 0) or 0)
-             + _extra_calls
-             + (_sham_b.get("calls", 0) or 0) + (_rand_b.get("calls", 0) or 0))
+_b2 = jload(os.path.join(ROOT, "_b2_spend.json")) or {}
+_b2v = _b2.get("phase_b_validation") or {}
+PHASEB_STAGES = [
+    ("Phase-B 100+100 extension with the credit ledger, incl.\\ the BCL-off ablation arm "
+     "(uncapped; tag \\texttt{prereg-100})", _b2.get("phase_b_total_nominal_usd", 0)),
+    ("Phase-B blinded re-run + adaptive retest (26 agents + 1 repaired)",
+     _b2v.get("blinded_rerun_and_retest_nominal_usd", 0)),
+    ("Phase-B sham re-anchor (seed 21, 10-agent subsample)",
+     _b2v.get("sham_rearm_nominal_usd", 0)),
+]
+LLM_TOTAL = sum(v for _, v in STAGES)              # original study (published)
+PHASEB_TOTAL = sum(v for _, v in PHASEB_STAGES)    # Phase-B additions
+LLM_COMBINED = LLM_TOTAL + PHASEB_TOTAL
+CALLS_ALL = 1271        # original decomposition, frozen as published (fcc0ff1)
+CALLS_PHASEB = (_b2.get("calls_with_recorded_counts", 0)
+                + _b2v.get("blinded_rerun_and_retest_calls", 0)
+                + _b2v.get("sham_rearm_calls", 0))
 EXEC_ARM = 2.488
-GRAND = LLM_TOTAL + EXEC_ARM
+EXEC36_ARM = 17.68
+CROSS_PROVIDER = 1.19
+GRAND = LLM_COMBINED + EXEC_ARM + EXEC36_ARM + CROSS_PROVIDER
 
 
 # ---------------------------------------------------------------- helpers
@@ -317,6 +337,7 @@ M["swMDEratio"] = f"{(mde / delta_fb).min():.1f}"
 M["swFloorMean"] = f"{np.nanmean(floors):+.4f}"
 M["swFloorMax"] = f"{np.nanmax(floors):+.4f}"
 M["swExceedFloor"] = str(exceeds_floor)
+M["swExceedFloorP"] = str(int(((final_v - base_v) > floors)[IS_P].sum()))
 M["swParaN"] = str(len(para_deltas))
 M["swParaMean"] = f"{para_deltas.mean():+.4f}"
 M["swParaMax"] = f"{para_deltas.max():+.4f}"
@@ -344,21 +365,28 @@ M["swCostNom"] = f"\\${budget['cost_nominal_usd']:.2f}"
 _ti, _to = budget["input_tokens"], budget["output_tokens"]
 M["swCostListLo"] = f"\\${_ti/1e6*0.20 + _to/1e6*1.20:.2f}"
 M["swCostListHi"] = f"\\${_ti/1e6*2.00 + _to/1e6*12.00:.2f}"
-M["swCostPerAgent"] = f"\\${LLM_TOTAL/30:.2f}"
+M["swCostPerAgent"] = f"\\${LLM_COMBINED/30:.2f}"
 M["swCostPerAgentAll"] = f"\\${GRAND/30:.2f}"
 M["swLLMTotal"] = f"\\${LLM_TOTAL:.2f}"
+M["swPhaseBTotal"] = f"\\${PHASEB_TOTAL:.2f}"
+M["swLLMCombined"] = f"\\${LLM_COMBINED:.2f}"
 M["swGrandTotal"] = f"\\${GRAND:.2f}"
 M["swCostPerAgentListLo"] = f"\\${(_ti/1e6*0.20 + _to/1e6*1.20)/30:.2f}"
 M["swCostPerAgentListHi"] = f"\\${(_ti/1e6*2.00 + _to/1e6*12.00)/30:.2f}"
 M["swCostPerAgentList"] = M["swCostPerAgentListLo"]
 _opt_calls = (sum((_b(os.path.basename(f)).get("calls", 0) or 0)
-               for f in glob.glob(os.path.join(ROOT, "_state*.json")))
+               for f in _orig_states())
               + (_b("_run_state.json").get("calls", 0) or 0))
 M["swCallsOpt"] = f"{_opt_calls:,}"
 M["swCallsOptPerAgent"] = f"{_opt_calls/30:.0f}"
 M["swCallsValidation"] = f"{budget['calls']-_opt_calls:,}"
-M["swCostPerVersion"] = f"\\${LLM_TOTAL/1140:.3f}"
-M["swCostPerPatch"] = f"\\${LLM_TOTAL/547:.3f}"
+_nv_all = sum(len(r["cands"]) for r in A)
+_na_all = sum(1 for r in A for c in r["cands"] if c["decision"] == "applied")
+M["swVersionsTotal"] = f"{_nv_all:,}"
+M["swAppliedTotal"] = f"{_na_all:,}"
+M["swCostPerVersion"] = f"\\${LLM_COMBINED/_nv_all:.3f}"
+M["swCostPerPatch"] = f"\\${LLM_COMBINED/_na_all:.3f}"
+M["swCallsPhaseB"] = f"{CALLS_PHASEB:,}"
 M["swTerraCalls"] = "200"
 M["swCallsAll"] = f"{CALLS_ALL:,}"
 M["swLunaCalls"] = f"{CALLS_ALL-200:,}"
@@ -395,7 +423,7 @@ M["swBestApplied"] = str(best_applied)
 M["swBestUnapplied"] = str(len(A) - best_applied)
 M["swArchiveSHA"] = "2f15350cd32becc4569e0d826361048555b605c0"
 M["swArchiveShort"] = "2f15350c"
-M["swTeibenchSHA"] = "626b455f"
+M["swTeibenchSHA"] = "0231709"   # includes the canonical BCL port (optimize_v7 use_bcl)
 M["swTeiloopSHA"] = "e0293135"
 M["swAccessDate"] = "August 8, 2026"
 
@@ -421,12 +449,21 @@ if br:
     M["swBlindShare"] = f"{100*vp/(vp+vb+vt):.1f}\\%"
     M["swBlindShareCI"] = f"[{100*lo:.1f}\\%,{100*hi:.1f}\\%]"
     M["swBlindPerfect"] = str(sum(1 for r in done_b if r["patched"] == br.get("k", 5)))
-    # pre-repair snapshot (the ladder-discovery narrative + the confirmatory unit)
-    M["swBlindPreMajP"] = "24"; M["swBlindPreMajB"] = "2"
-    M["swBlindPreVotesP"] = "118"; M["swBlindPreVotesB"] = "12"
-    _pl = _beta.ppf(0.025, 24, 26 - 24 + 1); _ph = _beta.ppf(0.975, 24 + 1, 26 - 24)
+    # pre-repair snapshot for the Phase-B protocol, recorded in
+    # canonical_blinded_100.json before the single import-time defect repair
+    _cb = jload(os.path.join(ROOT, "canonical_blinded_100.json")) or {}
+    _pre = _cb.get("pre_repair") or {}
+    _pmaj = int(_pre.get("strict_majorities", 0))
+    M["swBlindPreMajP"] = str(_pmaj)
+    M["swBlindPreMajB"] = str(_pre.get("baseline_majorities", nb - _pmaj))
+    M["swBlindPreVotesP"] = str(_pre.get("votes_patched", ""))
+    M["swBlindPreVotesB"] = str(_pre.get("votes_baseline", ""))
+    M["swBlindPreUnanimous"] = str(_pre.get("unanimous", ""))
+    _pl = _beta.ppf(0.025, _pmaj, nb - _pmaj + 1)
+    _ph = _beta.ppf(0.975, _pmaj + 1, nb - _pmaj)
     M["swBlindPreCI"] = f"[{100*_pl:.0f}\\%,{100*_ph:.0f}\\%]"
-    _sb = _beta.ppf(0.025, 26, 1)  # post-repair 26/26 lower bound
+    _mp = int(M["swBlindMajP"])
+    _sb = _beta.ppf(0.025, _mp, nb - _mp + 1)  # post-repair strict-majority share lower bound
     M["swBlindPostCIlo"] = f"{100*_sb:.0f}\\%"
 sham = jload(os.path.join(ROOT, "sham_arm.json"))
 if sham:
@@ -434,6 +471,32 @@ if sham:
     M["swShamShare"] = f"{100*p['share']:.1f}\\%"
     M["swShamVotes"] = f"{p['sham_votes']}/{p['all_votes']}"
     M["swShamMaj"] = f"{p['agents_majority_sham']}/{p['n_agents']}"
+shre = jload(os.path.join(ROOT, "sham_rearm.json"))
+if shre:
+    p = shre["pooled"]
+    M["swShamReShare"] = f"{100*p['share']:.1f}\\%"
+    M["swShamReVotes"] = f"{p['sham_votes']}/{p['all_votes']}"
+    M["swShamReMaj"] = f"{p['agents_majority_sham']}/{p['n_agents']}"
+    M["swShamReSeed"] = str(shre.get("seed", 21))
+    M["swShamReN"] = str(p["n_agents"])
+cvd = jload(os.path.join(ROOT, "curves_data.json"))
+if cvd:
+    _ec = cvd["ablation_comparison"]["end_of_window"]
+    M["swAblWins"] = str(_ec["bcl_wins"])
+    M["swAblLoss"] = str(_ec["bcl_losses"])
+    M["swAblTies"] = str(_ec["ties"])
+    M["swAblSign"] = fmt_p(_ec["exact_sign_test_p"])
+    _dv = list(cvd["ablation_comparison"]["per_iteration_mean_best_so_far_difference"].values())
+    M["swAblMeanDiff"] = f"{np.mean(_dv):+.4f}" if _dv else "--"
+    M["swAblN"] = str(len(cvd["ablation_comparison"]["per_agent"]))
+sy100 = jload(os.path.join(ROOT, "syntax_audit_100.json"))
+if sy100:
+    M["swSynExtChanged"] = str(sy100["total_changed_py"])
+    M["swSynExtFail"] = str(sy100["total_failures"])
+ne100 = jload(os.path.join(ROOT, "nameerror_sweep_100.json"))
+if ne100:
+    M["swNameErrDefects"] = str(sum(1 for f in ne100.get("findings", [])
+                                    if str(f.get("verdict", "")).startswith("CONFIRMED")))
 rnd = jload(os.path.join(ROOT, "random_arm.json"))
 if rnd:
     ok = [r for r in rnd["results"] if r.get("rubric_best_delta") is not None]
@@ -623,13 +686,17 @@ wtab("gate.tex", [
 sd_rows = [esc(s) for s in budget.get("scale_downs", [])]
 _ti, _to = budget["input_tokens"], budget["output_tokens"]
 _rows = [f"{esc(k)} & \\${v:.2f} \\\\" for k, v in STAGES]
-_rows.append(r"\midrule LLM passes subtotal (accounting rate; sums the rows above) & \$%.2f \\" % LLM_TOTAL)
+_rows.append(r"\midrule Original-study LLM subtotal (accounting rate; sums the rows above) & \$%.2f \\" % LLM_TOTAL)
+_rows += [f"{esc(k)} & \\${v:.2f} \\\\" for k, v in PHASEB_STAGES]
+_rows.append(r"\midrule Combined LLM subtotal (original + Phase B) & \$%.2f \\" % LLM_COMBINED)
 _rows.append(r"Execution micro-arm rollouts (\texttt{gpt-4o-mini}, own ledger) & \$%.2f \\" % EXEC_ARM)
-_rows.append(r"\midrule \textbf{Grand total} & \textbf{\$%.2f} \\" % GRAND)
-_rows.append(f"All-pass tokens (LLM passes) & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\")
-_rows.append(f"List-price equivalent (all-luna lower / all-terra upper bound) & {M['swCostListLo']}--{M['swCostListHi']} \\\\")
-_rows.append(f"Agents at 60 / 36 / 24 versions & {iters_groups.get(60,0)} / {iters_groups.get(36,0)} / {iters_groups.get(24,0)} \\\\")
-wtab("spend.tex", _rows, "lr", "Stage (each within its cap) & Nominal")
+_rows.append(r"Phase-2 preregistered execution arm (\texttt{gpt-4o-mini} rollouts, traj-summed) & \$%.2f \\" % EXEC36_ARM)
+_rows.append(r"Historical cross-provider judging (claude-sonnet-5; non-OpenAI, outside the 1{,}271-call decomposition; Appendix) & \$%.2f \\" % CROSS_PROVIDER)
+_rows.append(r"\midrule \textbf{Grand total (all rows above)} & \textbf{\$%.2f} \\" % GRAND)
+_rows.append(f"Original-study tokens (LLM passes; frozen, published) & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\")
+_rows.append(f"List-price equivalent, original study (all-luna lower / all-terra upper bound) & {M['swCostListLo']}--{M['swCostListHi']} \\\\")
+_rows.append(f"Agents at 200 versions (100 structural + 100 prompt) & {iters_groups.get(200,0)}/30 \\\\")
+wtab("spend.tex", _rows, "lr", "Stage & Nominal")
 wtab("costs.tex", [
     f"Cost per agent, all LLM passes (accounting rate) & {M['swCostPerAgent']} \\\\",
     f"Cost per agent incl.\\ execution micro-arm & {M['swCostPerAgentAll']} \\\\",
@@ -749,6 +816,7 @@ print("figures: 6 written")
 
 # ---------------------------------------------------------------- appendix
 out = [r"""\appendix
+\sloppy
 \clearpage
 \section{The Frozen 30-System Set}
 \label{app:set}
@@ -838,8 +906,8 @@ for r in A:
     nf = res.get("noise_floor") or {}
     out.append(r"\begin{table}[h]\centering\scriptsize")
     out.append(f"\\caption{{Record for {esc(short_name(ob['system']))} (rank {ob['rank']}).}}")
-    out.append(r"\begin{tabular}{ll}\toprule")
-    out.append(f"Submission & \\texttt{{{esc(ob.get('submission_folder', ''))}}} ({ob['split']}) \\\\")
+    out.append(r"\begin{tabular}{lp{8.2cm}}\toprule")
+    out.append(f"Submission & \\texttt{{{esc(ob.get('submission_folder', '')).replace(chr(92)+chr(95), chr(92)+chr(95)+chr(92)+'allowbreak{}')}}} ({ob['split']}) \\\\")
     out.append(f"Official resolve rate & {ob['resolve_rate']:.2f}\\% ({ob['resolved']} instances) \\\\")
     out.append(f"Repository & \\href{{{ob['repo_url']}}}{{\\texttt{{{esc(ob['repo_url'].split('github.com/')[-1], 40)}}}}} @ \\texttt{{{ob['repo_sha'][:10]}}} \\\\")
     out.append(f"Trajectories used during the original optimization run & 0 \\\\")
@@ -877,7 +945,7 @@ for r in A:
                    f"{esc(c.get('why'), 600)}")
     out.append(r"\end{enumerate}")
 
-    out.append(r"\begin{center}\scriptsize\begin{longtable}{llp{6.2cm}rrl}")
+    out.append(r"\begin{center}\scriptsize\begin{longtable}{llp{5.2cm}rrl}")
     out.append(f"\\caption{{All {len(r['cands'])} scored versions of {esc(short_name(ob['system']))}.}}\\\\")
     out.append(r"\toprule id & phase & technique & score & $\Delta$ & decision \\ \midrule \endfirsthead")
     out.append(r"\toprule id & phase & technique & score & $\Delta$ & decision \\ \midrule \endhead")

@@ -1,0 +1,121 @@
+{
+ "per_log_sessions": {
+  "A": [
+   {
+    "nom": 1.89,
+    "cons": 3.77,
+    "calls": null,
+    "emb_calls": null
+   },
+   {
+    "nom": 2.8561,
+    "cons": 5.7121,
+    "calls": 210,
+    "emb_calls": 140
+   }
+  ],
+  "B": [
+   {
+    "nom": 1.72,
+    "cons": 3.44,
+    "calls": null,
+    "emb_calls": null
+   },
+   {
+    "nom": 4.7123,
+    "cons": 9.4246,
+    "calls": 309,
+    "emb_calls": 206
+   }
+  ],
+  "C": [
+   {
+    "nom": 1.66,
+    "cons": 3.32,
+    "calls": null,
+    "emb_calls": null
+   },
+   {
+    "nom": 4.4487,
+    "cons": 8.8975,
+    "calls": 297,
+    "emb_calls": 198
+   }
+  ],
+  "D": [
+   {
+    "nom": 1.68,
+    "cons": 3.35,
+    "calls": null,
+    "emb_calls": null
+   },
+   {
+    "nom": 2.78,
+    "cons": 5.55,
+    "calls": null,
+    "emb_calls": null
+   },
+   {
+    "nom": 2.0226,
+    "cons": 4.0452,
+    "calls": 138,
+    "emb_calls": 92
+   }
+  ],
+  "E": [
+   {
+    "nom": 1.32,
+    "cons": 2.64,
+    "calls": null,
+    "emb_calls": null
+   },
+   {
+    "nom": 4.861,
+    "cons": 9.7221,
+    "calls": 334,
+    "emb_calls": 223
+   }
+  ],
+  "F": [
+   {
+    "nom": 1.69,
+    "cons": 3.39,
+    "calls": null,
+    "emb_calls": null
+   },
+   {
+    "nom": 4.9603,
+    "cons": 9.9207,
+    "calls": 336,
+    "emb_calls": 224
+   }
+  ],
+  "abl": [
+   {
+    "nom": 1.73,
+    "cons": 3.46,
+    "calls": null,
+    "emb_calls": null
+   },
+   {
+    "nom": 0.2331,
+    "cons": 0.4662,
+    "calls": 12,
+    "emb_calls": 0
+   }
+  ]
+ },
+ "phase_b_total_nominal_usd": 38.56,
+ "phase_b_total_conservative_usd": 77.11,
+ "calls_with_recorded_counts": 1636,
+ "emb_calls_recorded": 1083,
+ "note": "sessions killed before their final BUDGET block contribute their last per-batch cumulative (includes embeddings); calls/emb counts only from completed-session blocks",
+ "phase_b_validation": {
+  "blinded_rerun_and_retest_nominal_usd": 0.8376,
+  "blinded_rerun_and_retest_calls": 138,
+  "sham_rearm_nominal_usd": 0.1463,
+  "sham_rearm_calls": 45,
+  "sources": "parsed budget blocks in blind100.log + b3_finish.log + sham_rearm.json"
+ },
+ "phase_b_grand_nominal_usd": 39.54
+}

@@ -1,0 +1,1043 @@
+{
+ "01_livesweagent": {
+  "n_prefix": 60,
+  "n_final": 200,
+  "posteriors_before": [
+   {
+    "family": "verification-tests",
+    "mean_delta": 0.0234,
+    "p_pos": 0.97,
+    "n": 16
+   },
+   {
+    "family": "patch-format",
+    "mean_delta": 0.0213,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "localization",
+    "mean_delta": 0.0175,
+    "p_pos": 0.83,
+    "n": 2
+   },
+   {
+    "family": "invariants-guards",
+    "mean_delta": 0.0142,
+    "p_pos": 0.83,
+    "n": 2
+   },
+   {
+    "family": "retry-recovery",
+    "mean_delta": 0.0225,
+    "p_pos": 0.83,
+    "n": 2
+   },
+   {
+    "family": "output-contract",
+    "mean_delta": 0.0192,
+    "p_pos": 0.83,
+    "n": 2
+   },
+   {
+    "family": "decomposition-planning",
+    "mean_delta": 0.0163,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "other",
+    "mean_delta": 0.0185,
+    "p_pos": 0.9,
+    "n": 4
+   }
+  ],
+  "posteriors_after": [
+   {
+    "family": "verification-tests",
+    "mean_delta": 0.0252,
+    "p_pos": 0.95,
+    "n": 28
+   },
+   {
+    "family": "patch-format",
+    "mean_delta": 0.0154,
+    "p_pos": 0.79,
+    "n": 6
+   },
+   {
+    "family": "localization",
+    "mean_delta": 0.0222,
+    "p_pos": 0.95,
+    "n": 9
+   },
+   {
+    "family": "retrieval-context",
+    "mean_delta": 0.0175,
+    "p_pos": 0.9,
+    "n": 4
+   },
+   {
+    "family": "prompt-structure",
+    "mean_delta": 0.0125,
+    "p_pos": 0.83,
+    "n": 2
+   },
+   {
+    "family": "invariants-guards",
+    "mean_delta": 0.0142,
+    "p_pos": 0.83,
+    "n": 2
+   },
+   {
+    "family": "retry-recovery",
+    "mean_delta": 0.0254,
+    "p_pos": 0.99,
+    "n": 33
+   },
+   {
+    "family": "output-contract",
+    "mean_delta": 0.0156,
+    "p_pos": 0.81,
+    "n": 7
+   },
+   {
+    "family": "decomposition-planning",
+    "mean_delta": 0.0259,
+    "p_pos": 0.94,
+    "n": 7
+   },
+   {
+    "family": "other",
+    "mean_delta": 0.0239,
+    "p_pos": 0.94,
+    "n": 8
+   }
+  ],
+  "n_lesson_ops": 72,
+  "lesson_ops": [
+   {
+    "op": "add",
+    "text": "Repository-adaptive inventory and ranked localization improve cross-repository task success, especially when package layout, test conventions, and entry points vary."
+   },
+   {
+    "op": "add",
+    "text": "Explicit contracts, invariants, compatibility constraints, and acceptance criteria improve fixes by exposing project-specific edge cases before editing."
+   },
+   {
+    "op": "add",
+    "text": "A completion contract improves reporting discipline by requiring a diff, reproducer, regression result, and criterion check before claiming success."
+   },
+   {
+    "op": "add",
+    "text": "Tracing values across normalization, mutation, serialization, and exception boundaries improves fixes for edge-case failures by exposing where behavior diverges from the intended invariant."
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 2
+   },
+   {
+    "op": "add",
+    "text": "Ranked hypotheses paired with minimal discriminating probes improve difficult fixes by reducing incorrect edits and increasing implementation confidence."
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 2
+   },
+   {
+    "op": "add",
+    "text": "Bounded diagnosis with recovery checkpoints improves difficult-task completion by enabling test-guided retries, while uncapped retries can waste budget or reinforce incorrect hypotheses."
+   },
+   {
+    "op": "add",
+    "text": "Executable boundary, invalid-input, stateful, and mutation tests, including a direct regression check and nearby compatibility check, improve detection of incomplete or overbroad fixes."
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "add",
+    "text": "Transactional patching with checkpointed full-diff and preflight validation improves output integrity by catching truncated, unintended, syntactically invalid, or path/mode-corrupt changes before submission."
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 7
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 2
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 7
+   },
+   {
+    "op": "increment",
+    "id": 1
+   }
+  ],
+  "final_lessons": [
+   {
+    "id": 0,
+    "text": "Repository-adaptive inventory and ranked localization improve cross-repository task success, especially when package layout, test conventions, and entry points vary.",
+    "support": 12,
+    "refuted": 0
+   },
+   {
+    "id": 1,
+    "text": "Explicit contracts, invariants, compatibility constraints, and acceptance criteria improve fixes by exposing project-specific edge cases before editing.",
+    "support": 12,
+    "refuted": 0
+   },
+   {
+    "id": 2,
+    "text": "A completion contract improves reporting discipline by requiring a diff, reproducer, regression result, and criterion check before claiming success.",
+    "support": 6,
+    "refuted": 0
+   },
+   {
+    "id": 3,
+    "text": "Tracing values across normalization, mutation, serialization, and exception boundaries improves fixes for edge-case failures by exposing where behavior diverges from the intended i",
+    "support": 5,
+    "refuted": 0
+   },
+   {
+    "id": 4,
+    "text": "Ranked hypotheses paired with minimal discriminating probes improve difficult fixes by reducing incorrect edits and increasing implementation confidence.",
+    "support": 8,
+    "refuted": 0
+   },
+   {
+    "id": 5,
+    "text": "Bounded diagnosis with recovery checkpoints improves difficult-task completion by enabling test-guided retries, while uncapped retries can waste budget or reinforce incorrect hypot",
+    "support": 12,
+    "refuted": 0
+   },
+   {
+    "id": 6,
+    "text": "Executable boundary, invalid-input, stateful, and mutation tests, including a direct regression check and nearby compatibility check, improve detection of incomplete or overbroad f",
+    "support": 9,
+    "refuted": 0
+   },
+   {
+    "id": 7,
+    "text": "Transactional patching with checkpointed full-diff and preflight validation improves output integrity by catching truncated, unintended, syntactically invalid, or path/mode-corrupt",
+    "support": 6,
+    "refuted": 0
+   },
+   {
+    "id": 8,
+    "text": "Mapping preconditions, postconditions, state transitions, and representation changes to repository-specific analogues and tests improves cross-repository fixes by exposing behavior",
+    "support": 2,
+    "refuted": 0
+   }
+  ]
+ },
+ "12_kgcompass": {
+  "n_prefix": 60,
+  "n_final": 200,
+  "posteriors_before": [
+   {
+    "family": "verification-tests",
+    "mean_delta": 0.0225,
+    "p_pos": 0.7,
+    "n": 4
+   },
+   {
+    "family": "patch-format",
+    "mean_delta": 0.025,
+    "p_pos": 0.88,
+    "n": 3
+   },
+   {
+    "family": "localization",
+    "mean_delta": 0.01,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "retrieval-context",
+    "mean_delta": 0.0187,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "invariants-guards",
+    "mean_delta": 0.0245,
+    "p_pos": 0.9,
+    "n": 4
+   },
+   {
+    "family": "retry-recovery",
+    "mean_delta": 0.0063,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "output-contract",
+    "mean_delta": 0.0125,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "decomposition-planning",
+    "mean_delta": 0.02,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "other",
+    "mean_delta": 0.0109,
+    "p_pos": 0.81,
+    "n": 7
+   }
+  ],
+  "posteriors_after": [
+   {
+    "family": "verification-tests",
+    "mean_delta": 0.0238,
+    "p_pos": 0.88,
+    "n": 12
+   },
+   {
+    "family": "patch-format",
+    "mean_delta": 0.0347,
+    "p_pos": 0.91,
+    "n": 27
+   },
+   {
+    "family": "localization",
+    "mean_delta": 0.01,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "retrieval-context",
+    "mean_delta": 0.0187,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "prompt-structure",
+    "mean_delta": 0.0203,
+    "p_pos": 0.94,
+    "n": 8
+   },
+   {
+    "family": "invariants-guards",
+    "mean_delta": 0.013,
+    "p_pos": 0.65,
+    "n": 9
+   },
+   {
+    "family": "retry-recovery",
+    "mean_delta": 0.0075,
+    "p_pos": 0.83,
+    "n": 2
+   },
+   {
+    "family": "output-contract",
+    "mean_delta": 0.0125,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "decomposition-planning",
+    "mean_delta": 0.0265,
+    "p_pos": 0.9,
+    "n": 4
+   },
+   {
+    "family": "other",
+    "mean_delta": 0.0109,
+    "p_pos": 0.81,
+    "n": 7
+   }
+  ],
+  "n_lesson_ops": 72,
+  "lesson_ops": [
+   {
+    "op": "add",
+    "text": "Strict validation that edit plans are complete and non-empty improves patch application accuracy, especially on malformed or partial model-generated commands."
+   },
+   {
+    "op": "add",
+    "text": "Scanning raw responses and fenced code regions for decodable JSON improves robustness when model outputs are malformed or wrapped in extra text."
+   },
+   {
+    "op": "add",
+    "text": "Preserving the multi-file edit-command path improves repairs that require coordinated changes across multiple files."
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 2
+   },
+   {
+    "op": "add",
+    "text": "Broadening localization with symbols, call relationships, tests, tracebacks, and definitions improves target alignment and repair quality on difficult probes."
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 2
+   },
+   {
+    "op": "add",
+    "text": "Decomposing repairs with causal chains, explicit invariants, and acceptance criteria improves technical grounding and repair quality beyond basic localization checklists."
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "add",
+    "text": "Forcing model temperature to zero improves execution repeatability and output-schema adherence, but does not improve evidence-based fault localization."
+   },
+   {
+    "op": "increment",
+    "id": 2
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "add",
+    "text": "Extracting unified diffs from model prose improves patch application when valid patches are wrapped in explanatory text, though it remains less reliable for multi-file or ambiguous diff content."
+   },
+   {
+    "op": "add",
+    "text": "Normalizing patch payloads by removing BOM and surrounding whitespace, accepting common fences, and enforcing consistent line endings with a trailing newline improves recovery and application reliability."
+   },
+   {
+    "op": "add",
+    "text": "Rejecting no-op and syntactically unappliable patches before orchestration improves reliability by catching generation failures early, though overly strict whitespace checks can reject valid patches."
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 6
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 8
+   },
+   {
+    "op": "add",
+    "text": "Requiring explicit minimal-change scope, forbidden changes, and expected behavior in repair plans improves response discipline and orchestration robustness."
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 6
+   },
+   {
+    "op": "add",
+    "text": "Accepting JSON envelopes that directly contain patches or diffs improves patch application when models return structured patch payloads instead of raw unified diffs."
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 6
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 7
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "add",
+    "text": "Providing a ranked context bundle containing the failing path, relevant definitions, callers, overrides, fixtures, and analogous tests improves retrieval alignment and repair quality."
+   },
+   {
+    "op": "increment",
+    "id": 6
+   }
+  ],
+  "final_lessons": [
+   {
+    "id": 0,
+    "text": "Strict validation that edit plans are complete and non-empty improves patch application accuracy, especially on malformed or partial model-generated commands.",
+    "support": 5,
+    "refuted": 0
+   },
+   {
+    "id": 1,
+    "text": "Scanning raw responses and fenced code regions for decodable JSON improves robustness when model outputs are malformed or wrapped in extra text.",
+    "support": 4,
+    "refuted": 0
+   },
+   {
+    "id": 2,
+    "text": "Preserving the multi-file edit-command path improves repairs that require coordinated changes across multiple files.",
+    "support": 5,
+    "refuted": 0
+   },
+   {
+    "id": 3,
+    "text": "Broadening localization with symbols, call relationships, tests, tracebacks, and definitions improves target alignment and repair quality on difficult probes.",
+    "support": 7,
+    "refuted": 0
+   },
+   {
+    "id": 4,
+    "text": "Decomposing repairs with causal chains, explicit invariants, and acceptance criteria improves technical grounding and repair quality beyond basic localization checklists.",
+    "support": 14,
+    "refuted": 0
+   },
+   {
+    "id": 5,
+    "text": "Forcing model temperature to zero improves execution repeatability and output-schema adherence, but does not improve evidence-based fault localization.",
+    "support": 1,
+    "refuted": 0
+   },
+   {
+    "id": 7,
+    "text": "Normalizing patch payloads by removing BOM and surrounding whitespace, accepting common fences, and enforcing consistent line endings with a trailing newline improves recovery and ",
+    "support": 2,
+    "refuted": 0
+   },
+   {
+    "id": 9,
+    "text": "Requiring explicit minimal-change scope, forbidden changes, and expected behavior in repair plans improves response discipline and orchestration robustness.",
+    "support": 2,
+    "refuted": 0
+   },
+   {
+    "id": 10,
+    "text": "Accepting JSON envelopes that directly contain patches or diffs improves patch application when models return structured patch payloads instead of raw unified diffs.",
+    "support": 1,
+    "refuted": 0
+   },
+   {
+    "id": 11,
+    "text": "Providing a ranked context bundle containing the failing path, relevant definitions, callers, overrides, fixtures, and analogous tests improves retrieval alignment and repair quali",
+    "support": 8,
+    "refuted": 0
+   },
+   {
+    "id": 12,
+    "text": "Extracting and prevalidating patches\u2014including unified diffs wrapped in prose, no-op patches, and syntactically unappliable hunks\u2014improves patch-application reliability, though ove",
+    "support": 15,
+    "refuted": 0
+   },
+   {
+    "id": 13,
+    "text": "Simulating each patch hunk sequentially against the evolving snapshot catches stale line positions and internally inconsistent multi-hunk patches, improving deterministic applicati",
+    "support": 2,
+    "refuted": 0
+   }
+  ]
+ },
+ "27_agentless": {
+  "n_prefix": 24,
+  "n_final": 200,
+  "posteriors_before": [
+   {
+    "family": "verification-tests",
+    "mean_delta": 0.035,
+    "p_pos": 0.88,
+    "n": 3
+   },
+   {
+    "family": "localization",
+    "mean_delta": 0.0183,
+    "p_pos": 0.83,
+    "n": 2
+   },
+   {
+    "family": "retrieval-context",
+    "mean_delta": 0.0088,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "prompt-structure",
+    "mean_delta": 0.0175,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "invariants-guards",
+    "mean_delta": 0.0225,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "retry-recovery",
+    "mean_delta": 0.0037,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "output-contract",
+    "mean_delta": 0.0138,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "decomposition-planning",
+    "mean_delta": 0.0175,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "other",
+    "mean_delta": 0.0094,
+    "p_pos": 0.88,
+    "n": 3
+   }
+  ],
+  "posteriors_after": [
+   {
+    "family": "verification-tests",
+    "mean_delta": 0.0294,
+    "p_pos": 0.95,
+    "n": 31
+   },
+   {
+    "family": "patch-format",
+    "mean_delta": 0.0112,
+    "p_pos": 0.62,
+    "n": 3
+   },
+   {
+    "family": "localization",
+    "mean_delta": 0.0337,
+    "p_pos": 0.96,
+    "n": 13
+   },
+   {
+    "family": "retrieval-context",
+    "mean_delta": 0.0146,
+    "p_pos": 0.92,
+    "n": 5
+   },
+   {
+    "family": "prompt-structure",
+    "mean_delta": 0.0273,
+    "p_pos": 0.97,
+    "n": 14
+   },
+   {
+    "family": "invariants-guards",
+    "mean_delta": 0.0225,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "retry-recovery",
+    "mean_delta": 0.0008,
+    "p_pos": 0.5,
+    "n": 2
+   },
+   {
+    "family": "output-contract",
+    "mean_delta": 0.0138,
+    "p_pos": 0.75,
+    "n": 1
+   },
+   {
+    "family": "decomposition-planning",
+    "mean_delta": 0.0365,
+    "p_pos": 0.97,
+    "n": 19
+   },
+   {
+    "family": "other",
+    "mean_delta": 0.0094,
+    "p_pos": 0.88,
+    "n": 3
+   }
+  ],
+  "n_lesson_ops": 89,
+  "lesson_ops": [
+   {
+    "op": "add",
+    "text": "Explicitly mapping requirements to code branches and focused before/after tests strongly improves validation and reduces missed behavioral regressions."
+   },
+   {
+    "op": "add",
+    "text": "Requirement-to-code traceability tables plus bidirectional repository-graph analysis improve localization and caller/callee coverage."
+   },
+   {
+    "op": "add",
+    "text": "Repository changes that hard-code token estimation, malformed-input policies, timeouts, retries, or narrow APIs without repository-specific evidence tend to harm correctness."
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "add",
+    "text": "Differential reproduction tests that demonstrate the pre-patch failure and post-patch fix provide stronger regression protection than generic behavioral checks alone."
+   },
+   {
+    "op": "add",
+    "text": "A gated requirements-evidence-plan-edit-validation protocol improves repository-fix correctness more than unstructured implementation, especially when it requires explicit evidence before editing and targeted validation afterward."
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "add",
+    "text": "Requiring explicit edge cases, unchanged-neighbor behavior, requirement-to-branch mappings, and rejection conditions in implementation plans improves patch completeness and reduces missed behavioral constraints."
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "add",
+    "text": "Normalizing line endings and removing only an outer Markdown fence from generated patches improves patch applicability while preserving patch content."
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 0
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "add",
+    "text": "Requiring repository-wide searches, per-file evidence, and differential localization around the smallest failing path improves fix localization and reduces symptom-level or wrong-file edits."
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 7
+   },
+   {
+    "op": "increment",
+    "id": 7
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 4
+   },
+   {
+    "op": "increment",
+    "id": 1
+   },
+   {
+    "op": "increment",
+    "id": 7
+   },
+   {
+    "op": "increment",
+    "id": 7
+   },
+   {
+    "op": "increment",
+    "id": 5
+   },
+   {
+    "op": "increment",
+    "id": 3
+   },
+   {
+    "op": "increment",
+    "id": 7
+   },
+   {
+    "op": "increment",
+    "id": 3
+   }
+  ],
+  "final_lessons": [
+   {
+    "id": 0,
+    "text": "Explicitly mapping requirements to code branches and focused before/after tests strongly improves validation and reduces missed behavioral regressions.",
+    "support": 10,
+    "refuted": 0
+   },
+   {
+    "id": 1,
+    "text": "Requirement-to-code traceability tables plus bidirectional repository-graph analysis improve localization and caller/callee coverage.",
+    "support": 20,
+    "refuted": 0
+   },
+   {
+    "id": 2,
+    "text": "Repository changes that hard-code token estimation, malformed-input policies, timeouts, retries, or narrow APIs without repository-specific evidence tend to harm correctness.",
+    "support": 1,
+    "refuted": 0
+   },
+   {
+    "id": 3,
+    "text": "Differential reproduction tests that demonstrate the pre-patch failure and post-patch fix provide stronger regression protection than generic behavioral checks alone.",
+    "support": 20,
+    "refuted": 0
+   },
+   {
+    "id": 4,
+    "text": "A gated requirements-evidence-plan-edit-validation protocol improves repository-fix correctness more than unstructured implementation, especially when it requires explicit evidence",
+    "support": 8,
+    "refuted": 0
+   },
+   {
+    "id": 5,
+    "text": "Requiring explicit edge cases, unchanged-neighbor behavior, requirement-to-branch mappings, and rejection conditions in implementation plans improves patch completeness and reduces",
+    "support": 16,
+    "refuted": 0
+   },
+   {
+    "id": 6,
+    "text": "Normalizing line endings and removing only an outer Markdown fence from generated patches improves patch applicability while preserving patch content.",
+    "support": 1,
+    "refuted": 0
+   },
+   {
+    "id": 7,
+    "text": "Requiring repository-wide searches, per-file evidence, and differential localization around the smallest failing path improves fix localization and reduces symptom-level or wrong-f",
+    "support": 7,
+    "refuted": 0
+   },
+   {
+    "id": 8,
+    "text": "Separating symptom location from behavioral ownership and tracing data through creation, transformation, caching, serialization, and consumption improves repository-level fix local",
+    "support": 5,
+    "refuted": 0
+   },
+   {
+    "id": 9,
+    "text": "Explicitly separating required behavior, compatibility constraints, and out-of-scope behavior in implementation plans reduces incomplete patches and accidental regressions.",
+    "support": 1,
+    "refuted": 0
+   }
+  ]
+ }
+}

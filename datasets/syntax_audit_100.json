@@ -1,0 +1,157 @@
+{
+ "design": "post-100+100 syntax audit (base..HEAD, ast.parse)",
+ "results": [
+  {
+   "agent": "01_livesweagent",
+   "changed_py": 0,
+   "syntax_failures": []
+  },
+  {
+   "agent": "02_sonarfoundationagent",
+   "changed_py": 0,
+   "syntax_failures": []
+  },
+  {
+   "agent": "03_trae",
+   "changed_py": 2,
+   "syntax_failures": []
+  },
+  {
+   "agent": "04_acoder",
+   "changed_py": 0,
+   "syntax_failures": []
+  },
+  {
+   "agent": "05_joycode",
+   "changed_py": 3,
+   "syntax_failures": []
+  },
+  {
+   "agent": "06_lingxi",
+   "changed_py": 3,
+   "syntax_failures": []
+  },
+  {
+   "agent": "07_moatlesstools",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "08_sweagent",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "09_agentscope",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "10_entropo",
+   "changed_py": 2,
+   "syntax_failures": []
+  },
+  {
+   "agent": "11_experepair",
+   "changed_py": 3,
+   "syntax_failures": []
+  },
+  {
+   "agent": "12_kgcompass",
+   "changed_py": 3,
+   "syntax_failures": []
+  },
+  {
+   "agent": "13_swerizzo",
+   "changed_py": 3,
+   "syntax_failures": []
+  },
+  {
+   "agent": "14_agentless15",
+   "changed_py": 3,
+   "syntax_failures": []
+  },
+  {
+   "agent": "15_composioswekit",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "16_darsagent",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "17_codeshellagent",
+   "changed_py": 0,
+   "syntax_failures": []
+  },
+  {
+   "agent": "18_codefusecgm",
+   "changed_py": 2,
+   "syntax_failures": []
+  },
+  {
+   "agent": "19_agentlesslite",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "20_sweexp",
+   "changed_py": 2,
+   "syntax_failures": []
+  },
+  {
+   "agent": "21_swerl",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "22_orcaloca",
+   "changed_py": 2,
+   "syntax_failures": []
+  },
+  {
+   "agent": "23_patchedcodespatchwork",
+   "changed_py": 3,
+   "syntax_failures": []
+  },
+  {
+   "agent": "24_swefixer",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "25_codeshelltester",
+   "changed_py": 0,
+   "syntax_failures": []
+  },
+  {
+   "agent": "26_aegiso3mini10",
+   "changed_py": 2,
+   "syntax_failures": []
+  },
+  {
+   "agent": "27_agentless",
+   "changed_py": 3,
+   "syntax_failures": []
+  },
+  {
+   "agent": "28_coder",
+   "changed_py": 0,
+   "syntax_failures": []
+  },
+  {
+   "agent": "29_aider",
+   "changed_py": 1,
+   "syntax_failures": []
+  },
+  {
+   "agent": "30_rag",
+   "changed_py": 1,
+   "syntax_failures": []
+  }
+ ],
+ "total_changed_py": 46,
+ "total_failures": 0
+}
