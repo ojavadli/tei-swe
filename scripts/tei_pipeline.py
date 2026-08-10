@@ -43,32 +43,45 @@ DIMS = ["target_alignment", "reasoning_soundness", "execution_accuracy", "output
 
 
 # ----------------------------------------------------------------- api layer
+EMB_IN, EMB_IN_CONS = 0.02, 0.04           # $/Mtok text-embedding-3-small, list / 2x
+
+
 class Budget:
     def __init__(self):
         self.calls = 0
         self.tin = 0
         self.tout = 0
+        self.emb_calls = 0
+        self.emb_tokens = 0
         self.scale_downs = []
 
     @property
     def nominal(self):
-        return self.tin / 1e6 * NOMINAL_IN + self.tout / 1e6 * NOMINAL_OUT
+        return (self.tin / 1e6 * NOMINAL_IN + self.tout / 1e6 * NOMINAL_OUT
+                + self.emb_tokens / 1e6 * EMB_IN)
 
     @property
     def conservative(self):
-        return self.tin / 1e6 * CONSERV_IN + self.tout / 1e6 * CONSERV_OUT
+        return (self.tin / 1e6 * CONSERV_IN + self.tout / 1e6 * CONSERV_OUT
+                + self.emb_tokens / 1e6 * EMB_IN_CONS)
 
     def add(self, u):
         self.calls += 1
         self.tin += u.get("input_tokens", 0)
         self.tout += u.get("output_tokens", 0)
 
+    def add_emb(self, n):
+        self.emb_calls += 1
+        self.emb_tokens += n
+
     def as_dict(self):
         return {"calls": self.calls, "input_tokens": self.tin, "output_tokens": self.tout,
+                "embedding_calls": self.emb_calls, "embedding_tokens": self.emb_tokens,
                 "cost_nominal_usd": round(self.nominal, 4),
                 "cost_conservative_usd": round(self.conservative, 4),
                 "pricing_assumption": f"nominal ${NOMINAL_IN}/${NOMINAL_OUT} per Mtok, "
                                       f"conservative ${CONSERV_IN}/${CONSERV_OUT}; "
+                                      f"embeddings ${EMB_IN}/${EMB_IN_CONS} per Mtok; "
                                       "billed cost unreadable (key lacks api.usage.read)",
                 "scale_downs": self.scale_downs}
 
@@ -111,6 +124,42 @@ def call_llm(prompt, max_out=3000, retries=4, json_mode=False, model=None):
             last = str(e)[:200]
         time.sleep(2 * (attempt + 1))
     raise RuntimeError(f"gpt-5.6-luna call failed after {retries} attempts: {last}")
+
+
+EMB_URL = "https://api.openai.com/v1/embeddings"
+EMB_MODEL = "text-embedding-3-small"
+
+
+def call_embed(texts, retries=4):
+    """Embed texts with OpenAI text-embedding-3-small (the only non-luna call the
+    mission authorizes). Chunked at 512 inputs; tokens metered into BUDGET."""
+    key = os.environ.get("OPENAI_API_KEY", "")
+    if not key:
+        raise SystemExit("OPENAI_API_KEY not set")
+    out = []
+    for i in range(0, len(texts), 512):
+        chunk = [(t or " ")[:4000] for t in texts[i:i + 512]]
+        body = json.dumps({"model": EMB_MODEL, "input": chunk}).encode()
+        last = None
+        for attempt in range(retries):
+            req = urllib.request.Request(EMB_URL, data=body, headers={
+                "Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+            try:
+                with urllib.request.urlopen(req, timeout=120) as r:
+                    d = json.loads(r.read())
+                BUDGET.add_emb((d.get("usage") or {}).get("prompt_tokens", 0))
+                out.extend(e["embedding"] for e in d["data"])
+                break
+            except urllib.error.HTTPError as e:
+                last = f"HTTP {e.code}: {e.read()[:200].decode(errors='ignore')}"
+                if e.code in (400, 401, 403, 404):
+                    raise SystemExit(f"fatal embeddings error: {last}")
+            except Exception as e:
+                last = str(e)[:200]
+            time.sleep(2 * (attempt + 1))
+        else:
+            raise RuntimeError(f"embeddings failed after {retries} attempts: {last}")
+    return out
 
 
 def call_json(prompt, max_out=3000, model=None):
@@ -270,6 +319,69 @@ JSON: {{"candidates":[{{"technique":"...","target_failure_mode":"...","expected_
     return out if isinstance(out, list) else out.get("candidates", [])
 
 
+FAMILY_GLOSS = {
+    "verification-tests": "add/strengthen verification, tests, regression oracles, reproduction steps",
+    "patch-format": "patch/diff formatting, parsing, extraction, normalization, apply robustness",
+    "localization": "fault localization, code search, root-cause tracing",
+    "retrieval-context": "retrieval, repo maps, context construction, indexing",
+    "prompt-structure": "prompt/instruction structure, roles, templates, system messages",
+    "invariants-guards": "invariants, guards, validation checks, sanity pre/post-conditions",
+    "retry-recovery": "retry, recovery, fallbacks, timeouts, budget loops",
+    "output-contract": "output contracts, schemas, JSON validity, final submission formatting",
+    "decomposition-planning": "task decomposition, planning, hypotheses, acceptance criteria",
+    "other": "any other targeted improvement grounded in a diagnosed failure mode",
+}
+
+
+def gen_candidates_bcl(ob, phase, baseline, best_so_far, n, agent_dir, has_code, ledger, fams):
+    """BCL generation contract (Phase B): the technique family for each slot is
+    CHOSEN by the ledger's Thompson draw over the two-head posteriors and STATED
+    to the model; the model instantiates the concrete fix. The mathematics
+    steers, the model writes."""
+    ev = evidence_pack(agent_dir, ob)
+    fms = json.dumps(baseline.get("failure_modes", []), indent=1)
+    if phase == "structural":
+        what = ("concrete STRUCTURAL code fixes. Where the repository contains code, give an exact "
+                "replacement: 'file' (path relative to repo root), 'find' (an exact snippet that "
+                "occurs verbatim, <=15 lines), 'replace' (the new text). If the repository contains "
+                "no patchable source code, set file/find/replace to null and say so in 'why'.")
+    else:
+        what = ("PROMPT-SURFACE rewrites applied on top of the best structural version. Give 'file' "
+                "(a prompt-surface file), 'find' (exact snippet of prompt text) and 'replace'. If no "
+                "prompt surface exists, set them null and describe the intended rewrite in 'why'.")
+    diag = (f"phase={phase}; weakest dimension={baseline.get('weakest_dimension')}; failure modes: "
+            + "; ".join(str(f.get("name")) for f in baseline.get("failure_modes", [])))
+    ledger_block = ledger.render(diag)
+    slots = "\n".join(f"- candidate {i + 1}: technique family '{f}' ({FAMILY_GLOSS.get(f, '')})"
+                      for i, f in enumerate(fams))
+    prompt = f"""Propose {n} DISTINCT {phase} improvement candidates for this SWE-bench agent.
+
+SYSTEM: {ob['system']}  ({ob['resolve_rate']}% resolved on {ob['split']})
+Repo has patchable source code: {has_code}
+Baseline TEI aggregate: {baseline.get('aggregate')}   weakest: {baseline.get('weakest_dimension')}
+Best version so far: {best_so_far}
+
+DIAGNOSED FAILURE MODES:
+{fms}
+
+{ledger_block}
+
+SLOT ASSIGNMENTS (technique family per slot, chosen by Thompson sampling over the Bayesian
+credit posteriors above; implement each candidate WITHIN its assigned family):
+{slots}
+
+REPOSITORY EVIDENCE:
+{ev}
+
+Each candidate must implement its ASSIGNED technique family, target ONE diagnosed failure
+mode, and be {what}
+
+JSON: {{"candidates":[{{"technique":"...","target_failure_mode":"...","expected_dimension":"one of {DIMS}",
+"file":"...|null","find":"...|null","replace":"...|null","why":"why this should help"}}]}}"""
+    out = call_json(prompt, max_out=8000)
+    return out if isinstance(out, list) else out.get("candidates", [])
+
+
 def eval_candidates(ob, phase, baseline, cands, probes):
     slim = [{"i": i, "technique": c.get("technique"), "target_failure_mode": c.get("target_failure_mode"),
              "change": (str(c.get("replace"))[:300] if c.get("replace") else c.get("why", ""))[:300]}
@@ -327,16 +439,26 @@ def apply_patch(agent_dir, cand, tag):
     return True, "applied+committed" if r.returncode == 0 else f"applied, commit said: {r.stdout[-80:]}"
 
 
-def run_phase(agent_dir, ob, phase, baseline, probes, iters, batch, has_code, jsonl, tier):
+def run_phase(agent_dir, ob, phase, baseline, probes, iters, batch, has_code, jsonl, tier,
+              start=0, ledger=None, best0=None, arm=None):
+    """One phase. `iters` is the TOTAL target for the phase; `start` is how many
+    versions the immutable store already holds (extension mode resumes there).
+    With a ledger, proposals follow the BCL generation contract."""
     versions = []
-    best = baseline["aggregate"]
-    done = 0
+    best = best0 if best0 is not None else baseline["aggregate"]
+    done = start
     while done < iters:
         n = min(batch, iters - done)
         cands = scored = None
+        fams = None
         for attempt in range(3):
             try:
-                cands = gen_candidates(ob, phase, baseline, best, n, agent_dir, has_code)[:n]
+                if ledger is not None:
+                    fams = ledger.choose_slots(n)
+                    cands = gen_candidates_bcl(ob, phase, baseline, best, n, agent_dir,
+                                               has_code, ledger, fams)[:n]
+                else:
+                    cands = gen_candidates(ob, phase, baseline, best, n, agent_dir, has_code)[:n]
                 if not cands:
                     continue
                 scored = eval_candidates(ob, phase, baseline, cands, probes)
@@ -348,6 +470,7 @@ def run_phase(agent_dir, ob, phase, baseline, probes, iters, batch, has_code, js
             print(f"    !! batch failed 3x; stopping {phase} at {done}", flush=True)
             break
         by_i = {s.get("i"): s for s in scored if isinstance(s, dict)}
+        n_written = 0
         for j, c in enumerate(cands):
             s = by_i.get(j) or {}
             dims = {k: clamp_score(v) for k, v in (s.get("dimensions") or {}).items()}
@@ -370,14 +493,26 @@ def run_phase(agent_dir, ob, phase, baseline, probes, iters, batch, has_code, js
                                  for p in (s.get("probe_scores") or [])],
                 "score_label": tier, "decision": "applied" if applied else "proposed_not_applied",
                 "apply_note": note, "delta_vs_baseline": round(agg - baseline["aggregate"], 4),
-                "why": s.get("why") or c.get("why"),
+                "why": s.get("why") or c.get("why") or "no why returned (recorded as such)",
             }
+            if arm:
+                rec["arm"] = arm
+                rec["proposer"] = "bcl-thompson" if ledger is not None else "best-so-far"
+            if fams:
+                rec["bcl_family"] = fams[j] if j < len(fams) else None
+            if ledger is not None:
+                # Bayesian surprise computed at insertion, stored on the record (L3 input)
+                rec["bayesian_surprise"] = round(ledger.ingest(rec), 5)
             versions.append(rec)
             jsonl.write(json.dumps(rec) + "\n")
             jsonl.flush()
+            n_written += 1
             best = max(best, agg)
+        if ledger is not None and n_written:
+            ledger.update_lessons(ledger.records[-n_written:])  # one small luna call per batch
+            ledger.save()
         print(f"    {phase}: {done}/{iters} versions, best={best:.4f} "
-              f"[${BUDGET.conservative:.2f} cons]", flush=True)
+              f"[${BUDGET.nominal:.2f} nom/${BUDGET.conservative:.2f} cons]", flush=True)
     return versions
 
 
@@ -430,6 +565,183 @@ JSON: {{"paraphrases":[{{"paraphrase":"short description","dimensions":{{"target
             "noise_floor": round(max(aggs) - baseline["aggregate"], 4) if aggs else None}
 
 
+# -------------------------------------------------- Phase B: 100+100 extension
+VAR0_DEFAULT = 0.00043609   # empirical global variance of delta_vs_baseline over
+                            # the 1,140 prefix records (see BUDGET_100.md)
+ABLATION_AGENTS = ["01_livesweagent", "04_acoder", "09_agentscope", "21_swerl",
+                   "24_swefixer"]   # fixed: random.Random(42).sample(sorted(slugs), 5)
+
+
+def load_candidates(tei_dir):
+    p = os.path.join(tei_dir, "candidates.jsonl")
+    recs = []
+    if os.path.isfile(p):
+        for line in open(p):
+            line = line.strip()
+            if line:
+                recs.append(json.loads(line))
+    return recs
+
+
+def run_extension(agent_dir, d, struct_target, prompt_target, batch, var0, use_bcl,
+                  arm, result_name="result.json"):
+    """Continue an agent's existing run (its immutable prefix) to the per-phase
+    targets. Baseline, probes, and judge instrument are REUSED unchanged; only
+    the proposer differs (BCL generation contract vs original best-so-far)."""
+    tei_dir = os.path.join(agent_dir, "tei")
+    ob = json.load(open(os.path.join(tei_dir, "onboarding.json")))
+    base = json.load(open(os.path.join(tei_dir, "baseline_eval.json")))
+    probes = base.get("probes") or probe_instances(ob, k=6)
+    t = base.get("runnability") or tier_of(agent_dir, ob)
+    tier = base.get("score_label", "PROXY")
+    existing = load_candidates(tei_dir)
+    ns = sum(1 for r in existing if r.get("phase") == "structural")
+    np_ = sum(1 for r in existing if r.get("phase") == "prompt")
+    if ns >= struct_target and np_ >= prompt_target:
+        print(f"  {d}: already at target ({ns}+{np_}), skipping", flush=True)
+        return None
+    best0 = max([r["aggregate"] for r in existing if r.get("aggregate") is not None]
+                + [base["aggregate"]])
+    ledger = None
+    if use_bcl:
+        sys.path.insert(0, ROOT)
+        from bcl import BayesianCreditLedger  # noqa: E402
+        ledger = BayesianCreditLedger(
+            tei_dir, weak_dim=base.get("weakest_dimension") or "execution_accuracy",
+            var0=var0, seed=ob["rank"], call_json=call_json, embed=call_embed)
+        for r in existing:          # deterministic bootstrap replay of the prefix
+            ledger.ingest(r, log=False)
+    print(f"  {d}: prefix {ns}+{np_} -> targets {struct_target}+{prompt_target} "
+          f"(proposer={'bcl-thompson' if use_bcl else 'best-so-far'}, arm={arm})", flush=True)
+    with open(os.path.join(tei_dir, "candidates.jsonl"), "a") as jl:
+        sv = run_phase(agent_dir, ob, "structural", base, probes, struct_target, batch,
+                       t["has_code"], jl, tier, start=ns, ledger=ledger, best0=best0, arm=arm)
+        best0p = max([r["aggregate"] for r in sv] + [best0])
+        pv = run_phase(agent_dir, ob, "prompt", base, probes, prompt_target, batch,
+                       t["has_code"], jl, tier, start=np_, ledger=ledger, best0=best0p, arm=arm)
+    if ledger is not None:
+        ledger.save()
+
+    allv = load_candidates(tei_dir)
+    prior_path = os.path.join(tei_dir, "result.json")
+    prior = json.load(open(prior_path)) if os.path.isfile(prior_path) else {}
+    pre_path = os.path.join(tei_dir, "result_v7pre100.json")
+    if prior and not os.path.isfile(pre_path):
+        json.dump(prior, open(pre_path, "w"), indent=2)   # superseded result kept as labeled history
+    svall = [r for r in allv if r.get("phase") == "structural" and r.get("aggregate") is not None]
+    scorable = [r for r in allv if r.get("aggregate") is not None]
+    best_struct = max(svall, key=lambda r: r["aggregate"]) if svall else None
+    best = max(scorable, key=lambda r: r["aggregate"]) if scorable else None
+    conf = confirm(best, base) if best else {"accept": False, "reason": "no versions"}
+    shipped = best if (best and conf.get("accept")) else None
+    result = {
+        "agent": d, "system": ob["system"], "rank": ob["rank"],
+        "resolve_rate": ob["resolve_rate"], "score_label": tier,
+        "design": f"extension to {struct_target}+{prompt_target} ({arm})",
+        "proposer": "bcl-thompson" if use_bcl else "best-so-far",
+        "runnability": t,
+        "baseline": base["aggregate"],
+        "best_structural": best_struct["aggregate"] if best_struct else base["aggregate"],
+        "best_structural_id": best_struct["version_id"] if best_struct else None,
+        "best_final": best["aggregate"] if best else base["aggregate"],
+        "best_final_id": best["version_id"] if best else None,
+        "shipped": (shipped or {}).get("version_id") or "baseline (not confirmed better)",
+        "confirmation": conf, "noise_floor": prior.get("noise_floor"),
+        "n_versions": len(allv),
+        "n_applied": sum(1 for r in allv if r.get("decision") == "applied"),
+        "budget_after": BUDGET.as_dict(),
+    }
+    json.dump(result, open(os.path.join(tei_dir, result_name), "w"), indent=2)
+    return result
+
+
+def extend_main(a):
+    state = json.load(open(STATE_PATH)) if os.path.isfile(STATE_PATH) else {"agents": {}}
+    dirs = sorted(d for d in os.listdir(AGENTS) if os.path.isdir(os.path.join(AGENTS, d)))
+    if a.only:
+        dirs = [d for d in dirs if a.only in d]
+    if a.range:
+        lo, hi = (int(x) for x in a.range.split("-"))
+        dirs = [d for d in dirs if lo <= int(d.split("_")[0]) <= hi]
+    print(f"extension shard: {len(dirs)} agents -> {a.struct_iters}+{a.prompt_iters}, "
+          f"BCL={a.bcl}, state {os.path.basename(STATE_PATH)}", flush=True)
+    for d in dirs:
+        try:
+            result = run_extension(os.path.join(AGENTS, d), d, a.struct_iters, a.prompt_iters,
+                                   a.batch, a.var0, use_bcl=(a.bcl == "on"),
+                                   arm="bcl-extension" if a.bcl == "on" else "extension-bestsofar")
+        except (ValueError, RuntimeError, OSError) as e:
+            print(f"  !! {d} extension failed: {str(e)[:160]}", flush=True)
+            continue
+        if result:
+            state["agents"][d] = {"done": True, **{k: result[k] for k in
+                                  ("baseline", "best_structural", "best_final", "shipped", "score_label")}}
+        state["budget"] = BUDGET.as_dict()
+        json.dump(state, open(STATE_PATH, "w"), indent=2)
+        print(f"  == shard spend so far: ${BUDGET.nominal:.2f} nom / "
+              f"${BUDGET.conservative:.2f} cons ({BUDGET.calls} calls, "
+              f"{BUDGET.emb_calls} embed)", flush=True)
+    print("\nSHARD BUDGET:", json.dumps(BUDGET.as_dict(), indent=2), flush=True)
+
+
+def ablation_setup():
+    """Create isolated git worktrees for the 5 ablation agents BEFORE any main
+    shard extends them, freezing the shared prefix (repo state + candidates)."""
+    abl_root = os.path.join(ROOT, "ablation")
+    os.makedirs(abl_root, exist_ok=True)
+    for d in ABLATION_AGENTS:
+        src = os.path.join(AGENTS, d)
+        wt = os.path.join(abl_root, d)
+        tei_src, tei_wt = os.path.join(src, "tei"), os.path.join(wt, "tei")
+        if not os.path.isdir(wt):
+            r = sh(["git", "worktree", "add", "--detach", wt, "HEAD"], cwd=src)
+            if r.returncode != 0:
+                print(f"  !! worktree add failed for {d}: {(r.stderr or '')[-200:]}", flush=True)
+                continue
+        if not os.path.isfile(os.path.join(tei_wt, "prefix_counts.json")):
+            os.makedirs(tei_wt, exist_ok=True)
+            for fn in ("onboarding.json", "baseline_eval.json", "candidates.jsonl", "result.json"):
+                p = os.path.join(tei_src, fn)
+                if os.path.isfile(p):
+                    open(os.path.join(tei_wt, fn), "w").write(open(p).read())
+            ex = load_candidates(tei_wt)
+            json.dump({"structural": sum(1 for r in ex if r.get("phase") == "structural"),
+                       "prompt": sum(1 for r in ex if r.get("phase") == "prompt")},
+                      open(os.path.join(tei_wt, "prefix_counts.json"), "w"))
+        print(f"  ablation worktree ready: {d}", flush=True)
+
+
+def ablation_main(a):
+    """BCL-off comparison arm: 5 fixed-seed agents, +30 structural +30 prompt on
+    top of the same prefix, original best-so-far proposer, isolated worktrees."""
+    ablation_setup()
+    if a.setup_only:
+        return
+    state = json.load(open(STATE_PATH)) if os.path.isfile(STATE_PATH) else {"agents": {}}
+    for d in ABLATION_AGENTS:
+        wt = os.path.join(ROOT, "ablation", d)
+        pc_path = os.path.join(wt, "tei", "prefix_counts.json")
+        if not os.path.isfile(pc_path):
+            print(f"  !! {d}: no worktree/prefix counts; skipping", flush=True)
+            continue
+        pc = json.load(open(pc_path))
+        try:
+            result = run_extension(wt, d, pc["structural"] + 30, pc["prompt"] + 30, a.batch,
+                                   a.var0, use_bcl=False, arm="ablation-bestsofar",
+                                   result_name="ablation_result.json")
+        except (ValueError, RuntimeError, OSError) as e:
+            print(f"  !! {d} ablation failed: {str(e)[:160]}", flush=True)
+            continue
+        if result:
+            state["agents"][d] = {"done": True, "arm": "ablation", **{k: result[k] for k in
+                                  ("baseline", "best_structural", "best_final", "shipped", "score_label")}}
+        state["budget"] = BUDGET.as_dict()
+        json.dump(state, open(STATE_PATH, "w"), indent=2)
+        print(f"  == ablation spend so far: ${BUDGET.nominal:.2f} nom / "
+              f"${BUDGET.conservative:.2f} cons", flush=True)
+    print("\nABLATION BUDGET:", json.dumps(BUDGET.as_dict(), indent=2), flush=True)
+
+
 # --------------------------------------------------------------------- main
 def tier_of(agent_dir, ob):
     """Honest runnability check: no Docker, no GPU, a real entry point, code present."""
@@ -462,9 +774,23 @@ def main():
     ap.add_argument("--cap", type=float, default=BUDGET_CAP,
                     help="this process's slice of the global budget cap")
     ap.add_argument("--range", default=None, help="inclusive rank range, e.g. 02-11")
+    ap.add_argument("--extend", action="store_true",
+                    help="Phase B: continue existing runs (prefix) to the per-phase targets")
+    ap.add_argument("--ablation-arm", action="store_true",
+                    help="Phase B mini-ablation: 5 fixed agents, +30/+30, BCL off, worktrees")
+    ap.add_argument("--setup-only", action="store_true",
+                    help="with --ablation-arm: create the worktrees (freeze the prefix) and exit")
+    ap.add_argument("--bcl", choices=["on", "off"], default="on",
+                    help="proposer for --extend: BCL generation contract vs original best-so-far")
+    ap.add_argument("--var0", type=float, default=VAR0_DEFAULT,
+                    help="BCL magnitude-head prior scale (empirical global delta variance)")
     a = ap.parse_args()
 
     BUDGET_CAP, STATE_PATH = a.cap, a.state
+    if a.ablation_arm:
+        return ablation_main(a)
+    if a.extend:
+        return extend_main(a)
 
     state = json.load(open(STATE_PATH)) if os.path.isfile(STATE_PATH) else {"agents": {}}
     dirs = sorted(d for d in os.listdir(AGENTS) if os.path.isdir(os.path.join(AGENTS, d)))
