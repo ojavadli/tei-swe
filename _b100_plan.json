@@ -1,0 +1,136 @@
+{
+ "n_agents": 30,
+ "total_versions": 1140,
+ "n_deltas": 1140,
+ "delta_var": 0.00043609,
+ "delta_sd": 0.02088,
+ "per_agent": {
+  "01_livesweagent": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "02_sonarfoundationagent": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "03_trae": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "04_acoder": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "05_joycode": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "06_lingxi": {
+   "struct": 18,
+   "prompt": 18
+  },
+  "07_moatlesstools": {
+   "struct": 18,
+   "prompt": 18
+  },
+  "08_sweagent": {
+   "struct": 18,
+   "prompt": 18
+  },
+  "09_agentscope": {
+   "struct": 18,
+   "prompt": 18
+  },
+  "10_entropo": {
+   "struct": 18,
+   "prompt": 18
+  },
+  "11_experepair": {
+   "struct": 18,
+   "prompt": 18
+  },
+  "12_kgcompass": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "13_swerizzo": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "14_agentless15": {
+   "struct": 18,
+   "prompt": 18
+  },
+  "15_composioswekit": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "16_darsagent": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "17_codeshellagent": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "18_codefusecgm": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "19_agentlesslite": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "20_sweexp": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "21_swerl": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "22_orcaloca": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "23_patchedcodespatchwork": {
+   "struct": 30,
+   "prompt": 30
+  },
+  "24_swefixer": {
+   "struct": 18,
+   "prompt": 18
+  },
+  "25_codeshelltester": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "26_aegiso3mini10": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "27_agentless": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "28_coder": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "29_aider": {
+   "struct": 12,
+   "prompt": 12
+  },
+  "30_rag": {
+   "struct": 12,
+   "prompt": 12
+  }
+ },
+ "ablation_seed42": [
+  "01_livesweagent",
+  "04_acoder",
+  "09_agentscope",
+  "21_swerl",
+  "24_swefixer"
+ ]
+}
