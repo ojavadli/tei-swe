@@ -50,7 +50,9 @@ def check(name, text):
               "$14.64", "$26.80", "\\$14.64", "\\$26.80",
               "968 calls", "32 LLM calls", "orders of magnitude",
               "compile-clean", "$0.05 at", "whole study is $1.52",
-              "whole study is \\$1.52"]
+              "whole study is \\$1.52",
+              "13 of 30", "on record", "consistently prefers",
+              "$0.06 at", "active in the study pipeline", "30/0/0"]
     for b in BANNED:
         if b in text:
             errs.append(f"{name}: banned phrase present: {b!r}")

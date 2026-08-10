@@ -104,8 +104,13 @@ scaling fixed a priori: \swItersFull/\swItersMid/\swItersLow{} agents at
 60/36/24 versions), at \swCostPerAgent{} per agent across every evaluation
 pass. The loop produced \swVersions{} scored candidate versions carrying
 auditable why-records, applied \swApplied{} of them as syntax-clean commits,
-and rubric scores increased across all \swN{} optimization trajectories,
-$\swBase\to\swStruct\to\swFinal$ on average (Fig.~\ref{fig:slope}).
+and rubric scores increased across all \swN{} optimization trajectories:
+$\swBaseP\to\swStructP\to\swFinalP$ on the 26 patched systems
+($\swBase\to\swStruct\to\swFinal$ over all 30; the four zero-patch
+systems form a within-study null control, \S\ref{sec:results})
+(Fig.~\ref{fig:slope}). A supplementary cross-provider check replicates the
+placebo separation, though not the full patch preference
+(Appendix~\ref{app:ext}).
 
 The result that makes those numbers citable, rather than merely encouraging,
 is the \textbf{blinded confirmation}. Judge-scored optimization is rightly
@@ -120,7 +125,7 @@ patched agents (118/130 votes); after defect repair, the adaptive retest
 shows 26/26 strict majorities, 24 unanimous (128/130 votes). A second model
 of the same GPT-5.6 family concurs (blinded, 8/10 subsampled agents).
 Whatever the loop is producing, it is code that bias-controlled evaluation
-consistently prefers---at \$0.35 per agent for the rubric-rung optimization
+prefers---at \$0.35 per agent for the rubric-rung optimization
 run, plus \$0.03 per agent for the blinded confirmation itself.
 
 Working at this scale largely without execution access (SWE-bench's
@@ -155,7 +160,7 @@ from public artifacts by a hostile reviewer?
 \paragraph{Contributions.}
 \begin{enumerate}\itemsep1pt
   \item \textbf{The demonstrated capability} --- the broadest, cheapest gated
-  improvement application on record: \swN{} real leaderboard systems,
+  improvement application we are aware of: \swN{} real leaderboard systems,
   \swVersions{} audited candidate versions, \swApplied{} syntax-clean committed
   patches, blinded-confirmed preference on \swBlindPreMajP/\swBlindAgents{}
   patched agents (post-repair adaptive retest: \swBlindMajP/\swBlindAgents),
@@ -200,7 +205,7 @@ Rung & What it checks & Marginal cost here & This study \\
 4. Execution & real outcomes (resolve rate) & harness + rollouts & \EXECladder \\
 3. Syntax pre-gate & \texttt{ast.parse} of patched files & \$0 & \swSynPost{} errors / 41 files (post-repair) \\
 2. Blinded A/B & preference w/o narrative or direction & \$0.03/agent & 24/26 pre-repair (118/130); 26/26 after repair (128/130) \\
-1. Rubric (anchored) & judged dimensions vs.\ diagnosis & \$0.35/agent & 30/30 improved, $\Delta$ \swDeltaFB{} \\
+1. Rubric (anchored) & judged dimensions vs.\ diagnosis & \$0.35/agent & $\Delta$ \swDeltaFBP{} (patched $n{=}26$); null control \swDeltaFBnull{} \\
 \bottomrule
 \end{tabular}}
 \smallskip
@@ -389,10 +394,14 @@ Clopper--Pearson intervals. Concretely: a sequential paired gate
 \emph{before} verdicts, a paraphrase noise-floor orbit under
 candidate-identical calibration, why-records for every candidate, a certified
 Wilson-LCB Pareto front, and a final paired do-no-harm confirmation
-(\texttt{verify\_candidate}). \textbf{(6)~Static pre-gate} (new, contributed
-by this study): any candidate whose patch leaves a changed file unparseable is
-auto-rejected at zero LLM cost (\texttt{ast.parse}; committed as
-\texttt{tei\_loop.gate.static\_pregate} and active in the study pipeline).
+(\texttt{verify\_candidate}). \textbf{(6)~Syntax pre-gate} (contributed by
+this study and active in the deployed gate going forward): any candidate
+whose patch leaves a changed file unparseable is auto-rejected at zero LLM
+cost (\texttt{ast.parse}; committed as
+\texttt{tei\_loop.gate.static\_pregate}). It did \emph{not} run during
+this study's optimization pass---six parse-breaking patches landed and were
+repaired (\S\ref{sec:ladder}), the discovery that motivated it---and it
+\emph{was} active for the random-proposal control arm.
 
 \paragraph{Evaluation substrates and rung labels.}
 Two endpoint classes are never conflated: \emph{executed} outcomes
@@ -418,7 +427,7 @@ judge/optimizer model (\texttt{gpt-5.6-luna}), with a second model within the sa
 \State $B \gets J(\text{rubric} \mid R, O, \text{probes})$ \Comment{dims, weakest, failure modes w/ evidence}
 \For{phase $\in$ \{structural, prompt\}, $k=1..30$}
   \State $c \gets$ proposal targeting a diagnosed failure mode (why-record always kept)
-  \State \textbf{static pre-gate}: reject $c$ at zero cost if its patch breaks \texttt{ast.parse}
+  \State \textbf{syntax pre-gate} (post-study addition; not active in the original pass): reject $c$ at zero cost if its patch breaks \texttt{ast.parse}
   \State apply iff find-block uniquely matches; commit; score on rubric + probes \Comment{\textsc{rubric}}
 \EndFor
 \State MDE preflight; paired do-no-harm gate; paraphrase noise-floor orbit
@@ -455,7 +464,7 @@ blinded passes, repairs, replication, trajectory and noise passes).}
 
 \begin{table}[t]\centering
 \caption{Cost-efficiency of the delivered work (accounting rate \$1.25/\$10 per
-Mtok --- a conservative rate roughly 6$\times$ the primary model's verified list
+Mtok --- a conservative rate; the accounting-rate LLM subtotal is $\approx$\swAcctMult$\times$ the all-Luna list-price bound (verified list
 price of \$0.20/\$1.20; list-price figures shown where they differ).}
 \label{tab:costs}\footnotesize
 \input{tables/costs}
@@ -494,7 +503,7 @@ gate's \emph{assumed} noise constant (the measured-noise MDE is in \S\ref{sec:po
 
 \paragraph{R1 --- the delivered capability, in four ledgers.}
 All \swN{} agents complete both phases at \swCostPerAgent{} each all-in
-(accounting rate; \swCostPerAgentList{} at verified list prices):
+(accounting rate; \swCostPerAgentListLo--\swCostPerAgentListHi{} at list prices, all-Luna to all-Terra):
 \swVersions{} versions scored (\swStructN{} structural, \swPromptN{} prompt),
 \swApplied{} applied as commits, every candidate carrying a why-record.
 
@@ -534,8 +543,10 @@ $0.644\to0.879\to0.889$; per-task table in
 \texttt{results\_cubic30\_band31\_v2/} and \texttt{results\_struct\_band31\_v2/}
 at \texttt{tei-bench@\swTeibenchSHA} (models per that report:
 \texttt{gpt-5.4-mini-2026-03-17} across roles).} (Fig.~\ref{fig:slope};
-contrasts in Table~\ref{tab:contrasts}). Stage means:
-$\swBase\to\swStruct\to\swFinal$ (structural \swDeltaSB{}, Holm
+contrasts in Table~\ref{tab:contrasts}, patched systems $n{=}26$ primary
+per the null control of R2f). Stage means on the patched set:
+$\swBaseP\to\swStructP\to\swFinalP$ (all 30:
+$\swBase\to\swStruct\to\swFinal$); structural \swDeltaSBP{} (Holm
 $p\swHolmSB$). Weakest-dimension diagnoses are uniform---execution accuracy,
 \swWeakEA/\swN---consistent with probing recorded execution failures
 (Table~\ref{tab:dims}).
@@ -569,15 +580,19 @@ executed-v7 signature reproduced at 30-agent scale.}
 \end{figure}
 
 \begin{table}[t]\centering
-\caption{Stage contrasts across \swN{} agents (\textsc{rubric} rung), with
-Holm correction across the three contrasts.}
+\caption{Stage contrasts on the patched systems ($n{=}26$; \textsc{rubric}
+rung), with Holm correction across the three contrasts. The four zero-patch
+systems (\texttt{Sonar Foundation Agent}, \texttt{ACoder},
+\texttt{CodeShellAgent}, \texttt{CodeShellTester}) are excluded as the
+within-study null control of R2f; their deltas are statistically
+indistinguishable from the patched set's (Table~\ref{tab:nullcontrol}).}
 \label{tab:contrasts}\footnotesize
 \setlength{\tabcolsep}{3.6pt}
 \input{tables/contrasts}
 \end{table}
 
 \begin{table}[t]\centering
-\caption{Evaluation-dimension means at baseline and shipped (\textsc{rubric}).}
+\caption{Evaluation-dimension means at baseline and shipped (\textsc{rubric}; patched systems, $n{=}26$).}
 \label{tab:dims}\footnotesize
 \input{tables/dims}
 \end{table}
@@ -612,6 +627,28 @@ unit, which is exactly what the confirmatory count does).
 
 \paragraph{R2e --- diagnosis beats budget-matched random proposals.}
 \RANDpara
+
+\paragraph{R2f --- a within-study null control.}
+The four zero-patch systems turn out to be the study's own placebo at the
+rubric rung. On \texttt{Sonar Foundation Agent}, \texttt{ACoder},
+\texttt{CodeShellAgent}, and \texttt{CodeShellTester}, not one line
+changed---every proposal returned null patch fields---yet their anchored
+rubric trajectories moved as much as the patched set's
+(Table~\ref{tab:nullcontrol}): final$-$baseline \swDeltaFBnull{} on the
+null four versus \swDeltaFBP{} on the 26 patched systems. Anchored rubric
+scoring cannot distinguish a described change from an applied one. This is
+precisely why the validation ladder exists, and why every outcome-facing
+claim in this paper is carried by the blinded rung---real code, randomized
+order, placebo-controlled---rather than by rubric magnitudes.
+Consequently, all rubric aggregates in this paper are reported with the
+patched systems ($n{=}26$) as primary and the all-30 figures parenthetical.
+
+\begin{table}[t]\centering
+\caption{The within-study null control: rubric-rung deltas for systems
+where no code changed vs.\ systems that received patches.}
+\label{tab:nullcontrol}\footnotesize
+\input{tables/nullcontrol}
+\end{table}
 
 \paragraph{R3 --- the gains clear measured noise, not just assumed noise.}
 Every shipped gain exceeds its agent's paraphrase noise floor
@@ -773,8 +810,8 @@ One seed; all primary judging by two sibling models of one provider (the
 supplementary cross-provider check of Appendix~\ref{app:ext} replicated the
 placebo separation exactly and the patch preference partially); per-agent
 probe sets of 4--6 (the assumed-noise MDE column is the honest reminder of
-what small $n$ cannot certify); \swItersLow{} of \swN{} agents ran reduced
-iteration budgets under the cap; prompt surfaces are detected by content
+what small $n$ cannot certify); \swItersReduced{} of \swN{} agents ran reduced
+iteration budgets under the cap (\swItersMid{} at 36 and \swItersLow{} at 24 versions; the full budget is 60); prompt surfaces are detected by content
 markers and under-detected for runtime-assembled scaffolds; blinded excerpts
 show up to four changed files per agent, so damage outside them is caught
 only by the static rung; between-agent baselines are anchored by design; and

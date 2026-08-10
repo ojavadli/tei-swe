@@ -168,9 +168,18 @@ delta_fs = final_v - struct_v
 delta_fb = final_v - base_v
 rates = np.array([r["ob"]["resolve_rate"] for r in A]) / 100.0
 
+ZERO4 = ['02_sonarfoundationagent', '04_acoder', '17_codeshellagent', '25_codeshelltester']
+IS_P = np.array([r["dir"] not in ZERO4 for r in A])
+base26, struct26, final26 = base_v[IS_P], struct_v[IS_P], final_v[IS_P]
+d_sb26, d_fs26, d_fb26 = struct26 - base26, final26 - struct26, final26 - base26
+d_fb4 = (final_v - base_v)[~IS_P]; d_sb4 = (struct_v - base_v)[~IS_P]
+P_sb26 = None  # filled below after paired() defined? paired already defined above
 P_sb = paired("struct-base", delta_sb)
 P_fs = paired("final-struct", delta_fs)
 P_fb = paired("final-base", delta_fb)
+P_sb26 = paired("struct-base-26", d_sb26)
+P_fs26 = paired("final-struct-26", d_fs26)
+P_fb26 = paired("final-base-26", d_fb26)
 
 mde = np.array([r["res"]["confirmation"]["mde"] for r in A])
 nq = np.array([r["res"]["confirmation"]["n_queries"] for r in A])
@@ -239,7 +248,7 @@ for r in A:
 
 iters_groups = Counter(r["res"]["n_versions"] for r in A)
 
-bdim_means = {k: float(np.mean([r["base"]["dimensions"][k] for r in A])) for k in DIMS}
+bdim_means = {k: float(np.mean([r["base"]["dimensions"][k] for r in A if r["dir"] not in ZERO4])) for k in DIMS}
 # final dims: dims of the best_final version
 fdim_means = {}
 for k in DIMS:
@@ -271,6 +280,16 @@ M["swApplied"] = str(applied)
 M["swStructN"] = str(n_struct)
 M["swPromptN"] = str(n_prompt)
 M["swBase"] = f"{base_v.mean():.3f}"
+M["swBaseP"] = f"{base26.mean():.3f}"
+M["swStructP"] = f"{struct26.mean():.3f}"
+M["swFinalP"] = f"{final26.mean():.3f}"
+M["swDeltaFBP"] = f"{d_fb26.mean():+.3f}"
+M["swDeltaSBP"] = f"{d_sb26.mean():+.3f}"
+M["swDeltaFSP"] = f"{d_fs26.mean():+.3f}"
+M["swDeltaFBnull"] = f"{d_fb4.mean():+.3f}"
+M["swDeltaSBnull"] = f"{d_sb4.mean():+.3f}"
+M["swItersReduced"] = str(iters_groups.get(36, 0) + iters_groups.get(24, 0))
+M["swAcctMult"] = f"{LLM_TOTAL/(budget['input_tokens']/1e6*0.20 + budget['output_tokens']/1e6*1.20):.1f}"
 M["swStruct"] = f"{struct_v.mean():.3f}"
 M["swFinal"] = f"{final_v.mean():.3f}"
 M["swDeltaSB"] = f"{P_sb['mean']:+.3f}"
@@ -533,8 +552,10 @@ for r in A:
         f"{(res.get('noise_floor') or {}).get('noise_floor', float('nan')):+.4f} & "
         f"{res['confirmation']['mde']:.2f} \\\\")
 rows.append(r"\midrule")
-rows.append(f"\\textbf{{Mean}} & & & & \\textbf{{{base_v.mean():.3f}}} & \\textbf{{{struct_v.mean():.3f}}} & "
-            f"\\textbf{{{final_v.mean():.3f}}} & \\textbf{{{delta_fb.mean():+.3f}}} & & & & & \\\\")
+rows.append(f"\\textbf{{Mean (patched, $n{{=}}26$)}} & & & & \\textbf{{{base26.mean():.3f}}} & \\textbf{{{struct26.mean():.3f}}} & "
+            f"\\textbf{{{final26.mean():.3f}}} & \\textbf{{{d_fb26.mean():+.3f}}} & & & & & \\\\")
+rows.append(f"Mean (all 30) & & & & {base_v.mean():.3f} & {struct_v.mean():.3f} & "
+            f"{final_v.mean():.3f} & {delta_fb.mean():+.3f} & & & & & \\\\")
 wtab("pertask.tex", rows, "rlcrrrrrccrrr",
      r"\# & System & Split & Res.\% & Base & Struct & Final & $\Delta$ & Blind & AST & Appl & Floor & MDE$^{a}_{80}$")
 
@@ -551,7 +572,7 @@ wtab("selection.tex", [
 
 # runnability
 rows = [f"{esc(k)} & {v} \\\\" for k, v in sorted(runn.items(), key=lambda kv: -kv[1])]
-rows.append(r"\midrule Executable end-to-end on this host (Docker ground truth available) & 0 \\")
+rows.append(r"\midrule Executable end-to-end on this host & 0 at screen time; 1 (\texttt{SWE-agent}) after the \S10 Docker/colima install \\")
 wtab("runnability.tex", rows, "lr", "Blocker & Systems")
 
 # stage means + contrasts
@@ -561,11 +582,17 @@ def crow(P, label):
             f"{P['dz']:.2f} & {P['wins']}/{P['losses']}/{P['ties']} \\\\")
 
 wtab("contrasts.tex", [
-    crow(P_sb, r"Structural $-$ baseline"),
-    crow(P_fs, r"Final $-$ structural"),
-    crow(P_fb, r"Final $-$ baseline"),
+    crow(P_sb26, r"Structural $-$ baseline"),
+    crow(P_fs26, r"Final $-$ structural"),
+    crow(P_fb26, r"Final $-$ baseline"),
 ], "lrrrrrrr",
    r"Contrast & $\Delta$ & 95\% CI & $t$ $p$ & Wilcoxon $p$ & Sign $p$ & $d_z$ & W/L/T")
+# within-study null control (R2f): zero-patch vs patched vs all
+wtab("nullcontrol.tex", [
+    f"Zero-patch null control ($n{{=}}4$) & {d_sb4.mean():+.4f} & {d_fb4.mean():+.4f} \\\\",
+    f"Patched systems ($n{{=}}26$) & {d_sb26.mean():+.4f} & {d_fb26.mean():+.4f} \\\\",
+    f"All systems ($n{{=}}30$) & {delta_sb.mean():+.4f} & {delta_fb.mean():+.4f} \\\\",
+], "lrr", r"Group & Struct $-$ base & Final $-$ base")
 
 # gate summary
 wtab("gate.tex", [
@@ -598,7 +625,7 @@ wtab("costs.tex", [
     f"Cost per applied, syntax-clean committed patch & {M['swCostPerPatch']} \\\\",
     f"Judge calls: \\texttt{{gpt-5.6-luna}} / \\texttt{{gpt-5.6-terra}} & {M['swLunaCalls']} / {M['swTerraCalls']} \\\\",
     r"Per-model token split & not separately metered for mixed passes; list bounds shown in Table~\ref{tab:spend} \\",
-    r"Judge calls avoided by the syntax pre-gate & every parse-breaking candidate, at \$0 \\",
+    r"Syntax pre-gate savings (projection; gate not active in the original optimization pass) & every parse-breaking candidate, at \$0 \\",
 ], "lr", "Quantity & Value")
 
 # apply taxonomy
