@@ -1,0 +1,8 @@
+
+# Phase-C scale-out (never commit; keys/db/logs/rollout dirs stay local)
+openai_pool*
+*.sqlite
+_exec100_*
+exec100_*.log
+_keypool_roster.json
+PARALLEL_SCALEOUT_SNAPSHOT.json
