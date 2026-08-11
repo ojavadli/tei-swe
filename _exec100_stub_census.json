@@ -1,0 +1,14 @@
+{
+ "patched": {
+  "instance_dirs": 100,
+  "traj_files": 58,
+  "error_stubs": 58,
+  "genuine_rollouts": 0
+ },
+ "baseline": {
+  "instance_dirs": 10,
+  "traj_files": 0,
+  "error_stubs": 0,
+  "genuine_rollouts": 0
+ }
+}
