@@ -27,13 +27,15 @@ KEYS = [f"key{i:02d}" for i in range(1, 21) if i != 9]   # key09 = duplicate of 
 # infeasible locally (it would be ~38 containers on 4 vCPU). Keys still remove
 # any LLM-side TPM ceiling and enable pair-affinity; parallelism is bounded by
 # the VM. Sidecars run ALONGSIDE the original runner's 3 concurrent rollouts.
-MAX_TARGET = 8           # sidecar ceiling: ~8 + runner's 3 on a 4-vCPU VM (rollouts idle on LLM I/O)
-START_TARGET = 3
+MAX_TARGET = 6           # sidecar ceiling: 6 + runner's 3 = ~9 containers; RAM (7 GB /
+                         # ~0.7 GB each) is the wall, so cap here and let the governor adapt
+START_TARGET = 2
 VM_CPUS = 4
 VM_RAM_GB = 7
 DOCKER_DISK_MIN_GB = 10  # colima /var/lib/docker reserve
 HOST_LOAD_MAX = 24.0     # 14 host cores; VM load shows here too
 SWAP_MAX_MB = 6144
+CURSOR_FILE = os.path.join(ROOT, "_exec100_key_cursor")
 
 
 def sh(*cmd):
@@ -94,11 +96,16 @@ def pending_left():
 
 def main():
     target = START_TARGET
-    next_wid = 1
+    next_wid = 101          # avoid colliding with any manually-launched validation workers
+    # persistent round-robin cursor so a controller restart continues rotation
+    try:
+        key_cursor = int(open(CURSOR_FILE).read().strip())
+    except (OSError, ValueError):
+        key_cursor = 0
     spawned = {}
     prev_gen, prev_t = None, time.time()
+    prev_swap = None
     released_patched = False
-    key_cursor = 0
     while True:
         # release stale claims each cycle
         sh("python3", "exec100_claim.py", "release-stale")
@@ -120,23 +127,46 @@ def main():
         e429 = count_429("_exec100_sidecar/*/worker_run.log") + \
             count_429("_exec100_sidecar_failed/*/worker_run.log")
 
-        # adaptive target — capped by VM health, +1 at a time (gentle on 4 vCPU)
+        # adaptive target — gate on VM/Docker health and GROWING host swap (the
+        # ~38 GB absolute host swap is pre-existing and not fleet-caused; the
+        # fleet's footprint is VM containers + tiny host shells). Scale down only
+        # if swap climbs materially, Docker disk runs low, dockerd is unhealthy,
+        # or 429s spike.
         rate = None
         if prev_gen is not None and time.time() > prev_t:
             rate = (genuine - prev_gen) / ((time.time() - prev_t) / 3600)
-        healthy = (load < HOST_LOAD_MAX and swap_mb < SWAP_MAX_MB
-                   and disk_gb > DOCKER_DISK_MIN_GB and docker_ok and e429 < 25)
+        swap_growing = prev_swap is not None and (swap_mb - prev_swap) > 2048
+        healthy = (disk_gb > DOCKER_DISK_MIN_GB and docker_ok and e429 < 25
+                   and not swap_growing and load < HOST_LOAD_MAX)
         if healthy and len(ws) >= target:
             target = min(MAX_TARGET, target + 1)
         elif not healthy:
             target = max(2, target - 2)
-        prev_gen, prev_t = genuine, time.time()
+        prev_gen, prev_t, prev_swap = genuine, time.time(), swap_mb
 
         # spawn up to target (only if fleet-claimable work exists)
         claimable = rows.get("PENDING", 0) + rows.get("ERROR_RETRYABLE", 0)
         while len(ws) < min(target, max(claimable, 0)) and claimable > 0:
-            key = KEYS[key_cursor % len(KEYS)]
-            key_cursor += 1
+            # Deterministic round-robin over the verified unique pool, PERSISTED
+            # across controller restarts (so a restart doesn't re-concentrate on
+            # KEY01), and skipping keys currently held by a live worker so new
+            # spawns spread across the pool rather than doubling up. Forward-only:
+            # never rotates a healthy worker's key. Concurrency stays VM-capped.
+            held = set(ws.values())
+            key = None
+            for _ in range(len(KEYS)):
+                cand = KEYS[key_cursor % len(KEYS)]
+                key_cursor += 1
+                if cand not in held:
+                    key = cand
+                    break
+            if key is None:                     # all unique keys already held
+                key = KEYS[key_cursor % len(KEYS)]
+                key_cursor += 1
+            try:
+                open(CURSOR_FILE, "w").write(str(key_cursor))
+            except OSError:
+                pass
             wid = next_wid
             next_wid += 1
             subprocess.run(["python3", "spawn_detached.py",
