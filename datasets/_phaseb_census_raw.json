@@ -1,0 +1,856 @@
+{
+ "summary": {
+  "agents": 30,
+  "agents_full_100_100": 30,
+  "total_structural_unique": 3000,
+  "total_prompt_unique": 3000,
+  "total_unique": 6000,
+  "expected": {
+   "structural": 3000,
+   "prompt": 3000,
+   "total": 6000
+  }
+ },
+ "per_agent": {
+  "01_livesweagent": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 6,
+    "null_patch": 94,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 87,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   }
+  },
+  "02_sonarfoundationagent": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 100,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 100,
+    "bcl_tagged": 70
+   }
+  },
+  "03_trae": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 25,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 69,
+    "null_patch": 2,
+    "bcl_tagged": 70
+   }
+  },
+  "04_acoder": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 100,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 100,
+    "bcl_tagged": 70
+   }
+  },
+  "05_joycode": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 71,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 87,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   }
+  },
+  "06_lingxi": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 73,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 87,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   }
+  },
+  "07_moatlesstools": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 14,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   }
+  },
+  "08_sweagent": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 77,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 77,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   }
+  },
+  "09_agentscope": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 65,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 38,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   }
+  },
+  "10_entropo": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 80,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 67,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   }
+  },
+  "11_experepair": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 32,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 83,
+    "null_patch": 1,
+    "bcl_tagged": 82
+   }
+  },
+  "12_kgcompass": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 85,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 29,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   }
+  },
+  "13_swerizzo": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 69,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 81,
+    "null_patch": 2,
+    "bcl_tagged": 70
+   }
+  },
+  "14_agentless15": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 77,
+    "null_patch": 12,
+    "bcl_tagged": 82
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 90,
+    "null_patch": 1,
+    "bcl_tagged": 82
+   }
+  },
+  "15_composioswekit": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 84,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 78,
+    "null_patch": 2,
+    "bcl_tagged": 88
+   }
+  },
+  "16_darsagent": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 79,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 92,
+    "null_patch": 1,
+    "bcl_tagged": 88
+   }
+  },
+  "17_codeshellagent": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 100,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 100,
+    "bcl_tagged": 88
+   }
+  },
+  "18_codefusecgm": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 66,
+    "null_patch": 1,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 87,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   }
+  },
+  "19_agentlesslite": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 64,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 84,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   }
+  },
+  "20_sweexp": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 66,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 47,
+    "null_patch": 1,
+    "bcl_tagged": 88
+   }
+  },
+  "21_swerl": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 67,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 10,
+    "bcl_tagged": 88
+   }
+  },
+  "22_orcaloca": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 76,
+    "null_patch": 1,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 89,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   }
+  },
+  "23_patchedcodespatchwork": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 78,
+    "null_patch": 0,
+    "bcl_tagged": 70
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 55,
+    "null_patch": 8,
+    "bcl_tagged": 70
+   }
+  },
+  "24_swefixer": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 61,
+    "null_patch": 0,
+    "bcl_tagged": 82
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 40,
+    "null_patch": 12,
+    "bcl_tagged": 82
+   }
+  },
+  "25_codeshelltester": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 100,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 0,
+    "null_patch": 100,
+    "bcl_tagged": 88
+   }
+  },
+  "26_aegiso3mini10": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 83,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 92,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   }
+  },
+  "27_agentless": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 72,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 60,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   }
+  },
+  "28_coder": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 20,
+    "null_patch": 78,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 98,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   }
+  },
+  "29_aider": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 61,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 75,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   }
+  },
+  "30_rag": {
+   "structural": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 64,
+    "null_patch": 12,
+    "bcl_tagged": 88
+   },
+   "prompt": {
+    "n": 100,
+    "unique": 100,
+    "first": 1,
+    "last": 100,
+    "missing": [],
+    "dups": [],
+    "scored": 100,
+    "whys": 100,
+    "applied": 66,
+    "null_patch": 0,
+    "bcl_tagged": 88
+   }
+  }
+ }
+}

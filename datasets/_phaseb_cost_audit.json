@@ -1,0 +1,20 @@
+{
+ "candidate_generation": "1 luna call per batch (batch=6); BCL generation contract states Thompson-chosen family",
+ "bcl_lesson_update": "1 small luna call per batch; 2478 delta-ops emitted",
+ "candidate_scoring": "1 luna judge call per batch (6 candidates scored per call)",
+ "thompson_selection_NO_LLM": 4915,
+ "bcl_ingest_NO_LLM": 4860,
+ "bcl_retrieve_ops": 839,
+ "embeddings_text-embedding-3-small_calls": 1083,
+ "extension_recorded_calls": 1636,
+ "extension_tokens_in": 2543547,
+ "extension_tokens_out": 2091104,
+ "extension_nominal_usd": 38.56,
+ "extension_conservative_usd": 77.11,
+ "blinded_validation_calls": 5,
+ "blinded_nominal_usd": 0.03,
+ "sham_reanchor_calls": 45,
+ "sham_nominal_usd": 0.1463,
+ "model_mandate": "call_llm raises SystemExit if server model != gpt-5.6-luna; no such error in any log => all calls verified luna",
+ "note": "sessions were killed/restarted; per-session meters reset, so recorded-call totals are a lower bound; TOKENS metered within each session are exact; candidate VERSIONS (6000) are the authoritative completeness measure, not call count"
+}

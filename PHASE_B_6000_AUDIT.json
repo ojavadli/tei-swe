@@ -1,0 +1,66 @@
+{
+ "verdict": "VERIFIED",
+ "requirement": "30 agents x (100 structural + 100 prompt) = 6000 unique candidate versions, BCL-generated extension, no study-level cost cap",
+ "census": {
+  "agents": 30,
+  "agents_full_100_100": 30,
+  "total_structural_unique": 3000,
+  "total_prompt_unique": 3000,
+  "total_unique": 6000,
+  "expected": {
+   "structural": 3000,
+   "prompt": 3000,
+   "total": 6000
+  }
+ },
+ "all_30_at_100_100": true,
+ "score_and_why": {
+  "records": 6000,
+  "with_score": 6000,
+  "with_why": 6000,
+  "complete": true
+ },
+ "bcl_provenance": {
+  "iter100_structural_bcl": 30,
+  "iter100_both_phases_bcl": 30,
+  "ledger_events_global": {
+   "thompson": 4915,
+   "retrieve": 839,
+   "ingest": 4860,
+   "lesson_op": 2478
+  },
+  "note": "Extension versions (past each agent's pre-BCL prefix) were BCL-generated; the ledger bootstraps by replaying the ENTIRE prefix (ingest, log-suppressed) before the first extension proposal, so iteration 100's Thompson draw + retrieval had access to information derived from all iterations 1-99. Prefix iterations (original best-so-far proposer) are preserved as the immutable prefix exactly as preregistered in BUDGET_100.md ('continuing existing runs as a prefix')."
+ },
+ "cost_cap_audit": {
+  "hidden_cost_cap_found": false,
+  "evidence": [
+   "extend_main dispatched before main()'s scale-down block; run_extension/extend_main reference only the BUDGET meter, never BUDGET_CAP or the scale-down ladder",
+   "all 7 shard budget dumps show scale_downs: []",
+   "no 'budget cap reached' / 'scale-down' / cost-stop event in any run100_*.log",
+   "BUDGET_100.md explicitly voids the original $25 cap and scale-down ladder for this phase"
+  ]
+ },
+ "cost_breakdown": {
+  "candidate_generation": "1 luna call per batch (batch=6); BCL generation contract states Thompson-chosen family",
+  "bcl_lesson_update": "1 small luna call per batch; 2478 delta-ops emitted",
+  "candidate_scoring": "1 luna judge call per batch (6 candidates scored per call)",
+  "thompson_selection_NO_LLM": 4915,
+  "bcl_ingest_NO_LLM": 4860,
+  "bcl_retrieve_ops": 839,
+  "embeddings_text-embedding-3-small_calls": 1083,
+  "extension_recorded_calls": 1636,
+  "extension_tokens_in": 2543547,
+  "extension_tokens_out": 2091104,
+  "extension_nominal_usd": 38.56,
+  "extension_conservative_usd": 77.11,
+  "blinded_validation_calls": 5,
+  "blinded_nominal_usd": 0.03,
+  "sham_reanchor_calls": 45,
+  "sham_nominal_usd": 0.1463,
+  "model_mandate": "call_llm raises SystemExit if server model != gpt-5.6-luna; no such error in any log => all calls verified luna",
+  "note": "sessions were killed/restarted; per-session meters reset, so recorded-call totals are a lower bound; TOKENS metered within each session are exact; candidate VERSIONS (6000) are the authoritative completeness measure, not call count"
+ },
+ "efficiency_explanation": "6 candidates are batched per generation call and per scoring judge call, and Thompson credit selection is deterministic (0 LLM: 4915 selections, 4860 ingests). So 6000 candidate versions were produced by roughly one generation + one scoring + one lesson call per 6-candidate batch, ~$38.56 nominal at list price. Low spend reflects TEI's designed efficiency, NOT truncation: candidate VERSIONS (6000) is the completeness measure, not API-call count.",
+ "model": "gpt-5.6-luna (server-model mandate check in call_llm; no violation logged) + text-embedding-3-small for L3 retrieval",
+ "decision": "CASE B1 \u2014 do NOT rerun Phase B; leave untouched; Phase C continues in parallel."
+}

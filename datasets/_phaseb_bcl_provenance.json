@@ -1,0 +1,468 @@
+{
+ "summary": {
+  "agents": 30,
+  "iter100_struct_bcl": 30,
+  "iter100_both_bcl": 30,
+  "scored_total": 6000,
+  "whys_total": 6000,
+  "records_total": 6000,
+  "ledger_events_global": {
+   "thompson": 4915,
+   "retrieve": 839,
+   "ingest": 4860,
+   "lesson_op": 2478
+  }
+ },
+ "per_agent": {
+  "01_livesweagent": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 140,
+    "retrieve": 24,
+    "ingest": 140,
+    "lesson_op": 72
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "02_sonarfoundationagent": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 140,
+    "retrieve": 24,
+    "ingest": 140,
+    "lesson_op": 71
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "03_trae": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 146,
+    "retrieve": 25,
+    "ingest": 140,
+    "lesson_op": 71
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "04_acoder": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 140,
+    "retrieve": 24,
+    "ingest": 140,
+    "lesson_op": 70
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "05_joycode": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 140,
+    "retrieve": 24,
+    "ingest": 140,
+    "lesson_op": 72
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "06_lingxi": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 164,
+   "ledger_events": {
+    "thompson": 164,
+    "retrieve": 28,
+    "ingest": 164,
+    "lesson_op": 84
+   },
+   "distinct_posterior_hashes": 28,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "07_moatlesstools": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 164,
+   "ledger_events": {
+    "thompson": 170,
+    "retrieve": 29,
+    "ingest": 164,
+    "lesson_op": 83
+   },
+   "distinct_posterior_hashes": 28,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "08_sweagent": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 164,
+   "ledger_events": {
+    "thompson": 164,
+    "retrieve": 28,
+    "ingest": 164,
+    "lesson_op": 83
+   },
+   "distinct_posterior_hashes": 28,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "09_agentscope": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 164,
+   "ledger_events": {
+    "thompson": 164,
+    "retrieve": 28,
+    "ingest": 164,
+    "lesson_op": 84
+   },
+   "distinct_posterior_hashes": 28,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "10_entropo": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 164,
+   "ledger_events": {
+    "thompson": 164,
+    "retrieve": 28,
+    "ingest": 164,
+    "lesson_op": 84
+   },
+   "distinct_posterior_hashes": 28,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "11_experepair": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 164,
+   "ledger_events": {
+    "thompson": 164,
+    "retrieve": 28,
+    "ingest": 164,
+    "lesson_op": 84
+   },
+   "distinct_posterior_hashes": 28,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "12_kgcompass": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 146,
+    "retrieve": 25,
+    "ingest": 140,
+    "lesson_op": 72
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "13_swerizzo": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 140,
+    "retrieve": 24,
+    "ingest": 140,
+    "lesson_op": 72
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "14_agentless15": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 164,
+   "ledger_events": {
+    "thompson": 164,
+    "retrieve": 28,
+    "ingest": 164,
+    "lesson_op": 84
+   },
+   "distinct_posterior_hashes": 28,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "15_composioswekit": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 176,
+    "retrieve": 30,
+    "ingest": 176,
+    "lesson_op": 90
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "16_darsagent": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 176,
+    "retrieve": 30,
+    "ingest": 176,
+    "lesson_op": 89
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "17_codeshellagent": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 182,
+    "retrieve": 31,
+    "ingest": 176,
+    "lesson_op": 89
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "18_codefusecgm": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 176,
+    "retrieve": 30,
+    "ingest": 176,
+    "lesson_op": 90
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "19_agentlesslite": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 182,
+    "retrieve": 31,
+    "ingest": 176,
+    "lesson_op": 90
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "20_sweexp": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 182,
+    "retrieve": 31,
+    "ingest": 176,
+    "lesson_op": 92
+   },
+   "distinct_posterior_hashes": 31,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "21_swerl": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 182,
+    "retrieve": 31,
+    "ingest": 176,
+    "lesson_op": 88
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "22_orcaloca": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 140,
+    "retrieve": 24,
+    "ingest": 140,
+    "lesson_op": 72
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "23_patchedcodespatchwork": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 140,
+   "ledger_events": {
+    "thompson": 141,
+    "retrieve": 24,
+    "ingest": 140,
+    "lesson_op": 71
+   },
+   "distinct_posterior_hashes": 24,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "24_swefixer": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 164,
+   "ledger_events": {
+    "thompson": 170,
+    "retrieve": 29,
+    "ingest": 164,
+    "lesson_op": 82
+   },
+   "distinct_posterior_hashes": 28,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "25_codeshelltester": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 176,
+    "retrieve": 30,
+    "ingest": 176,
+    "lesson_op": 90
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "26_aegiso3mini10": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 176,
+    "retrieve": 30,
+    "ingest": 176,
+    "lesson_op": 90
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "27_agentless": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 182,
+    "retrieve": 31,
+    "ingest": 176,
+    "lesson_op": 89
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "28_coder": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 176,
+    "retrieve": 30,
+    "ingest": 176,
+    "lesson_op": 90
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "29_aider": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 176,
+    "retrieve": 30,
+    "ingest": 176,
+    "lesson_op": 90
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  },
+  "30_rag": {
+   "struct100_bcl": true,
+   "prompt100_bcl": true,
+   "n_bcl_recs": 176,
+   "ledger_events": {
+    "thompson": 176,
+    "retrieve": 30,
+    "ingest": 176,
+    "lesson_op": 90
+   },
+   "distinct_posterior_hashes": 30,
+   "scored": 200,
+   "whys": 200,
+   "n": 200
+  }
+ }
+}
