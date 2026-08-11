@@ -71,10 +71,13 @@ while true; do
   else
     python3 exec100_claim.py retry --instance "$INSTANCE" --arm "$ARM" --note "$VERDICT" | tail -1
     FAILSTREAK=$((FAILSTREAK+1))
-    if [ $FAILSTREAK -ge 3 ]; then
-      echo "W$WID: 3 consecutive non-genuine results; self-disabling this worker"
+    # Failed builds cost $0 (no LLM); the containerd pull race warms out as the
+    # image cache fills, so persist through transient clusters rather than
+    # churning. Only self-disable on a long streak (a genuinely bad key/host).
+    if [ $FAILSTREAK -ge 10 ]; then
+      echo "W$WID: 10 consecutive non-genuine results; self-disabling this worker"
       break
     fi
-    sleep 20
+    sleep $((5 + FAILSTREAK * 5))   # graduated backoff
   fi
 done
