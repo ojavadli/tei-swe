@@ -526,14 +526,35 @@ price of \$0.20/\$1.20; list-price figures shown where they differ).}
 \end{table}
 
 \paragraph{Run integrity.}
-Three operational failures were caught by invariant checks and are preserved
+Four operational failures were caught by invariant checks and are preserved
 for reproducers: the \texttt{timeout(1)} false-negative
 (Table~\ref{tab:selection}); an early \texttt{git add -A} that swept study
-artifacts into agent history (fixed; artifacts excluded); and a
+artifacts into agent history (fixed; artifacts excluded); a
 process-management collision in which two shard generations raced on three
 agents' logs---caught by the \texttt{candidates.jsonl}-count invariant, now a
 released audit script; the three agents were discarded and re-run from frozen
-SHAs. The final audit passes \swN/\swN.
+SHAs---and, in the funded execution arm, a silent integration failure that
+presented as progress: every model call was rejected by the API
+(\texttt{gpt-5.6-luna} refuses function tools under its implicit reasoning
+mode on chat completions), yet the runner kept emitting trajectory files, so a
+file-count progress ledger reported rollouts ``completing'' while zero
+genuine rollouts existed (57 stubs with zero API calls, zero tokens, zero
+spend; preserved as failed-launch artifacts and preregistered as such in
+\texttt{prereg-exec2-amend1}). The defective instrument was the progress
+ledger itself---the same class of finding as the \texttt{timeout(1)} false
+negative---and the fix is instrumentation, not vigilance: progress in the
+execution arm is counted only by trajectories with verified model usage
+(API calls $\geq 1$ and nonzero tokens in both directions), never by file
+existence. A further scale-out finding followed once that ledger was trusted:
+after the single seed runner completed its patched arm it entered a baseline
+phase whose round-start \texttt{docker rmi -f} pruning livelocked the parallel
+worker fleet on the shared single-VM container store---about five hours at zero
+genuine rollouts (and zero spend, since failed builds issue no model call). The
+genuine-rollout ledger held flat throughout, surfacing the stall; the
+resolution was orchestration, not science---the finished runner was terminated
+so the fleet owned the VM, every genuine rollout preserved (immutable on disk)
+and only in-flight, not-yet-genuine rollouts discarded and re-run. The final
+audit passes \swN/\swN.
 
 \section{Results}
 \label{sec:results}
