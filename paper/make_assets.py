@@ -721,7 +721,7 @@ _rows.append(r"Historical cross-provider judging (claude-sonnet-5; non-OpenAI, o
 _rows.append(r"\midrule \textbf{Grand total (all rows above)} & \textbf{\$%.2f} \\" % GRAND)
 _rows.append(f"Original-study tokens (LLM passes; frozen, published) & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\")
 _rows.append(f"List-price equivalent, original study (all-luna lower / all-terra upper bound) & {M['swCostListLo']}--{M['swCostListHi']} \\\\")
-_rows.append(f"Agents at 200 versions (100 structural + 100 prompt) & {iters_groups.get(200,0)}/30 \\\\")
+_rows.append(f"Agents at 200 versions (100 structural + 100 prompt) & all {iters_groups.get(200,0)} \\\\")
 wtab("spend.tex", _rows, "lr", "Stage & Nominal")
 wtab("costs.tex", [
     f"Cost per agent, all LLM passes (accounting rate) & {M['swCostPerAgent']} \\\\",

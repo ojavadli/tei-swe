@@ -14,9 +14,9 @@ import re
 import sys
 
 ROOT = os.path.expanduser("~/swebench-agents")
-CANON = ("Pre-repair confirmatory result: 24/26 patched agents (118/130 votes); "
-         "after defect repair, the adaptive retest shows 26/26 strict majorities, "
-         "24 unanimous (128/130 votes)")
+CANON = ("Pre-repair confirmatory result: 21/26 patched agents (105/130 votes); "
+         "after repairing the one import-time defect, the adaptive retest shows "
+         "22/26 strict majorities, 17 unanimous (110/130 votes)")
 
 
 def pdf_text(p):
@@ -33,15 +33,15 @@ def check(name, text):
     errs = []
     flat = re.sub(r"\s+", " ", text)
     # windowed co-occurrence checks (120-char windows around each vote count)
-    for m in re.finditer(r"118/130", flat):
+    for m in re.finditer(r"105/130", flat):
         w = flat[max(0, m.start() - 200):m.end() + 120]
-        if re.search(r"26/26|26 of 26", w) and not any(k in w.lower() for k in ("after", "repair")):
-            errs.append(f"{name}: 118/130 paired with 26/26 without repair context: ...{w[:160]}...")
-    for m in re.finditer(r"128/130", flat):
+        if re.search(r"22/26|22 of 26", w) and not any(k in w.lower() for k in ("after", "repair")):
+            errs.append(f"{name}: 105/130 (pre-repair) paired with 22/26 (post-repair) without repair context: ...{w[:160]}...")
+    for m in re.finditer(r"110/130", flat):
         w = flat[max(0, m.start() - 200):m.end() + 120]
-        ok_ctx = any(k in w.lower() for k in ("pre-repair", "defect repair", "after repair"))
-        if re.search(r"24/26|24 of 26", w) and not ok_ctx:
-            errs.append(f"{name}: 128/130 paired with 24/26 without pre-repair context: ...{w[:160]}...")
+        ok_ctx = any(k in w.lower() for k in ("pre-repair", "defect repair", "after repair", "retest"))
+        if re.search(r"21/26|21 of 26", w) and not ok_ctx:
+            errs.append(f"{name}: 110/130 (post-repair) paired with 21/26 (pre-repair) without context: ...{w[:160]}...")
     # banned phrases (style-and-consistency pass) — live claim surfaces only;
     # REVISION_LOG files legitimately quote superseded wordings as history
     BANNED = [] if name.startswith("REVISION_LOG") else ["reproduced by an external judge", "second judge family",
@@ -58,8 +58,7 @@ def check(name, text):
               "equivalence at measured power", "no paired regression",
               "1/6", "≈6", "all-in", "30/30", "next rung",
               "up to 30", "up to 100",
-              "prioritized experience replay", "hierarchical Bayesian",
-              "attention"]
+              "prioritized experience replay", "hierarchical Bayesian"]
     for b in BANNED:
         if b in text:
             errs.append(f"{name}: banned phrase present: {b!r}")

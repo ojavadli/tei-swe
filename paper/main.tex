@@ -40,44 +40,34 @@ Loop for Agentic Systems via Sequential Decision Gating (TEI-SWE)}
 \maketitle
 
 \begin{abstract}
-\noindent Automated optimization of LLM agents is typically demonstrated on a
-handful of the authors' own tasks, with candidates selected by judges that
-inherit the optimizer's biases. We introduce TEI (Target--Evaluate--Improve),
-a self-improving loop for agentic systems built on sequential decision
-gating: candidates face sequential paired evaluation with exact futility
-bounds and Jeffreys Beta--Binomial posterior early kills over discordant
-pairs, survivors enter Wilson lower-confidence-bound Pareto selection, and a
-final Bayesian do-no-harm confirmation decides shipment---so expensive
-evaluation is spent only on candidates that survive cheap evaluation. Applied to thirty real systems frozen from the
-SWE-bench leaderboard (TEI-SWE-30), TEI produced \swVersions{} audited
-candidate versions and \swApplied{} committed patches; rubric scores
-increased across all \swN{} optimization trajectories, and 26 systems
-received shipped changes, at \swCostPerAgent{} per agent under a conservative
-accounting rate (original-study list-price equivalent bounded between
-\swCostListLo{} and \swCostListHi). Pre-repair confirmatory result:
-\swBlindPreMajP/26 patched agents (\swBlindPreVotesP/130 votes); after
-repairing the one import-time defect---flagged independently by all five of
-that agent's blinded votes and confirmed by a uniform static sweep of all 30
-agents as the only such defect---the adaptive retest shows \swBlindMajP/26
-strict majorities, \swBlindPerfect{} unanimous (\swBlindVotesP/130 votes),
-with \swBlindMajB{} agents preferring the baseline. A
-pre-registered sham placebo draws \swShamShare{} of votes against
-\swBlindShare{} for real patches, rejecting the changed-code / style
-explanation; diagnosis-guided proposals beat budget-matched unguided
-generation on \swRandTeiWins/\swRandN{} agents; and two pre-registered paired
-execution arms---a 36-instance \texttt{gpt-4o-mini} pilot
-(\swExecPatch/\swExecN{} vs \swExecBase/\swExecN) and a funded
-\swExecLunaN{}-instance arm on the study's \texttt{gpt-5.6-luna} backbone
-(\swExecLunaPatch/\swExecLunaN{} vs \swExecLunaBase/\swExecLunaN{};
-\swExecLunaWins{}W/\swExecLunaLoss{}L, sign $p{=}\swExecLunaSign$)---both fired
-their null branch, showing no detectable execution-rung difference at either
-configuration. Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
-HiveMind---report hundreds to thousands of executed rollouts per single
-benchmark where counts are reported, and our review of their papers found no
-comparable placebo-plus-blinded validation of the selection signal; TEI
-audits an entire leaderboard population in \swCallsAll{} model calls. We
-release TEI-SWE-30, the why-record and blinded-vote datasets, a contributed
-syntax pre-gate, and a one-command audit tool.
+\noindent Automated optimization of LLM agents is typically shown on a few
+author-chosen tasks, with candidates selected by biased judges. We introduce
+TEI (Target--Evaluate--Improve), a
+self-improving loop built on sequential decision gating: candidates face
+sequential paired evaluation with exact futility bounds and Jeffreys
+Beta--Binomial posterior kills over discordant pairs, survivors enter Wilson
+lower-confidence-bound Pareto selection, and a Bayesian do-no-harm confirmation
+decides shipment; a two-head Bayesian bandit credit ledger (Jeffreys-Beta
+reliability and Normal magnitude heads with Thompson selection) steers which
+fix family each proposal attempts. Applied to thirty real systems frozen from
+the SWE-bench leaderboard (TEI-SWE-30), TEI generated \swVersions{} audited
+candidate versions---100 structural and 100 prompt iterations per system---and
+\swApplied{} committed patches, every version scored and why-recorded, at
+\swCostPerAgent{} per agent. Under blinding (real diffs, randomized order, no
+narrative), \swBlindMajP/26 patched systems win a strict majority
+(\swBlindVotesP/130 votes, \swBlindPerfect{} unanimous) after repairing the one
+import-time defect a uniform static sweep found; a preregistered sham placebo
+draws \swShamReVotes{} votes, and diagnosis-guided proposals beat
+budget-matched random on \swRandTeiWins/\swRandN{}. Honest nulls bound the
+claims: a preregistered credit-ledger ablation shows no detectable benefit over
+a simple proposer, and two preregistered paired execution arms
+(\texttt{gpt-4o-mini}; and a funded \texttt{gpt-5.6-luna} arm,
+\swExecLunaPatch/\swExecLunaN{} vs \swExecLunaBase/\swExecLunaN{}, sign
+$p{=}\swExecLunaSign$) show no execution-rung difference---where contemporary
+optimizers report hundreds to thousands of executed rollouts per benchmark and,
+in our review, no comparable placebo-plus-blinded validation. We release
+TEI-SWE-30, the why-record and blinded-vote datasets, a contributed syntax
+pre-gate, and a one-command audit tool.
 \end{abstract}
 
 \section{Introduction}
@@ -569,7 +559,7 @@ $\sim$52\,s each (every non-empty prediction receiving a genuine harness
 verdict). The recurring lesson across all five findings is that a checkable
 invariant---parseable output, a lines-on-disk count, verified model usage, a
 plausible runtime---catches a silent failure that a summary line would have
-waved through. The final audit passes \swN/\swN.
+waved through. The final integrity audit passes on all \swN{} agents.
 
 \section{Results}
 \label{sec:results}
@@ -638,8 +628,8 @@ contrasts in Table~\ref{tab:contrasts}, patched systems $n{=}26$ primary
 per the null control of R2f). Stage means on the patched set:
 $\swBaseP\to\swStructP\to\swFinalP$ (all 30:
 $\swBase\to\swStruct\to\swFinal$); structural \swDeltaSBP{} (Holm
-$p\swHolmSB$). Weakest-dimension diagnoses are uniform---execution accuracy,
-\swWeakEA/\swN---consistent with probing recorded execution failures
+$p\swHolmSB$). Weakest-dimension diagnoses are uniform---execution accuracy in
+all \swWeakEA{} of \swN{}---consistent with probing recorded execution failures
 (Table~\ref{tab:dims}).
 
 \subparagraph{(c) Efficiency.}
@@ -656,7 +646,7 @@ scores already paid for.
 \subparagraph{(d) Cost-efficiency.}
 Table~\ref{tab:costs}: \swCostPerVersion{} per scored candidate version and
 \swCostPerPatch{} per applied clean patch at the accounting rate---and the
-accounting rate itself is $\approx$6$\times$ the primary model's verified list
+accounting rate itself is $\approx$\swAcctMult$\times$ the primary model's verified list
 price; at list prices the whole study is bounded between \swCostListLo{}
 (all-Luna lower bound) and \swCostListHi{} (all-Terra upper bound).
 \S\ref{sec:compare} puts

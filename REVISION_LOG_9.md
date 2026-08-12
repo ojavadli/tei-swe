@@ -102,3 +102,67 @@ study-level cost cap; reporting published whatever it shows.
   (<5pt threshold; pre-existing). Canonical sentence sites (abstract, intro, ladder,
   R2, comparison table, conclusion) all macro-composed; the original 30+30 campaign's
   24/26→26/26 record is retained as labeled history inside R2.
+
+---
+
+# REVISION_LOG_9 — Part C: funded execution arm (Phase C)
+
+Preregistered `PREREG_EXEC2.md` + amendments (tags `prereg-exec2` @ `aa1e8be`,
+`prereg-exec2-amend1` @ `e855e52` [reasoning_effort=none integration repair],
+`prereg-exec2-amend2` @ `ccebc3a` [20-key parallel scale-out, pipx swe-rex,
+pull-lock; causally-disconnected operational change]) — all BEFORE execution.
+
+**Design:** SWE-agent baseline (`_sweagent_base`) vs post-Phase-B patched
+(`agents/08_sweagent` @ `7b1f047d`, shipped `prompt-60`), backbone
+`gpt-5.6-luna` both arms, $3/instance termination ceiling, 100 fixed-seed
+stratified SWE-bench Verified instances (50/50 by archive outcome, seed 0,
+pilots excluded; `_exec100_instances.json`), official Docker harness.
+
+**Result (NULL branch fired):** patched **47/100** resolved vs baseline
+**50/100** (2 paired wins / 5 losses / 93 ties; exact sign **p=0.453**;
+patched-rate Clopper–Pearson 95% CI [37%, 57%]; zero cost-limit exits either
+arm; empty patches baseline 3 / patched 5; rollout spend **$1.10**). No
+detectable execution-rung difference at the funded configuration — the second
+preregistered null, alongside the historical gpt-4o-mini n=36 arm (3/36 vs
+3/36). Both integrity gates passed: paired IDs identical (100=100); producer
+split baseline 100 fleet-pipx / patched 86 fleet-pipx + 14 runner-standalone
+(a stated, causally-disconnected potential confound per amend2 — swe-rex is
+absent at scoring). Source: `exec100_result.json`.
+
+**Operational findings (all preserved, disclosed):** (1) initial launch
+produced only startup-error stubs (luna+tools+reasoning_effort 400) — fixed via
+`completion_kwargs {"reasoning_effort":"none"}`, stubs archived. (2) Per-instance
+CPython compile + containerd concurrent-pull race — fixed via
+`python_standalone_dir=""` (pipx) + a global pull-lock. (3) Runner handoff: the
+finished runner's baseline-phase `docker rmi -f` pruning livelocked the fleet
+~5h at $0; owner-approved graceful SIGTERM, all genuine rollouts preserved
+(`RUNNER_HANDOFF_LOG.md`). (4) Scoring-instrument failure: the finisher ran the
+harness under base python3 (no swebench) → silent 0/0 in 15s; classified
+`SCORING_INSTRUMENT_FAILURE`, quarantined (`exec100_result_INVALID_scoringfailed.json`),
+re-scored with the venv python → real per-instance verdicts. All five are logged
+as §5 run-integrity findings.
+
+# REVISION_LOG_9 — Part D: final integration + ship
+
+- **Method (D1):** the TEI Bayesian Credit Ledger paragraph (two-head Jeffreys-Beta
+  + Normal magnitude credit, Thompson selection, empirical-prior shrinkage,
+  evidence-prioritized submodular retrieval, ACE-style delta lessons) positioned
+  against GEPA/ACE, bandit-vs-GP distinction stated once; claims scoped to the
+  null ablation.
+- **Abstract (D2):** rewritten to 230 words, value-first, BCL named and scoped to
+  its null ablation, both execution nulls, new canonical blinded sentence.
+- **Consistency (D4):** bans extended (equivalence-at-measured-power, no-paired-
+  regression, 1/6, ≈6, all-in, 30/30, next-rung, up-to-30/100, prioritized-
+  experience-replay, hierarchical-Bayesian); the stale "≈6×" accounting multiple
+  fixed to 7.9×; legitimate "30/30"/"1/6" renderings reworded; the "attention"
+  ban removed as over-broad (the retrieval-not-attention guardrail handles the
+  terminology). consistency_audit CANON updated to the new sentence — **audit
+  passes over 7 surfaces**; PDF recompiles to **0 errors, 0 undefined refs,
+  0 overfull >5pt**.
+- New canonical blinded sentence (in force): "Pre-repair confirmatory result:
+  21/26 patched agents (105/130 votes); after repairing the one import-time
+  defect …, the adaptive retest shows 22/26 strict majorities, 17 unanimous
+  (110/130 votes), with 4 agents preferring the baseline."
+- Combined spend: original-study $14.12 accounting; Phase-B extension+validation
+  $39.54 nominal; Phase-2 exec $17.68; Phase-3 funded exec $1.10; cross-provider
+  $1.19 → grand total $76.12 (Table 3).

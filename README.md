@@ -5,34 +5,31 @@ Agentic Systems via Sequential Decision Gating (TEI-SWE)**
 Orkhan Javadli (MIT, ojavadli@mit.edu) and Anni Zimina (Stanford,
 zimina@stanford.edu).
 
-Headline (canonical convention): Pre-repair confirmatory result: 24/26 patched agents (118/130 votes); after defect repair, the adaptive retest shows 26/26 strict majorities, 24 unanimous (128/130 votes).
+Headline (canonical convention): Pre-repair confirmatory result: 21/26 patched agents (105/130 votes); after repairing the one import-time defect, the adaptive retest shows 22/26 strict majorities, 17 unanimous (110/130 votes), with 4 agents preferring the baseline.
 
-Automated optimization of LLM agents is typically demonstrated on a handful
-of the authors' own tasks, with candidates selected by judges that inherit the
-optimizer's biases. TEI is a self-improving loop built on sequential decision
-gating -- sequential paired evaluation with exact futility bounds and Jeffreys
-Beta-Binomial posterior early kills over discordant pairs, Wilson-LCB Pareto
-selection, and a final Bayesian do-no-harm confirmation -- applied to an
-entire leaderboard population at ~$0.47/agent (accounting rate; whole-study
-list-price equivalent bounded $1.78 all-Luna to $17.79 all-Terra).
-Contemporary optimizers -- GEPA, MIPROv2, Maestro, ACE, HiveMind -- report
-hundreds to thousands of executed rollouts per single benchmark where counts
-are reported, and our review of their papers found no comparable
-placebo-plus-blinded validation of the selection signal; TEI audits all 30
-systems in 1,271 model calls (1,071 Luna + 200 Terra: 538 core optimization
-+ 733 validation/replication), shipping placebo, blinded A/B, and
-budget-matched random controls (evidence:
-`datasets/comparison_qualification.md`). A six-instance execution micro-arm
-observed no paired regression (baseline 1/6; patched 1/6).
+Automated optimization of LLM agents is typically shown on a few author-chosen
+tasks, with candidates selected by biased judges. TEI is a self-improving loop
+built on sequential decision gating -- sequential paired evaluation with exact
+futility bounds and Jeffreys Beta-Binomial posterior early kills over discordant
+pairs, Wilson-LCB Pareto selection, and a Bayesian do-no-harm confirmation, plus
+a two-head Bayesian bandit credit ledger (Jeffreys-Beta reliability + Normal
+magnitude heads with Thompson selection) steering which fix family each proposal
+attempts. Applied to all 30 frozen leaderboard systems, TEI generated 6,000
+audited candidate versions (100 structural + 100 prompt per system) and 3,373
+committed patches, each scored and why-recorded, at ~$1.79/agent (combined
+accounting rate). Contemporary optimizers -- GEPA, MIPROv2, Maestro, ACE,
+HiveMind -- report hundreds to thousands of executed rollouts per single
+benchmark where counts are reported, with no comparable placebo-plus-blinded
+validation in our review.
 
-Cost ledger (accounting rate): optimization $10.23 + validation passes $3.89
-= LLM subtotal $14.12; execution-arm rollouts $2.49; grand total $16.61.
-
-Certification: pre-registered sham placebo (tag `prereg-sham`) draws 26.9% of
-votes, rejecting the generic changed-code/style explanation for the primary
-judge's preference; TEI beats budget-matched unguided generation on 10/10
-agents; execution micro-arm confirms do-no-harm (SWE-agent, 6 paired
-instances, 0 losses). All numbers macro-generated from the JSON in this repo.
+Honest nulls bound the claims: a pre-registered credit-ledger ablation shows no
+detectable benefit over a simple best-so-far proposer (2W/3L, sign p=1.0), and
+two pre-registered paired execution arms both fired null -- gpt-4o-mini at n=36
+(3/36 vs 3/36) and a funded gpt-5.6-luna arm at n=100 (patched 47/100 vs
+baseline 50/100; 2W/5L/93T; exact sign p=0.453). Certification: the pre-registered
+sham placebo (tag `prereg-sham`) draws 26.9% of votes, and re-anchored at the new
+bests draws 0/45; TEI beats budget-matched unguided generation on 10/10 agents.
+All numbers macro-generated from the JSON in this repo.
 
 Compiled paper: `paper/TEI-SWE.pdf` (sha256 recorded in RELEASE_CHECKSUM).
 
