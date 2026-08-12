@@ -1,0 +1,40 @@
+{
+ "design": "Phase C funded execution arm (prereg-exec2 + amend1 + amend2)",
+ "backbone": "gpt-5.6-luna",
+ "per_instance_ceiling_usd": 3.0,
+ "n_paired": 100,
+ "baseline_resolved": 0,
+ "patched_resolved": 0,
+ "baseline_resolve_rate": 0.0,
+ "patched_resolve_rate": 0.0,
+ "paired_wins": [],
+ "paired_losses": [],
+ "n_wins": 0,
+ "n_losses": 0,
+ "n_ties": 100,
+ "exact_sign_p": 1.0,
+ "patched_rate_CP95": [
+  0.0,
+  1.0
+ ],
+ "baseline_rate_CP95": [
+  0.0,
+  1.0
+ ],
+ "cost": {
+  "baseline": {
+   "spend_usd": 0.5568,
+   "cost_limit_exits": 0
+  },
+  "patched": {
+   "spend_usd": 0.5454,
+   "cost_limit_exits": 0
+  }
+ },
+ "phase_c_rollout_spend_usd": 1.1022,
+ "report_files": [
+  "_exec100_baseline_preds.json",
+  "_exec100_patched_preds.json"
+ ],
+ "prereg_branch_fired": "NULL: no significant paired execution-rung difference at this configuration"
+}

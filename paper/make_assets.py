@@ -117,8 +117,9 @@ CALLS_PHASEB = (_b2.get("calls_with_recorded_counts", 0)
                 + _b2v.get("sham_rearm_calls", 0))
 EXEC_ARM = 2.488
 EXEC36_ARM = 17.68
+EXEC100_ARM = (jload(os.path.join(ROOT, "exec100_result.json")) or {}).get("phase_c_rollout_spend_usd", 0.0)
 CROSS_PROVIDER = 1.19
-GRAND = LLM_COMBINED + EXEC_ARM + EXEC36_ARM + CROSS_PROVIDER
+GRAND = LLM_COMBINED + EXEC_ARM + EXEC36_ARM + EXEC100_ARM + CROSS_PROVIDER
 
 
 # ---------------------------------------------------------------- helpers
@@ -539,6 +540,30 @@ if e36 and "prereg_branch_fired" in e36:
     M["swExecCostB"] = f"{(e36['cost']['baseline']['cost_limit_exits'] if e36['cost']['baseline']['cost_limit_exits'] is not None else 0)}"
     M["swExecCostP"] = f"{(e36['cost']['patched']['cost_limit_exits'] if e36['cost']['patched']['cost_limit_exits'] is not None else 0)}"
     M["swExecBranch"] = e36["prereg_branch_fired"].split(" (")[0]
+# funded execution arm (Phase C: gpt-5.6-luna backbone, 100 paired instances, $3 ceiling)
+e100 = jload(os.path.join(ROOT, "exec100_result.json"))
+if e100 and "prereg_branch_fired" in e100:
+    M["swExecLunaN"] = str(e100["n_paired"])
+    M["swExecLunaBase"] = str(e100["baseline_resolved"])
+    M["swExecLunaPatch"] = str(e100["patched_resolved"])
+    M["swExecLunaBaseRate"] = f"{100*e100['baseline_resolve_rate']:.0f}\\%"
+    M["swExecLunaPatchRate"] = f"{100*e100['patched_resolve_rate']:.0f}\\%"
+    M["swExecLunaWins"] = str(e100["n_wins"])
+    M["swExecLunaLoss"] = str(e100["n_losses"])
+    M["swExecLunaTies"] = str(e100["n_ties"])
+    M["swExecLunaSign"] = fmt_p(e100["exact_sign_p"])
+    M["swExecLunaCIlo"] = f"{100*e100['patched_rate_CP95'][0]:.0f}\\%"
+    M["swExecLunaCIhi"] = f"{100*e100['patched_rate_CP95'][1]:.0f}\\%"
+    M["swExecLunaBaseCIlo"] = f"{100*e100['baseline_rate_CP95'][0]:.0f}\\%"
+    M["swExecLunaBaseCIhi"] = f"{100*e100['baseline_rate_CP95'][1]:.0f}\\%"
+    M["swExecLunaExitB"] = str(e100["cost"]["baseline"]["cost_limit_exits"])
+    M["swExecLunaExitP"] = str(e100["cost"]["patched"]["cost_limit_exits"])
+    M["swExecLunaSpend"] = f"\\${e100['phase_c_rollout_spend_usd']:.2f}"
+    M["swExecLunaEmptyB"] = str(e100.get("empty_patch_baseline", 0))
+    M["swExecLunaEmptyP"] = str(e100.get("empty_patch_patched", 0))
+    _diff = e100['patched_resolve_rate'] - e100['baseline_resolve_rate']
+    M["swExecLunaDiff"] = f"{100*_diff:+.0f}\\%"
+    M["swExecLunaBranch"] = e100["prereg_branch_fired"].split(":")[0]
 sy_pre = jload(os.path.join(ROOT, "syntax_audit_prerepair.json")) or []
 M["swSynFiles"] = str(len(sy_pre))
 M["swSynAgents"] = str(len({r["agent"] for r in sy_pre}))
@@ -691,6 +716,7 @@ _rows += [f"{esc(k)} & \\${v:.2f} \\\\" for k, v in PHASEB_STAGES]
 _rows.append(r"\midrule Combined LLM subtotal (original + Phase B) & \$%.2f \\" % LLM_COMBINED)
 _rows.append(r"Execution micro-arm rollouts (\texttt{gpt-4o-mini}, own ledger) & \$%.2f \\" % EXEC_ARM)
 _rows.append(r"Phase-2 preregistered execution arm (\texttt{gpt-4o-mini} rollouts, traj-summed) & \$%.2f \\" % EXEC36_ARM)
+_rows.append(r"Phase-3 funded execution arm (\texttt{gpt-5.6-luna}, 100 paired instances, traj-summed) & \$%.2f \\" % EXEC100_ARM)
 _rows.append(r"Historical cross-provider judging (claude-sonnet-5; non-OpenAI, outside the 1{,}271-call decomposition; Appendix) & \$%.2f \\" % CROSS_PROVIDER)
 _rows.append(r"\midrule \textbf{Grand total (all rows above)} & \textbf{\$%.2f} \\" % GRAND)
 _rows.append(f"Original-study tokens (LLM passes; frozen, published) & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\")

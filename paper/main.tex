@@ -64,11 +64,14 @@ with \swBlindMajB{} agents preferring the baseline. A
 pre-registered sham placebo draws \swShamShare{} of votes against
 \swBlindShare{} for real patches, rejecting the changed-code / style
 explanation; diagnosis-guided proposals beat budget-matched unguided
-generation on \swRandTeiWins/\swRandN{} agents; and a pre-registered
-36-instance paired execution arm observed no net resolve-rate change
-(\swExecPatch/\swExecN{} vs \swExecBase/\swExecN; \swExecWins{} win /
-\swExecLoss{} loss)---no detectable execution-rung difference at the
-preregistered sample size. Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
+generation on \swRandTeiWins/\swRandN{} agents; and two pre-registered paired
+execution arms---a 36-instance \texttt{gpt-4o-mini} pilot
+(\swExecPatch/\swExecN{} vs \swExecBase/\swExecN) and a funded
+\swExecLunaN{}-instance arm on the study's \texttt{gpt-5.6-luna} backbone
+(\swExecLunaPatch/\swExecLunaN{} vs \swExecLunaBase/\swExecLunaN{};
+\swExecLunaWins{}W/\swExecLunaLoss{}L, sign $p{=}\swExecLunaSign$)---both fired
+their null branch, showing no detectable execution-rung difference at either
+configuration. Contemporary optimizers---GEPA, MIPROv2, Maestro, ACE,
 HiveMind---report hundreds to thousands of executed rollouts per single
 benchmark where counts are reported, and our review of their papers found no
 comparable placebo-plus-blinded validation of the selection signal; TEI
@@ -553,8 +556,20 @@ genuine rollouts (and zero spend, since failed builds issue no model call). The
 genuine-rollout ledger held flat throughout, surfacing the stall; the
 resolution was orchestration, not science---the finished runner was terminated
 so the fleet owned the VM, every genuine rollout preserved (immutable on disk)
-and only in-flight, not-yet-genuine rollouts discarded and re-run. The final
-audit passes \swN/\swN.
+and only in-flight, not-yet-genuine rollouts discarded and re-run. A final
+instrument failure appeared at the scoring stage: the automation invoked the
+official SWE-bench harness under the wrong Python interpreter (the base
+environment, which lacks the \texttt{swebench} module), so it exited in
+seconds and reported ``0 resolved vs.\ 0 resolved'' for both arms---a
+physically impossible runtime for containerised apply-and-test scoring of two
+hundred instances. That null was classified \textsc{scoring\_instrument\_failure}
+and quarantined; re-scoring the frozen predictions with the correct
+swebench-equipped interpreter produced real per-instance results in
+$\sim$52\,s each (every non-empty prediction receiving a genuine harness
+verdict). The recurring lesson across all five findings is that a checkable
+invariant---parseable output, a lines-on-disk count, verified model usage, a
+plausible runtime---catches a silent failure that a summary line would have
+waved through. The final audit passes \swN/\swN.
 
 \section{Results}
 \label{sec:results}
@@ -869,7 +884,31 @@ $p{=}\swExecSign$; patched-rate Clopper--Pearson 95\% CI
 sample size, with all other claims unchanged. The weak
 \texttt{gpt-4o-mini} backbone under a tight cap resolves almost nothing in
 either arm on this harder stratified set---the paired design absorbs that,
-and do-no-harm again holds where it can be measured. The two secondary
+and do-no-harm again holds where it can be measured.
+
+\textbf{The funded powered arm (Phase 3).} A second, larger execution arm was
+preregistered (\texttt{prereg-exec2} and amendments
+\texttt{-amend1}/\texttt{-amend2}, tagged before execution) to remove the
+weak-backbone objection: \swExecLunaN{} fixed-seed paired SWE-bench Verified
+instances (50 archive-resolved / 50 archive-unresolved, seed 0, pilots
+excluded), both arms on the study's own \texttt{gpt-5.6-luna} backbone under a
+\$3/instance termination ceiling, scored by the official Docker harness. The
+same \emph{null} branch fired: baseline \swExecLunaBase/\swExecLunaN{} resolved
+(\swExecLunaBaseRate), patched \swExecLunaPatch/\swExecLunaN{}
+(\swExecLunaPatchRate); \swExecLunaWins{} paired wins, \swExecLunaLoss{} paired
+losses, \swExecLunaTies{} ties; exact sign $p{=}\swExecLunaSign$; patched-rate
+Clopper--Pearson 95\% CI [\swExecLunaCIlo,\swExecLunaCIhi]; zero cost-limit
+exits in either arm; rollout spend \swExecLunaSpend. With a capable backbone
+both arms resolve about half the set and the paired difference
+(\swExecLunaDiff) is not significant---so the execution rung shows no
+detectable TEI effect at either configuration, the honest counterpart to the
+blinded rung's clear preference. (One stated caveat: \swExecLunaEmptyP{} of the
+patched and \swExecLunaEmptyB{} of the baseline rollouts emitted empty patches;
+and $14/100$ patched rollouts were produced by the pilot runner's standalone
+harness rather than the parallel fleet's---an infrastructure difference in how
+the command-relay shim is installed, absent at scoring time and hence
+causally disconnected from the resolve label, recorded in
+\texttt{prereg-exec2-amend2}.) The two secondary
 onboarding attempts hit their pre-registered walls inside the 45-minute
 timeboxes: KGCompass onboards to a live Neo4j and a working CLI but requires
 a per-instance knowledge-graph mining stage before any repair; aider's
@@ -993,9 +1032,16 @@ mode that anchored scoring missed, now permanently closed by a syntax pre-gate
 contributed to the deployed gate. Claims are stated at the rung that
 supports them---bias-controlled evidence of genuine improvement at the
 blinded rung, verified outcomes reserved for the execution rung whose price
-this paper quotes exactly. The set, the datasets, and the ladder are released; the execution rung now
-carries two preregistered paired arms, and scaling it is priced, mechanical
-work rather than an open question.
+this paper quotes exactly. At that rung the honest verdict is a null: two
+preregistered paired arms---\texttt{gpt-4o-mini} at $n{=}36$ and the funded
+\texttt{gpt-5.6-luna} arm at $n{=}\swExecLunaN{}$
+(\swExecLunaPatch/\swExecLunaN{} patched vs.\ \swExecLunaBase/\swExecLunaN{}
+baseline, sign $p{=}\swExecLunaSign$)---both show no detectable execution-rung
+difference, so the improvement TEI demonstrably delivers is the one certified
+by bias-controlled proxy evaluation, not (yet) an executed-resolve gain. The
+set, the datasets, and the ladder are released; the execution rung now carries
+three preregistered paired arms, and closing the proxy-to-execution gap is
+priced, mechanical work rather than an open question.
 
 \small
 \bibliographystyle{unsrtnat}

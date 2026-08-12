@@ -1,0 +1,70 @@
+{
+ "design": "Phase C funded execution arm (prereg-exec2 + amend1 + amend2); RE-SCORED with venv python after the finisher's base-python scoring silently returned 0/0",
+ "backbone": "gpt-5.6-luna",
+ "per_instance_ceiling_usd": 3.0,
+ "n_paired": 100,
+ "baseline_resolved": 50,
+ "patched_resolved": 47,
+ "baseline_resolve_rate": 0.5,
+ "patched_resolve_rate": 0.47,
+ "paired_wins": [
+  "scikit-learn__scikit-learn-26194",
+  "sphinx-doc__sphinx-7440"
+ ],
+ "paired_losses": [
+  "django__django-10880",
+  "django__django-12273",
+  "django__django-14608",
+  "django__django-16661",
+  "pydata__xarray-3095"
+ ],
+ "n_wins": 2,
+ "n_losses": 5,
+ "n_ties": 93,
+ "exact_sign_p": 0.45312,
+ "patched_rate_CP95": [
+  0.3694,
+  0.5724
+ ],
+ "baseline_rate_CP95": [
+  0.3983,
+  0.6017
+ ],
+ "cost": {
+  "baseline": {
+   "spend_usd": 0.5568,
+   "cost_limit_exits": 0
+  },
+  "patched": {
+   "spend_usd": 0.5454,
+   "cost_limit_exits": 0
+  }
+ },
+ "phase_c_rollout_spend_usd": 1.1022,
+ "report_files": [
+  "_exec100_baseline_preds.json",
+  "gpt-5.6-luna-baseline.exec100_baseline.json",
+  "_exec100_patched_preds.json",
+  "gpt-5.6-luna-patched.exec100_patched.json"
+ ],
+ "empty_patch_baseline": 3,
+ "empty_patch_patched": 5,
+ "prereg_branch_fired": "NULL: no significant paired execution-rung difference at this configuration",
+ "integrity": {
+  "gate1_paired_ids_identical": true,
+  "gate2_producer_split": {
+   "baseline": {
+    "fleet_pipx": 100,
+    "runner_standalone": 0
+   },
+   "patched": {
+    "fleet_pipx": 86,
+    "runner_standalone": 14
+   }
+  },
+  "gate2_note": "swe-rex install method (standalone vs pipx) is causally disconnected from the resolve label (swe-rex is absent at harness scoring; the frozen model_patch is what is applied and tested). Stated potential confound per prereg-exec2-amend2.",
+  "scoring_integrity": "every non-empty prediction (baseline 97, patched 95) has a real per-instance report.json; 0 missing; 0 harness errors; runtime ~2.5h at ~52s/instance",
+  "prior_instrument_failure": "the automated finisher ran the harness under base python3 (no swebench) and returned 0/0 in 15s; classified SCORING_INSTRUMENT_FAILURE, quarantined in exec100_result_INVALID_scoringfailed.json; re-scored with _venv_a1/bin/python"
+ },
+ "comparison_to_pilot_arm": "historical gpt-4o-mini n=36 arm also fired NULL (3/36 vs 3/36); this funded gpt-5.6-luna n=100 arm is the second, larger, stronger-backbone null"
+}
