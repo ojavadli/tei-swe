@@ -1,0 +1,446 @@
+{
+ "summary": {
+  "n_systems": 30,
+  "n_patched": 26,
+  "n_zeropatch": 4,
+  "zeropatch_agents": [
+   "02_sonarfoundationagent",
+   "04_acoder",
+   "17_codeshellagent",
+   "25_codeshelltester"
+  ],
+  "APPLIED": {
+   "patched_n": 26,
+   "base": 0.6057,
+   "struct": 0.6672,
+   "final": 0.6842,
+   "abs_gain": 0.0785,
+   "rel_gain_pct": 13.0,
+   "struct_gain": 0.0615,
+   "prompt_incr": 0.017
+  },
+  "PROPOSED": {
+   "base": 0.6057,
+   "struct": 0.675,
+   "final": 0.6905,
+   "abs_gain": 0.0848,
+   "rel_gain_pct": 14.0
+  },
+  "all30_applied": {
+   "base": 0.6073,
+   "struct": 0.6607,
+   "final": 0.6754
+  },
+  "zeropatch_applied": {
+   "base": 0.6181,
+   "final": 0.6181
+  },
+  "MDE_threshold": 0.074,
+  "MDE_applied_over_all30": "15/30",
+  "MDE_applied_over_patched": "15/26",
+  "technique_top": [
+   {
+    "family": "verification-tests",
+    "n": 1557,
+    "mean_delta": 0.0366
+   },
+   {
+    "family": "decomposition-planning",
+    "n": 1019,
+    "mean_delta": 0.0364
+   },
+   {
+    "family": "localization",
+    "n": 566,
+    "mean_delta": 0.0312
+   },
+   {
+    "family": "retrieval-context",
+    "n": 507,
+    "mean_delta": 0.0333
+   },
+   {
+    "family": "other",
+    "n": 478,
+    "mean_delta": 0.0275
+   },
+   {
+    "family": "invariants-guards",
+    "n": 470,
+    "mean_delta": 0.0274
+   },
+   {
+    "family": "patch-format",
+    "n": 436,
+    "mean_delta": 0.0292
+   },
+   {
+    "family": "prompt-structure",
+    "n": 370,
+    "mean_delta": 0.0301
+   },
+   {
+    "family": "output-contract",
+    "n": 359,
+    "mean_delta": 0.0275
+   },
+   {
+    "family": "retry-recovery",
+    "n": 238,
+    "mean_delta": 0.0234
+   }
+  ],
+  "zeropatch_proposal_counts": {
+   "02_sonarfoundationagent": 200,
+   "04_acoder": 200,
+   "17_codeshellagent": 200,
+   "25_codeshelltester": 200
+  },
+  "zeropatch_total_proposals": 800,
+  "MDE_proposed_over30": "21/30",
+  "cost": {
+   "LLM_subtotal": 53.66,
+   "micro_arm": 2.49,
+   "phase2_exec36": 17.68,
+   "cross_provider": 1.19,
+   "grand_total_retained": 75.02,
+   "phase_c_excluded": 0.0,
+   "cost_per_system": 1.7887,
+   "cost_per_candidate": 0.0089,
+   "cost_per_applied": 0.0159,
+   "candidates_per_dollar": 111.8
+  }
+ },
+ "per_agent": [
+  {
+   "agent": "01_livesweagent",
+   "base": 0.8475,
+   "n_applied": 93,
+   "best_proposed_struct": 0.8975,
+   "best_applied_struct": 0.8875,
+   "best_proposed_final": 0.9,
+   "best_applied_final": 0.9,
+   "applied_final_delta": 0.0525,
+   "proposed_final_delta": 0.0525
+  },
+  {
+   "agent": "02_sonarfoundationagent",
+   "base": 0.8075,
+   "n_applied": 0,
+   "best_proposed_struct": 0.875,
+   "best_applied_struct": 0.8075,
+   "best_proposed_final": 0.875,
+   "best_applied_final": 0.8075,
+   "applied_final_delta": 0.0,
+   "proposed_final_delta": 0.0675
+  },
+  {
+   "agent": "03_trae",
+   "base": 0.835,
+   "n_applied": 94,
+   "best_proposed_struct": 0.8925,
+   "best_applied_struct": 0.88,
+   "best_proposed_final": 0.8975,
+   "best_applied_final": 0.8975,
+   "applied_final_delta": 0.0625,
+   "proposed_final_delta": 0.0625
+  },
+  {
+   "agent": "04_acoder",
+   "base": 0.775,
+   "n_applied": 0,
+   "best_proposed_struct": 0.8575,
+   "best_applied_struct": 0.775,
+   "best_proposed_final": 0.8575,
+   "best_applied_final": 0.775,
+   "applied_final_delta": 0.0,
+   "proposed_final_delta": 0.0825
+  },
+  {
+   "agent": "05_joycode",
+   "base": 0.8275,
+   "n_applied": 158,
+   "best_proposed_struct": 0.89,
+   "best_applied_struct": 0.89,
+   "best_proposed_final": 0.89,
+   "best_applied_final": 0.89,
+   "applied_final_delta": 0.0625,
+   "proposed_final_delta": 0.0625
+  },
+  {
+   "agent": "06_lingxi",
+   "base": 0.7675,
+   "n_applied": 160,
+   "best_proposed_struct": 0.8275,
+   "best_applied_struct": 0.82,
+   "best_proposed_final": 0.835,
+   "best_applied_final": 0.835,
+   "applied_final_delta": 0.0675,
+   "proposed_final_delta": 0.0675
+  },
+  {
+   "agent": "07_moatlesstools",
+   "base": 0.795,
+   "n_applied": 14,
+   "best_proposed_struct": 0.8475,
+   "best_applied_struct": 0.82,
+   "best_proposed_final": 0.86,
+   "best_applied_final": 0.82,
+   "applied_final_delta": 0.025,
+   "proposed_final_delta": 0.065
+  },
+  {
+   "agent": "08_sweagent",
+   "base": 0.7075,
+   "n_applied": 154,
+   "best_proposed_struct": 0.78,
+   "best_applied_struct": 0.78,
+   "best_proposed_final": 0.81,
+   "best_applied_final": 0.78,
+   "applied_final_delta": 0.0725,
+   "proposed_final_delta": 0.1025
+  },
+  {
+   "agent": "09_agentscope",
+   "base": 0.6375,
+   "n_applied": 103,
+   "best_proposed_struct": 0.705,
+   "best_applied_struct": 0.705,
+   "best_proposed_final": 0.81,
+   "best_applied_final": 0.81,
+   "applied_final_delta": 0.1725,
+   "proposed_final_delta": 0.1725
+  },
+  {
+   "agent": "10_entropo",
+   "base": 0.63,
+   "n_applied": 147,
+   "best_proposed_struct": 0.6825,
+   "best_applied_struct": 0.6825,
+   "best_proposed_final": 0.7125,
+   "best_applied_final": 0.7125,
+   "applied_final_delta": 0.0825,
+   "proposed_final_delta": 0.0825
+  },
+  {
+   "agent": "11_experepair",
+   "base": 0.705,
+   "n_applied": 115,
+   "best_proposed_struct": 0.775,
+   "best_applied_struct": 0.7675,
+   "best_proposed_final": 0.7775,
+   "best_applied_final": 0.7775,
+   "applied_final_delta": 0.0725,
+   "proposed_final_delta": 0.0725
+  },
+  {
+   "agent": "12_kgcompass",
+   "base": 0.6275,
+   "n_applied": 114,
+   "best_proposed_struct": 0.685,
+   "best_applied_struct": 0.6725,
+   "best_proposed_final": 0.6975,
+   "best_applied_final": 0.6975,
+   "applied_final_delta": 0.07,
+   "proposed_final_delta": 0.07
+  },
+  {
+   "agent": "13_swerizzo",
+   "base": 0.725,
+   "n_applied": 150,
+   "best_proposed_struct": 0.7975,
+   "best_applied_struct": 0.79,
+   "best_proposed_final": 0.815,
+   "best_applied_final": 0.8025,
+   "applied_final_delta": 0.0775,
+   "proposed_final_delta": 0.09
+  },
+  {
+   "agent": "14_agentless15",
+   "base": 0.59,
+   "n_applied": 167,
+   "best_proposed_struct": 0.6725,
+   "best_applied_struct": 0.6675,
+   "best_proposed_final": 0.6725,
+   "best_applied_final": 0.6675,
+   "applied_final_delta": 0.0775,
+   "proposed_final_delta": 0.0825
+  },
+  {
+   "agent": "15_composioswekit",
+   "base": 0.6275,
+   "n_applied": 162,
+   "best_proposed_struct": 0.705,
+   "best_applied_struct": 0.6925,
+   "best_proposed_final": 0.7175,
+   "best_applied_final": 0.7175,
+   "applied_final_delta": 0.09,
+   "proposed_final_delta": 0.09
+  },
+  {
+   "agent": "16_darsagent",
+   "base": 0.58,
+   "n_applied": 171,
+   "best_proposed_struct": 0.6475,
+   "best_applied_struct": 0.645,
+   "best_proposed_final": 0.66,
+   "best_applied_final": 0.66,
+   "applied_final_delta": 0.08,
+   "proposed_final_delta": 0.08
+  },
+  {
+   "agent": "17_codeshellagent",
+   "base": 0.4975,
+   "n_applied": 0,
+   "best_proposed_struct": 0.57,
+   "best_applied_struct": 0.4975,
+   "best_proposed_final": 0.5775,
+   "best_applied_final": 0.4975,
+   "applied_final_delta": 0.0,
+   "proposed_final_delta": 0.08
+  },
+  {
+   "agent": "18_codefusecgm",
+   "base": 0.5925,
+   "n_applied": 153,
+   "best_proposed_struct": 0.66,
+   "best_applied_struct": 0.66,
+   "best_proposed_final": 0.69,
+   "best_applied_final": 0.69,
+   "applied_final_delta": 0.0975,
+   "proposed_final_delta": 0.0975
+  },
+  {
+   "agent": "19_agentlesslite",
+   "base": 0.5775,
+   "n_applied": 148,
+   "best_proposed_struct": 0.6625,
+   "best_applied_struct": 0.6425,
+   "best_proposed_final": 0.6625,
+   "best_applied_final": 0.6625,
+   "applied_final_delta": 0.085,
+   "proposed_final_delta": 0.085
+  },
+  {
+   "agent": "20_sweexp",
+   "base": 0.5175,
+   "n_applied": 113,
+   "best_proposed_struct": 0.61,
+   "best_applied_struct": 0.6,
+   "best_proposed_final": 0.61,
+   "best_applied_final": 0.6,
+   "applied_final_delta": 0.0825,
+   "proposed_final_delta": 0.0925
+  },
+  {
+   "agent": "21_swerl",
+   "base": 0.555,
+   "n_applied": 67,
+   "best_proposed_struct": 0.6075,
+   "best_applied_struct": 0.6075,
+   "best_proposed_final": 0.63,
+   "best_applied_final": 0.6075,
+   "applied_final_delta": 0.0525,
+   "proposed_final_delta": 0.075
+  },
+  {
+   "agent": "22_orcaloca",
+   "base": 0.6125,
+   "n_applied": 165,
+   "best_proposed_struct": 0.7275,
+   "best_applied_struct": 0.7275,
+   "best_proposed_final": 0.7275,
+   "best_applied_final": 0.7275,
+   "applied_final_delta": 0.115,
+   "proposed_final_delta": 0.115
+  },
+  {
+   "agent": "23_patchedcodespatchwork",
+   "base": 0.5475,
+   "n_applied": 133,
+   "best_proposed_struct": 0.6125,
+   "best_applied_struct": 0.59,
+   "best_proposed_final": 0.6175,
+   "best_applied_final": 0.615,
+   "applied_final_delta": 0.0675,
+   "proposed_final_delta": 0.07
+  },
+  {
+   "agent": "24_swefixer",
+   "base": 0.48,
+   "n_applied": 101,
+   "best_proposed_struct": 0.5525,
+   "best_applied_struct": 0.5525,
+   "best_proposed_final": 0.575,
+   "best_applied_final": 0.575,
+   "applied_final_delta": 0.095,
+   "proposed_final_delta": 0.095
+  },
+  {
+   "agent": "25_codeshelltester",
+   "base": 0.3925,
+   "n_applied": 0,
+   "best_proposed_struct": 0.4925,
+   "best_applied_struct": 0.3925,
+   "best_proposed_final": 0.4925,
+   "best_applied_final": 0.3925,
+   "applied_final_delta": 0.0,
+   "proposed_final_delta": 0.1
+  },
+  {
+   "agent": "26_aegiso3mini10",
+   "base": 0.435,
+   "n_applied": 175,
+   "best_proposed_struct": 0.5075,
+   "best_applied_struct": 0.505,
+   "best_proposed_final": 0.52,
+   "best_applied_final": 0.52,
+   "applied_final_delta": 0.085,
+   "proposed_final_delta": 0.085
+  },
+  {
+   "agent": "27_agentless",
+   "base": 0.44,
+   "n_applied": 132,
+   "best_proposed_struct": 0.505,
+   "best_applied_struct": 0.5,
+   "best_proposed_final": 0.5225,
+   "best_applied_final": 0.5025,
+   "applied_final_delta": 0.0625,
+   "proposed_final_delta": 0.0825
+  },
+  {
+   "agent": "28_coder",
+   "base": 0.4625,
+   "n_applied": 118,
+   "best_proposed_struct": 0.5575,
+   "best_applied_struct": 0.53,
+   "best_proposed_final": 0.5575,
+   "best_applied_final": 0.5375,
+   "applied_final_delta": 0.075,
+   "proposed_final_delta": 0.095
+  },
+  {
+   "agent": "29_aider",
+   "base": 0.415,
+   "n_applied": 136,
+   "best_proposed_struct": 0.465,
+   "best_applied_struct": 0.465,
+   "best_proposed_final": 0.5,
+   "best_applied_final": 0.5,
+   "applied_final_delta": 0.085,
+   "proposed_final_delta": 0.085
+  },
+  {
+   "agent": "30_rag",
+   "base": 0.21,
+   "n_applied": 130,
+   "best_proposed_struct": 0.2775,
+   "best_applied_struct": 0.2675,
+   "best_proposed_final": 0.285,
+   "best_applied_final": 0.285,
+   "applied_final_delta": 0.075,
+   "proposed_final_delta": 0.075
+  }
+ ]
+}

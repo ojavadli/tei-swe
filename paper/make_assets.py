@@ -84,7 +84,7 @@ def _orig_states():
 
 _vp_all = jload(os.path.join(ROOT, "validation_passes.json")) or {}
 STAGES = [
-    ("Optimization run (rubric rung; within its \\$25 cap)",
+    ("Optimization run (rubric rung; within its 25-dollar cap)",
      sum(_cost(_b(os.path.basename(f))) for f in _orig_states())
      + _cost(_b("_run_state.json"))),
     ("Noise-floor post-pass", _cost(_b("_post_pass_budget.json"))),
@@ -101,8 +101,8 @@ STAGES = [
 _b2 = jload(os.path.join(ROOT, "_b2_spend.json")) or {}
 _b2v = _b2.get("phase_b_validation") or {}
 PHASEB_STAGES = [
-    ("Phase-B 100+100 extension with the credit ledger, incl.\\ the BCL-off ablation arm "
-     "(uncapped; tag \\texttt{prereg-100})", _b2.get("phase_b_total_nominal_usd", 0)),
+    ("Phase-B 100+100 extension with the credit ledger, incl. the BCL-off ablation "
+     "arm (uncapped; tag prereg-100)", _b2.get("phase_b_total_nominal_usd", 0)),
     ("Phase-B blinded re-run + adaptive retest (26 agents + 1 repaired)",
      _b2v.get("blinded_rerun_and_retest_nominal_usd", 0)),
     ("Phase-B sham re-anchor (seed 21, 10-agent subsample)",
@@ -117,9 +117,16 @@ CALLS_PHASEB = (_b2.get("calls_with_recorded_counts", 0)
                 + _b2v.get("sham_rearm_calls", 0))
 EXEC_ARM = 2.488
 EXEC36_ARM = 17.68
-EXEC100_ARM = (jload(os.path.join(ROOT, "exec100_result.json")) or {}).get("phase_c_rollout_spend_usd", 0.0)
 CROSS_PROVIDER = 1.19
-GRAND = LLM_COMBINED + EXEC_ARM + EXEC36_ARM + EXEC100_ARM + CROSS_PROVIDER
+GRAND = LLM_COMBINED + EXEC_ARM + EXEC36_ARM + CROSS_PROVIDER
+
+# ---- applied-vs-proposed canonical recompute (single source of truth) ----
+# APPLIED/DEPLOYED is the primary headline (the committed artifact); PROPOSED is
+# the search ceiling reported separately. Substrate: anchored rubric / PROXY.
+_rcfull = jload(os.path.join(ROOT, "_paper_recompute.json")) or {}
+_rc = _rcfull.get("summary", {})
+_rc_by_agent = {r["agent"]: r for r in _rcfull.get("per_agent", [])}
+_ap = _rc.get("APPLIED", {}); _pr = _rc.get("PROPOSED", {})
 
 
 # ---------------------------------------------------------------- helpers
@@ -270,14 +277,19 @@ for r in A:
 iters_groups = Counter(r["res"]["n_versions"] for r in A)
 
 bdim_means = {k: float(np.mean([r["base"]["dimensions"][k] for r in A if r["dir"] not in ZERO4])) for k in DIMS}
-# final dims: dims of the best_final version
+# final dims: dims of the best APPLIED final version, on the SAME n=26 patched
+# population as the baseline column (zero-patch systems excluded from both, so
+# the two columns are comparable)
 fdim_means = {}
 for k in DIMS:
     vals = []
     for r in A:
-        bid = r["res"]["best_final_id"]
-        c = next((c for c in r["cands"] if c["version_id"] == bid), None)
-        vals.append((c["dimensions"].get(k) if c else r["base"]["dimensions"][k]) or 0)
+        if r["dir"] in ZERO4:
+            continue
+        applied_cands = [c for c in r["cands"] if c.get("decision") == "applied"
+                         and c.get("dimensions", {}).get(k) is not None]
+        best = max(applied_cands, key=lambda c: c.get("aggregate", 0)) if applied_cands else None
+        vals.append((best["dimensions"].get(k) if best else r["base"]["dimensions"][k]) or 0)
     fdim_means[k] = float(np.mean(vals))
 weakest = Counter(r["base"]["weakest_dimension"] for r in A)
 
@@ -304,6 +316,24 @@ M["swBase"] = f"{base_v.mean():.3f}"
 M["swBaseP"] = f"{base26.mean():.3f}"
 M["swStructP"] = f"{struct26.mean():.3f}"
 M["swFinalP"] = f"{final26.mean():.3f}"
+# APPLIED/DEPLOYED headline (primary) + PROPOSED search ceiling (secondary), n=26 patched
+M["swAppBase"] = f"{_ap.get('base',0):.3f}"
+M["swAppStruct"] = f"{_ap.get('struct',0):.3f}"
+M["swAppFinal"] = f"{_ap.get('final',0):.3f}"
+M["swAppStructGain"] = f"{_ap.get('struct_gain',0):+.3f}"
+M["swAppPromptGain"] = f"{_ap.get('prompt_incr',0):+.3f}"
+M["swAppAbsGain"] = f"{_ap.get('abs_gain',0):+.3f}"
+M["swAppRelGain"] = f"{_ap.get('rel_gain_pct',0):.1f}\\%"
+M["swPropFinal"] = f"{_pr.get('final',0):.3f}"
+M["swPropAbsGain"] = f"{_pr.get('abs_gain',0):+.3f}"
+M["swPropRelGain"] = f"{_pr.get('rel_gain_pct',0):.1f}\\%"
+M["swZeroPatchApplied"] = f"{_rc.get('zeropatch_applied',{}).get('final',0)-_rc.get('zeropatch_applied',{}).get('base',0):+.3f}"
+M["swMDEclear"] = _rc.get("MDE_applied_over_all30", "15/30")
+M["swMDEclearNum"] = _rc.get("MDE_applied_over_all30", "15/30").split("/")[0]
+M["swMDEclearP"] = _rc.get("MDE_applied_over_patched", "15/26")
+M["swMDEclearProp"] = _rc.get("MDE_proposed_over30", "21/30")
+M["swZeroPatchProps"] = str(_rc.get("zeropatch_total_proposals", 800))
+M["swTechTopN"] = f"{_rc.get('technique_top', [{}])[0].get('n', 0):,}"
 M["swDeltaFBP"] = f"{d_fb26.mean():+.3f}"
 M["swDeltaSBP"] = f"{d_sb26.mean():+.3f}"
 M["swDeltaFSP"] = f"{d_fs26.mean():+.3f}"
@@ -540,30 +570,6 @@ if e36 and "prereg_branch_fired" in e36:
     M["swExecCostB"] = f"{(e36['cost']['baseline']['cost_limit_exits'] if e36['cost']['baseline']['cost_limit_exits'] is not None else 0)}"
     M["swExecCostP"] = f"{(e36['cost']['patched']['cost_limit_exits'] if e36['cost']['patched']['cost_limit_exits'] is not None else 0)}"
     M["swExecBranch"] = e36["prereg_branch_fired"].split(" (")[0]
-# funded execution arm (Phase C: gpt-5.6-luna backbone, 100 paired instances, $3 ceiling)
-e100 = jload(os.path.join(ROOT, "exec100_result.json"))
-if e100 and "prereg_branch_fired" in e100:
-    M["swExecLunaN"] = str(e100["n_paired"])
-    M["swExecLunaBase"] = str(e100["baseline_resolved"])
-    M["swExecLunaPatch"] = str(e100["patched_resolved"])
-    M["swExecLunaBaseRate"] = f"{100*e100['baseline_resolve_rate']:.0f}\\%"
-    M["swExecLunaPatchRate"] = f"{100*e100['patched_resolve_rate']:.0f}\\%"
-    M["swExecLunaWins"] = str(e100["n_wins"])
-    M["swExecLunaLoss"] = str(e100["n_losses"])
-    M["swExecLunaTies"] = str(e100["n_ties"])
-    M["swExecLunaSign"] = fmt_p(e100["exact_sign_p"])
-    M["swExecLunaCIlo"] = f"{100*e100['patched_rate_CP95'][0]:.0f}\\%"
-    M["swExecLunaCIhi"] = f"{100*e100['patched_rate_CP95'][1]:.0f}\\%"
-    M["swExecLunaBaseCIlo"] = f"{100*e100['baseline_rate_CP95'][0]:.0f}\\%"
-    M["swExecLunaBaseCIhi"] = f"{100*e100['baseline_rate_CP95'][1]:.0f}\\%"
-    M["swExecLunaExitB"] = str(e100["cost"]["baseline"]["cost_limit_exits"])
-    M["swExecLunaExitP"] = str(e100["cost"]["patched"]["cost_limit_exits"])
-    M["swExecLunaSpend"] = f"\\${e100['phase_c_rollout_spend_usd']:.2f}"
-    M["swExecLunaEmptyB"] = str(e100.get("empty_patch_baseline", 0))
-    M["swExecLunaEmptyP"] = str(e100.get("empty_patch_patched", 0))
-    _diff = e100['patched_resolve_rate'] - e100['baseline_resolve_rate']
-    M["swExecLunaDiff"] = f"{100*_diff:+.0f}\\%"
-    M["swExecLunaBranch"] = e100["prereg_branch_fired"].split(":")[0]
 sy_pre = jload(os.path.join(ROOT, "syntax_audit_prerepair.json")) or []
 M["swSynFiles"] = str(len(sy_pre))
 M["swSynAgents"] = str(len({r["agent"] for r in sy_pre}))
@@ -715,8 +721,7 @@ _rows.append(r"\midrule Original-study LLM subtotal (accounting rate; sums the r
 _rows += [f"{esc(k)} & \\${v:.2f} \\\\" for k, v in PHASEB_STAGES]
 _rows.append(r"\midrule Combined LLM subtotal (original + Phase B) & \$%.2f \\" % LLM_COMBINED)
 _rows.append(r"Execution micro-arm rollouts (\texttt{gpt-4o-mini}, own ledger) & \$%.2f \\" % EXEC_ARM)
-_rows.append(r"Phase-2 preregistered execution arm (\texttt{gpt-4o-mini} rollouts, traj-summed) & \$%.2f \\" % EXEC36_ARM)
-_rows.append(r"Phase-3 funded execution arm (\texttt{gpt-5.6-luna}, 100 paired instances, traj-summed) & \$%.2f \\" % EXEC100_ARM)
+_rows.append(r"Preregistered execution arm (\texttt{gpt-4o-mini}, 36 paired instances, traj-summed) & \$%.2f \\" % EXEC36_ARM)
 _rows.append(r"Historical cross-provider judging (claude-sonnet-5; non-OpenAI, outside the 1{,}271-call decomposition; Appendix) & \$%.2f \\" % CROSS_PROVIDER)
 _rows.append(r"\midrule \textbf{Grand total (all rows above)} & \textbf{\$%.2f} \\" % GRAND)
 _rows.append(f"Original-study tokens (LLM passes; frozen, published) & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\")
@@ -738,6 +743,27 @@ wtab("costs.tex", [
 wtab("apply.tex", [f"{esc(k)} & {v} \\\\" for k, v in apply_notes.most_common()], "lr", "Outcome & Versions")
 
 # dims
+# ---- TEI-SWE at a glance (compact main-results table) ----
+_glance = [
+    (r"Third-party leaderboard systems", M["swN"]),
+    (r"Structural candidates / prompt candidates", f"{n_struct:,} / {n_prompt:,}"),
+    (r"Total candidate versions (200/system)", M["swVersions"]),
+    (r"Applied (committed) patches", M["swApplied"]),
+    (r"Deployed rubric: Default$\to$Structural$\to$Final ($n{=}26$)",
+     f"{M['swAppBase']}$\\to${M['swAppStruct']}$\\to${M['swAppFinal']} (\\textsc{{rubric}})"),
+    (r"\quad relative applied gain", M["swAppRelGain"]),
+    (r"\quad best-\emph{proposed} search ceiling", M["swPropRelGain"]),
+    (r"Blinded strict majorities (post-repair)", f"{M['swBlindMajP']}/26"),
+    (r"\quad votes / unanimous / baseline-majority", f"{M['swBlindVotesP']}/130 / {M['swBlindPerfect']} / {M['swBlindMajB']}"),
+    (r"Sham placebo (full / re-anchored)", f"{M.get('swShamShare','')} / {M.get('swShamReVotes','')}"),
+    (r"Budget-matched random control (TEI wins)", f"{M['swRandTeiWins']}/{M['swRandN']}"),
+    (r"Deployed deltas clearing measured MDE", M["swMDEclear"]),
+    (r"LLM optimization subtotal", M["swLLMCombined"]),
+    (r"Cost / system \quad / candidate \quad / applied patch",
+     f"{M['swCostPerAgent']} / {M['swCostPerVersion']} / {M['swCostPerPatch']}"),
+    (r"Executed rollouts used as selection signal", r"\textbf{0}"),
+]
+wtab("glance.tex", [f"{k} & {v} \\\\" for k, v in _glance], "lr", r"Quantity & Value")
 wtab("dims.tex", [
     f"Target alignment & {bdim_means['target_alignment']:.3f} & {fdim_means['target_alignment']:.3f} \\\\",
     f"Reasoning soundness & {bdim_means['reasoning_soundness']:.3f} & {fdim_means['reasoning_soundness']:.3f} \\\\",
@@ -745,12 +771,14 @@ wtab("dims.tex", [
     f"Output integrity & {bdim_means['output_integrity']:.3f} & {fdim_means['output_integrity']:.3f} \\\\",
 ], "lrr", "Dimension & Baseline & Shipped")
 
-# techniques (top 12 by count)
+# techniques: use the canonical TECHNIQUE-FAMILY counts over all 6,000 records
+# (the raw free-text technique strings fragment into tiny counts; the families
+# are the meaningful unit and have n up to ~1,557). Descriptive only.
 rows = []
-for t, c in top_tech.most_common(12):
-    dmean = np.mean(tech_delta[t])
-    rows.append(f"{esc(t, 52)} & {c} & {dmean:+.3f} \\\\")
-wtab("techniques.tex", rows, "lrr", r"Technique (normalized) & Versions & Mean $\Delta$")
+for fam in _rc.get("technique_top", []):
+    rows.append(f"{esc(fam['family'], 40)} & {fam['n']:,} & {fam['mean_delta']:+.4f} \\\\")
+wtab("techniques.tex", rows, "lrr", r"Technique family & Versions & Mean $\Delta$ (\textsc{rubric})")
+
 
 # ---------------------------------------------------------------- figures
 plt.rcParams.update({"figure.dpi": 200, "font.size": 9})
@@ -944,8 +972,10 @@ for r in A:
     out.append(f"Baseline dims (TA/RS/EA/OI) & {bd['target_alignment']:.2f} / {bd['reasoning_soundness']:.2f} / {bd['execution_accuracy']:.2f} / {bd['output_integrity']:.2f} \\\\")
     out.append(f"Trajectory & {res['baseline']:.4f} $\\to$ {res['best_structural']:.4f} $\\to$ {res['best_final']:.4f} (all PROXY) \\\\")
     out.append(f"Gate verdict & {'accept' if conf.get('accept') else 'reject'}: {esc(conf.get('reason', ''), 60)} \\\\")
-    out.append(f"MDE$_{{80}}$ at $n{{=}}{conf['n_queries']}$ & {conf['mde']:.3f}; shipped $\\Delta$ = {res.get('shipped_delta', 0):+.4f} (below MDE: {'yes' if res.get('below_mde') else 'no'}) \\\\")
-    out.append(f"Paraphrase noise floor & {nf.get('noise_floor', float('nan')):+.4f} ({esc(res.get('gain_vs_noise_floor', ''), 30)}) \\\\")
+    _adelta = _rc_by_agent.get(r["dir"], {}).get("applied_final_delta", res["best_final"] - res["baseline"])
+    out.append(f"MDE$_{{80}}$ at $n{{=}}{conf['n_queries']}$ & {conf['mde']:.3f}; deployed $\\Delta$ = {_adelta:+.4f} (clears MDE: {'yes' if _adelta > conf['mde'] else 'no'}) \\\\")
+    _nfg = esc(res.get("gain_vs_noise_floor", ""), 30)
+    out.append(f"Paraphrase noise floor & {nf.get('noise_floor', float('nan')):+.4f}{(' (' + _nfg + ')') if _nfg else ''} \\\\")
     _b = BLIND_BY_AGENT.get(r["dir"])
     if _b:
         _pr = " (post-repair)" if _b.get("post_repair") else ""

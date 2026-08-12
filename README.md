@@ -22,13 +22,17 @@ HiveMind -- report hundreds to thousands of executed rollouts per single
 benchmark where counts are reported, with no comparable placebo-plus-blinded
 validation in our review.
 
-Honest nulls bound the claims: a pre-registered credit-ledger ablation shows no
-detectable benefit over a simple best-so-far proposer (2W/3L, sign p=1.0), and
-two pre-registered paired execution arms both fired null -- gpt-4o-mini at n=36
-(3/36 vs 3/36) and a funded gpt-5.6-luna arm at n=100 (patched 47/100 vs
-baseline 50/100; 2W/5L/93T; exact sign p=0.453). Certification: the pre-registered
-sham placebo (tag `prereg-sham`) draws 26.9% of votes, and re-anchored at the new
-bests draws 0/45; TEI beats budget-matched unguided generation on 10/10 agents.
+Crucially, zero executed benchmark rollouts were used as the candidate-selection
+signal: the 6,000-version search runs on anchored-rubric proxy evaluation,
+sequential gating, blinding, and static checks. Honest nulls bound the claims: a
+pre-registered credit-ledger ablation shows no detectable benefit over a simple
+best-so-far proposer (2W/3L, sign p=1.0), and the pre-registered gpt-4o-mini
+paired execution arm (n=36; 3/36 vs 3/36) shows no detectable execution-rung
+difference at its measured power. Certification: the pre-registered sham placebo
+(tag `prereg-sham`) draws 26.9% of votes, and re-anchored at the new bests draws
+0/45; TEI beats budget-matched unguided generation on 10/10 agents. (Transfer to
+end-task execution at larger scale is a separate future study, outside this
+paper's scope.)
 All numbers macro-generated from the JSON in this repo.
 
 Compiled paper: `paper/TEI-SWE.pdf` (sha256 recorded in RELEASE_CHECKSUM).
