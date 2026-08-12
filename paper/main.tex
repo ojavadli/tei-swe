@@ -2,6 +2,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{booktabs}
 \usepackage{graphicx}
+\usepackage[export]{adjustbox}
 \usepackage{amsmath,amssymb}
 \usepackage{xcolor}
 \usepackage{authblk}
@@ -85,7 +86,7 @@ did not build, at a cost that scales to all of them, with controls that
 survive a skeptical reviewer?
 
 This paper answers that question with TEI (Target--Evaluate--Improve), a
-self-improving loop built on \emph{sequential decision gating}
+population-scale optimization loop built on \emph{sequential decision gating}
 (\S\ref{sec:method}): candidates face sequential paired evaluation with an
 exact futility bound (stop when a win is arithmetically impossible) and
 Jeffreys Beta--Binomial posterior early kills computed over discordant
@@ -116,6 +117,19 @@ committed---form a within-study null control (\S\ref{sec:results};
 Fig.~\ref{fig:slope}). A supplementary cross-provider check replicates the
 placebo separation, though not the full patch preference
 (Appendix~\ref{app:ext}).
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig_value.png}
+\caption{\textbf{TEI-SWE at a glance.} One structural-plus-prompt optimization
+loop, applied across 30 independently developed leaderboard systems, raises the
+deployed artifacts' anchored rubric by \swAppRelGain{} relative to baseline
+(\textsc{rubric}/proxy substrate) and retains a strict blinded majority on
+\swBlindMajP{} of 26 patched systems, at \swCostPerAgent{} LLM cost per system.
+Zero executed benchmark rollouts were used as the selection signal; the dashed
+line is the best-\emph{proposed} search ceiling (\swPropRelGain), shown
+secondary and not necessarily committed.}
+\label{fig:value}
+\end{figure*}
 
 The result that makes those numbers citable, rather than merely encouraging,
 is the \textbf{blinded confirmation}. Judge-scored optimization is rightly
@@ -154,9 +168,9 @@ splicing strings or landing at the wrong indentation in 6 files across 5
 agents) that was repaired, re-confirmed under blinding, and permanently closed
 by a zero-cost \texttt{ast.parse} pre-gate this study contributes back to the
 methodology's decision layer. Post-repair, all \swN{} branches are
-syntax-parse-clean (\texttt{ast.parse}) and the blinded margin is
-unanimous-or-near-unanimous on every
-patched agent.
+syntax-parse-clean (\texttt{ast.parse}) and \swBlindMajP{} of 26 patched
+systems hold a strict blinded majority (\swBlindPerfect{} unanimous), with
+\swBlindMajB{} preferring the baseline.
 
 \paragraph{Research questions.}
 \textbf{RQ1 (improvement).} Does a gated two-phase loop improve real,
@@ -209,7 +223,7 @@ from public artifacts by a hostile reviewer?
 is trusted; claim at the rung you reached. This study's results per rung:
 \smallskip
 
-\resizebox{\linewidth}{!}{%
+\begin{adjustbox}{max width=\linewidth,center}%
 \begin{tabular}{@{}llll@{}}
 \toprule
 Rung & What it checks & Marginal cost here & This study \\
@@ -219,7 +233,7 @@ Rung & What it checks & Marginal cost here & This study \\
 2. Blinded A/B & preference w/o narrative or direction & \$0.03/agent & \swBlindPreMajP/26 pre-repair (\swBlindPreVotesP/130); \swBlindMajP/26 after repair (\swBlindVotesP/130) \\
 1. Rubric (anchored) & judged dimensions vs.\ diagnosis & \$0.35/agent & $\Delta$ \swDeltaFBP{} (patched $n{=}26$); null control \swDeltaFBnull{} \\
 \bottomrule
-\end{tabular}}
+\end{tabular}\end{adjustbox}
 \smallskip
 
 \emph{Checklist for any optimization claim:} hold out the selection signal;
@@ -319,7 +333,7 @@ ships no \texttt{timeout(1)}, so a first \texttt{git ls-remote} sweep returned
 exit 127 for all URLs---``every repository unreachable''---until a control
 probe exposed it; verification was re-run with in-process timeouts.}
 \label{tab:selection}\footnotesize
-\resizebox{\textwidth}{!}{\input{tables/selection}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/selection}\end{adjustbox}
 \end{table}
 
 \paragraph{Why \swN{} and not 31.}
@@ -373,11 +387,24 @@ keyword; the stricter entry-point screen (\texttt{tier\_a\_assessment.txt})
 leaves 3 (\texttt{SWE-agent}, \texttt{KGCompass}, \texttt{aider}); exactly
 1 (\texttt{SWE-agent}) was executed end-to-end in \S\ref{sec:gap}.}
 \label{tab:runnability}\footnotesize
-\resizebox{\textwidth}{!}{\input{tables/runnability}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/runnability}\end{adjustbox}
 \end{table}
 
 \section{Method: the Gated Loop and the Ladder}
 \label{sec:method}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig_method.png}
+\caption{\textbf{How TEI works.} A per-agent loop targets the weakest rubric
+dimension, then improves \emph{both} the structural (code/workflow) and prompt
+surfaces under sequential gating (futility, posterior kill, do-no-harm), while a
+Bayesian credit ledger steers the next proposal from the \swVersions{} score+why
+records. No executed benchmark rollout is used as the Phase-A/B
+candidate-selection signal---selection runs on the anchored rubric, blinded A/B,
+and static checks; execution ($n{=}36$, retained) is a separate downstream rung.}
+\label{fig:method}
+\end{figure*}
+
 The optimization methodology is TEI~v7 as deployed and frozen
 (\texttt{tei-bench@\swTeibenchSHA}; gate ported in
 \texttt{tei-loop@\swTeiloopSHA}); this study executes it and contributes one
@@ -511,7 +538,7 @@ cost); Table~\ref{tab:spend}.
 \caption{Spend and scale-down record, all passes included (optimization run,
 blinded passes, repairs, replication, trajectory and noise passes).}
 \label{tab:spend}\footnotesize
-\resizebox{\textwidth}{!}{\input{tables/spend}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/spend}\end{adjustbox}
 \end{table}
 
 \begin{table}[t]\centering
@@ -519,7 +546,7 @@ blinded passes, repairs, replication, trajectory and noise passes).}
 Mtok --- a conservative rate; the accounting-rate LLM subtotal is $\approx$\swAcctMult$\times$ the all-Luna list-price bound (verified list
 price of \$0.20/\$1.20; list-price figures shown where they differ).}
 \label{tab:costs}\footnotesize
-\resizebox{\textwidth}{!}{\input{tables/costs}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/costs}\end{adjustbox}
 \end{table}
 
 \paragraph{Run integrity.}
@@ -544,17 +571,20 @@ measured noise floor, and its rubric-rung MDE. Every agent improved; the
 blinded and static columns are what make that sentence citable.
 
 \begin{table}[p]\centering
-\caption{Per-agent results with ladder columns. $\Delta$ = final $-$ baseline
-(\textsc{rubric}, judge scale). Blind = blinded A/B votes for the patched
-state, $k{=}\swBlindK$ (\textsc{blinded}; post-repair; ``--'' = no applied
-patch to compare). AST \checkmark{} = all changed files parse
-(\textsc{static}, post-repair). Floor = measured paraphrase noise floor;
-MDE$^{a}_{80}$ = minimum detectable effect at the probe count under the
-gate's \emph{assumed} noise constant (the measured-noise MDE is in \S\ref{sec:power}).}
+\caption{Per-agent results with ladder columns. Struct and Final are the
+\emph{deployed} (best-applied, committed) states; $\Delta$ = deployed final
+$-$ baseline (\textsc{rubric}, judge scale). Final$^{\ast}$ is the
+best-\emph{proposed} search ceiling (not necessarily committed), shown for
+contrast. Blind = blinded A/B votes for the patched state, $k{=}\swBlindK$
+(\textsc{blinded}; post-repair; ``--'' = no applied patch to compare). AST
+\checkmark{} = all changed files parse (\textsc{static}, post-repair). Floor =
+measured paraphrase noise floor; MDE$^{a}_{80}$ = minimum detectable effect at
+the probe count under the gate's \emph{assumed} noise constant (the
+measured-noise MDE is in \S\ref{sec:power}).}
 \label{tab:pertask}
 \scriptsize
 \setlength{\tabcolsep}{3.2pt}
-\resizebox{\textwidth}{!}{\input{tables/pertask}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/pertask}\end{adjustbox}
 \end{table}
 
 \begin{table}[t]\centering
@@ -563,7 +593,7 @@ gate's \emph{assumed} noise constant (the measured-noise MDE is in \S\ref{sec:po
 best \emph{applied}/committed state, with the best-\emph{proposed} search
 ceiling reported separately.}
 \label{tab:glance}\footnotesize
-\resizebox{\columnwidth}{!}{\input{tables/glance}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/glance}\end{adjustbox}
 \end{table}
 
 \paragraph{R1 --- the delivered capability, in four ledgers.}
@@ -596,7 +626,7 @@ their declared target dimension most.
 \caption{Apply anatomy of \swVersions{} proposals (structural discipline of
 the loop).}
 \label{tab:apply}\footnotesize
-\resizebox{\textwidth}{!}{\input{tables/apply}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/apply}\end{adjustbox}
 \end{table}
 
 \subparagraph{(b) Prompt optimization.}
@@ -621,7 +651,7 @@ uniquely---is higher at $\swBaseP\to\swStructP\to\swPropFinal$ (relative
 \swPropRelGain), and we report the deployed figure as primary precisely because
 it survives that inspection. Weakest-dimension diagnoses are uniform---execution
 accuracy in all \swWeakEA{} of \swN{}---consistent with probing recorded
-execution failures (Table~\ref{tab:dims}).
+execution failures (Fig.~\ref{fig:dims}).
 
 \subparagraph{(c) Efficiency.}
 The canonical call accounting: the core TEI optimization loop used
@@ -660,14 +690,17 @@ within-study null control of R2f; their deltas are statistically
 indistinguishable from the patched set's (Table~\ref{tab:nullcontrol}).}
 \label{tab:contrasts}\footnotesize
 \setlength{\tabcolsep}{3.6pt}
-\resizebox{\textwidth}{!}{\input{tables/contrasts}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/contrasts}\end{adjustbox}
 \end{table}
 
-\begin{table}[t]\centering
-\caption{Evaluation-dimension means at baseline and shipped (\textsc{rubric}; patched systems, $n{=}26$).}
-\label{tab:dims}\footnotesize
-\resizebox{\textwidth}{!}{\input{tables/dims}}
-\end{table}
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{figures/fig_dims.png}
+\caption{TEI's deployed artifacts increase all four anchored rubric dimensions
+on the 26 patched systems; execution accuracy---the weakest dimension at
+baseline for all \swN{} systems---shows the largest absolute gain ($+0.105$,
+\textsc{rubric}/proxy substrate).}
+\label{fig:dims}
+\end{figure}
 
 \paragraph{R2 --- the headline: the gains survive blinding, and the controls certify it.}
 For every agent with applied patches (\swBlindAgents{} of \swN; the other
@@ -736,10 +769,15 @@ Consequently, all rubric aggregates in this paper are reported with the
 patched systems ($n{=}26$) as primary and the all-30 figures parenthetical.
 
 \begin{table}[t]\centering
-\caption{The within-study null control: rubric-rung deltas for systems
-where no code changed vs.\ systems that received patches.}
+\caption{The within-study null control (all on the anchored \textsc{rubric}).
+The four zero-patch systems---where no line was committed---still move the rubric
+by \swDeltaSBnull{} (structural), \emph{exceeding} the \swDeltaSBP{} that the 26
+patched systems' \emph{deployed} artifacts actually gain: rubric movement alone
+is not evidence of a deployable improvement, which is why the blinded/static
+ladder carries every outcome-facing claim. The patched best-\emph{proposed}
+ceiling is shown for contrast.}
 \label{tab:nullcontrol}\footnotesize
-\resizebox{\textwidth}{!}{\input{tables/nullcontrol}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/nullcontrol}\end{adjustbox}
 \end{table}
 
 \paragraph{R3 --- the gains clear measured noise, not just assumed noise.}
@@ -762,6 +800,21 @@ cleanly from rewording noise.}
 
 \section{What the Ladder Additionally Caught}
 \label{sec:ladder}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig_validation.png}
+\caption{\textbf{Why the improvement is credible.} Three within-study controls
+support the primary blinded signal: real patches win a strict blinded majority
+on \swBlindMajP/26 systems (\swBlindVotesP/130 votes), a preregistered sham
+placebo draws far fewer, and diagnosis-guided proposals beat budget-matched
+random \swRandTeiWins/\swRandN{} (blinded). The supplementary cross-provider
+judge does \emph{not} reproduce the overall patch-preference direction
+(Appendix~\ref{app:ext}), bounding the generality of the judge-dependent claim
+(\textsc{blinded}/\textsc{rubric} substrates; the four baseline-preferring
+systems are shown, not hidden).}
+\label{fig:validation}
+\end{figure*}
+
 One section, one story, told once: the ladder's discovery narrative, which is
 where the pre-repair numbers live. The first blinded pass (pre-repair) already
 confirmed the headline on \swBlindPreMajP{} of \swBlindAgents{} agents
@@ -812,15 +865,26 @@ optimizers on the axes this study measures on both sides; quality numbers
 carry a mandatory substrate column, and substrate-mismatched quality
 comparisons are not made. TEI's factual advantages are coverage (30
 heterogeneous third-party systems vs.\ single-digit own-scaffold task counts),
-cost (\swCallsAll{} calls; list-price equivalent bounded \swCostListLo--\swCostListHi, \swLLMTotal{} at our
-conservative accounting rate, \emph{total}---versus hundreds of executed rollouts
-\emph{per task}), and shipped validation depth (blinded
+cost (\swLLMCombined{} LLM subtotal across all optimization and validation
+passes, \swCallsCanon{} model calls, ledgered to the cent, \emph{total}---versus
+hundreds of executed rollouts \emph{per task}), and shipped validation depth (blinded
 A/B, static pre-gate, measured noise floors, MDE preflights, do-no-harm gate,
 full why-record audit trail---our review of the compared systems' papers
 found no comparable placebo-plus-blinded validation of the selection
 signal). Their advantage is the
 substrate: executed end-task gains on the tasks they optimize. The rows state
 both without conversion.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{figures/fig_compare.png}
+\caption{\textbf{Where TEI differs from 2026 optimizers.} TEI differs primarily
+in third-party-system coverage, structural-plus-prompt scope,
+zero-executed-rollout proxy selection, and bias-controlled validation;
+performance numbers are not compared across incompatible substrates. Filled teal
+marks a primary-source-verified TEI advantage on the audited axis; ``n.r.''\
+(open diamond) means not reported and is never encoded as ``no.''}
+\label{fig:compare}
+\end{figure}
 
 \begin{table}[t]\centering
 \caption{TEI-SWE vs.\ contemporary (2025--2026) optimizers, on axes measured
@@ -837,7 +901,7 @@ coverage, zero-executed-rollout selection, bias-controlled validation) are in
 bold.}
 \label{tab:compare}\scriptsize
 \setlength{\tabcolsep}{3pt}
-\resizebox{\textwidth}{!}{%
+\begin{adjustbox}{max width=\linewidth,center}%
 \begin{tabular}{lcccccc}
 \toprule
  & \textbf{TEI-SWE (this work)} & GEPA & MIPROv2 & Maestro & ACE & HiveMind \\
@@ -851,7 +915,7 @@ Bias-controlled validation of signal & \textbf{yes: placebo + blinded A/B + rand
 Zero-cost syntax pre-gate & \textbf{yes (contributed)} & no & no & no & no & no \\
 Per-candidate score+why released & \textbf{\swVersions{} why-records + votes} & code & code & no & no & no \\
 \bottomrule
-\end{tabular}}
+\end{tabular}\end{adjustbox}
 \end{table}
 
 \section{From Blinded to Executed: the Micro-Arm}
@@ -912,7 +976,8 @@ and validates third-party agents at a population scale and cost no
 contemporary optimizer reports,
 and the blinded preference for its patches is a property of the changed
 code rather than of its narrative: blinding removes the
-narrative, and the preference survives on every patched agent, replicated by a second
+narrative, and the preference survives on \swBlindMajP{} of 26 patched systems
+(\swBlindMajB{} prefer the baseline), replicated by a second
 model within the same GPT-5.6 family. \emph{Second}, validation is a ladder, not a binary:
 each rung this study climbed either strengthened the claim (blinded,
 measured-noise, trajectory) or improved the method (the static rung's
@@ -941,7 +1006,8 @@ prefix length and final total should not be conflated; prompt surfaces are detec
 markers and under-detected for runtime-assembled scaffolds; blinded excerpts
 show up to four changed files per agent, so damage outside them is caught
 only by the static rung; between-agent baselines are anchored by design; and
-the execution rung is limited to the micro-arm of \S\ref{sec:gap}. What would
+the execution rung is limited to the retained $n{=}6$ micro-arm and the
+preregistered $n{=}36$ paired arm (\S\ref{sec:gap}), both null. What would
 strengthen the result most, in order: more executed instances, larger probe
 sets ($\ge$36), more seeds.
 
@@ -955,11 +1021,13 @@ URLs and SHAs, \texttt{PROVENANCE.md} (rule, funnel, the rejected
 replication, trajectory), the audit and asset scripts, and the paper source
 whose every number is emitted by \texttt{make\_assets.py}. The pipeline
 sequence is documented in the release README; total spend, all passes
-included: \swCallsAll{} model calls, \swTokIn/\swTokOut{} tokens (tracked LLM
-passes), \swLLMTotal{} at the accounting rate (\swLLMTotalCons{} at its
+included: \swLLMCombined{} LLM subtotal across \swCallsCanon{} model calls
+(\swGrandTotal{} grand total including the execution arms; Table~\ref{tab:spend}).
+The frozen original-study decomposition alone is \swCallsAll{} calls /
+\swTokIn/\swTokOut{} tokens at \swLLMTotal{} (\swLLMTotalCons{} at its
 $2\times$ cap-enforcement bound; list-price equivalent bounded
-\swCostListLo--\swCostListHi), plus \$2.49 execution-arm rollouts
-(Table~\ref{tab:spend}). The release bundle (public
+\swCostListLo--\swCostListHi); the Phase-B \texttt{prereg-100} extension adds
+the remainder. The release bundle (public
 repository; datasets \texttt{tei-swe-30-why-records} and
 \texttt{tei-swe-30-blinded-votes}) is pointed to from the repository page of
 this paper; a ``use this to audit your own loop'' section shows how to run
@@ -1061,7 +1129,7 @@ posteriors (mean $\Delta$, $P(\Delta{>}0)$, $n$) before vs.\ after the
 extension; lesson delta-operation counts in the caption rows. Full logs in
 \texttt{tei/ledger\_log.jsonl}.}
 \label{tab:ledger}\footnotesize
-\resizebox{\textwidth}{!}{\input{tables/ledger_exhibit}}
+\begin{adjustbox}{max width=\linewidth,center}\input{tables/ledger_exhibit}\end{adjustbox}
 \end{table}
 
 \end{document}

@@ -1,0 +1,180 @@
+\begin{thebibliography}{24}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Jimenez et~al.(2024)Jimenez, Yang, Wettig, Yao, Pei, Press, and
+  Narasimhan]{swebench2024}
+Carlos~E Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir
+  Press, and Karthik Narasimhan.
+\newblock {SWE-bench}: Can language models resolve real-world {GitHub} issues?
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2024.
+\newblock arXiv:2310.06770.
+
+\bibitem[{SWE-bench team}(2026)]{swebenchexperiments}
+{SWE-bench team}.
+\newblock {SWE-bench/experiments}: the official {SWE-bench} leaderboard
+  submission archive.
+\newblock \url{https://github.com/SWE-bench/experiments}, 2026.
+\newblock Frozen at commit \texttt{2f15350c}, accessed 2026-08-08.
+
+\bibitem[{OpenAI}(2024)]{swebenchverified2024}
+{OpenAI}.
+\newblock Introducing {SWE-bench Verified}.
+\newblock \url{https://openai.com/index/introducing-swe-bench-verified/}, 2024.
+
+\bibitem[Zhou et~al.(2022)Zhou, Muresanu, Han, Paster, Pitis, Chan, and
+  Ba]{ape2022}
+Yongchao Zhou, Andrei~Ioan Muresanu, Ziwen Han, Keiran Paster, Silviu Pitis,
+  Harris Chan, and Jimmy Ba.
+\newblock Large language models are human-level prompt engineers.
+\newblock \emph{arXiv preprint arXiv:2211.01910}, 2022.
+
+\bibitem[Yang et~al.(2023)Yang, Wang, Lu, Liu, Le, Zhou, and Chen]{opro2023}
+Chengrun Yang, Xuezhi Wang, Yifeng Lu, Hanxiao Liu, Quoc~V Le, Denny Zhou, and
+  Xinyun Chen.
+\newblock Large language models as optimizers.
+\newblock \emph{arXiv preprint arXiv:2309.03409}, 2023.
+
+\bibitem[Khattab et~al.(2023)Khattab, Singhvi, Maheshwari, Zhang, Santhanam,
+  Vardhamanan, Haq, Sharma, Joshi, Moazam, Miller, Zaharia, and
+  Potts]{dspy2023}
+Omar Khattab, Arnav Singhvi, Paridhi Maheshwari, Zhiyuan Zhang, Keshav
+  Santhanam, Sri Vardhamanan, Saiful Haq, Ashutosh Sharma, Thomas~T Joshi,
+  Hanna Moazam, Heather Miller, Matei Zaharia, and Christopher Potts.
+\newblock {DSPy}: Compiling declarative language model calls into
+  self-improving pipelines.
+\newblock \emph{arXiv preprint arXiv:2310.03714}, 2023.
+
+\bibitem[Opsahl-Ong et~al.(2024)Opsahl-Ong, Ryan, Purtell, Broman, Potts,
+  Zaharia, and Khattab]{mipro2024}
+Krista Opsahl-Ong, Michael~J Ryan, Josh Purtell, David Broman, Christopher
+  Potts, Matei Zaharia, and Omar Khattab.
+\newblock Optimizing instructions and demonstrations for multi-stage language
+  model programs.
+\newblock \emph{arXiv preprint arXiv:2406.11695}, 2024.
+
+\bibitem[Yuksekgonul et~al.(2024)Yuksekgonul, Bianchi, Boen, Liu, Huang,
+  Guestrin, and Zou]{textgrad2024}
+Mert Yuksekgonul, Federico Bianchi, Joseph Boen, Sheng Liu, Zhi Huang, Carlos
+  Guestrin, and James Zou.
+\newblock {TextGrad}: Automatic ``differentiation'' via text.
+\newblock \emph{arXiv preprint arXiv:2406.07496}, 2024.
+
+\bibitem[Agrawal et~al.(2025)Agrawal, Tan, Soylu, Ziems, Khare, Opsahl-Ong,
+  Singhvi, Shandilya, Ryan, Jiang, Potts, Sen, Dimakis, Stoica, Klein, Zaharia,
+  and Khattab]{gepa2025}
+Lakshya~A Agrawal, Shangyin Tan, Dilara Soylu, Noah Ziems, Rishi Khare, Krista
+  Opsahl-Ong, Arnav Singhvi, Herumb Shandilya, Michael~J Ryan, Meng Jiang,
+  Christopher Potts, Koushik Sen, Alexandros~G Dimakis, Ion Stoica, Dan Klein,
+  Matei Zaharia, and Omar Khattab.
+\newblock {GEPA}: Reflective prompt evolution can outperform reinforcement
+  learning.
+\newblock \emph{arXiv preprint arXiv:2507.19457}, 2025.
+
+\bibitem[Zheng et~al.(2023)Zheng, Chiang, Sheng, Zhuang, Wu, Zhuang, Lin, Li,
+  Li, Xing, Zhang, Gonzalez, and Stoica]{llmjudge2023}
+Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao
+  Zhuang, Zi~Lin, Zhuohan Li, Dacheng Li, Eric~P Xing, Hao Zhang, Joseph~E
+  Gonzalez, and Ion Stoica.
+\newblock Judging {LLM-as-a-Judge} with {MT-Bench} and chatbot arena.
+\newblock \emph{arXiv preprint arXiv:2306.05685}, 2023.
+
+\bibitem[Yang et~al.(2024)Yang, Jimenez, Wettig, Lieret, Yao, Narasimhan, and
+  Press]{sweagent2024}
+John Yang, Carlos~E Jimenez, Alexander Wettig, Kilian Lieret, Shunyu Yao,
+  Karthik Narasimhan, and Ofir Press.
+\newblock {SWE-agent}: Agent-computer interfaces enable automated software
+  engineering.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2024.
+\newblock arXiv:2405.15793.
+
+\bibitem[Xia et~al.(2024)Xia, Deng, Dunn, and Zhang]{agentless2024}
+Chunqiu~Steven Xia, Yinlin Deng, Soren Dunn, and Lingming Zhang.
+\newblock Agentless: Demystifying {LLM}-based software engineering agents.
+\newblock \emph{arXiv preprint arXiv:2407.01489}, 2024.
+
+\bibitem[Zhang et~al.(2024)Zhang, Ruan, Fan, and
+  Roychoudhury]{autocoderover2024}
+Yuntong Zhang, Haifeng Ruan, Zhiyu Fan, and Abhik Roychoudhury.
+\newblock {AutoCodeRover}: Autonomous program improvement.
+\newblock In \emph{International Symposium on Software Testing and Analysis
+  (ISSTA)}, 2024.
+\newblock arXiv:2404.05427.
+
+\bibitem[Gauthier(2024)]{aider}
+Paul Gauthier.
+\newblock aider: {AI} pair programming in your terminal.
+\newblock \url{https://github.com/paul-gauthier/aider}, 2024.
+
+\bibitem[{\"O}rwall(2024)]{moatless}
+Albert {\"O}rwall.
+\newblock moatless-tools.
+\newblock \url{https://github.com/aorwall/moatless-tools}, 2024.
+
+\bibitem[Madaan et~al.(2023)Madaan, Tandon, Gupta, Hallinan, Gao, Wiegreffe,
+  Alon, Dziri, et~al.]{selfrefine2023}
+Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah
+  Wiegreffe, Uri Alon, Nouha Dziri, et~al.
+\newblock Self-refine: Iterative refinement with self-feedback.
+\newblock \emph{arXiv preprint arXiv:2303.17651}, 2023.
+
+\bibitem[Shinn et~al.(2023)Shinn, Cassano, Berman, Gopinath, Narasimhan, and
+  Yao]{reflexion2023}
+Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik
+  Narasimhan, and Shunyu Yao.
+\newblock Reflexion: Language agents with verbal reinforcement learning.
+\newblock \emph{arXiv preprint arXiv:2303.11366}, 2023.
+
+\bibitem[Panickssery et~al.(2024)Panickssery, Bowman, and
+  Feng]{selfpreference2024}
+Arjun Panickssery, Samuel~R Bowman, and Shi Feng.
+\newblock {LLM} evaluators recognize and favor their own generations.
+\newblock \emph{arXiv preprint arXiv:2404.13076}, 2024.
+
+\bibitem[Sainz et~al.(2023)Sainz, Campos, Garc{\'i}a-Ferrero, Etxaniz,
+  de~Lacalle, and Agirre]{contamination2023}
+Oscar Sainz, Jon~Ander Campos, Iker Garc{\'i}a-Ferrero, Julen Etxaniz,
+  Oier~Lopez de~Lacalle, and Eneko Agirre.
+\newblock {NLP} evaluation in trouble: On the need to measure {LLM} data
+  contamination for each benchmark.
+\newblock In \emph{Findings of EMNLP}, 2023.
+\newblock arXiv:2310.18018.
+
+\bibitem[Jia et~al.(2025)Jia, Huang, Vytla, Choudhury, Sen, Mitchell, and
+  Datta]{gpa2025}
+Allison~Sihan Jia, Daniel Huang, Nikhil Vytla, Nirvika Choudhury, Shayak Sen,
+  John~C Mitchell, and Anupam Datta.
+\newblock What is your agent's {GPA}? a framework for evaluating agent
+  goal--plan--action alignment.
+\newblock \emph{arXiv preprint arXiv:2510.08847}, 2025.
+
+\bibitem[Wilson(1927)]{wilson1927}
+Edwin~B Wilson.
+\newblock Probable inference, the law of succession, and statistical inference.
+\newblock \emph{Journal of the American Statistical Association}, 22\penalty0
+  (158):\penalty0 209--212, 1927.
+
+\bibitem[Hoeffding(1963)]{hoeffding1963}
+Wassily Hoeffding.
+\newblock Probability inequalities for sums of bounded random variables.
+\newblock \emph{Journal of the American Statistical Association}, 58\penalty0
+  (301):\penalty0 13--30, 1963.
+
+\bibitem[Jeffreys(1946)]{jeffreys1946}
+Harold Jeffreys.
+\newblock An invariant form for the prior probability in estimation problems.
+\newblock \emph{Proceedings of the Royal Society of London. Series A},
+  186\penalty0 (1007):\penalty0 453--461, 1946.
+
+\bibitem[Holm(1979)]{holm1979}
+Sture Holm.
+\newblock A simple sequentially rejective multiple test procedure.
+\newblock \emph{Scandinavian Journal of Statistics}, 6\penalty0 (2):\penalty0
+  65--70, 1979.
+
+\end{thebibliography}

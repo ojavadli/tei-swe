@@ -56,13 +56,16 @@ repository; the 30 systems map to \swDistinctRepos{} distinct repositories (\S3.
 \clearpage
 \section{Proposal Technique Frequencies}
 \label{app:tech}
-Table~\ref{tab:techniques} lists the most frequent normalized proposal
-techniques; frequencies are small (maximum 4 of \swVersions{} versions), so
-per-technique mean deltas are descriptive only and carry no inferential weight.
+Table~\ref{tab:techniques} lists the most frequent proposal technique
+\emph{families} (normalized from the free-text technique field); the largest
+family covers \swTechTopN{} of \swVersions{} versions. Per-family mean deltas
+are descriptive only and carry no inferential weight---families were not
+randomized across systems.
 
 \begin{table}[h]\centering
-\caption{Most frequent proposal techniques (top 12 of \swVersions{}
-why-records); $n$ is the Versions column --- means on $n\le4$ are noise-level.}
+\caption{Most frequent proposal technique families over all \swVersions{}
+why-records; $n$ is the Versions column. Descriptive only: families were not
+randomized, so the mean $\Delta$ (\textsc{rubric}) carries no causal claim.}
 \label{tab:techniques}\footnotesize
 \setlength{\tabcolsep}{4pt}
 \input{tables/techniques}

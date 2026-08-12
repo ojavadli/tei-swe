@@ -12,7 +12,7 @@
 | 8 | Sham placebo separation (full 26.9%; re-anchor 0/45) | `sham_arm.json`, `sham_rearm.json` | SUPPORTED |
 | 9 | Budget-matched random control: TEI 10/10 | `random_arm.json` | SUPPORTED |
 | 10 | 15/30 deployed deltas clear measured MDE 0.074 | recompute MDE_applied | SUPPORTED |
-| 11 | LLM subtotal $53.66; grand $75.02 (Phase-C $0) | cost reconciliation to cents | SUPPORTED |
+| 11 | LLM subtotal $53.66; grand $75.02 (all retained arms) | cost reconciliation to cents | SUPPORTED |
 | 12 | Cost/system $1.79, /candidate $0.009, /applied $0.016 | recompute cost | SUPPORTED |
 | 13 | Zero executed benchmark rollouts as the selection signal | pipeline uses rubric/blinded/static only | SUPPORTED |
 | 14 | Credit-ledger ablation null (2W/3L, p=1.0) | `curves_data.json` | SUPPORTED |

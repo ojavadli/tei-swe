@@ -188,9 +188,22 @@ def fmt_p(p):
 
 
 # ---------------------------------------------------------------- core vectors
+# Task-0 substrate discipline: the PRIMARY trajectory everywhere is the DEPLOYED
+# (best-APPLIED) artifact; the best-PROPOSED search ceiling is preserved as a
+# separate, explicitly-labelled series. Single source: _paper_recompute.json.
 base_v = np.array([r["res"]["baseline"] for r in A])
-struct_v = np.array([r["res"]["best_structural"] for r in A])
-final_v = np.array([r["res"]["best_final"] for r in A])
+# best-PROPOSED (rubric search ceiling) — kept for the labelled ceiling + null control
+struct_prop = np.array([r["res"]["best_structural"] for r in A])
+final_prop = np.array([r["res"]["best_final"] for r in A])
+
+
+def _appv(r, key):
+    return _rc_by_agent.get(r["dir"], {}).get(key, r["res"]["baseline"])
+
+
+# PRIMARY = deployed / best-APPLIED (what was actually committed to each branch)
+struct_v = np.array([_appv(r, "best_applied_struct") for r in A])
+final_v = np.array([_appv(r, "best_applied_final") for r in A])
 delta_sb = struct_v - base_v
 delta_fs = final_v - struct_v
 delta_fb = final_v - base_v
@@ -198,9 +211,11 @@ rates = np.array([r["ob"]["resolve_rate"] for r in A]) / 100.0
 
 ZERO4 = ['02_sonarfoundationagent', '04_acoder', '17_codeshellagent', '25_codeshelltester']
 IS_P = np.array([r["dir"] not in ZERO4 for r in A])
-base26, struct26, final26 = base_v[IS_P], struct_v[IS_P], final_v[IS_P]
+base26, struct26, final26 = base_v[IS_P], struct_v[IS_P], final_v[IS_P]        # deployed
 d_sb26, d_fs26, d_fb26 = struct26 - base26, final26 - struct26, final26 - base26
-d_fb4 = (final_v - base_v)[~IS_P]; d_sb4 = (struct_v - base_v)[~IS_P]
+# null control (Task 6): the four zero-patch systems on the RUBRIC best-proposed
+# candidate (nothing was deployed) — compared against patched DEPLOYED gains.
+d_fb4 = (final_prop - base_v)[~IS_P]; d_sb4 = (struct_prop - base_v)[~IS_P]
 P_sb26 = None  # filled below after paired() defined? paired already defined above
 P_sb = paired("struct-base", delta_sb)
 P_fs = paired("final-struct", delta_fs)
@@ -314,8 +329,10 @@ M["swStructN"] = str(n_struct)
 M["swPromptN"] = str(n_prompt)
 M["swBase"] = f"{base_v.mean():.3f}"
 M["swBaseP"] = f"{base26.mean():.3f}"
-M["swStructP"] = f"{struct26.mean():.3f}"
-M["swFinalP"] = f"{final26.mean():.3f}"
+# swStructP / swFinalP name the best-PROPOSED search ceiling (n=26), used only where
+# the text explicitly reports the ceiling; the deployed primary uses swApp* macros.
+M["swStructP"] = f"{struct_prop[IS_P].mean():.3f}"
+M["swFinalP"] = f"{final_prop[IS_P].mean():.3f}"
 # APPLIED/DEPLOYED headline (primary) + PROPOSED search ceiling (secondary), n=26 patched
 M["swAppBase"] = f"{_ap.get('base',0):.3f}"
 M["swAppStruct"] = f"{_ap.get('struct',0):.3f}"
@@ -328,6 +345,7 @@ M["swPropFinal"] = f"{_pr.get('final',0):.3f}"
 M["swPropAbsGain"] = f"{_pr.get('abs_gain',0):+.3f}"
 M["swPropRelGain"] = f"{_pr.get('rel_gain_pct',0):.1f}\\%"
 M["swZeroPatchApplied"] = f"{_rc.get('zeropatch_applied',{}).get('final',0)-_rc.get('zeropatch_applied',{}).get('base',0):+.3f}"
+M["swMDEmeas"] = f"{_rc.get('MDE_threshold', 0.074):.3f}"
 M["swMDEclear"] = _rc.get("MDE_applied_over_all30", "15/30")
 M["swMDEclearNum"] = _rc.get("MDE_applied_over_all30", "15/30").split("/")[0]
 M["swMDEclearP"] = _rc.get("MDE_applied_over_patched", "15/26")
@@ -364,7 +382,8 @@ M["swMDEmean"] = f"{mde.mean():.2f}"
 M["swBelowMDE"] = str(below_mde)
 M["swDeltaMax"] = f"{delta_fb.max():+.3f}"
 M["swDeltaMin"] = f"{delta_fb.min():+.3f}"
-M["swMDEratio"] = f"{(mde / delta_fb).min():.1f}"
+_nzp = delta_fb > 0  # zero-patch deltas are exactly 0; ratio only defined on patched
+M["swMDEratio"] = f"{(mde[_nzp] / delta_fb[_nzp]).min():.1f}"
 M["swFloorMean"] = f"{np.nanmean(floors):+.4f}"
 M["swFloorMax"] = f"{np.nanmax(floors):+.4f}"
 M["swExceedFloor"] = str(exceeds_floor)
@@ -420,9 +439,11 @@ M["swCostPerPatch"] = f"\\${LLM_COMBINED/_na_all:.3f}"
 M["swCallsPhaseB"] = f"{CALLS_PHASEB:,}"
 M["swTerraCalls"] = "200"
 M["swCallsAll"] = f"{CALLS_ALL:,}"
+# canonical whole-study call count = original decomposition + Phase-B extension
+M["swCallsCanon"] = f"{CALLS_ALL + CALLS_PHASEB:,}"
 M["swLunaCalls"] = f"{CALLS_ALL-200:,}"
 M["swLLMTotalCons"] = f"\\${2*LLM_TOTAL:.2f}"
-M["swTargetingSkip"] = "6"
+M["swTargetingSkip"] = str(len(all_c) - tot_t)  # versions lacking a declared target (17); 0 lack scored dims
 M["swCallsPerAgent"] = f"{budget['calls']/30:.0f}"
 M["swCostCons"] = f"\\${budget['cost_conservative_usd']:.2f}"
 M["swCap"] = "\\$25"
@@ -646,25 +667,28 @@ def wtab(name, rows, colspec, header):
 rows = []
 for r in A:
     ob, res = r["ob"], r["res"]
-    ns = sum(1 for c in r["cands"] if c["phase"] == "structural")
-    npm = sum(1 for c in r["cands"] if c["phase"] == "prompt")
     na = sum(1 for c in r["cands"] if c["decision"] == "applied")
-    d = res["best_final"] - res["baseline"]
+    rc = _rc_by_agent.get(r["dir"], {})
+    bpt = rc.get("base", res["baseline"])
+    s_app = rc.get("best_applied_struct", bpt)   # deployed structural
+    f_app = rc.get("best_applied_final", bpt)     # deployed final
+    f_prop = rc.get("best_proposed_final", res["best_final"])  # search ceiling
+    d_app = f_app - bpt
     b = BLIND_BY_AGENT.get(r["dir"])
     blind = f"{b['patched']}/{b['patched']+b['baseline']+b['tie']}" if b else "--"
     rows.append(
         f"{ob['rank']} & {esc(short_name(ob['system']), 24)} & {ob['split'][:4]} & "
-        f"{ob['resolve_rate']:.1f} & {res['baseline']:.3f} & {res['best_structural']:.3f} & "
-        f"{res['best_final']:.3f} & {d:+.3f} & {blind} & \\checkmark & {na} & "
+        f"{ob['resolve_rate']:.1f} & {bpt:.3f} & {s_app:.3f} & "
+        f"{f_app:.3f} & {d_app:+.3f} & {f_prop:.3f} & {blind} & \\checkmark & {na} & "
         f"{(res.get('noise_floor') or {}).get('noise_floor', float('nan')):+.4f} & "
         f"{res['confirmation']['mde']:.2f} \\\\")
 rows.append(r"\midrule")
 rows.append(f"\\textbf{{Mean (patched, $n{{=}}26$)}} & & & & \\textbf{{{base26.mean():.3f}}} & \\textbf{{{struct26.mean():.3f}}} & "
-            f"\\textbf{{{final26.mean():.3f}}} & \\textbf{{{d_fb26.mean():+.3f}}} & & & & & \\\\")
+            f"\\textbf{{{final26.mean():.3f}}} & \\textbf{{{d_fb26.mean():+.3f}}} & {final_prop[IS_P].mean():.3f} & & & & & \\\\")
 rows.append(f"Mean (all 30) & & & & {base_v.mean():.3f} & {struct_v.mean():.3f} & "
-            f"{final_v.mean():.3f} & {delta_fb.mean():+.3f} & & & & & \\\\")
-wtab("pertask.tex", rows, "rlcrrrrrccrrr",
-     r"\# & System & Split & Res.\% & Base & Struct & Final & $\Delta$ & Blind & AST & Appl & Floor & MDE$^{a}_{80}$")
+            f"{final_v.mean():.3f} & {delta_fb.mean():+.3f} & {final_prop.mean():.3f} & & & & & \\\\")
+wtab("pertask.tex", rows, "rlcrrrrrrccrrr",
+     r"\# & System & Split & Res.\% & Base & Struct & Final & $\Delta$ & Final$^{\ast}$ & Blind & AST & Appl & Floor & MDE$^{a}_{80}$")
 
 # selection funnel
 wtab("selection.tex", [
@@ -696,19 +720,20 @@ wtab("contrasts.tex", [
    r"Contrast & $\Delta$ & 95\% CI & $t$ $p$ & Wilcoxon $p$ & Sign $p$ & $d_z$ & W/L/T")
 # within-study null control (R2f): zero-patch vs patched vs all
 wtab("nullcontrol.tex", [
-    f"Zero-patch null control ($n{{=}}4$) & {d_sb4.mean():+.4f} & {d_fb4.mean():+.4f} \\\\",
-    f"Patched systems ($n{{=}}26$) & {d_sb26.mean():+.4f} & {d_fb26.mean():+.4f} \\\\",
-    f"All systems ($n{{=}}30$) & {delta_sb.mean():+.4f} & {delta_fb.mean():+.4f} \\\\",
-], "lrr", r"Group & Struct $-$ base & Final $-$ base")
+    f"Zero-patch, best rubric candidate (never deployed), $n{{=}}4$ & {d_sb4.mean():+.4f} & {d_fb4.mean():+.4f} \\\\",
+    f"Patched, deployed artifact, $n{{=}}26$ & {d_sb26.mean():+.4f} & {d_fb26.mean():+.4f} \\\\",
+    f"Patched, best rubric ceiling, $n{{=}}26$ & {(struct_prop - base_v)[IS_P].mean():+.4f} & {(final_prop - base_v)[IS_P].mean():+.4f} \\\\",
+], "lrr", r"Group (anchored \textsc{rubric}) & Struct $-$ base & Final $-$ base")
 
 # gate summary
 wtab("gate.tex", [
     f"Agents whose best version passed the paired do-no-harm gate & {conf_acc}/30 \\\\",
     f"Paired probe wins / losses (pooled over agents) & {wins_tot} / {loss_tot} \\\\",
     f"Probe queries per agent & {int(nq.min())}--{int(nq.max())} \\\\",
-    f"MDE$_{{80}}$ at that $n$ (per agent, from \\texttt{{preflight\\_power}}) & {mde.min():.2f}--{mde.max():.2f} \\\\",
-    f"Shipped deltas below their own MDE & {below_mde}/30 \\\\",
-    f"Shipped deltas above the paraphrase noise floor & {exceeds_floor}/30 \\\\",
+    f"Assumed-noise MDE$^{{a}}_{{80}}$ (per agent, conservative preflight sd $0.15$) & {mde.min():.2f}--{mde.max():.2f} \\\\",
+    f"Deployed deltas below the assumed-noise MDE$^{{a}}_{{80}}$ & {below_mde}/30 \\\\",
+    f"Deployed deltas clearing the measured-noise MDE ({M['swMDEmeas']}) & {M['swMDEclear']} \\\\",
+    f"Deployed deltas above the paraphrase noise floor & {exceeds_floor}/30 \\\\",
     f"Largest shipped delta & {delta_fb.max():+.3f} \\\\",
     f"Smallest per-agent MDE & {mde.min():.2f} \\\\",
 ], "lr", "Quantity & Value")
@@ -729,12 +754,12 @@ _rows.append(f"List-price equivalent, original study (all-luna lower / all-terra
 _rows.append(f"Agents at 200 versions (100 structural + 100 prompt) & all {iters_groups.get(200,0)} \\\\")
 wtab("spend.tex", _rows, "lr", "Stage & Nominal")
 wtab("costs.tex", [
-    f"Cost per agent, all LLM passes (accounting rate) & {M['swCostPerAgent']} \\\\",
-    f"Cost per agent incl.\\ execution micro-arm & {M['swCostPerAgentAll']} \\\\",
+    f"LLM cost per system, all passes (accounting rate) & {M['swCostPerAgent']} \\\\",
+    f"Retained grand total per system (LLM + execution arms + cross-provider) & {M['swCostPerAgentAll']} \\\\",
     f"Cost per agent at list prices & {M['swCostPerAgentListLo']} (all-Luna lower bound) to {M['swCostPerAgentListHi']} (all-Terra upper bound) \\\\",
     f"Cost per scored candidate version & {M['swCostPerVersion']} \\\\",
     f"Cost per applied, syntax-clean committed patch & {M['swCostPerPatch']} \\\\",
-    f"Judge calls: \\texttt{{gpt-5.6-luna}} / \\texttt{{gpt-5.6-terra}} & {M['swLunaCalls']} / {M['swTerraCalls']} \\\\",
+    f"Judge calls, original-study decomposition (\\texttt{{gpt-5.6-luna}} / \\texttt{{gpt-5.6-terra}}) & {M['swLunaCalls']} / {M['swTerraCalls']} \\\\",
     r"Per-model token split & not separately metered for mixed passes; list bounds shown in Table~\ref{tab:spend} \\",
     r"Syntax pre-gate savings (projection; gate not active in the original optimization pass) & every parse-breaking candidate, at \$0 \\",
 ], "lr", "Quantity & Value")
@@ -780,6 +805,30 @@ for fam in _rc.get("technique_top", []):
 wtab("techniques.tex", rows, "lrr", r"Technique family & Versions & Mean $\Delta$ (\textsc{rubric})")
 
 
+# ---- canonical data for the standalone figure generator (make_figures.py) ----
+fig_data = {
+    "dims": {
+        "labels": {"target_alignment": "Target alignment",
+                   "reasoning_soundness": "Reasoning soundness",
+                   "execution_accuracy": "Execution accuracy",
+                   "output_integrity": "Output integrity"},
+        "order": DIMS,
+        "baseline": {k: float(bdim_means[k]) for k in DIMS},
+        "deployed": {k: float(fdim_means[k]) for k in DIMS},
+    },
+    "stages_deployed": {"base": float(base26.mean()), "struct": float(struct26.mean()),
+                        "final": float(final26.mean())},
+    "stages_ceiling": {"base": float(base26.mean()), "struct": float(struct_prop[IS_P].mean()),
+                       "final": float(final_prop[IS_P].mean())},
+    "nullcontrol": {
+        "zeropatch_rubric": {"struct": float(d_sb4.mean()), "final": float(d_fb4.mean())},
+        "patched_deployed": {"struct": float(d_sb26.mean()), "final": float(d_fb26.mean())},
+    },
+}
+with open(os.path.join(PAPER, "figures", "_fig_data.json"), "w") as f:
+    json.dump(fig_data, f, indent=2)
+print("figures/_fig_data.json written")
+
 # ---------------------------------------------------------------- figures
 plt.rcParams.update({"figure.dpi": 200, "font.size": 9})
 
@@ -791,7 +840,7 @@ for i in range(30):
 ax.plot(xs, [base_v.mean(), struct_v.mean(), final_v.mean()], color="crimson",
         lw=2.5, marker="o", zorder=3, label="mean")
 ax.set_xticks(xs, ["baseline", "after structural (A)", "after prompt (B)"])
-ax.set_ylabel("PROXY aggregate (judge rubric)")
+ax.set_ylabel("deployed rubric aggregate (PROXY)")
 ax.legend(frameon=False)
 ax.spines[["top", "right"]].set_visible(False)
 fig.tight_layout()
@@ -906,13 +955,16 @@ out.append(r"""\bottomrule
 \clearpage
 \section{Proposal Technique Frequencies}
 \label{app:tech}
-Table~\ref{tab:techniques} lists the most frequent normalized proposal
-techniques; frequencies are small (maximum 4 of \swVersions{} versions), so
-per-technique mean deltas are descriptive only and carry no inferential weight.
+Table~\ref{tab:techniques} lists the most frequent proposal technique
+\emph{families} (normalized from the free-text technique field); the largest
+family covers \swTechTopN{} of \swVersions{} versions. Per-family mean deltas
+are descriptive only and carry no inferential weight---families were not
+randomized across systems.
 
 \begin{table}[h]\centering
-\caption{Most frequent proposal techniques (top 12 of \swVersions{}
-why-records); $n$ is the Versions column --- means on $n\le4$ are noise-level.}
+\caption{Most frequent proposal technique families over all \swVersions{}
+why-records; $n$ is the Versions column. Descriptive only: families were not
+randomized, so the mean $\Delta$ (\textsc{rubric}) carries no causal claim.}
 \label{tab:techniques}\footnotesize
 \setlength{\tabcolsep}{4pt}
 \input{tables/techniques}
@@ -1021,7 +1073,7 @@ print(f"  stages: {base_v.mean():.3f} -> {struct_v.mean():.3f} -> {final_v.mean(
 print(f"  final-base: {P_fb['mean']:+.4f} CI [{P_fb['ci_lo']:+.4f},{P_fb['ci_hi']:+.4f}] "
       f"t={P_fb['t']:.1f} p={P_fb['p']:.2e} dz={P_fb['dz']:.2f} w/l/t={P_fb['wins']}/{P_fb['losses']}/{P_fb['ties']}")
 print(f"  struct-base p={P_sb['p']:.2e}; final-struct p={P_fs['p']:.2e}; prompt adds on {int((delta_fs>1e-12).sum())}/30")
-print(f"  MDE {mde.min():.2f}-{mde.max():.2f}, below={below_mde}/30, min ratio MDE/delta={np.min(mde/delta_fb):.1f}x")
+print(f"  MDE {mde.min():.2f}-{mde.max():.2f}, below={below_mde}/30, min ratio MDE/delta={np.min(mde[_nzp]/delta_fb[_nzp]):.1f}x")
 print(f"  floor mean {np.nanmean(floors):+.4f} max {np.nanmax(floors):+.4f}; exceeds={exceeds_floor}/30; para n={len(para_deltas)} mean {para_deltas.mean():+.4f} max {para_deltas.max():+.4f}")
 print(f"  judge optimism: {ge_base}/{len(all_c)} >= baseline ({100*ge_base/len(all_c):.1f}%); below-base={len(all_c)-ge_base}")
 print(f"  granularity median {int(np.median(granularity))} distinct scores/agent (range {min(granularity)}-{max(granularity)})")

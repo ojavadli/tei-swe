@@ -34,12 +34,10 @@ def cmd(name, body):
 # ---- A5 measured-noise MDE
 if a5.get("mde_measured_n4") is not None:
     m4 = a5["mde_measured_n4"]; sd = a5["pooled_per_probe_sd"]
-    # how many deltas clear it (recompute here from result files for independence)
-    import glob
-    deltas = []
-    for f in sorted(glob.glob(os.path.join(ROOT, "agents", "*", "tei", "result.json"))):
-        r = json.load(open(f))
-        deltas.append(r["best_final"] - r["baseline"])
+    # how many DEPLOYED (best-applied) deltas clear the measured MDE — Task-0 substrate:
+    # the delivered artifact, not the best merely-proposed candidate (canonical recompute).
+    _pa = (j("_paper_recompute.json") or {}).get("per_agent", [])
+    deltas = [r["applied_final_delta"] for r in _pa]
     clear = sum(1 for d in deltas if d > m4)
     cmd("MDEsentence",
         f"; measured judge test-retest noise (per-probe sd ${sd:.3f}$, five repeats on a "
