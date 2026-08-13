@@ -7,7 +7,7 @@ Table~\ref{tab:frozen} lists the full frozen set with repository links and the
 exact commit cloned. The archive snapshot is
 \texttt{SWE-bench/experiments} @ \texttt{\swArchiveSHA}, accessed \swAccessDate.
 
-\begin{table}[h]\centering
+\begin{table}[H]\centering
 \caption{The frozen set: every system, its submission split, official resolve
 rate, source repository, and the commit SHA at which it was cloned and patched.}
 \label{tab:frozen}\scriptsize
@@ -62,7 +62,7 @@ family covers \swTechTopN{} of \swVersions{} versions. Per-family mean deltas
 are descriptive only and carry no inferential weight---families were not
 randomized across systems.
 
-\begin{table}[h]\centering
+\begin{table}[H]\centering
 \caption{Most frequent proposal technique families over all \swVersions{}
 why-records; $n$ is the Versions column. Descriptive only: families were not
 randomized, so the mean $\Delta$ (\textsc{rubric}) carries no causal claim.}
@@ -86,7 +86,7 @@ more conservative where it takes a side; the study's evaluation stands on
 TEI's own instruments, with this check recorded for completeness
 (Table~\ref{tab:ext}).
 
-\begin{table}[h]\centering
+\begin{table}[H]\centering
 \caption{Supplementary cross-provider blinded votes (claude-sonnet-5, $k{=}5$, seed 11).}
 \label{tab:ext}\footnotesize
 \begin{tabular}{lccc}\toprule Agent & Patched & Baseline & Tie \\ \midrule
@@ -112,7 +112,7 @@ confirmation verdict, and the three highest-scoring why-records verbatim.
 
 \subsection{live-SWE-agent + Claude 4.5 Opus medium (20251101)}
 \label{app:agent1}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for live-SWE-agent (rank 1).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20251215\_\allowbreak{}livesweagent\_\allowbreak{}claude-opus-4-5} (verified) \\
@@ -346,10 +346,10 @@ prompt-98 & prompt & retry-recovery & 0.8650 & +0.0175 & applied \\
 prompt-99 & prompt & verification-tests & 0.8650 & +0.0175 & applied \\
 prompt-100 & prompt & decomposition-planning & 0.8700 & +0.0225 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Sonar Foundation Agent + Claude 4.5 Opus}
 \label{app:agent2}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Sonar Foundation Agent (rank 2).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20251205\_\allowbreak{}sonar-foundation-agent\_\allowbreak{}claude-opus-4-5} (verified) \\
@@ -583,10 +583,10 @@ prompt-98 & prompt & invariants-guards & 0.8175 & +0.0100 & proposed \\
 prompt-99 & prompt & invariants-guards & 0.8450 & +0.0375 & proposed \\
 prompt-100 & prompt & invariants-guards & 0.8575 & +0.0500 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{TRAE + Doubao-Seed-Code}
 \label{app:agent3}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for TRAE (rank 3).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250928\_\allowbreak{}trae\_\allowbreak{}doubao\_\allowbreak{}seed\_\allowbreak{}code} (verified) \\
@@ -820,10 +820,10 @@ prompt-98 & prompt & retrieval-context & 0.8675 & +0.0325 & proposed \\
 prompt-99 & prompt & localization & 0.8875 & +0.0525 & proposed \\
 prompt-100 & prompt & retrieval-context & 0.8675 & +0.0325 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{ACoder}
 \label{app:agent4}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for ACoder (rank 4).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250819\_\allowbreak{}ACoder} (verified) \\
@@ -1057,10 +1057,10 @@ prompt-98 & prompt & verification-tests & 0.7875 & +0.0125 & proposed \\
 prompt-99 & prompt & verification-tests & 0.8025 & +0.0275 & proposed \\
 prompt-100 & prompt & verification-tests & 0.8250 & +0.0500 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{JoyCode + Claude 4 Sonnet + GPT-4.1}
 \label{app:agent5}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for JoyCode (rank 5).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250915\_\allowbreak{}JoyCode} (verified) \\
@@ -1294,10 +1294,10 @@ prompt-98 & prompt & verification-tests & 0.8650 & +0.0375 & applied \\
 prompt-99 & prompt & retrieval-context & 0.8725 & +0.0450 & applied \\
 prompt-100 & prompt & verification-tests & 0.8900 & +0.0625 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Lingxi-v1.5\_claude-4-sonnet-20250514}
 \label{app:agent6}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Lingxi-v1.5\_claude-4-sonnet-20250514 (rank 6).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250720\_\allowbreak{}Lingxi-v1.5\_\allowbreak{}claude-4-sonnet-20250514} (verified) \\
@@ -1531,10 +1531,10 @@ prompt-98 & prompt & invariants-guards & 0.8075 & +0.0400 & applied \\
 prompt-99 & prompt & patch-format & 0.8100 & +0.0425 & applied \\
 prompt-100 & prompt & patch-format & 0.8000 & +0.0325 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Moatless Tools + Claude 4 Sonnet}
 \label{app:agent7}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Moatless Tools (rank 7).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250611\_\allowbreak{}moatless\_\allowbreak{}claude-4-sonnet-20250514} (verified) \\
@@ -1768,10 +1768,10 @@ prompt-98 & prompt & retrieval-context & 0.8200 & +0.0250 & proposed \\
 prompt-99 & prompt & localization & 0.8150 & +0.0200 & proposed \\
 prompt-100 & prompt & localization & 0.8225 & +0.0275 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{SWE-agent + Claude 4 Sonnet}
 \label{app:agent8}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for SWE-agent (rank 8).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250522\_\allowbreak{}sweagent\_\allowbreak{}claude-4-sonnet-20250514} (verified) \\
@@ -2005,10 +2005,10 @@ prompt-98 & prompt & verification-tests & 0.7400 & +0.0325 & applied \\
 prompt-99 & prompt & retrieval-context & 0.7450 & +0.0375 & applied \\
 prompt-100 & prompt & retrieval-context & 0.7550 & +0.0475 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{AgentScope}
 \label{app:agent9}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for AgentScope (rank 9).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250206\_\allowbreak{}agentscope} (verified) \\
@@ -2242,10 +2242,10 @@ prompt-98 & prompt & retry-recovery & 0.6750 & +0.0375 & applied \\
 prompt-99 & prompt & verification-tests & 0.6750 & +0.0375 & proposed \\
 prompt-100 & prompt & decomposition-planning & 0.6925 & +0.0550 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{EntroPO + R2E + Qwen3-Coder-30B-A3B-Instruct}
 \label{app:agent10}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for EntroPO (rank 10).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250901\_\allowbreak{}entroPO\_\allowbreak{}R2E\_\allowbreak{}QwenCoder30BA3B\_\allowbreak{}tts} (verified) \\
@@ -2479,10 +2479,10 @@ prompt-98 & prompt & verification-tests & 0.6800 & +0.0500 & applied \\
 prompt-99 & prompt & prompt-structure & 0.6275 & -0.0025 & applied \\
 prompt-100 & prompt & decomposition-planning & 0.6675 & +0.0375 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{ExpeRepair-v1.0 + Claude 4 Sonnet}
 \label{app:agent11}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for ExpeRepair-v1.0 (rank 11).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250625\_\allowbreak{}ExpeRepair-v1\_\allowbreak{}claude-4-sonnet-20250514} (lite) \\
@@ -2716,10 +2716,10 @@ prompt-98 & prompt & other & 0.7475 & +0.0425 & applied \\
 prompt-99 & prompt & patch-format & 0.7500 & +0.0450 & applied \\
 prompt-100 & prompt & other & 0.6775 & -0.0275 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{KGCompass + Claude 4 Sonnet (20250514)}
 \label{app:agent12}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for KGCompass (rank 12).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250906\_\allowbreak{}KGCompass\_\allowbreak{}claude-4-sonnet-20250514} (lite) \\
@@ -2953,10 +2953,10 @@ prompt-98 & prompt & retrieval-context & 0.6625 & +0.0350 & applied \\
 prompt-99 & prompt & retrieval-context & 0.6825 & +0.0550 & applied \\
 prompt-100 & prompt & retrieval-context & 0.6625 & +0.0350 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{SWE-Rizzo}
 \label{app:agent13}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for SWE-Rizzo (rank 13).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250405\_\allowbreak{}swe-rizzo\_\allowbreak{}claude37} (verified) \\
@@ -3190,10 +3190,10 @@ prompt-98 & prompt & verification-tests & 0.7650 & +0.0400 & applied \\
 prompt-99 & prompt & verification-tests & 0.7625 & +0.0375 & applied \\
 prompt-100 & prompt & decomposition-planning & 0.7675 & +0.0425 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Agentless-1.5 + Claude-3.5 Sonnet (20241022)}
 \label{app:agent14}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Agentless-1.5 (rank 14).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20241202\_\allowbreak{}agentless-1.5\_\allowbreak{}claude-3.5-sonnet-20241022} (verified) \\
@@ -3427,10 +3427,10 @@ prompt-98 & prompt & verification-tests & 0.6400 & +0.0500 & applied \\
 prompt-99 & prompt & verification-tests & 0.6600 & +0.0700 & applied \\
 prompt-100 & prompt & verification-tests & 0.6550 & +0.0650 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Composio SWE-Kit (2024-10-25)}
 \label{app:agent15}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Composio SWE-Kit (rank 15).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20241025\_\allowbreak{}composio\_\allowbreak{}swekit} (verified) \\
@@ -3664,10 +3664,10 @@ prompt-98 & prompt & decomposition-planning & 0.6700 & +0.0425 & applied \\
 prompt-99 & prompt & output-contract & 0.6825 & +0.0550 & applied \\
 prompt-100 & prompt & decomposition-planning & 0.6650 & +0.0375 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{DARS Agent}
 \label{app:agent16}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for DARS Agent (rank 16).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250205\_\allowbreak{}dars\_\allowbreak{}agent\_\allowbreak{}claude\_\allowbreak{}3.5\_\allowbreak{}sonnet\_\allowbreak{}deepseek\_\allowbreak{}r1} (lite) \\
@@ -3901,10 +3901,10 @@ prompt-98 & prompt & decomposition-planning & 0.6175 & +0.0375 & applied \\
 prompt-99 & prompt & patch-format & 0.6125 & +0.0325 & applied \\
 prompt-100 & prompt & decomposition-planning & 0.6225 & +0.0425 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{CodeShellAgent + Gemini 2.0 Flash (Experimental)}
 \label{app:agent17}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for CodeShellAgent (rank 17).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250118\_\allowbreak{}codeshellagent\_\allowbreak{}gemini\_\allowbreak{}2.0\_\allowbreak{}flash\_\allowbreak{}experimental} (verified) \\
@@ -4138,10 +4138,10 @@ prompt-98 & prompt & decomposition-planning & 0.5300 & +0.0325 & proposed \\
 prompt-99 & prompt & decomposition-planning & 0.5325 & +0.0350 & proposed \\
 prompt-100 & prompt & verification-tests & 0.5350 & +0.0375 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{CodeFuse-CGM}
 \label{app:agent18}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for CodeFuse-CGM (rank 18).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250310\_\allowbreak{}codefuse-cgm} (lite) \\
@@ -4375,10 +4375,10 @@ prompt-98 & prompt & decomposition-planning & 0.6450 & +0.0525 & applied \\
 prompt-99 & prompt & decomposition-planning & 0.6700 & +0.0775 & applied \\
 prompt-100 & prompt & decomposition-planning & 0.6900 & +0.0975 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Agentless Lite + O3 Mini (20250214)}
 \label{app:agent19}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Agentless Lite (rank 19).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250214\_\allowbreak{}agentless\_\allowbreak{}lite\_\allowbreak{}o3\_\allowbreak{}mini} (verified) \\
@@ -4612,10 +4612,10 @@ prompt-98 & prompt & decomposition-planning & 0.6175 & +0.0400 & applied \\
 prompt-99 & prompt & decomposition-planning & 0.6225 & +0.0450 & applied \\
 prompt-100 & prompt & prompt-structure & 0.6225 & +0.0450 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{SWE-Exp}
 \label{app:agent20}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for SWE-Exp (rank 20).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250806\_\allowbreak{}SWE-Exp\_\allowbreak{}DeepSeek-V3} (verified) \\
@@ -4849,10 +4849,10 @@ prompt-98 & prompt & patch-format & 0.5350 & +0.0175 & applied \\
 prompt-99 & prompt & verification-tests & 0.5650 & +0.0475 & applied \\
 prompt-100 & prompt & verification-tests & 0.5625 & +0.0450 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{SWE-RL (Llama3-SWE-RL-70B + Agentless Mini) (20250226)}
 \label{app:agent21}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for SWE-RL (rank 21).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250226\_\allowbreak{}swerl\_\allowbreak{}llama3\_\allowbreak{}70b} (verified) \\
@@ -5086,10 +5086,10 @@ prompt-98 & prompt & decomposition-planning & 0.5900 & +0.0350 & proposed \\
 prompt-99 & prompt & decomposition-planning & 0.6225 & +0.0675 & proposed \\
 prompt-100 & prompt & decomposition-planning & 0.5650 & +0.0100 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{OrcaLoca + Agentless-1.5 + Claude-3.5 Sonnet (20241022)}
 \label{app:agent22}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for OrcaLoca (rank 22).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250113\_\allowbreak{}OrcaLoca} (lite) \\
@@ -5323,10 +5323,10 @@ prompt-98 & prompt & invariants-guards & 0.6450 & +0.0325 & applied \\
 prompt-99 & prompt & invariants-guards & 0.6500 & +0.0375 & applied \\
 prompt-100 & prompt & invariants-guards & 0.6150 & +0.0025 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Patched.Codes Patchwork}
 \label{app:agent23}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Patched.Codes Patchwork (rank 23).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250104\_\allowbreak{}patched\_\allowbreak{}codes\_\allowbreak{}claude-3.5-sonnet-20241022} (lite) \\
@@ -5560,10 +5560,10 @@ prompt-98 & prompt & retrieval-context & 0.5600 & +0.0125 & applied \\
 prompt-99 & prompt & retrieval-context & 0.5975 & +0.0500 & applied \\
 prompt-100 & prompt & patch-format & 0.5675 & +0.0200 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{SWE-Fixer (Qwen2.5-7b retriever + Qwen2.5-72b editor)}
 \label{app:agent24}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for SWE-Fixer (rank 24).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250306\_\allowbreak{}SWE-Fixer\_\allowbreak{}Qwen2.5-7b-retriever\_\allowbreak{}Qwen2.5-72b-editor} (verified) \\
@@ -5797,10 +5797,10 @@ prompt-98 & prompt & decomposition-planning & 0.5225 & +0.0425 & applied \\
 prompt-99 & prompt & decomposition-planning & 0.5325 & +0.0525 & applied \\
 prompt-100 & prompt & output-contract & 0.5275 & +0.0475 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{CodeShellTester + GPT 4o (2024-05-13)}
 \label{app:agent25}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for CodeShellTester (rank 25).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20241111\_\allowbreak{}codeshelltester\_\allowbreak{}gpt4o} (lite) \\
@@ -6034,10 +6034,10 @@ prompt-98 & prompt & verification-tests & 0.4400 & +0.0475 & proposed \\
 prompt-99 & prompt & patch-format & 0.4275 & +0.0350 & proposed \\
 prompt-100 & prompt & prompt-structure & 0.4175 & +0.0250 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Aegis - o3-mini\_1.0}
 \label{app:agent26}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Aegis - o3-mini\_1.0 (rank 26).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20250207\_\allowbreak{}aegis\_\allowbreak{}o3mini} (lite) \\
@@ -6271,10 +6271,10 @@ prompt-98 & prompt & verification-tests & 0.4675 & +0.0325 & applied \\
 prompt-99 & prompt & localization & 0.4750 & +0.0400 & applied \\
 prompt-100 & prompt & decomposition-planning & 0.4700 & +0.0350 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Agentless + RepoGraph + GPT-4o}
 \label{app:agent27}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Agentless (rank 27).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20240808\_\allowbreak{}RepoGraph\_\allowbreak{}gpt4o} (lite) \\
@@ -6508,10 +6508,10 @@ prompt-98 & prompt & localization & 0.4675 & +0.0275 & applied \\
 prompt-99 & prompt & localization & 0.4775 & +0.0375 & applied \\
 prompt-100 & prompt & localization & 0.4525 & +0.0125 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{CodeR + GPT 4 (1106)}
 \label{app:agent28}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for CodeR (rank 28).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20240604\_\allowbreak{}CodeR} (lite) \\
@@ -6745,10 +6745,10 @@ prompt-98 & prompt & prompt-structure & 0.5025 & +0.0400 & applied \\
 prompt-99 & prompt & prompt-structure & 0.5100 & +0.0475 & applied \\
 prompt-100 & prompt & decomposition-planning & 0.5175 & +0.0550 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{Aider + GPT 4o \& Claude 3 Opus}
 \label{app:agent29}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for Aider (rank 29).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20240523\_\allowbreak{}aider} (lite) \\
@@ -6982,10 +6982,10 @@ prompt-98 & prompt & verification-tests & 0.4500 & +0.0350 & applied \\
 prompt-99 & prompt & verification-tests & 0.4500 & +0.0350 & applied \\
 prompt-100 & prompt & verification-tests & 0.4600 & +0.0450 & applied \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip
 \subsection{RAG + Claude 3 Opus}
 \label{app:agent30}
-\begin{table}[h]\centering\scriptsize
+\begin{table}[H]\centering\scriptsize
 \caption{Record for RAG (rank 30).}
 \begin{tabular}{lp{8.2cm}}\toprule
 Submission & \texttt{20240402\_\allowbreak{}rag\_\allowbreak{}claude3opus} (verified) \\
@@ -7219,4 +7219,4 @@ prompt-98 & prompt & retrieval-context & 0.2050 & -0.0050 & applied \\
 prompt-99 & prompt & verification-tests & 0.2450 & +0.0350 & proposed \\
 prompt-100 & prompt & verification-tests & 0.2475 & +0.0375 & proposed \\
 \bottomrule\end{longtable}\end{center}
-\clearpage
+\par\bigskip\hrule\bigskip

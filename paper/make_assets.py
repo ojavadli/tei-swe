@@ -101,9 +101,9 @@ STAGES = [
 _b2 = jload(os.path.join(ROOT, "_b2_spend.json")) or {}
 _b2v = _b2.get("phase_b_validation") or {}
 PHASEB_STAGES = [
-    ("Phase-B 100+100 extension with the credit ledger, incl. the BCL-off ablation "
-     "arm (uncapped; tag prereg-100)", _b2.get("phase_b_total_nominal_usd", 0)),
-    ("Phase-B blinded re-run + adaptive retest (26 agents + 1 repaired)",
+    ("Phase-B 100+100 extension with credit ledger, including BCL-off ablation "
+     "(tag prereg-100)", _b2.get("phase_b_total_nominal_usd", 0)),
+    ("Phase-B blinded re-run + adaptive retest (26 + 1 agents)",
      _b2v.get("blinded_rerun_and_retest_nominal_usd", 0)),
     ("Phase-B sham re-anchor (seed 21, 10-agent subsample)",
      _b2v.get("sham_rearm_nominal_usd", 0)),
@@ -337,9 +337,12 @@ M["swFinalP"] = f"{final_prop[IS_P].mean():.3f}"
 M["swAppBase"] = f"{_ap.get('base',0):.3f}"
 M["swAppStruct"] = f"{_ap.get('struct',0):.3f}"
 M["swAppFinal"] = f"{_ap.get('final',0):.3f}"
-M["swAppStructGain"] = f"{_ap.get('struct_gain',0):+.3f}"
-M["swAppPromptGain"] = f"{_ap.get('prompt_incr',0):+.3f}"
-M["swAppAbsGain"] = f"{_ap.get('abs_gain',0):+.3f}"
+# Task-8D: derive the deployed gains from the SAME live unrounded n=26 means that
+# feed Table 8 (contrasts), under one rounding policy (.3f), so +0.062/+0.017/+0.079
+# agree everywhere instead of the pre-rounded JSON giving +0.061.
+M["swAppStructGain"] = f"{d_sb26.mean():+.3f}"
+M["swAppPromptGain"] = f"{d_fs26.mean():+.3f}"
+M["swAppAbsGain"] = f"{d_fb26.mean():+.3f}"
 M["swAppRelGain"] = f"{_ap.get('rel_gain_pct',0):.1f}\\%"
 M["swPropFinal"] = f"{_pr.get('final',0):.3f}"
 M["swPropAbsGain"] = f"{_pr.get('abs_gain',0):+.3f}"
@@ -742,27 +745,27 @@ wtab("gate.tex", [
 sd_rows = [esc(s) for s in budget.get("scale_downs", [])]
 _ti, _to = budget["input_tokens"], budget["output_tokens"]
 _rows = [f"{esc(k)} & \\${v:.2f} \\\\" for k, v in STAGES]
-_rows.append(r"\midrule Original-study LLM subtotal (accounting rate; sums the rows above) & \$%.2f \\" % LLM_TOTAL)
+_rows.append(r"\midrule Original-study LLM subtotal (accounting rate) & \$%.2f \\" % LLM_TOTAL)
 _rows += [f"{esc(k)} & \\${v:.2f} \\\\" for k, v in PHASEB_STAGES]
 _rows.append(r"\midrule Combined LLM subtotal (original + Phase B) & \$%.2f \\" % LLM_COMBINED)
-_rows.append(r"Execution micro-arm rollouts (\texttt{gpt-4o-mini}, own ledger) & \$%.2f \\" % EXEC_ARM)
-_rows.append(r"Preregistered execution arm (\texttt{gpt-4o-mini}, 36 paired instances, traj-summed) & \$%.2f \\" % EXEC36_ARM)
-_rows.append(r"Historical cross-provider judging (claude-sonnet-5; non-OpenAI, outside the 1{,}271-call decomposition; Appendix) & \$%.2f \\" % CROSS_PROVIDER)
+_rows.append(r"Execution micro-arm rollouts (\texttt{gpt-4o-mini}) & \$%.2f \\" % EXEC_ARM)
+_rows.append(r"Preregistered execution arm (\texttt{gpt-4o-mini}, 36 paired) & \$%.2f \\" % EXEC36_ARM)
+_rows.append(r"Historical cross-provider judging (claude-sonnet-5; Appendix) & \$%.2f \\" % CROSS_PROVIDER)
 _rows.append(r"\midrule \textbf{Grand total (all rows above)} & \textbf{\$%.2f} \\" % GRAND)
-_rows.append(f"Original-study tokens (LLM passes; frozen, published) & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\")
-_rows.append(f"List-price equivalent, original study (all-luna lower / all-terra upper bound) & {M['swCostListLo']}--{M['swCostListHi']} \\\\")
-_rows.append(f"Agents at 200 versions (100 structural + 100 prompt) & all {iters_groups.get(200,0)} \\\\")
-wtab("spend.tex", _rows, "lr", "Stage & Nominal")
+_rows.append(f"Original-study tokens (in / out) & {budget['input_tokens']:,} / {budget['output_tokens']:,} \\\\")
+_rows.append(f"List-price equivalent, original study (Luna--Terra bounds) & {M['swCostListLo']}--{M['swCostListHi']} \\\\")
+_rows.append(f"Agents at 200 versions (100 struct + 100 prompt) & all {iters_groups.get(200,0)} \\\\")
+wtab("spend.tex", _rows, r"@{}p{0.78\linewidth}r@{}", "Stage & Nominal")
 wtab("costs.tex", [
     f"LLM cost per system, all passes (accounting rate) & {M['swCostPerAgent']} \\\\",
-    f"Retained grand total per system (LLM + execution arms + cross-provider) & {M['swCostPerAgentAll']} \\\\",
-    f"Cost per agent at list prices & {M['swCostPerAgentListLo']} (all-Luna lower bound) to {M['swCostPerAgentListHi']} (all-Terra upper bound) \\\\",
+    f"Retained grand total per system (LLM + exec + cross-prov.) & {M['swCostPerAgentAll']} \\\\",
+    f"Cost per system at list prices (Luna--Terra bounds) & {M['swCostPerAgentListLo']}--{M['swCostPerAgentListHi']} \\\\",
     f"Cost per scored candidate version & {M['swCostPerVersion']} \\\\",
     f"Cost per applied, syntax-clean committed patch & {M['swCostPerPatch']} \\\\",
-    f"Judge calls, original-study decomposition (\\texttt{{gpt-5.6-luna}} / \\texttt{{gpt-5.6-terra}}) & {M['swLunaCalls']} / {M['swTerraCalls']} \\\\",
-    r"Per-model token split & not separately metered for mixed passes; list bounds shown in Table~\ref{tab:spend} \\",
-    r"Syntax pre-gate savings (projection; gate not active in the original optimization pass) & every parse-breaking candidate, at \$0 \\",
-], "lr", "Quantity & Value")
+    f"Judge calls, original-study decomposition (luna / terra) & {M['swLunaCalls']} / {M['swTerraCalls']} \\\\",
+    r"Per-model token split & not separately metered (list bounds, Table~\ref{tab:spend}) \\",
+    r"Syntax pre-gate savings (projection) & \$0 per parse-breaking candidate \\",
+], r"@{}p{0.72\linewidth}r@{}", "Quantity & Value")
 
 # apply taxonomy
 wtab("apply.tex", [f"{esc(k)} & {v} \\\\" for k, v in apply_notes.most_common()], "lr", "Outcome & Versions")
@@ -878,12 +881,13 @@ fig.tight_layout()
 fig.savefig(os.path.join(PAPER, "figures", "mde_forest.png"), bbox_inches="tight")
 plt.close(fig)
 
-# fig 4: noise floor vs shipped deltas
-fig, ax = plt.subplots(figsize=(4.8, 3.4))
-ax.hist(para_deltas, bins=24, color="0.7", label=f"paraphrase orbit (n={len(para_deltas)})")
-ax.hist(delta_fb, bins=24, color="seagreen", alpha=0.75, label="shipped deltas (n=30)")
+# fig 4: noise floor vs shipped deltas (muted academic palette)
+fig, ax = plt.subplots(figsize=(4.8, 3.2))
+ax.hist(para_deltas, bins=24, color="0.72", label=f"paraphrase orbit (n={len(para_deltas)})")
+ax.hist(delta_fb, bins=24, facecolor="#2f5c8a", edgecolor="#1f3d5c", alpha=0.85,
+        hatch="///", label="shipped deltas (n=30)")
 ax.axvline(0, color="0.3", lw=0.8)
-ax.set_xlabel(r"$\Delta$ vs baseline (judge scale)")
+ax.set_xlabel("delta vs baseline (judge scale)")
 ax.set_ylabel("count")
 ax.legend(frameon=False)
 ax.spines[["top", "right"]].set_visible(False)
@@ -927,7 +931,7 @@ Table~\ref{tab:frozen} lists the full frozen set with repository links and the
 exact commit cloned. The archive snapshot is
 \texttt{SWE-bench/experiments} @ \texttt{\swArchiveSHA}, accessed \swAccessDate.
 
-\begin{table}[h]\centering
+\begin{table}[H]\centering
 \caption{The frozen set: every system, its submission split, official resolve
 rate, source repository, and the commit SHA at which it was cloned and patched.}
 \label{tab:frozen}\scriptsize
@@ -961,7 +965,7 @@ family covers \swTechTopN{} of \swVersions{} versions. Per-family mean deltas
 are descriptive only and carry no inferential weight---families were not
 randomized across systems.
 
-\begin{table}[h]\centering
+\begin{table}[H]\centering
 \caption{Most frequent proposal technique families over all \swVersions{}
 why-records; $n$ is the Versions column. Descriptive only: families were not
 randomized, so the mean $\Delta$ (\textsc{rubric}) carries no causal claim.}
@@ -987,7 +991,7 @@ TEI's own instruments, with this check recorded for completeness
 """)
 EXT_APP = jload(os.path.join(ROOT, "external_judge.json"))
 if EXT_APP:
-    out.append(r"\begin{table}[h]\centering")
+    out.append(r"\begin{table}[H]\centering")
     out.append(r"\caption{Supplementary cross-provider blinded votes (claude-sonnet-5, $k{=}5$, seed 11).}")
     out.append(r"\label{tab:ext}\footnotesize")
     out.append(r"\begin{tabular}{lccc}\toprule Agent & Patched & Baseline & Tie \\ \midrule")
@@ -1010,7 +1014,7 @@ for r in A:
     out.append(f"\\label{{app:agent{ob['rank']}}}")
     conf = res["confirmation"]
     nf = res.get("noise_floor") or {}
-    out.append(r"\begin{table}[h]\centering\scriptsize")
+    out.append(r"\begin{table}[H]\centering\scriptsize")
     out.append(f"\\caption{{Record for {esc(short_name(ob['system']))} (rank {ob['rank']}).}}")
     out.append(r"\begin{tabular}{lp{8.2cm}}\toprule")
     out.append(f"Submission & \\texttt{{{esc(ob.get('submission_folder', '')).replace(chr(92)+chr(95), chr(92)+chr(95)+chr(92)+'allowbreak{}')}}} ({ob['split']}) \\\\")
@@ -1062,7 +1066,10 @@ for r in A:
         out.append(f"{esc(c['version_id'])} & {c['phase'][:6]} & {esc(c.get('technique'), 66)} & "
                    f"{c['aggregate']:.4f} & {c['delta_vs_baseline']:+.4f} & {dec} \\\\")
     out.append(r"\bottomrule\end{longtable}\end{center}")
-    out.append(r"\clearpage")
+    # soft separator instead of \clearpage: agents flow continuously (the longtable
+    # already breaks pages), which avoids stray blank pages from clearpage landing
+    # on a fresh page in the 150-page raw-data appendix.
+    out.append(r"\par\bigskip\hrule\bigskip")
 
 with open(os.path.join(PAPER, "appendix.tex"), "w") as f:
     f.write("\n".join(out) + "\n")
