@@ -123,13 +123,14 @@ placebo separation, though not the full patch preference
 
 \begin{figure}[t]\centering
 \includegraphics[width=0.82\linewidth]{figures/fig_trajectory.png}
-\caption{\textbf{Deployed improvement across the population.} On the 26 patched
-systems, the best-applied (deployed) artifacts raise the anchored rubric
-aggregate $\swAppBase\!\to\!\swAppStruct\!\to\!\swAppFinal$ (\swAppAbsGain{}
-absolute, \textbf{\swAppRelGain{} relative}; \textsc{rubric}/proxy substrate).
-Open circles are individual systems; the dashed line is the best-\emph{proposed}
-search ceiling (\swPropRelGain), shown for contrast and not necessarily
-committed. Selection used zero executed benchmark rollouts.}
+\caption{\textbf{Deployed improvement (headline).} On the 26 patched systems the
+best-applied (deployed) artifacts raise the anchored rubric aggregate
+$\swAppBase\!\to\!\swAppStruct\!\to\!\swAppFinal$: a paired \swAppAbsGain{}
+absolute, \textbf{\swAppRelGain{} relative} (\textsc{rubric}/proxy substrate;
+paired stage contrasts with 95\% CIs in Table~\ref{tab:contrasts}). The dashed
+line is the best-\emph{proposed} search ceiling ($\swPropFinal$, \swPropRelGain),
+shown for contrast and not necessarily committed. Individual-system trajectories
+are in Fig.~\ref{fig:slope}; selection used zero executed benchmark rollouts.}
 \label{fig:value}
 \end{figure}
 
@@ -525,7 +526,11 @@ cost); Table~\ref{tab:spend}.
 
 \begin{table}[t]\centering
 \caption{Spend and scale-down record, all passes included (optimization run,
-blinded passes, repairs, replication, trajectory and noise passes).}
+blinded passes, repairs, replication, trajectory and noise passes). Subtotals and
+the grand total are computed from the unrounded ledger; per-row values are
+rounded to the cent independently and may not sum to the displayed subtotal
+exactly (the combined LLM subtotal is \swLLMCombined{} from the unrounded
+ledger).}
 \label{tab:spend}\footnotesize
 \input{tables/spend}
 \end{table}
@@ -687,9 +692,9 @@ indistinguishable from the patched set's (Table~\ref{tab:nullcontrol}).}
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{figures/fig_dims.png}
 \caption{TEI's deployed artifacts increase all four anchored rubric dimensions
-on the 26 patched systems; execution accuracy---the weakest dimension at
-baseline for all \swN{} systems---shows the largest absolute gain ($+0.105$,
-\textsc{rubric}/proxy substrate).}
+on the 26 patched systems (rows ordered by absolute deployed gain, largest
+first); execution accuracy---the weakest dimension at baseline for all \swN{}
+systems---shows the largest gain ($+0.105$, \textsc{rubric}/proxy substrate).}
 \label{fig:dims}
 \end{figure}
 
@@ -782,29 +787,33 @@ Section~\ref{sec:power} gives the full power analysis, including the
 assumed-noise column retained for comparability.
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.48\textwidth]{figures/floor.png}
-\caption{Shipped deltas (steel, hatched) vs.\ the paraphrase orbit (gray) over
-\swParaN{} paraphrases (\textsc{rubric} rung): directed proposals separate
-cleanly from rewording noise.}
+\includegraphics[width=0.60\textwidth]{figures/fig_floor.png}
+\caption{Paired empirical CDFs (\textsc{rubric} rung): the \swParaN{} paraphrase
+rewordings pile up at zero while the \swN{} shipped deployed deltas are shifted
+right, separating cleanly from rewording noise. ECDFs normalise the unequal
+sample sizes ($n{=}\swParaN$ vs.\ $n{=}\swN$) and span $0$--$1$, so there is no
+raw-count-axis distortion.}
 \label{fig:floor}
 \end{figure}
 
 \section{What the Ladder Additionally Caught}
 \label{sec:ladder}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig_validation.png}
-\caption{\textbf{Why the improvement is credible.} Three within-study controls
-support the primary blinded signal: real patches win a strict blinded majority
-on \swBlindMajP/26 systems (\swBlindVotesP/130 votes), a preregistered sham
-placebo draws far fewer, and diagnosis-guided proposals beat budget-matched
-random \swRandTeiWins/\swRandN{} (blinded). The supplementary cross-provider
-judge does \emph{not} reproduce the overall patch-preference direction
-(Appendix~\ref{app:ext}), bounding the generality of the judge-dependent claim
-(\textsc{blinded}/\textsc{rubric} substrates; the four baseline-preferring
-systems are shown, not hidden).}
+\begin{figure}[t]\centering
+\includegraphics[width=0.82\linewidth]{figures/fig_validation.png}
+\caption{\textbf{Why the improvement is credible.} Four within-study controls,
+each on its own denominator-respecting axis. \textbf{(A)}~Blinded A/B: real
+patches hold a strict majority on \swBlindMajP{} of 26 systems (\swBlindVotesP/130
+votes, \swBlindPerfect{} unanimous). \textbf{(B)}~Sham placebo draws
+\swShamShare{} of votes vs.\ \swBlindShare{} for real patches (re-anchored
+$0/45$, 9 effective agents). \textbf{(C)}~Diagnosis-guided proposals gain
+$+0.0630$ on the rubric vs.\ $+0.0165$ for budget-matched random (blinded
+\swRandTeiWins/\swRandN{} vs.\ $0/\swRandN$). \textbf{(D)}~The supplementary
+cross-provider judge does \emph{not} reproduce the direction --- $3$ patched vs.\
+$6$ baseline agent majorities of $10$ ($17/50$ vs.\ $30/50$ votes) --- bounding
+the judge-dependent claim; the adverse result is shown, not hidden.}
 \label{fig:validation}
-\end{figure*}
+\end{figure}
 
 One section, one story, told once: the ladder's discovery narrative, which is
 where the pre-repair numbers live. The first blinded pass (pre-repair) already

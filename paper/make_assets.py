@@ -809,6 +809,14 @@ wtab("techniques.tex", rows, "lrr", r"Technique family & Versions & Mean $\Delta
 
 
 # ---- canonical data for the standalone figure generator (make_figures.py) ----
+_tcrit = float(st.t.ppf(0.975, len(base26) - 1))  # 95% CI multiplier, n=26 patched
+
+
+def _ci95(a):
+    a = np.asarray(a, float)
+    return float(_tcrit * a.std(ddof=1) / np.sqrt(len(a)))
+
+
 fig_data = {
     "dims": {
         "labels": {"target_alignment": "Target alignment",
@@ -821,12 +829,16 @@ fig_data = {
     },
     "stages_deployed": {"base": float(base26.mean()), "struct": float(struct26.mean()),
                         "final": float(final26.mean())},
+    "stages_deployed_ci": {"base": _ci95(base26), "struct": _ci95(struct26),
+                           "final": _ci95(final26)},
     "stages_ceiling": {"base": float(base26.mean()), "struct": float(struct_prop[IS_P].mean()),
                        "final": float(final_prop[IS_P].mean())},
     "nullcontrol": {
         "zeropatch_rubric": {"struct": float(d_sb4.mean()), "final": float(d_fb4.mean())},
         "patched_deployed": {"struct": float(d_sb26.mean()), "final": float(d_fb26.mean())},
     },
+    "floor": {"paraphrase": [float(x) for x in para_deltas],   # n=90 rewording orbit
+              "shipped": [float(x) for x in delta_fb]},          # n=30 deployed deltas
 }
 with open(os.path.join(PAPER, "figures", "_fig_data.json"), "w") as f:
     json.dump(fig_data, f, indent=2)
