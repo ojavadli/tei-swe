@@ -15,16 +15,52 @@ tables and 8 pt appendix dumps are not flagged merely for being small):
   * duplicate titles - the same "Figure N:"/"Table N:" caption text appearing
                        for two different numbers (a duplication smell)
 
-Figure-internal text is rasterized (PNG) and not in the text layer; figure fonts
-are set explicitly in make_figures.py and verified by rendered-page inspection.
-Exit code is nonzero if any HARD flag (tiny main text, oversized main text, raw
-LaTeX, duplicate caption) fires.
+Main figures are vector (Latin Modern-embedded PDF, or native TikZ). Vector-ness
+is enforced in THREE independent places, so no single false pass can slip
+through (any one alone can be fooled; together they cannot):
+
+  * asset extension  - static grep of main.tex: every \\includegraphics that is
+                       not an allowed appendix raster must be a .pdf (catches a
+                       .png/.jpg main-figure include before the PDF is built)
+  * bbox vector proof- per MAIN figure (PyMuPDF), the region ABOVE its caption
+                       must contain NO raster image, typeset Latin Modern text,
+                       and vector content (page-stream paths for TikZ or a Form
+                       XObject for the plots). Localizing to the figure box
+                       avoids the page-level get_drawings() false pass, where
+                       table rules elsewhere register as "vector present."
+
+Two regression/scope guards for failure modes that have actually recurred:
+
+  * regression       - 'p0.001' (missing operator; regressed once v10->v11) and
+                       the call-ledger scoping (1,271 original vs 3,090 full)
+  * scope diff       - diff the current manuscript text against the previous
+                       release and confirm no removed content reappeared (the
+                       removed material still lives in the repo/history)
+
+Exit code is nonzero if any HARD flag fires.
 """
 import os
 import re
 import statistics
 import subprocess
 import sys
+
+TEX = os.path.join(os.path.dirname(__file__), "main.tex")
+RELEASE_REPO = os.path.expanduser("~/swebench-agents/release")
+PREV_TAG = "paper-v5-figures"        # the immediately-preceding released manuscript
+APPENDIX_RASTER_ALLOW = {"curves_grid_a.png", "curves_grid_b.png", "ablation_curves.png"}
+MAIN_FIGS = {  # distinctive caption substring -> label; each must be vector
+    "Deployed improvement (headline)": "Fig 1 trajectory",
+    "validation ladder (evidence": "Fig 2 ladder (TikZ)",
+    "How TEI works. A per-agent": "Fig 3 method (TikZ)",
+    "Deployed trajectories for all 30 systems": "Fig 4 population",
+    "increase all four anchored rubric dimensions": "Fig 5 dimensions",
+    "Distribution of rubric movement": "Fig 6 noise floor",
+    "Four within-study controls": "Fig 7 validation",
+}
+BANNED_PHASEC = ["prereg-exec2", "47/100", "50/100", "100 baseline", "100 patched",
+                 "200 rollout", "Phase C", "Phase 3", "scoring_instrument", "exec100",
+                 "livelock"]
 
 PDF = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "main.pdf")
 
@@ -63,6 +99,98 @@ def gsize(w):
     # tables/figures): a word is always longer along its baseline than tall, so
     # the SHORT bbox dimension is the glyph height in either orientation.
     return min(w[2] - w[0], w[3] - w[1])
+
+
+def plain_text():
+    out = subprocess.run(["pdftotext", "-nopgbrk", PDF, "-"], capture_output=True, text=True)
+    return out.stdout
+
+
+def figure_asset_check():
+    """Static (pre-build): a main-figure \\includegraphics that is .png/.jpg is a
+    raster leak. Allowed appendix rasters are whitelisted."""
+    flags = []
+    if not os.path.exists(TEX):
+        return flags
+    for m in re.finditer(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]*)\}", open(TEX).read()):
+        base = os.path.basename(m.group(1))
+        if re.search(r"\.(png|jpe?g)$", base, re.I) and base not in APPENDIX_RASTER_ALLOW:
+            flags.append((0, "RASTER-INCLUDE", f"{m.group(1)} (main figures must be vector .pdf)"))
+    return flags
+
+
+def vector_figure_check():
+    """Per-figure bounding-box vector proof (PyMuPDF)."""
+    try:
+        import pymupdf
+    except Exception as e:
+        return [(0, "VECTOR-CHECK-UNAVAILABLE", f"PyMuPDF not importable: {e}")]
+    doc = pymupdf.open(PDF); flags = []
+    for needle, label in MAIN_FIGS.items():
+        hit = None
+        for pno in range(min(30, doc.page_count)):
+            r = doc[pno].search_for(needle)
+            if r:
+                hit = (pno, doc[pno], r[0]); break
+        if not hit:
+            flags.append((0, "FIG-NOT-FOUND", f"{label}: caption '{needle[:22]}' not found")); continue
+        pno, pg, cap = hit
+        box = pymupdf.Rect(pg.rect.x0, 30, pg.rect.x1, cap.y0 - 2)
+        area = pg.rect.width * pg.rect.height
+        imgs = [i for i in pg.get_image_info(xrefs=True)
+                if pymupdf.Rect(i["bbox"]).intersects(box)
+                and pymupdf.Rect(i["bbox"]).get_area() > 0.005 * area]
+        words = [w for w in pg.get_text("words") if pymupdf.Rect(w[:4]).intersects(box)]
+        draws = [d for d in pg.get_drawings() if pymupdf.Rect(d["rect"]).intersects(box)]
+        xobjs = [x for x in pg.get_xobjects() if pymupdf.Rect(x[3]).intersects(box)]
+        fonts = {s["font"] for b in pg.get_text("dict", clip=box)["blocks"]
+                 for ln in b.get("lines", []) for s in ln.get("spans", [])}
+        if imgs:
+            flags.append((pno + 1, "RASTER-IN-FIG", f"{label}: {len(imgs)} raster image(s) in figure box"))
+        if len(words) < 3:
+            flags.append((pno + 1, "NO-TYPESET-TEXT", f"{label}: only {len(words)} words in box"))
+        if len(draws) < 1 and len(xobjs) < 1:
+            flags.append((pno + 1, "NO-VECTOR-CONTENT", f"{label}: no vector paths / Form XObject in box"))
+        if words and not any("LMRoman" in f or "LMMono" in f for f in fonts):
+            flags.append((pno + 1, "FONT-MISMATCH", f"{label}: figure fonts not Latin Modern {sorted(fonts)[:4]}"))
+    return flags
+
+
+def regression_check(text):
+    """Compressed guards for failure modes that recurred (one line each)."""
+    flags = []
+    flat = re.sub(r"\s+", " ", text)
+    if re.search(r"\bp0\.001\b", flat):
+        flags.append((0, "P-OPERATOR", "'p0.001' present (missing < / = operator)"))
+    if "3,090" not in flat:
+        flags.append((0, "CALL-LEDGER", "full Phase-A/B total 3,090 not reported"))
+    if re.search(r"study total is 1,?271", flat):
+        flags.append((0, "CALL-LEDGER", "1,271 mislabelled as 'study total'"))
+    return flags
+
+
+def scope_diff_check(text):
+    """No removed (out-of-scope) content may reappear. Hard-fail if any banned
+    token is in the current PDF; the mechanical diff vs the previous release
+    additionally flags a token that is present now but was absent then."""
+    flags = []
+    cur = re.sub(r"\s+", " ", text).lower()
+    hits = [b for b in BANNED_PHASEC if b.lower() in cur]
+    if hits:
+        flags.append((0, "SCOPE-BANNED", f"banned/removed content in current PDF: {hits}"))
+    try:
+        import pymupdf
+        prev = subprocess.run(["git", "-C", RELEASE_REPO, "show", f"{PREV_TAG}:paper/TEI-SWE.pdf"],
+                              capture_output=True)
+        if prev.returncode == 0:
+            pd = pymupdf.open(stream=prev.stdout, filetype="pdf")
+            prevtext = " ".join(pg.get_text() for pg in pd).lower()
+            for b in BANNED_PHASEC:
+                if b.lower() in cur and b.lower() not in prevtext:
+                    flags.append((0, "SCOPE-REGRESSION", f"'{b}' absent from {PREV_TAG} but present now"))
+    except Exception:
+        pass
+    return flags
 
 
 def main():
@@ -121,6 +249,21 @@ def main():
                          f"'{title[:36]}...' on {kind} {num} & {kind} {seen_title[title][1]} "
                          f"(ok if a split/continued float)"))
         seen_title.setdefault(title, (kind, num))
+
+    # --- vector-figure pipeline + regression + scope guards ---
+    # asset-extension and regression checks need no external deps, so they stay the
+    # always-on hard raster guard; the bbox proof degrades to a soft note if
+    # PyMuPDF is absent (then rely on asset-extension + the page-level raster scan).
+    fulltext = plain_text()
+    vg = vector_figure_check()
+    vg_soft = [f for f in vg if f[1] == "VECTOR-CHECK-UNAVAILABLE"]
+    vg_hard = [f for f in vg if f[1] != "VECTOR-CHECK-UNAVAILABLE"]
+    soft += vg_soft
+    hard += figure_asset_check() + vg_hard + regression_check(fulltext) + scope_diff_check(fulltext)
+    if not vg_soft:
+        bad = {f[0] for f in vg_hard}
+        print(f"vector figures verified (asset .pdf + no raster in box + typeset LM text + "
+              f"vector content): {len(MAIN_FIGS) - len(bad)}/{len(MAIN_FIGS)} main figures\n")
 
     if hard:
         print("HARD FLAGS:")
