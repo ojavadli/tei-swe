@@ -3,6 +3,16 @@
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc}
+\definecolor{teiaccent}{HTML}{2F5C8A}
+\tikzset{
+  teinode/.style={draw, line width=0.5pt, inner xsep=4pt, inner ysep=4pt,
+                  align=center, font=\footnotesize, text width=15mm, minimum height=8mm},
+  teiacc/.style={teinode, draw=teiaccent, text=teiaccent},
+  teiwide/.style={teinode, text width=26mm},
+  teiarrow/.style={-{Latex[length=1.6mm]}, line width=0.5pt},
+}
 \usepackage{amsmath,amssymb}
 \usepackage{xcolor}
 \usepackage{authblk}
@@ -122,7 +132,7 @@ placebo separation, though not the full patch preference
 (Appendix~\ref{app:ext}).
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.82\linewidth]{figures/fig_trajectory.png}
+\includegraphics[width=0.82\linewidth]{figures/fig_trajectory.pdf}
 \caption{\textbf{Deployed improvement (headline).} On the 26 patched systems the
 best-applied (deployed) artifacts raise the anchored rubric aggregate
 $\swAppBase\!\to\!\swAppStruct\!\to\!\swAppFinal$: a paired \swAppAbsGain{}
@@ -220,13 +230,31 @@ from public artifacts by a hostile reviewer?
 \end{enumerate}
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.84\linewidth]{figures/fig_ladder.png}
-\caption{\textbf{The validation ladder.} Four rungs of increasing evidence
-strength and marginal cost; a claim is only as strong as the highest rung it
-reaches. This study climbs all four: anchored rubric ($\Delta$ \swDeltaFBP{} on
-the patched $n{=}26$), blinded A/B (\swBlindMajP/26 systems), zero-cost static
-checks (six defects caught), and a retained $n{=}36$ execution arm (null). Every
-outcome-facing claim is carried by the blinded rung, not by rubric magnitudes.}
+\begin{tikzpicture}[node distance=13mm]
+\node[teinode] (r1) {Rubric /\\proxy};
+\node[teinode, right=of r1] (r2) {Blinded\\A/B};
+\node[teinode, right=of r2] (r3) {Static /\\determ.};
+\node[teinode, right=of r3] (r4) {Execution};
+\draw[teiarrow] (r1)--(r2); \draw[teiarrow] (r2)--(r3); \draw[teiarrow] (r3)--(r4);
+\node[below=1.5mm of r1, font=\scriptsize, align=center, text=black!70]
+      {$\Delta$~\swDeltaFBP\\ \$0.35/agent};
+\node[below=1.5mm of r2, font=\scriptsize, align=center, text=black!70]
+      {\swBlindMajP/26\\ \$0.03/agent};
+\node[below=1.5mm of r3, font=\scriptsize, align=center, text=black!70]
+      {6 defects\\ \$0};
+\node[below=1.5mm of r4, font=\scriptsize, align=center, text=black!70]
+      {$n{=}36$ retained\\ harness $+$ rollouts};
+\node[above=1.5mm of r1.north west, anchor=west, font=\scriptsize, text=black!55]
+      {increasing evidence strength $\rightarrow$};
+\end{tikzpicture}
+\caption{\textbf{The validation ladder} (evidence hierarchy, ordinal). A claim is
+only as strong as the highest rung it reaches; this study climbs all four ---
+anchored rubric ($\Delta$~\swDeltaFBP{} on the patched $n{=}26$), blinded A/B
+(\swBlindMajP/26 systems), zero-cost static checks (six defects caught), and a
+retained $n{=}36$ execution arm (null). Spatial order encodes \emph{evidence
+strength} only; marginal cost does \emph{not} increase monotonically (the static
+rung is free). Every outcome-facing claim is carried by the blinded rung, not by
+rubric magnitudes.}
 \label{fig:ladder}
 \end{figure}
 
@@ -384,12 +412,27 @@ leaves 3 (\texttt{SWE-agent}, \texttt{KGCompass}, \texttt{aider}); exactly
 \label{sec:method}
 
 \begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig_method.png}
+\begin{tikzpicture}[node distance=2.6mm]
+\node[teinode] (n1) {Third-party\\agent};
+\node[teinode, right=of n1] (n2) {Target};
+\node[teinode, right=of n2] (n3) {Evaluate};
+\node[teiacc, right=of n3] (n4) {Improve\\structure};
+\node[teinode, right=of n4] (n5) {Gate /\\select};
+\node[teiacc, right=of n5] (n6) {Improve\\prompt};
+\node[teinode, right=of n6] (n7) {Deployed\\artifact};
+\foreach \a/\b in {n1/n2,n2/n3,n3/n4,n4/n5,n5/n6,n6/n7} \draw[teiarrow] (\a)--(\b);
+\node[teiwide, below=10mm of n4] (why) {Why-records\\{\scriptsize $6{,}000$: score $+$ why}};
+\node[teiwide, right=8mm of why] (bcl) {Bayesian credit ledger\\{\scriptsize Thompson family selection}};
+\draw[teiarrow] (n4.south) -- (why.north);
+\draw[teiarrow] (why.east) -- (bcl.west);
+\draw[teiarrow] (bcl.north) -- (n6.south);
+\node[font=\scriptsize, text=black!60] at ($(bcl.north)!0.5!(n6.south)+(7mm,0)$) {next proposal};
+\end{tikzpicture}
 \caption{\textbf{How TEI works.} A per-agent loop targets the weakest rubric
 dimension, then improves \emph{both} the structural (code/workflow) and prompt
-surfaces under sequential gating (futility, posterior kill, do-no-harm), while a
-Bayesian credit ledger steers the next proposal from the \swVersions{} score+why
-records. No executed benchmark rollout is used as the Phase-A/B
+surfaces (accent) under sequential gating (futility, posterior kill, do-no-harm),
+while a Bayesian credit ledger steers the next proposal from the \swVersions{}
+score+why records. No executed benchmark rollout is used as the Phase-A/B
 candidate-selection signal---selection runs on the anchored rubric, blinded A/B,
 and static checks; execution ($n{=}36$, retained) is a separate downstream rung.}
 \label{fig:method}
@@ -653,8 +696,9 @@ The canonical call accounting: the core TEI optimization loop used
 plus up to 60 candidate versions, scored six per call); the validation and
 replication passes added \swCallsValidation{} calls globally (blinded,
 placebo, random-arm, measured-noise, trajectory, and same-family
-replication); the study total is \swCalls{} (\swLunaCalls{} Luna +
-\swTerraCalls{} Terra). The syntax pre-gate rejects parse-breaking
+replication); the original-study decomposition totals \swCallsAll{}
+(\swLunaCalls{} Luna $+$ \swTerraCalls{} Terra), and the full Phase-A/B
+model-call count is \swCallsCanon{}. The syntax pre-gate rejects parse-breaking
 candidates at zero LLM cost, and the do-no-harm confirmation reuses probe
 scores already paid for.
 
@@ -668,7 +712,7 @@ price; at list prices the whole study is bounded between \swCostListLo{}
 these numbers against 2026 optimizers' hundreds of executed rollouts per task.
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.62\textwidth]{figures/fig_population.png}
+\includegraphics[width=0.62\textwidth]{figures/fig_population.pdf}
 \caption{Deployed trajectories for \emph{all 30 systems} (thin gray) and their
 mean (\textsc{rubric} rung). Population $=$ all 30, so the mean ends at the
 all-30 deployed final ($0.675$), lower than the $n{=}26$ patched headline
@@ -690,7 +734,7 @@ indistinguishable from the patched set's (Table~\ref{tab:nullcontrol}).}
 \end{table}
 
 \begin{figure}[t]\centering
-\includegraphics[width=\linewidth]{figures/fig_dims.png}
+\includegraphics[width=\linewidth]{figures/fig_dims.pdf}
 \caption{TEI's deployed artifacts increase all four anchored rubric dimensions
 on the 26 patched systems (rows ordered by absolute deployed gain, largest
 first); execution accuracy---the weakest dimension at baseline for all \swN{}
@@ -787,12 +831,14 @@ Section~\ref{sec:power} gives the full power analysis, including the
 assumed-noise column retained for comparability.
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.60\textwidth]{figures/fig_floor.png}
-\caption{Paired empirical CDFs (\textsc{rubric} rung): the \swParaN{} paraphrase
-rewordings pile up at zero while the \swN{} shipped deployed deltas are shifted
-right, separating cleanly from rewording noise. ECDFs normalise the unequal
-sample sizes ($n{=}\swParaN$ vs.\ $n{=}\swN$) and span $0$--$1$, so there is no
-raw-count-axis distortion.}
+\includegraphics[width=0.66\textwidth]{figures/fig_floor.pdf}
+\caption{Distribution of rubric movement (\textsc{rubric} rung), two stacked
+histograms sharing one $x$-axis and one bin grid. \emph{Top:} the \swParaN{}
+paraphrase rewordings pile up at zero (max $\approx{+}0.0075$). \emph{Bottom:}
+the \swN{} shipped deployed deltas spread out to ${+}0.173$, separating cleanly
+from rewording noise. The two panels use different $y$-scales (labelled) so the
+$n{=}\swN$ deltas remain readable without hiding the true paraphrase spike; the
+cumulative view is Fig.~\ref{fig:floorecdf}.}
 \label{fig:floor}
 \end{figure}
 
@@ -800,7 +846,7 @@ raw-count-axis distortion.}
 \label{sec:ladder}
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.82\linewidth]{figures/fig_validation.png}
+\includegraphics[width=0.82\linewidth]{figures/fig_validation.pdf}
 \caption{\textbf{Why the improvement is credible.} Four within-study controls,
 each on its own denominator-respecting axis. \textbf{(A)}~Blinded A/B: real
 patches hold a strict majority on \swBlindMajP{} of 26 systems (\swBlindVotesP/130
@@ -1050,7 +1096,7 @@ confirmatory result: \swBlindPreMajP/26 patched agents
 (\swBlindPreVotesP/130 votes); after repairing the one import-time defect,
 the adaptive retest shows \swBlindMajP/26 strict majorities,
 \swBlindPerfect{} unanimous (\swBlindVotesP/130 votes)}
-($p{=}\swBlindSign$ pooled)---with the pre-registered sham placebo rejecting the
+($p<\swBlindSign$ pooled)---with the pre-registered sham placebo rejecting the
 generic changed-code / style explanation both in the original arm and,
 re-anchored at the new bests, drawing \swShamReVotes{} votes on the
 seed-\swShamReSeed{} subsample, replication by
@@ -1121,6 +1167,16 @@ dashed verticals $=$ prefix boundary).}
 shared frozen prefix: Bayesian-credit-ledger proposer (green) vs.\ the
 original best-so-far proposer (gray), per agent and phase.}
 \label{fig:ablation}
+\end{figure}
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.62\textwidth]{figures/fig_floor_ecdf.pdf}
+\caption{Cumulative companion to Fig.~\ref{fig:floor}: paired empirical CDFs of
+rubric movement (\textsc{rubric} rung). Normalising the unequal samples
+($n{=}\swParaN$ paraphrases vs.\ $n{=}\swN$ shipped deltas) to $[0,1]$ makes the
+distributional separation explicit --- the paraphrase orbit is concentrated at
+zero while the shipped deltas are shifted right.}
+\label{fig:floorecdf}
 \end{figure}
 
 \begin{table}[p]\centering

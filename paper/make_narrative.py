@@ -56,7 +56,7 @@ if a5.get("mde_measured_n4") is not None:
         f"instrument carries the per-agent confirmation: its per-agent evidence is "
         f"$k{{=}}5$ independent binary votes (unanimity: one-sided binomial "
         f"$p{{=}}0.031$ per agent), and its pooled record is "
-        f"\\swBlindVotesP/\\swBlindVotesN{{}} ($p\\swBlindSign$).")
+        f"\\swBlindVotesP/\\swBlindVotesN{{}} ($p<\\swBlindSign$).")
     cmd("MDEpowerpara",
         f"The original preflight bounded detectability under an \\emph{{assumed}} "
         f"per-probe sd of $0.15$ (MDE$^{{a}}_{{80}}$ \\swMDEmin--\\swMDEmax). "
